@@ -1,0 +1,15 @@
+var mongoose = require('mongoose'),
+  userModel = require('../models/User');
+
+module.exports = function(config) {
+  var db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error...'));
+  db.once('open', function callback() {
+    console.log('commSphere db opened');
+  });
+
+  userModel.createDefaultUsers();
+ 
+
+};
+

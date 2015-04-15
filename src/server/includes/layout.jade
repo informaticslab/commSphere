@@ -1,0 +1,30 @@
+doctype
+html(lang="en" ng-app="app")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title CommSphere
+    link(rel="stylesheet" href="/css/bootstrap.min.css")
+    link(rel="stylesheet" href="/css/bootstrap-theme.min.css")
+    link(rel="stylesheet" href="/css/font-awesome.min.css")
+    link(rel="stylesheet" href="/css/sticky-footer-navbar.css")
+    link(rel="stylesheet" href="/css/animation.css")
+    link(rel="stylesheet" href="/css/custom.css")
+    link(rel="stylesheet" href="/css/d3-viz.css")
+    link(rel="stylesheet" href="/css/loading-bar.min.css")
+    link(rel="stylesheet" href="/vendor/toastr/toastr.css")
+    link(rel="P3Pv1" href="http://www.cdc.gov/w3c/p3p.xml")
+  
+  body()
+        .container-fluid
+            // row1
+            .row.headerblue
+                .col-lg-7.col-md-7.col-sm-7.clearfix
+                    span.visible-lg
+                        a(href='http://www.cdc.gov' target='_blank')
+                            img.img-responsive.pull-left.cdclogo(src='/img/cdc_logo.png', alt='CDC logo')
+                        span.cdctext CommSphere
+                                                
+        block main-content
+        include currentUser                     
+        include scripts
