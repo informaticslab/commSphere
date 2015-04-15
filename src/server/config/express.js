@@ -7,7 +7,7 @@ var morgan = require('morgan');
 var fs = require('fs')
 var properties = require('../lib/envProperties');
 
-var accessLogStream = fs.createWriteStream(properties.ACCESS_LOG, {flags: 'a'})
+//var accessLogStream = fs.createWriteStream(properties.ACCESS_LOG, {flags: 'a'})
 
 module.exports = function(app, config) {
     app.configure(function() {
@@ -19,7 +19,7 @@ module.exports = function(app, config) {
         app.use(session({secret:'use the force',resave:false,saveUninitialized:false}));
         app.use(passport.initialize());
         app.use(passport.session());
-        app.use(morgan('combined', {stream: accessLogStream}));
+        //app.use(morgan('combined', {stream: accessLogStream}));
         app.use(morgan('dev')); //LOCAL LOGGING
 
         app.use(express.static(config.rootPath + '/public'));
