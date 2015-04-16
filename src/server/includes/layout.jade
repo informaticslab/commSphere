@@ -10,19 +10,34 @@ html(lang="en" ng-app="app")
     link(rel="stylesheet" href="/css/sticky-footer-navbar.css")
     link(rel="stylesheet" href="/css/animation.css")
     link(rel="stylesheet" href="/css/custom.css")
-    link(rel="stylesheet" href="/css/d3-viz.css")
     link(rel="stylesheet" href="/css/loading-bar.min.css")
     link(rel="stylesheet" href="/vendor/toastr/toastr.css")
     link(rel="P3Pv1" href="http://www.cdc.gov/w3c/p3p.xml")
   
-  body()
-        .container-fluid
-            // row1
-            .row.headerblue
-                .col-lg-7.col-md-7.col-sm-7.clearfix
-                    span.visible-lg
-                        span.cdctext CommSphere
-                                                
-        block main-content
-        include currentUser                     
-        include scripts
+  body
+    .container-fluid
+        .row.headerblue
+                    .col-lg-7.col-md-7.col-sm-7.clearfix
+                        span.visible-lg
+                            //- a(href='http://www.cdc.gov' target='_blank')
+                            //-     img.img-responsive.pull-left.cdclogo(src='img/cdc_logo.png', alt='CDC logo')
+                            span.cdctext CommSphere
+                            //- span.header_icon
+                            //-     img(src='img/header_graphic_alpha.png', alt='CommSphere graphic')
+                            // This line changed for new graphic
+                        span.visible-md
+                            //- a(href='http://www.cdc.gov' target='_blank')
+                            //-     img.img-responsive.pull-left.cdclogo2(src='img/cdc_logo_smaller.png', alt='CDC logo')
+                            span.cdctext2 CommSphere
+                            //- span.header_icon
+                            //-     img(src='img/header_graphic_small_alpha.png', alt='CommSphere graphic')
+                            // This line changed for new graphic
+                        span.visible-sm
+                            //- a(href='http://www.cdc.gov' target='_blank')
+                            //-     img.img-responsive.pull-left.cdclogo2(src='img/cdc_logo_smaller.png', alt='CDC logo')
+                            span.cdctext3 CommSphere
+                            //- span.header_icon
+                            //-     img(src='img/header_graphic_smaller_alpha.png', alt='CommSphere graphic')
+    block main-content
+    include currentUser                     
+    include scripts
