@@ -1,7 +1,8 @@
 var path = require('path');
 var rootPath = path.normalize(__dirname + '/../../');
+var properties = require('../lib/envProperties');
 
 module.exports = {
-	//db: 'mongodb://localhost:27017/apollo',
+	db: properties.MONGO_DOMAIN,
     rootPath: rootPath
 };
