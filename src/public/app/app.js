@@ -33,6 +33,9 @@ commSphereApp.config(['$routeProvider',
       when('/', {
         templateUrl: '/partials/main',
         controller: 'mainCtrl'
+      }).
+      otherwise({
+        redirectTo: '/main'
       });
 }]);
 
