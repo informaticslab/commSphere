@@ -872,3 +872,9 @@ del{}
       -ms-transform: translate(0, 0);
           transform: translate(0, 0);
 }
+
+@media (min-width: 992px) {
+  .modal-lg {
+    width: 1200px;
+  }
+}
