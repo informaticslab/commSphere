@@ -16,4 +16,4 @@ div.container
             tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse")
                 td(width=auto) {{instance.eventName}}
                 td {{instance.eventInstanceId}}
-                td {{instance.status}}
+                td {{instance.eventInstanceStatus*100}}%

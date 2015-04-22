@@ -6,10 +6,11 @@ $scope.instances = [{
   "eventId": "12345",
   "eventInstanceId": "jp2",
   "isDraft": false,
+  "eventInstanceStatus" : 0,
   "categories": {
     "web": {
       "assignedTo": "John",
-        "categoryCompleted": false,
+      "categoryCompleted": false,
       "displayValue": "web",
       "topics": {
         "Merging Issues": {
@@ -134,7 +135,7 @@ $scope.instances = [{
    
     "Data": {
       "assignedTo": "John",
-        "categoryCompleted": false,
+        "categoryCompleted": true,
       "displayValue": "Data",
       "topics": {
         "Merging Issues": {
@@ -201,6 +202,7 @@ $scope.instances = [{
   "eventId": "12345",
   "eventInstanceId": "jp3",
   "isDraft": false,
+  "eventInstanceStatus" : 0,
   "categories": {
     "web": {
       "assignedTo": "Trung",
@@ -332,6 +334,7 @@ $scope.instances = [{
   "eventId": "12345",
   "eventInstanceId": "Eb1",
   "isDraft": false,
+    "eventInstanceStatus" : 0,
   "categories": {
     "web": {
       "assignedTo": "Michael",
@@ -396,8 +399,51 @@ $scope.instances = [{
     }
   }
 }];
+    
+//var ProgressStatus = function(categories)
+//    var categoriesCount = categories.length;
+//    var completedCount = 0;
+//    categories.forEach(function(category) {
+//          if (category.categoryCompleted)   
+//              completedCount += 1;      
+//    }
+//  )}
+// refactoring
+//for (oneInstance in $scope.instances)
+//{
+//    if ($scope.instances.hasOwnProperty(oneInstance.displayValue))
+//    {
+//        var categoryCount = 0;
+//        var completedCount = 0;
+//        for (category in oneInstance.categories) {
+//             if (oneInstance.categories.hasOwnProperty(category)) {
+//                 categoryCount++;
+//                 console.log(oneInstance.categories[category].categoryCompleted);
+//                 if (oneInstance.categories[category].categoryCompleted)   
+//                           completedCount ++;      
+//             }
+//        }
+//        console.log(oneInstance);
+//    }
+//};
+    
 $scope.instances.forEach(function(oneInstance){
-    console.log(oneInstance.categories);
+    var categoryCount = 0;
+    var completedCount = 0;
+    for (category in oneInstance.categories) {
+             if (oneInstance.categories.hasOwnProperty(category)) {
+                 categoryCount++;
+                 console.log(oneInstance.categories[category].categoryCompleted);
+                 if (oneInstance.categories[category].categoryCompleted)   
+                           completedCount ++;      
+             }
+    }
+      oneInstance.eventInstanceStatus = completedCount / categoryCount;
+//    console.log('category count ' + categoryCount);
+//    console.log('completed count = ' + completedCount);
+    
 });
-   
-}])
+//    console.log(ProgressStatus(oneInstance.categories));
+
+
+}]);
