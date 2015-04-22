@@ -1,0 +1,19 @@
+div.container
+    table(class="table table-bordered table-striped")
+        thead
+            tr
+                th
+                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse") Event Name
+                        span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
+                        span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
+                th
+                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse") Report ID
+                        span(ng-show="sortType == 'eventInstanceId' && !sortReverse" class="fa fa-caret-down")
+                        span(ng-show="sortType == 'eventInstanceId' &&  sortReverse" class="fa fa-caret-up")  
+                th 
+                    |Status
+        tbody
+            tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse")
+                td(width=auto) {{instance.eventName}}
+                td {{instance.eventInstanceId}}
+                td {{instance.status}}
