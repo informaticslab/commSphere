@@ -1,5 +1,5 @@
 commSphereApp.controller('dashCtrl', ['$scope', function($scope) {
-console.log(" i am in dash ctrl");
+
 $scope.instances = [{
   "_id": "11",
   "eventName": "Japan Earthquake",
