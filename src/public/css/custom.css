@@ -852,3 +852,23 @@ del{}
   margin-left: 10px;
 }
 
+
+
+
+
+/* THIS IS FOR COMMSPHERE -KEEP!-*/
+
+.modal.fade .modal-dialog {
+  -webkit-transition: -webkit-transform .6s ease-out;
+     -moz-transition:    -moz-transform .6s ease-out;
+       -o-transition:      -o-transform .6s ease-out;
+          transition:         transform .6s ease-out;
+  -webkit-transform: translate3d(125%, 0, 0);
+      -ms-transform: translate3d(125%, 0, 0);
+          transform: translate3d(125%, 0, 0);
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
