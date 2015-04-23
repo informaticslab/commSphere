@@ -19,26 +19,31 @@ div(ng-controller="createEventCtrl")
 					tabset
 						tab(ng-repeat="category in document.categories" heading="{{category.displayValue}}")
 							div.form-inline.pull-right
-									.form-group
-										label Assign To
-										select.form-control(placeholder="Select Analysst" ng-model="assignedAnalyst")
+								.form-group
+									label Assign To
+									select.form-control(placeholder="Select Analysst" ng-model="assignedAnalyst")
+							br
+							br
 							div(ng-repeat="topic in document.categories[category.displayValue].topics")
-								h1
+								.topic(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
 									| {{topic.displayValue | descapeDot}}
+									i.fa.fa-times.fa-sm(ng-show="hover")
+								br
 								div(ng-repeat="subtopic in document.categories[category.displayValue].topics[topic.displayValue].subTopics")
-									h4
+									.subTopic
 										| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{subtopic.displayValue}}
+									br
 								div.form-inline
 									.form-group
 										| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										input.eventTemplateSubTopic.form-control(type="text" ng-model="subTopicValue[category.displayValue+'-'+topic.displayValue]" placeholder="Add Sub Topic" )
-										label.btn.btn-default.btn-sm(type="button" aria-label="Left Align" ng-click="addSubTopic(category.displayValue,topic.displayValue)")
+										input.eventTemplateSubTopic.form-control(type="text" ng-model="subTopicValue[category.displayValue+'-'+topic.displayValue]" placeholder="Add Sub Topic" ng-keyup="$event.keyCode == 13 ? addSubTopic(category.displayValue,topic.displayValue) : null")
+										//label.btn.btn-default.btn-sm(type="button" aria-label="Left Align" ng-click="addSubTopic(category.displayValue,topic.displayValue)")
 											| Add Sub Topic
-							hr
+								hr
 							div.form-inline
 								.form-group
-									input.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" )
-									label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
+									input.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" ng-keyup="$event.keyCode == 13 ? addTopic(category.displayValue) : null")
+									//label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
 										| Add Topic
 		.modal-footer
 			button.btn.btn-primary(ng-click="saveEvent()") Save

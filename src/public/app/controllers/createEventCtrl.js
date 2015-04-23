@@ -51,6 +51,36 @@ $scope.addTopic=function(category)
 	console.log($scope.document);
 }
 
+
+$scope.deleteTopic=function(category)
+{
+	
+	var newTopic=$scope.topicValue[category];
+
+	newTopic=$filter('escapeDot')(newTopic);
+
+	if($scope.document.categories[category].topics==undefined)
+	{
+		$scope.document.categories[category].topics={};
+	}
+
+
+	if($scope.document.categories[category].topics[newTopic])
+	{
+		alert(newTopic+" already exists");
+	}
+	else
+	{
+		$scope.document.categories[category].topics[newTopic]={};
+		$scope.document.categories[category].topics[newTopic].displayValue=newTopic;
+	}
+
+	$scope.topicValue[category]="";
+	
+	console.log($scope.document);
+}
+
+
 $scope.addSubTopic=function(category,topic)
 {
 	console.log(category,topic);
