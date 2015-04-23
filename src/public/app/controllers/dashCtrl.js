@@ -1,10 +1,10 @@
 commSphereApp.controller('dashCtrl', ['$scope', '$modal','$http', function($scope, $modal,$http) {
 
+$scope.instances = {};
 if ($scope.userType = 'Coordinator') {    
-    $http.get('/api/actEventInstances').
+    $http.get('/api/events/active').
     success(function(data, status, headers, config) {
-    // this callback will be called asynchronously
-    // when the response is available
+       $scope.instances = data;
     }).
   error(function(data, status, headers, config) {
         // called asynchronously if an error occurs

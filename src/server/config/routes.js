@@ -2,6 +2,7 @@
 var index = require('../controllers/index');
 var users = require('../controllers/users');
 var events = require('../controllers/events');
+var dashboardData = require('../controllers/dashboardData');
 var auth = require('./auth');
 var mongoose = require('mongoose'),
     User = mongoose.model('User');
@@ -15,6 +16,7 @@ module.exports = function(app) {
   app.put('/api/users', users.updateUser);
 
   app.post('/api/events', events.saveEvent);
+  app.get('/api/events/active',dashboardData.actEventInstances);
 
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/views/' + req.params);
