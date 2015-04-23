@@ -5,9 +5,9 @@ var commSphereApp = angular.module('app', [
   ,'ngSanitize'
   ,'LocalStorageModule'
   ,'ui.bootstrap'
-  ,'chieffancypants.loadingBar'
-  ,'angulartics'
-  ,'angulartics.google.analytics'
+  // ,'chieffancypants.loadingBar'
+  // ,'angulartics'
+  // ,'angulartics.google.analytics'
 ]);
 
 
