@@ -1,9 +1,8 @@
-angular.module('app').controller('createEventCtrl', function($scope) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter) {
 
 $scope.topicValue={};
 	$scope.subTopicValue={};
 	$scope.document={
-  "_id": "11",
   "eventName": "Japan Earthquake",
   "eventId": "12345",
   "eventInstanceId": "jp2",
@@ -29,6 +28,8 @@ $scope.addTopic=function(category)
 	
 	var newTopic=$scope.topicValue[category];
 
+	newTopic=$filter('escapeDot')(newTopic);
+
 	if($scope.document.categories[category].topics==undefined)
 	{
 		$scope.document.categories[category].topics={};
@@ -44,6 +45,8 @@ $scope.addTopic=function(category)
 		$scope.document.categories[category].topics[newTopic]={};
 		$scope.document.categories[category].topics[newTopic].displayValue=newTopic;
 	}
+
+	$scope.topicValue[category]="";
 	
 	console.log($scope.document);
 }
@@ -74,7 +77,21 @@ $scope.addSubTopic=function(category,topic)
 		$scope.document.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
 	}
 	
+	$scope.subTopicValue[category+'-'+topic]="";
 
+}
+
+$scope.saveEvent = function() {
+	var data = {};
+	data = $scope.document;
+
+	$http.post('/api/events', data).then(function(res) {
+		if(res.data.success) {
+			alert("Event has been saved!");
+		} else {
+			alert('there was an error');
+		}
+	});
 }
 
 });

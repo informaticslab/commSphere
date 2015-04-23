@@ -8,7 +8,11 @@ body {
 
 }
 
-
+input[type="text"].eventTemplateSubTopic {
+   height: 30px;
+   font-size: 12px;
+   line-height: 30px;
+}
 
 
 /* THIS IS FOR COMMSPHERE -KEEP!-*/
