@@ -1,10 +1,12 @@
 //references to controllers go here
 var index = require('../controllers/index');
 var users = require('../controllers/users');
+var dashboardData = require('../controllers/dashboardData');
 var auth = require('./auth');
 var mongoose = require('mongoose'),
     User = mongoose.model('User');
 
+var EventInstance = mongoose.model('EventInstance');
 
 
 module.exports = function(app) {
@@ -12,6 +14,9 @@ module.exports = function(app) {
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
   app.post('/api/users', users.createUser);
   app.put('/api/users', users.updateUser);
+
+    /* data for main dashboard */
+  app.get('/api/actEventInstances', dashboardData.actEventInstances);
 
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/views/' + req.params);
