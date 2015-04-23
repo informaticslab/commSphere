@@ -1,6 +1,7 @@
 //references to controllers go here
 var index = require('../controllers/index');
 var users = require('../controllers/users');
+var events = require('../controllers/events');
 var auth = require('./auth');
 var mongoose = require('mongoose'),
     User = mongoose.model('User');
@@ -12,6 +13,8 @@ module.exports = function(app) {
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
   app.post('/api/users', users.createUser);
   app.put('/api/users', users.updateUser);
+
+  app.post('/api/events', events.saveEvent);
 
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/views/' + req.params);

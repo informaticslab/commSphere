@@ -40,5 +40,8 @@ div(ng-controller="createEventCtrl")
 									input.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" )
 									label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
 										| Add Topic
+		.modal-footer
+			button.btn.btn-primary(ng-click="saveEvent()") Save
+
 							
 						

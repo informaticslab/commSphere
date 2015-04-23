@@ -1,9 +1,8 @@
-angular.module('app').controller('createEventCtrl', function($scope) {
+angular.module('app').controller('createEventCtrl', function($scope, $http) {
 
 $scope.topicValue={};
 	$scope.subTopicValue={};
 	$scope.document={
-  "_id": "11",
   "eventName": "Japan Earthquake",
   "eventId": "12345",
   "eventInstanceId": "jp2",
@@ -78,6 +77,19 @@ $scope.addSubTopic=function(category,topic)
 	
 	$scope.subTopicValue[category+'-'+topic]="";
 
+}
+
+$scope.saveEvent = function() {
+	var data = {};
+	data = $scope.document;
+
+	$http.post('/api/events', data).then(function(res) {
+		if(res.data.success) {
+			alert("Event has been saved!");
+		} else {
+			alert('there was an error');
+		}
+	});
 }
 
 });
