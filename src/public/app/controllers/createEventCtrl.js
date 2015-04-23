@@ -1,4 +1,4 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter) {
 
 $scope.topicValue={};
 	$scope.subTopicValue={};
@@ -27,6 +27,8 @@ $scope.addTopic=function(category)
 {
 	
 	var newTopic=$scope.topicValue[category];
+
+	newTopic=$filter('escapeDot')(newTopic);
 
 	if($scope.document.categories[category].topics==undefined)
 	{

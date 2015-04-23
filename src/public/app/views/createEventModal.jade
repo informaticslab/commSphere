@@ -24,7 +24,7 @@ div(ng-controller="createEventCtrl")
 										select.form-control(placeholder="Select Analysst" ng-model="assignedAnalyst")
 							div(ng-repeat="topic in document.categories[category.displayValue].topics")
 								h1
-									| {{topic.displayValue}}
+									| {{topic.displayValue | descapeDot}}
 								div(ng-repeat="subtopic in document.categories[category.displayValue].topics[topic.displayValue].subTopics")
 									h4
 										| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{subtopic.displayValue}}
