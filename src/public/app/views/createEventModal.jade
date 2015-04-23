@@ -12,30 +12,33 @@ div(ng-controller="createEventCtrl")
 				.form-group
 					label Event Type
 					select.form-control(placeholder="Select event type" ng-model="selectEvent")			
+			br
+			br
 			.row
 				.col-lg-9.col-md-9.col-sm-9
 					tabset
 						tab(ng-repeat="category in document.categories" heading="{{category.displayValue}}")
-							form.form-inline.pull-right
+							div.form-inline.pull-right
 									.form-group
 										label Assign To
 										select.form-control(placeholder="Select Analysst" ng-model="assignedAnalyst")
 							div(ng-repeat="topic in document.categories[category.displayValue].topics")
 								h1
 									| {{topic.displayValue}}
-								form.form-inline
-									.form-group
-										input.form-control(type="text" ng-model="subTopicValue[category.displayValue+'-'+topic.displayValue]" placeholder="Add Sub Topic" )
-										label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addSubTopic(category.displayValue,topic.displayValue)")
-											| add								
 								div(ng-repeat="subtopic in document.categories[category.displayValue].topics[topic.displayValue].subTopics")
-									h3
-										| &nbsp;&nbsp;&nbsp;{{subtopic.displayValue}}
-								hr
-							form.form-inline
+									h4
+										| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{subtopic.displayValue}}
+								div.form-inline
+									.form-group
+										| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										input.eventTemplateSubTopic.form-control(type="text" ng-model="subTopicValue[category.displayValue+'-'+topic.displayValue]" placeholder="Add Sub Topic" )
+										label.btn.btn-default.btn-sm(type="button" aria-label="Left Align" ng-click="addSubTopic(category.displayValue,topic.displayValue)")
+											| Add Sub Topic
+							hr
+							div.form-inline
 								.form-group
 									input.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" )
 									label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
-										| add
+										| Add Topic
 							
 						

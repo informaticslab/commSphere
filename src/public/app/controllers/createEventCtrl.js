@@ -44,6 +44,8 @@ $scope.addTopic=function(category)
 		$scope.document.categories[category].topics[newTopic]={};
 		$scope.document.categories[category].topics[newTopic].displayValue=newTopic;
 	}
+
+	$scope.topicValue[category]="";
 	
 	console.log($scope.document);
 }
@@ -74,6 +76,7 @@ $scope.addSubTopic=function(category,topic)
 		$scope.document.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
 	}
 	
+	$scope.subTopicValue[category+'-'+topic]="";
 
 }
 
