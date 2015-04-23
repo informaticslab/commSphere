@@ -1,0 +1,162 @@
+
+  
+  {
+   "eventName": "Japan Earthquake",
+   "eventId": "12345",
+   "eventInstanceId": "jp3",
+   "draftStatus": false,
+   "eventInstanceStatus" : 0,
+   "categories": {
+     "web": {
+       "assignedTo": "Trung",
+     "statusCompleted": true,
+       "displayValue": "web",
+       "topics": {
+         "Merging Issues": {
+           "displayValue": "Merging Issues",
+           "bullets": {
+             "4": {
+               "displayValue": "4"
+             },
+             "5": {
+               "displayValue": "5"
+             },
+             "6": {
+               "displayValue": "6"
+             }
+           },
+           "subTopics": {
+             "US": {
+               "displayValue": "US",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             },
+             "Liberia": {
+               "displayValue": "Liberia",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             }
+           }
+         }
+       }
+     },
+       "Social Media": {
+       "assignedTo": "John",
+         "categoryCompleted": false,
+       "displayValue": "Social Media",
+       "topics": {
+         "Merging Issues": {
+           "displayValue": "Merging Issues",
+           "bullets": {
+             "4": {
+               "displayValue": "4"
+             },
+             "5": {
+               "displayValue": "5"
+             },
+             "6": {
+               "displayValue": "6"
+             }
+           },
+           "subTopics": {
+             "US": {
+               "displayValue": "US",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             },
+             "Liberia": {
+               "displayValue": "Liberia",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             }
+           }
+         }
+       }
+   }
+   }
+ }
+ 
+ 
+ 
+ 
+ 
+ //references to controllers go here
+var index = require('../controllers/index');
+var users = require('../controllers/users');
+<<<<<<< HEAD
+var dashboardData = require('../controllers/dashboardData');
+=======
+var events = require('../controllers/events');
+>>>>>>> develop
+var auth = require('./auth');
+var mongoose = require('mongoose'),
+    User = mongoose.model('User');
+
+
+
+  app.post('/api/users', users.createUser);
+  app.put('/api/users', users.updateUser);
+
+<<<<<<< HEAD
+    /* data for main dashboard */
+  app.get('/api/actEventInstances', dashboardData.actEventInstances);
+=======
+  app.post('/api/events', events.saveEvent);
+>>>>>>> develop
+
