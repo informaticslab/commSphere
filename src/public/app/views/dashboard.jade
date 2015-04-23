@@ -18,4 +18,9 @@ div.container
             tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse")
                 td(width=auto) {{instance.eventName}}
                 td {{instance.eventInstanceId}}
-                td {{instance.eventInstanceStatus*100}}%
+                td(width=30) {{instance.eventInstanceStatus*100 | number:2}}% 
+                    .progress(style="border:0px; border-radius: 0px; height: 11px;")
+                        .progress-bar.progress-bar-success(style="width: {{instance.eventInstanceStatus*100}}%")
+                            span(class="sr-only")
+                                {{instance.eventInstanceStatus*100}}% Complete
+                        .progress-bar.progress-bar-warning(style="width: {{100-(instance.eventInstanceStatus*100)}}%")
