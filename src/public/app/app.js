@@ -30,24 +30,16 @@ commSphereApp.config([
 commSphereApp.config(['$routeProvider', 
   function($routeProvider) {
     $routeProvider.
-      when('/', {
-        templateUrl: '/partials/main',
-        controller: 'mainCtrl'
-      }).
     when('/dashboard', {
         templateUrl : '/partials/dashboard',
         controller  : 'dashCtrl'
     }).
-      when('/dashboard/:draftStatus', {
+      when('/dashboard/drafts', {
         templateUrl : '/partials/dashboard',
         controller  : 'dashCtrl'
     }).
-      when('/test', {
-        templateUrl: '/partials/test',
-        controller: 'testCtrl'
-      }).
-      otherwise({
-        redirectTo: '/main'
+    otherwise({
+        redirectTo: '/dashboard'
       });
 }]);
 
