@@ -12,12 +12,17 @@ div.container
                     a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse") Report ID
                         span(ng-show="sortType == 'eventInstanceId' && !sortReverse" class="fa fa-caret-down")
                         span(ng-show="sortType == 'eventInstanceId' &&  sortReverse" class="fa fa-caret-up")  
+                th
+                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse") Date 
+                        span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
+                        span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up")  
                 th 
                     |Status
         tbody
             tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse")
                 td(width=auto) {{instance.eventName}}
                 td {{instance.eventInstanceId}}
+                td {{instance.dateCreated*1000 | date:'MM/dd/yyyy' }}
                 td(width=30) {{instance.eventInstanceStatus*100 | number:2}}% 
                     .progress(style="border:0px; border-radius: 0px; height: 11px;")
                         .progress-bar.progress-bar-success(style="width: {{instance.eventInstanceStatus*100}}%")
