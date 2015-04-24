@@ -10,32 +10,56 @@ html(lang="en" ng-app="app")
     link(rel="stylesheet" href="/css/custom.css")
     link(rel="stylesheet" href="/vendor/toastr/toastr.css")
     link(rel="stylesheet" href="/css/animation.css")
+    link(rel="stylesheet" href="/css/sb-admin.css")
     link(rel="P3Pv1" href="http://www.cdc.gov/w3c/p3p.xml")
   
-  body
-    .container-fluid
-        .row.headerblue
-                    .col-lg-7.col-md-7.col-sm-7.clearfix
-                        span.visible-lg
-                            //- a(href='http://www.cdc.gov' target='_blank')
-                            //-     img.img-responsive.pull-left.cdclogo(src='img/cdc_logo.png', alt='CDC logo')
-                            span.cdctext CommSphere
-                            //- span.header_icon
-                            //-     img(src='img/header_graphic_alpha.png', alt='CommSphere graphic')
-                            // This line changed for new graphic
-                        span.visible-md
-                            //- a(href='http://www.cdc.gov' target='_blank')
-                            //-     img.img-responsive.pull-left.cdclogo2(src='img/cdc_logo_smaller.png', alt='CDC logo')
-                            span.cdctext2 CommSphere
-                            //- span.header_icon
-                            //-     img(src='img/header_graphic_small_alpha.png', alt='CommSphere graphic')
-                            // This line changed for new graphic
-                        span.visible-sm
-                            //- a(href='http://www.cdc.gov' target='_blank')
-                            //-     img.img-responsive.pull-left.cdclogo2(src='img/cdc_logo_smaller.png', alt='CDC logo')
-                            span.cdctext3 CommSphere
-                            //- span.header_icon
-                            //-     img(src='img/header_graphic_smaller_alpha.png', alt='CommSphere graphic')
-    block main-content
+    body
+        #wrapper
+            // Navigation
+            nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+                // Brand and toggle get grouped for better mobile display
+                .navbar-header
+                    img(src='img/comm-sphere-logo.png', height='71', width='234')
+                // Top Menu Items
+                .create-event-button
+                    button.btn.btn-danger(type='button') Create New Event +
+                // Sidebar Menu Items - These collapse to the responsive navigation menu on small screens
+                .collapse.navbar-collapse.navbar-ex1-collapse
+                    ul.nav.navbar-nav.side-nav
+                        li.side-nav-welcome
+                            i.fa.fa-fw.fa-user
+                            |   Hello John Coordinator!
+                        li.side-nav-search
+                            .col-md-12
+                                .right-inner-addon
+                                    i.fa.fa-fw.fa-search
+                                    input.form-control(type='search', placeholder='Search Events', style='background-color:#44474c; border: 1px thin; border-color:#212328; color:#aeaeae; font-weight:normal;')
+                        li.side-nav-main-tab
+                            i.fa.fa-fw.fa-home
+                            |   MAIN
+                        li.active
+                            a(href='#') Active Events
+                        li
+                            a(href='#') Saved Drafts
+                        li
+                            a(href='#') Archived Events
+                            br
+                        li.side-nav-settings
+                            i.fa.fa-fw.fa-cog
+                            |   SETTINGS
+                        li
+                            a(href='#') Manage Users
+                        li
+                            a(href='#') Display Options
+                        li
+                            a(href='#')
+                                | Logout
+                                i.fa.fa-fw.fa-power-off
+                        li.side-nav-cdc-logo
+                            img(src='img/cdc-logo.png', height='60', width='144')
+                        li.side-nav-iiu-logo
+                            img(src='img/iiu-logo.png', height='33', width='207')
+                // /.navbar-collapse
+            block main-content
     include currentUser                     
     include scripts

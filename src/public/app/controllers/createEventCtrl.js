@@ -44,54 +44,46 @@ $scope.addTopic=function(category)
 
 	newTopic=$filter('escapeDot')(newTopic);
 
-	if($scope.document.categories[category].topics==undefined)
+	if(newTopic=="")
 	{
-		$scope.document.categories[category].topics={};
+		alert("Topic cannot be blank");
 	}
-
-
-	if($scope.document.categories[category].topics[newTopic])
+	else if(newTopic.trim()=="")
 	{
-		alert(newTopic+" already exists");
+		alert("Topic cannot be blank");
 	}
 	else
 	{
-		$scope.document.categories[category].topics[newTopic]={};
-		$scope.document.categories[category].topics[newTopic].displayValue=newTopic;
-	}
 
-	$scope.topicValue[category]="";
-	
-	console.log($scope.document);
+		if($scope.document.categories[category].topics==undefined)
+		{
+			$scope.document.categories[category].topics={};
+		}
+
+
+		if($scope.document.categories[category].topics[newTopic])
+		{
+			alert(newTopic+" already exists");
+		}
+		else
+		{
+			$scope.document.categories[category].topics[newTopic]={};
+			$scope.document.categories[category].topics[newTopic].displayValue=newTopic;
+		}
+
+		$scope.topicValue[category]="";
+		
+		console.log($scope.document);
+	}
 }
 
 
-$scope.deleteTopic=function(category)
+$scope.deleteTopic=function(category,topic)
 {
 	
-	var newTopic=$scope.topicValue[category];
-
-	newTopic=$filter('escapeDot')(newTopic);
-
-	if($scope.document.categories[category].topics==undefined)
-	{
-		$scope.document.categories[category].topics={};
-	}
-
-
-	if($scope.document.categories[category].topics[newTopic])
-	{
-		alert(newTopic+" already exists");
-	}
-	else
-	{
-		$scope.document.categories[category].topics[newTopic]={};
-		$scope.document.categories[category].topics[newTopic].displayValue=newTopic;
-	}
-
-	$scope.topicValue[category]="";
-	
+	delete $scope.document.categories[category].topics[topic];
 	console.log($scope.document);
+
 }
 
 
@@ -101,27 +93,41 @@ $scope.addSubTopic=function(category,topic)
 	console.log($scope.document);
 	
 	var newSubTopic=$scope.subTopicValue[category+'-'+topic];
-	console.log(newSubTopic,$scope.document.categories[category].topics[topic].subTopics);
 
-	if($scope.document.categories[category].topics[topic].subTopics==undefined)
+	if(newSubTopic=="")
 	{
-		$scope.document.categories[category].topics[topic].subTopics={};
+		alert("Sub Topic cannot be blank");
 	}
-
-
-	if($scope.document.categories[category].topics[topic].subTopics[newSubTopic])
+	else if(newSubTopic.trim()=="")
 	{
-		alert(newSubTopic+" already exists");
+		alert("Sub Topic cannot be blank");
 	}
 	else
 	{
-		//$scope.document.categories[category].topics[topic].subTopics={};
+		console.log(newSubTopic,$scope.document.categories[category].topics[topic].subTopics);
 
-		$scope.document.categories[category].topics[topic].subTopics[newSubTopic]={}
-		$scope.document.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
+		if($scope.document.categories[category].topics[topic].subTopics==undefined)
+		{
+			$scope.document.categories[category].topics[topic].subTopics={};
+		}
+
+
+		if($scope.document.categories[category].topics[topic].subTopics[newSubTopic])
+		{
+			alert(newSubTopic+" already exists");
+		}
+		else
+		{
+			//$scope.document.categories[category].topics[topic].subTopics={};
+
+			$scope.document.categories[category].topics[topic].subTopics[newSubTopic]={}
+			$scope.document.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
+		}
+		
+		$scope.subTopicValue[category+'-'+topic]="";
 	}
-	
-	$scope.subTopicValue[category+'-'+topic]="";
+
+
 
 }
 

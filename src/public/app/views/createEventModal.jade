@@ -28,8 +28,9 @@ div(ng-controller="createEventCtrl")
 								br
 							div(ng-repeat="topic in document.categories[category.displayValue].topics")
 								.topic(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-									| {{topic.displayValue | descapeDot}}
-									i.fa.fa-times.fa-sm(ng-show="hover")
+									| {{topic.displayValue | descapeDot}}&nbsp;
+									label.btn.btn-default.btn-xs(ng-show="hover" ng-click="deleteTopic(category.displayValue,topic.displayValue)")
+										i.fa.fa-times
 								br
 								div(ng-repeat="subtopic in document.categories[category.displayValue].topics[topic.displayValue].subTopics")
 									.subTopic
