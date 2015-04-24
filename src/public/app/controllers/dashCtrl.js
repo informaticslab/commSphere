@@ -1,8 +1,9 @@
 commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents', function($scope, $modal,$routeParams,ngEvents) {
 
 
-//if ($scope.userType = 'Coordinator') {  
 
+if ($routeParams.draftStatus == null)
+    $routeParams.draftStatus = 'active';
 ngEvents.getEvents($routeParams.draftStatus).then(function(response) {
    $scope.instances = response;
    getCompletionStatus($scope);
