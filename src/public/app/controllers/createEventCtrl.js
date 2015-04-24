@@ -1,4 +1,4 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route) {
 
 $scope.topicValue={};
 	$scope.subTopicValue={};
@@ -145,6 +145,8 @@ $scope.saveEvent = function() {
 	$http.post('/api/events', data).then(function(res) {
 		if(res.data.success) {
 			alert("Event has been saved!");
+			$route.reload();
+
 		} else {
 			alert('there was an error');
 		}
