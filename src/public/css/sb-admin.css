@@ -291,9 +291,9 @@ ul.alert-dropdown {
 }
 
 .progress {
-	height:6px;
+	height:18px;
 	margin-bottom:0px;
-	margin-top:5px;
+	margin-top:0px;
 	margin-right:20px;
 }
 .ready-status {
