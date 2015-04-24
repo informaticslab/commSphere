@@ -35,8 +35,12 @@ commSphereApp.config(['$routeProvider',
         controller  : 'dashCtrl'
     }).
       when('/dashboard/drafts', {
-        templateUrl : '/partials/dashboard',
-        controller  : 'dashCtrl'
+        templateUrl : '/partials/dashboardDrafts',
+        controller  : 'dashDraftsCtrl'
+    }).
+    when('/dashboard/archives', {
+        templateUrl : '/partials/dashboardArchives',
+        controller  : 'dashArchivesCtrl'
     }).
     otherwise({
         redirectTo: '/dashboard'

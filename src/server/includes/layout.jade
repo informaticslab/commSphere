@@ -13,7 +13,7 @@ html(lang="en" ng-app="app")
     link(rel="stylesheet" href="/css/sb-admin.css")
     link(rel="P3Pv1" href="http://www.cdc.gov/w3c/p3p.xml")
   
-    body
+    body(ng-controller='rootCtrl')
         #wrapper
             // Navigation
             nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
@@ -37,12 +37,12 @@ html(lang="en" ng-app="app")
                         li.side-nav-main-tab
                             i.fa.fa-fw.fa-home
                             |   MAIN
-                        li.active
-                            a(href='#') Active Events
-                        li
-                            a(href='#') Saved Drafts
-                        li
-                            a(href='#') Archived Events
+                        li(ng-class="{active:activeMenu=='dashboard'}")
+                            a(href='#/') Active Events
+                        li(ng-class="{active:activeMenu=='drafts'}")
+                            a(href='#/dashboard/drafts') Saved Drafts
+                        li(ng-class="{active:activeMenu=='archives'}")
+                            a(href='#/dashboard/archives') Archived Events
                             br
                         li.side-nav-settings
                             i.fa.fa-fw.fa-cog

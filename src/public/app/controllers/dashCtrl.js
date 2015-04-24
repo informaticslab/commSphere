@@ -1,6 +1,6 @@
 commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents', function($scope, $modal,$routeParams,ngEvents) {
 
-
+$scope.$parent.activeMenu='dashboard';
 
 if ($routeParams.draftStatus == null)
     $routeParams.draftStatus = 'active';
