@@ -34,7 +34,7 @@ commSphereApp.config(['$routeProvider',
         templateUrl: '/partials/main',
         controller: 'mainCtrl'
       }).
-      when('/dashboard', {
+      when('/dashboard/:draftStatus', {
         templateUrl : '/partials/dashboard',
         controller  : 'dashCtrl'
     }).

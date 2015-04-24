@@ -1,11 +1,14 @@
-commSphereApp.controller('dashCtrl', ['$scope', '$modal','ngEvents', function($scope, $modal,ngEvents) {
+commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents', function($scope, $modal,$routeParams,ngEvents) {
 
 
-//if ($scope.userType = 'Coordinator') {    
-ngEvents.getActiveEvents().then(function(response) {
+//if ($scope.userType = 'Coordinator') {  
+
+ngEvents.getEvents($routeParams.draftStatus).then(function(response) {
    $scope.instances = response;
    getCompletionStatus($scope);
 });
+
+        
 //}
 
 function getCompletionStatus($scope) {    
@@ -14,10 +17,9 @@ for(var i = 0, l = $scope.instances.length; i < l; ++i){
     var categoryCount = 0;
     var completedCount = 0;
     for (category in oneInstance.categories) {
-             console.log(category);
              if (oneInstance.categories.hasOwnProperty(category)) {
                  categoryCount++;
-                 console.log(oneInstance.categories[category].completedStatus);
+//                 console.log(oneInstance.categories[category].completedStatus);
                  if (oneInstance.categories[category].completedStatus)   
                            completedCount ++;      
              }

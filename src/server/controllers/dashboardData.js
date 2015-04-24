@@ -4,13 +4,13 @@
 
 var EventInstance = require('mongoose').model('EventInstance')
 
-exports.actEventInstances = function(req, res) {
-  EventInstance.find({'draftStatus': false},function(err, eventInstances) {
+exports.getEvents = function(req, res) {
+  var draftStatus = (req.params.status == 'draft')
+  EventInstance.find({'draftStatus': draftStatus},function(err, eventInstances) {
         res.json(eventInstances);
       
   })
   };
+  
 
-
-
-   
+  

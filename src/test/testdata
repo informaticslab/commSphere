@@ -1,0 +1,409 @@
+[{
+   "eventName": "Japan Earthquake",
+   "eventId": "12345",
+   "eventInstanceId": "jp2",
+   "draftStatus": false,
+   "reportStatus" : false,
+   "userCreated"              : "Tom",
+   "dateCreated" : "",
+   "categories": {
+     "web": {
+       "displayValue": "web",
+       "userAssigned": "John",
+       "completedStatus": false,
+                 "completedDate" : "",
+       "topics": {
+         "Merging Issues": {
+           "displayValue": "Merging Issues",
+           "bullets": {
+             "4": {
+               "displayValue": "4"
+             },
+             "5": {
+               "displayValue": "5"
+             },
+             "6": {
+               "displayValue": "6"
+             }
+           },
+           "subTopics": {
+             "US": {
+               "displayValue": "US",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             },
+             "Liberia": {
+               "displayValue": "Liberia",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             }
+           }
+         }
+       }
+     },
+ 
+     
+     "Social Media": {
+       "displayValue": "Social Media",
+       "userAssigned": "John",
+       "completedStatus": false,
+       "completedDate" : "",
+       "topics": {
+         "Merging Issues": {
+           "displayValue": "Merging Issues",
+           "bullets": {
+             "4": {
+               "displayValue": "4"
+             },
+             "5": {
+               "displayValue": "5"
+             },
+             "6": {
+               "displayValue": "6"
+             }
+           },
+           "subTopics": {
+             "US": {
+               "displayValue": "US",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             },
+             "Liberia": {
+               "displayValue": "Liberia",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             }
+           }
+        }
+       }
+   },
+   
+     "Data": {
+                 "displayValue": "Data",
+       "userAssigned": "John",
+       "completedStatus": false,
+                 "completedDate" : "",
+              "topics": {
+         "Merging Issues": {
+           "displayValue": "Merging Issues",
+           "bullets": {
+             "4": {
+               "displayValue": "4"
+             },
+             "5": {
+               "displayValue": "5"
+             },
+             "6": {
+               "displayValue": "6"
+             }
+           },
+           "subTopics": {
+             "US": {
+               "displayValue": "US",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             },
+             "Liberia": {
+               "displayValue": "Liberia",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             }
+           }
+         }
+       }
+     }
+  }
+},
+    {
+   "eventName": "Japan Earthquake",
+   "eventId": "12345",
+   "eventInstanceId": "jp3",
+   "draftStatus": true,
+   "reportStatus" : false,
+   "userCreated" : "",
+   "dateCreated" : "",
+   "categories": {
+     "web": {
+              "displayValue": "web",
+              "userAssigned": "Trung",
+              "completedStatus" : true,
+              "completedDate"            :"",
+              "topics": {
+         "Merging Issues": {
+           "displayValue": "Merging Issues",
+           "bullets": {
+             "4": {
+               "displayValue": "4"
+             },
+             "5": {
+               "displayValue": "5"
+             },
+             "6": {
+               "displayValue": "6"
+             }
+           },
+           "subTopics": {
+             "US": {
+               "displayValue": "US",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             },
+             "Liberia": {
+               "displayValue": "Liberia",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             }
+           }
+         }
+       }
+     },
+       "Social Media": {
+       "displayValue": "Social Media",
+              "userAssigned": "John",
+         "completedStatus": false,
+              "completedDate" : "",
+       "topics": {
+         "Merging Issues": {
+           "displayValue": "Merging Issues",
+           "bullets": {
+             "4": {
+               "displayValue": "4"
+             },
+             "5": {
+               "displayValue": "5"
+             },
+             "6": {
+               "displayValue": "6"
+             }
+           },
+           "subTopics": {
+             "US": {
+               "displayValue": "US",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             },
+             "Liberia": {
+               "displayValue": "Liberia",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             }
+           }
+         }
+       }
+   }
+   }
+},
+{
+   "eventName": "Ebola 2015",
+   "eventId": "12345",
+   "eventInstanceId": "Eb1",
+   "draftStatus": false,
+   "reportStatus" : false,
+   "userCreated"              : "",
+   "dateCreated" : "",
+   "categories": {
+     "web": {
+       "displayValue": "web",
+       "userAssigned": "Michael",
+       "completedStatus": false,
+       "completedDate"     : "",
+     "topics": {
+         "Merging Issues": {
+           "displayValue": "Merging Issues",
+           "bullets": {
+             "4": {
+               "displayValue": "4"
+             },
+             "5": {
+               "displayValue": "5"
+             },
+             "6": {
+               "displayValue": "6"
+             }
+           },
+           "subTopics": {
+             "US": {
+               "displayValue": "US",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                   "displayValue": "this is bullet 2"
+                 }
+               }
+             },
+             "Liberia": {
+               "displayValue": "Liberia",
+               "bullets": {
+                 "This is a bullet 1": {
+                   "displayValue": "This is a bullet 1",
+                   "subBullets": {
+                     "this is 1 sub bullet of bullet 1": {
+                       "displayValue": "this is 1 sub bullet of bullet 1"
+                     },
+                     "this is 2 sub bullet of bullet 1": {
+                       "displayValue": "this is 2 sub bullet of bullet 1"
+                     }
+                   }
+                 },
+                 "this is bullet 2": {
+                  "displayValue": "this is bullet 2"
+                 }
+               }
+             }
+           }
+         }
+       }
+     }
+   }
+}
+]

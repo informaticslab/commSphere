@@ -16,8 +16,8 @@ module.exports = function(app) {
   app.put('/api/users', users.updateUser);
 
   app.post('/api/events', events.saveEvent);
-  app.get('/api/events/active',dashboardData.actEventInstances);
-
+  app.get('/api/events/:status',dashboardData.getEvents);
+  
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/views/' + req.params);
   });
