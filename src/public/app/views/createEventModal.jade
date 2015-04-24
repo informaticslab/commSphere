@@ -5,13 +5,14 @@ div(ng-controller="createEventCtrl")
 				button.btn.close_button.glyphicon.glyphicon-remove(ng-click="cancel()")
 			h4.modal-title(id='myModalLabel') &nbsp;Create New Event
 		.modal-body
-			form.form-inline
+			div.form-inline
 				.form-group
 					label Event Name
 					input.form-control(placeholder="Please enter event name" ng-model="eventName")
 				.form-group
-					label Event Type
-					select.form-control(placeholder="Select event type" ng-model="selectEvent")			
+					label Type
+					select.form-control(placeholder="Select event type" ng-model="eventType" ng-options="event as event for event in eventTypes")
+						option(value="") - Select event type -			
 			br
 			br
 			.row
@@ -21,9 +22,10 @@ div(ng-controller="createEventCtrl")
 							div.form-inline.pull-right
 								.form-group
 									label Assign To
-									select.form-control(placeholder="Select Analysst" ng-model="assignedAnalyst")
-							br
-							br
+									select.form-control(placeholder="Select Analyst" ng-model="userAssigned[category.displayValue]" ng-options="user as user for user in users" ng-change="assignUser(category.displayValue)")
+										option(value="") - Select an analyst -
+								br
+								br
 							div(ng-repeat="topic in document.categories[category.displayValue].topics")
 								.topic(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
 									| {{topic.displayValue | descapeDot}}
@@ -45,8 +47,10 @@ div(ng-controller="createEventCtrl")
 									input.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" ng-keyup="$event.keyCode == 13 ? addTopic(category.displayValue) : null")
 									//label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
 										| Add Topic
+
 		.modal-footer
 			button.btn.btn-primary(ng-click="saveEvent()") Save
+			
 
 							
 						

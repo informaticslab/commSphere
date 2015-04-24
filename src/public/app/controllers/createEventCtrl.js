@@ -2,31 +2,45 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
 
 $scope.topicValue={};
 	$scope.subTopicValue={};
+	$scope.userAssigned={};
 	$scope.document={
-  "eventName": "Japan Earthquake",
-  "eventId": "12345",
-  "eventInstanceId": "jp2",
+  "eventName": "",
+  "eventType": "",
+  "eventInstanceId": "",
+  "userCreated": "",
+  "dateCreated": "",
+  "statusFinalized": false,
   "categories": {
     "Web": {
-      "assignedTo": "John",
+      "userAssigned": "",
+      "statusCompleted": false,
+      "dateCompleted": "",
       "displayValue": "Web"
     },
     "TV": {
-      "assignedTo": "John",
+      "userAssigned": "",
+      "statusCompleted": false,
+      "dateCompleted": "",
       "displayValue": "TV"
     },
     "Print": {
-      "assignedTo": "John",
+      "userAssigned": "",
+      "statusCompleted": false,
+      "dateCompleted": "",
       "displayValue": "Print"
     }
   }
 };
+
+$scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
+$scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine']
 
 
 $scope.addTopic=function(category)
 {
 	
 	var newTopic=$scope.topicValue[category];
+	console.log(newTopic);
 
 	newTopic=$filter('escapeDot')(newTopic);
 
@@ -111,9 +125,22 @@ $scope.addSubTopic=function(category,topic)
 
 }
 
+$scope.assignUser = function(category) {
+	var userAssigned = $scope.userAssigned[category];
+	$scope.document.categories[category].userAssigned = userAssigned;
+}
+
 $scope.saveEvent = function() {
 	var data = {};
+	var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
+	var currentUser = 'Joe Coordinator'; //hardcoded placeholder
+
 	data = $scope.document;
+	data.eventName = $scope.eventName;
+	data.eventType = $scope.eventType;
+	data.eventInstanceId = formattedEventInstanceId; 
+	data.userCreated = currentUser;
+	data.dateCreated = Math.round((new Date()).getTime() / 1000);
 
 	$http.post('/api/events', data).then(function(res) {
 		if(res.data.success) {
@@ -122,6 +149,8 @@ $scope.saveEvent = function() {
 			alert('there was an error');
 		}
 	});
+
+	$scope.ok();
 }
 
 });
