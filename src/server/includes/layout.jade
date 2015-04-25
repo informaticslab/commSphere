@@ -33,7 +33,7 @@ html(lang="en" ng-app="app")
                             .col-md-12
                                 .right-inner-addon
                                     i.fa.fa-fw.fa-search
-                                    input.form-control(type='search', placeholder='Search Events', style='background-color:#44474c; border: 1px thin; border-color:#212328; color:#aeaeae; font-weight:normal;')
+                                    input.form-control(ng-model="searchText" type='search', placeholder='Search Events', style='background-color:#44474c; border: 1px thin; border-color:#212328; color:#aeaeae; font-weight:normal;')
                         li.side-nav-main-tab
                             i.fa.fa-fw.fa-home
                             |   MAIN

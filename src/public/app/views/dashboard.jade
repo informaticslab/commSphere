@@ -26,7 +26,7 @@
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up")  
                                 th Status
                         tbody
-                             tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse")
+                             tr(ng-repeat="instance in instances | filter: $parent.searchText | orderBy:sortType:sortReverse")
                                 td {{instance.eventName}}
                                 td {{instance.eventInstanceId}}
                                 td {{instance.dateCreated*1000 | date:'MM/dd/yyyy' }}
