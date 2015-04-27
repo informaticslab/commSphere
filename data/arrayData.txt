@@ -1,0 +1,44 @@
+{
+  eventID:"xyz",
+  categories:[
+    {
+      "category":"web",
+      "assignedTo":"John",
+      "topics":[
+        {
+          "topic":"ebola",
+          "bullets":[
+            {"bullet":"bullet 1"},
+            {
+              "bullet":"bullet 3",
+              "subBullets":[
+                {"subBullet":"sub bullet 1"},
+                {"subBullet":"sub bullet 2"}
+              ]
+
+            },
+            {"bullet":"bullet 2"}
+          ]
+        },
+        {"topic":"flu"},
+        {
+          "topic":"hiv",
+          "subTopics":[
+            {
+              "subTopic","hiv in africa",
+              "bullets":[
+                {"bullet":"bullet 1"},
+                {"bullet":"bullet 3"},
+                {"bullet":"bullet 2"}
+              ]
+            },
+            {"subTopic","hiv in asia"},
+            {"subTopic","hiv in america"}
+          ]
+        },
+      ]
+    },
+    {"category":"tv"},
+    {"category":"print"}
+  ]
+}
