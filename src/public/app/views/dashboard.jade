@@ -29,7 +29,7 @@
                              tr(ng-repeat="instance in instances | filter: $parent.searchText | orderBy:sortType:sortReverse")
                                 td {{instance.eventName}}
                                 td {{instance.eventInstanceId}}
-                                td {{instance.dateCreated*1000 | date:'MM/dd/yyyy' }}
+                                td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td
                                     .progress
                                         //- .progress-bar.progress-bar-info(style="width: {{instance.eventInstanceStatus*100}}%")

@@ -10,7 +10,7 @@ $scope.topicValue={};
   "eventInstanceId": "",
   "userCreated": "",
   "dateCreated": "",
-  "statusFinalized": false,
+  "draftStatus": true,
   "categories": {
     "Web": {
       "userAssigned": "",
@@ -35,7 +35,7 @@ $scope.topicValue={};
 
 $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
-$scope.date = new Date();
+$scope.date = new Date().getTime();
 
 
 $scope.addTopic=function(category)
@@ -48,11 +48,11 @@ $scope.addTopic=function(category)
 
 	if(newTopic=="")
 	{
-		alert("Topic cannot be blank");
+		ngNotifier.notifyError("Topic cannot be blank");
 	}
 	else if(newTopic.trim()=="")
 	{
-		alert("Topic cannot be blank");
+		ngNotifier.notifyError("Topic cannot be blank");
 	}
 	else
 	{
@@ -65,7 +65,7 @@ $scope.addTopic=function(category)
 
 		if($scope.document.categories[category].topics[newTopic])
 		{
-			alert(newTopic+" already exists");
+			ngNotifier.notifyError(newTopic+" already exists");
 		}
 		else
 		{
@@ -98,11 +98,11 @@ $scope.addSubTopic=function(category,topic)
 
 	if(newSubTopic=="")
 	{
-		alert("Sub Topic cannot be blank");
+		ngNotifier.notifyError("Sub Topic cannot be blank");
 	}
 	else if(newSubTopic.trim()=="")
 	{
-		alert("Sub Topic cannot be blank");
+		ngNotifier.notifyError("Sub Topic cannot be blank");
 	}
 	else
 	{
@@ -116,7 +116,7 @@ $scope.addSubTopic=function(category,topic)
 
 		if($scope.document.categories[category].topics[topic].subTopics[newSubTopic])
 		{
-			alert(newSubTopic+" already exists");
+			ngNotifier.notifyError(newSubTopic+" already exists");
 		}
 		else
 		{
@@ -143,17 +143,27 @@ $scope.createEvent = function() {
 	var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
 	var currentUser = 'Joe Coordinator'; //hardcoded placeholder
 
+	data = $scope.document;
+	data.eventName = $scope.eventName;
+	data.eventType = $scope.eventType;
+	data.eventInstanceId = formattedEventInstanceId; 
+	data.userCreated = currentUser;
+	data.dateCreated = $scope.date;
+	data.draftStatus = false;
+
+	//var trimEventName = $scope.eventName.trim();
+	// $http.get('/api/events/duplicates').then(function(res) {
+	// 	console.log(res.data);
+	// });
+
 	if($scope.eventName.trim() == ''){
 		ngNotifier.notifyError('Event name cannot be blank');
+	} else if($scope.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
+		ngNotifier.notifyError('Event name cannot contain only numbers');
 	} else if($scope.eventType == undefined) {
 		ngNotifier.notifyError('Please select an event type');
 	} else {
-		data = $scope.document;
-		data.eventName = $scope.eventName;
-		data.eventType = $scope.eventType;
-		data.eventInstanceId = formattedEventInstanceId; 
-		data.userCreated = currentUser;
-		data.dateCreated = Math.round((new Date()).getTime() / 1000);
+		
 
 		$http.post('/api/events', data).then(function(res) {
 			if(res.data.success) {
