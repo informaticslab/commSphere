@@ -1,8 +1,9 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier) {
 
 $scope.topicValue={};
 	$scope.subTopicValue={};
 	$scope.userAssigned={};
+	$scope.eventName='';
 	$scope.document={
   "eventName": "",
   "eventType": "",
@@ -33,7 +34,7 @@ $scope.topicValue={};
 };
 
 $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
-$scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine']
+$scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
 $scope.date = new Date();
 
 
@@ -142,24 +143,33 @@ $scope.createEvent = function() {
 	var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
 	var currentUser = 'Joe Coordinator'; //hardcoded placeholder
 
-	data = $scope.document;
-	data.eventName = $scope.eventName;
-	data.eventType = $scope.eventType;
-	data.eventInstanceId = formattedEventInstanceId; 
-	data.userCreated = currentUser;
-	data.dateCreated = Math.round((new Date()).getTime() / 1000);
+	if($scope.eventName.trim() == ''){
+		ngNotifier.notifyError('Event name cannot be blank');
+	} else if($scope.eventType == undefined) {
+		ngNotifier.notifyError('Please select an event type');
+	} else {
+		data = $scope.document;
+		data.eventName = $scope.eventName;
+		data.eventType = $scope.eventType;
+		data.eventInstanceId = formattedEventInstanceId; 
+		data.userCreated = currentUser;
+		data.dateCreated = Math.round((new Date()).getTime() / 1000);
 
-	$http.post('/api/events', data).then(function(res) {
-		if(res.data.success) {
-			alert("Event has been saved!");
-			$route.reload();
+		$http.post('/api/events', data).then(function(res) {
+			if(res.data.success) {
+				ngNotifier.notify("Event has been saved!");
+				$route.reload();
 
-		} else {
-			alert('there was an error');
-		}
-	});
+			} else {
+				alert('there was an error');
+			}
+		});
 
-	$scope.ok();
+		$scope.ok();
+	}
+	
+
+	
 }
 
 });

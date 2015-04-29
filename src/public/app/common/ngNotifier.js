@@ -12,7 +12,7 @@ angular.module('app').factory('ngNotifier',function(ngToastr) {
 		},
 		notify: function(msg) {
 			ngToastr.options = {
-				'positionClass':'toast-top-right',
+				'positionClass':'toast-top-center',
 				'timeOut' : '3000'
 			};
 			ngToastr.success(msg);
