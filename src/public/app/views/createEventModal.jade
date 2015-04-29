@@ -6,7 +6,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 					.create-new-event-cont
 						h2.h2-create-new(id='myModalLabel') Create New Event
 						br
-						p.p-create-new Date: {{date | date:'MM-dd-yyyy'}}
+						p.p-create-new {{date | date:'medium'}}
 					.create-btn-cont
 						button.btn.btn-default.btn-success(ng-click="createEvent()")
 							| Create
@@ -20,7 +20,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 				.col-lg-12
 					.form-comp-cont
 						label Event Name
-						input#exampleInputName2.form-control(placeholder="Please enter event name" ng-model="eventName")
+						input#exampleInputName2.form-control(placeholder="Enter event name" ng-model="eventName")
 					.form-comp-cont
 						label Type
 						select.form-control(placeholder="Select event type" ng-model="eventType" ng-options="event as event for event in eventTypes")
