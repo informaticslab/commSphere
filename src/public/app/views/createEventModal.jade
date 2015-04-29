@@ -29,7 +29,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 				.col-lg-12.col-md-12.col-sm-12
 					.tab-container
 						tabset
-							tab(ng-repeat="category in document.categories" heading="{{category.displayValue}}")
+							tab(ng-repeat="category in eventdoc.categories" heading="{{category.displayValue}}")
 								// Tab panes
 								.tab-content(style='background-color:#ffffff;')
 									.tab-title-heading
@@ -44,12 +44,12 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 									br
 									hr
 									br
-									div(ng-repeat="topic in document.categories[category.displayValue].topics")
+									div(ng-repeat="topic in eventdoc.categories[category.displayValue].topics")
 										.topic-title(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
 											| {{topic.displayValue | descapeDot}}&nbsp;
 											label.btn.btn-default.btn-xs.pull-right(ng-show="hover" ng-click="deleteTopic(category.displayValue,topic.displayValue)")
 												i.fa.fa-times
-										div(ng-repeat="subtopic in document.categories[category.displayValue].topics[topic.displayValue].subTopics")
+										div(ng-repeat="subtopic in eventdoc.categories[category.displayValue].topics[topic.displayValue].subTopics")
 											.subTopic-title-outer
 												.subTopic-title
 													| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{subtopic.displayValue}}

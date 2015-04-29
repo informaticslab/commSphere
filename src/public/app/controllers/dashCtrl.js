@@ -1,13 +1,24 @@
-commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData', function($scope, $modal,$routeParams,ngEvents,ngRandomData) {
+commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData','$http', function($scope, $modal,$routeParams,ngEvents,ngRandomData,$http) {
 
 $scope.$parent.activeMenu='dashboard';
+console.log("test");
+$http.get('/api/events/active').then(function(res){
+     console.log(res.data);
+     if(res.data) {
+         $scope.instances=res.data;
 
-if ($routeParams.draftStatus == null)
-    $routeParams.draftStatus = 'active';
-ngEvents.getEvents($routeParams.draftStatus).then(function(response) {
-   $scope.instances = response;
-   getCompletionStatus($scope);
-});
+         } else {
+             alert('no data received, assign new id');
+         }
+    });
+    
+    
+//if ($routeParams.draftStatus == null)
+//    $routeParams.draftStatus = 'active';
+//ngEvents.getEvents($routeParams.draftStatus).then(function(response) {
+//   $scope.instances = response;
+//   getCompletionStatus($scope);
+//});
 
 
 function getCompletionStatus($scope) {    

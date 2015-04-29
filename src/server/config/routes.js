@@ -17,6 +17,7 @@ module.exports = function(app) {
 
   app.post('/api/events', events.saveEvent);
   app.get('/api/events/:status',dashboardData.getEvents);
+  app.get('/api/events/getAvailEventId/:partialId',dashboardData.getAvailEventInstanceId);
   
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/views/' + req.params);

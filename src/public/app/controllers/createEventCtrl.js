@@ -1,10 +1,15 @@
 angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier) {
 
+
+$scope.myInstance = {}; 
+$scope.eventName ="";
+$scope.eventType = "";
+$scope.eventInstanceId="";
 $scope.topicValue={};
 	$scope.subTopicValue={};
 	$scope.userAssigned={};
 	$scope.eventName='';
-	$scope.document={
+	$scope.eventdoc={
   "eventName": "",
   "eventType": "",
   "eventInstanceId": "",
@@ -37,7 +42,6 @@ $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
 $scope.date = new Date().getTime();
 
-
 $scope.addTopic=function(category)
 {
 	
@@ -57,25 +61,25 @@ $scope.addTopic=function(category)
 	else
 	{
 
-		if($scope.document.categories[category].topics==undefined)
+		if($scope.eventdoc.categories[category].topics==undefined)
 		{
-			$scope.document.categories[category].topics={};
+			$scope.eventdoc.categories[category].topics={};
 		}
 
 
-		if($scope.document.categories[category].topics[newTopic])
+		if($scope.eventdoc.categories[category].topics[newTopic])
 		{
 			ngNotifier.notifyError(newTopic+" already exists");
 		}
 		else
 		{
-			$scope.document.categories[category].topics[newTopic]={};
-			$scope.document.categories[category].topics[newTopic].displayValue=newTopic;
+			$scope.eventdoc.categories[category].topics[newTopic]={};
+			$scope.eventdoc.categories[category].topics[newTopic].displayValue=newTopic;
 		}
 
 		$scope.topicValue[category]="";
 		
-		console.log($scope.document);
+		console.log($scope.eventdoc);
 	}
 }
 
@@ -83,8 +87,8 @@ $scope.addTopic=function(category)
 $scope.deleteTopic=function(category,topic)
 {
 	
-	delete $scope.document.categories[category].topics[topic];
-	console.log($scope.document);
+	delete $scope.eventdoc.categories[category].topics[topic];
+	console.log($scope.eventdoc);
 
 }
 
@@ -92,7 +96,7 @@ $scope.deleteTopic=function(category,topic)
 $scope.addSubTopic=function(category,topic)
 {
 	console.log(category,topic);
-	console.log($scope.document);
+	console.log($scope.eventdoc);
 	
 	var newSubTopic=$scope.subTopicValue[category+'-'+topic];
 
@@ -106,24 +110,24 @@ $scope.addSubTopic=function(category,topic)
 	}
 	else
 	{
-		console.log(newSubTopic,$scope.document.categories[category].topics[topic].subTopics);
+		console.log(newSubTopic,$scope.eventdoc.categories[category].topics[topic].subTopics);
 
-		if($scope.document.categories[category].topics[topic].subTopics==undefined)
+		if($scope.eventdoc.categories[category].topics[topic].subTopics==undefined)
 		{
-			$scope.document.categories[category].topics[topic].subTopics={};
+			$scope.eventdoc.categories[category].topics[topic].subTopics={};
 		}
 
 
-		if($scope.document.categories[category].topics[topic].subTopics[newSubTopic])
+		if($scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic])
 		{
 			ngNotifier.notifyError(newSubTopic+" already exists");
 		}
 		else
 		{
-			//$scope.document.categories[category].topics[topic].subTopics={};
+			//$scope.eventdoc.categories[category].topics[topic].subTopics={};
 
-			$scope.document.categories[category].topics[topic].subTopics[newSubTopic]={}
-			$scope.document.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
+			$scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic]={}
+			$scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
 		}
 		
 		$scope.subTopicValue[category+'-'+topic]="";
@@ -135,12 +139,14 @@ $scope.addSubTopic=function(category,topic)
 
 $scope.assignUser = function(category) {
 	var userAssigned = $scope.userAssigned[category];
-	$scope.document.categories[category].userAssigned = userAssigned;
+	$scope.eventdoc.categories[category].userAssigned = userAssigned;
 }
 
 $scope.createEvent = function() {
 	var data = {};
-	var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
+
+	console.log($scope.eventdoc.eventInstanceId);
+	//var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
 	var currentUser = 'Joe Coordinator'; //hardcoded placeholder
 
 	data = $scope.document;
@@ -163,9 +169,44 @@ $scope.createEvent = function() {
 	} else if($scope.eventType == undefined) {
 		ngNotifier.notifyError('Please select an event type');
 	} else {
-		
 
-		$http.post('/api/events', data).then(function(res) {
+		data = $scope.eventdoc;
+		$scope.eventdoc.eventName = $scope.eventName;
+		$scope.eventdoc.eventType = $scope.eventType;
+        var partialId = genInstanceId($scope.eventName);
+        var eventIDNew="";
+
+        $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
+       	console.log(partialId);
+         console.log(res.data);
+         if(res.data) {
+             //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
+             //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
+             if(res.data.length>0)
+             {
+                console.log("ID alreADy prsent");
+                 $scope.eventdoc.eventInstanceId= partialId+"xx";
+             }
+             else
+             {
+                console.log("id available to be used");
+                console.log(partialId);
+                $scope.eventdoc.eventInstanceId= partialId;
+             }
+             
+             } else {
+                 alert('no data received, assign new id');
+             }
+        });
+
+        console.log("eventIDNew",$scope.eventdoc.eventInstanceId);
+		$scope.eventdoc.eventInstanceId = eventIDNew; 
+		$scope.eventdoc.userCreated = currentUser;
+		$scope.eventdoc.dateCreated = Math.round((new Date()).getTime() / 1000);
+		console.log($scope.eventdoc);
+		console.log($scope.eventdoc.eventInstanceId);
+		$http.post('/api/events', $scope.eventdoc).then(function(res) {
+
 			if(res.data.success) {
 				ngNotifier.notify("Event has been saved!");
 				$route.reload();
@@ -178,8 +219,47 @@ $scope.createEvent = function() {
 		$scope.ok();
 	}
 	
-
-	
 }
 
+
+function getLatestInstance(partialId)
+    { 
+    	console.log(partialId);
+       
+       $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
+       	console.log(partialId);
+         console.log(res.data);
+         if(res.data) {
+             //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
+             //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
+             if(res.data.length>0)
+             {
+                console.log("ID alreADy prsent");
+                 return partialId+"xx";
+             }
+             else
+             {
+                console.log("id available to be used");
+                console.log(partialId);
+                return partialId;
+             }
+             
+             } else {
+                 alert('no data received, assign new id');
+             }
+        });
+
+       
+    }
+
+    function genInstanceId(eventName)
+    {
+        var nameComponent = eventName.split(' ');
+        var instanceId;
+        if (nameComponent.length > 1)
+            instanceId = nameComponent[0].substr(0,2) + nameComponent[1].substr(0,2)+ '-'+ '01';  
+        else
+            instanceId = nameComponent[0].substr(0,4)+ '-' + '01';
+        return instanceId;
+    }
 });
