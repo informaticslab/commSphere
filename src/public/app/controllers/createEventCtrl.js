@@ -143,19 +143,9 @@ $scope.assignUser = function(category) {
 }
 
 $scope.createEvent = function() {
-	var data = {};
-
 	console.log($scope.eventdoc.eventInstanceId);
 	//var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
-	var currentUser = 'Joe Coordinator'; //hardcoded placeholder
 
-	data = $scope.document;
-	data.eventName = $scope.eventName;
-	data.eventType = $scope.eventType;
-	data.eventInstanceId = formattedEventInstanceId; 
-	data.userCreated = currentUser;
-	data.dateCreated = $scope.date;
-	data.draftStatus = false;
 
 	//var trimEventName = $scope.eventName.trim();
 	// $http.get('/api/events/duplicates').then(function(res) {
@@ -170,11 +160,18 @@ $scope.createEvent = function() {
 		ngNotifier.notifyError('Please select an event type');
 	} else {
 
-		data = $scope.eventdoc;
+		//data = $scope.eventdoc;
+		var currentUser = 'Joe Coordinator'; //hardcoded placeholder
+
+		//data = $scope.document;
 		$scope.eventdoc.eventName = $scope.eventName;
 		$scope.eventdoc.eventType = $scope.eventType;
+		$scope.eventdoc.eventInstanceId = ""; 
+		$scope.eventdoc.userCreated = currentUser;
+		$scope.eventdoc.dateCreated = $scope.date;
+		$scope.eventdoc.draftStatus = false;
+
         var partialId = genInstanceId($scope.eventName);
-        var eventIDNew="";
 
         $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
        	console.log(partialId);
@@ -193,30 +190,32 @@ $scope.createEvent = function() {
                 console.log(partialId);
                 $scope.eventdoc.eventInstanceId= partialId;
              }
+
+			console.log("eventIDNew",$scope.eventdoc.eventInstanceId);
+
+			$scope.eventdoc.userCreated = currentUser;
+			$scope.eventdoc.dateCreated = new Date().getTime();
+			console.log($scope.eventdoc);
+			console.log($scope.eventdoc.eventInstanceId);
+			$http.post('/api/events', $scope.eventdoc).then(function(res) {
+
+				if(res.data.success) {
+					ngNotifier.notify("Event has been saved!");
+					$route.reload();
+
+				} else {
+					alert('there was an error');
+				}
+			});
+
+			$scope.ok();
              
              } else {
                  alert('no data received, assign new id');
              }
         });
 
-        console.log("eventIDNew",$scope.eventdoc.eventInstanceId);
-		$scope.eventdoc.eventInstanceId = eventIDNew; 
-		$scope.eventdoc.userCreated = currentUser;
-		$scope.eventdoc.dateCreated = Math.round((new Date()).getTime() / 1000);
-		console.log($scope.eventdoc);
-		console.log($scope.eventdoc.eventInstanceId);
-		$http.post('/api/events', $scope.eventdoc).then(function(res) {
 
-			if(res.data.success) {
-				ngNotifier.notify("Event has been saved!");
-				$route.reload();
-
-			} else {
-				alert('there was an error');
-			}
-		});
-
-		$scope.ok();
 	}
 	
 }
@@ -254,7 +253,7 @@ function getLatestInstance(partialId)
 
     function genInstanceId(eventName)
     {
-        var nameComponent = eventName.split(' ');
+        var nameComponent = eventName.toUpperCase().split(' ');
         var instanceId;
         if (nameComponent.length > 1)
             instanceId = nameComponent[0].substr(0,2) + nameComponent[1].substr(0,2)+ '-'+ '01';  
