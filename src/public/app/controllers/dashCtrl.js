@@ -9,8 +9,6 @@ ngEvents.getEvents($routeParams.draftStatus).then(function(response) {
    getCompletionStatus($scope);
 });
 
-       
-//
 
 function getCompletionStatus($scope) {    
 for(var i = 0, l = $scope.instances.length; i < l; ++i){
@@ -33,29 +31,8 @@ for(var i = 0, l = $scope.instances.length; i < l; ++i){
 };
 }
 //    console.log(ProgressStatus(oneInstance.categories));
-  $scope.createEvent = function (size) {
-
-      var modalInstance = $modal.open({
-        templateUrl: '/partials/createEventModal',
-        controller: CreateEventModalInstanceCtrl,
-        size: size,
-        keyboard: false,
-        backdrop: 'static'
-      });
-    
-    }
-
+  
 
 
 }]);
 
-var CreateEventModalInstanceCtrl = function ($scope, $modalInstance) {
-
-  $scope.ok = function () {
-    $modalInstance.close();
-  };
-
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
-};
