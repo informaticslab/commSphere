@@ -34,6 +34,7 @@ $scope.topicValue={};
 
 $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine']
+$scope.date = new Date();
 
 
 $scope.addTopic=function(category)
@@ -136,7 +137,7 @@ $scope.assignUser = function(category) {
 	$scope.document.categories[category].userAssigned = userAssigned;
 }
 
-$scope.saveEvent = function() {
+$scope.createEvent = function() {
 	var data = {};
 	var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
 	var currentUser = 'Joe Coordinator'; //hardcoded placeholder

@@ -6,9 +6,9 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 					.create-new-event-cont
 						h2.h2-create-new(id='myModalLabel') Create New Event
 						br
-						p.p-create-new Date: 04/23/2015
+						p.p-create-new Date: {{date | date:'MM-dd-yyyy'}}
 					.create-btn-cont
-						button.btn.btn-default.btn-success
+						button.btn.btn-default.btn-success(ng-click="createEvent()")
 							| Create
 					.save-draft-cont
 						button.btn.btn-default(style='background-color:#bababa; color:#ffffff;')
@@ -69,8 +69,6 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 												//label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
 													| Add Topic
 
-		.modal-footer
-			button.btn.btn-primary(ng-click="saveEvent()") Save
 			
 
 							
