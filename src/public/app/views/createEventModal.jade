@@ -1,53 +1,73 @@
-div(ng-controller="createEventCtrl")
+div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 	.modal-content
 		.modal-header.header_dark
-			span.pull-right
-				button.btn.close_button.glyphicon.glyphicon-remove(ng-click="cancel()")
-			h4.modal-title(id='myModalLabel') &nbsp;Create New Event
+			.row(style='background-color:#ffffff;')
+				.col-lg-12
+					.create-new-event-cont
+						h2.h2-create-new(id='myModalLabel') Create New Event
+						br
+						p.p-create-new Date: 04/23/2015
+					.create-btn-cont
+						button.btn.btn-default.btn-success
+							| Create
+					.save-draft-cont
+						button.btn.btn-default(style='background-color:#bababa; color:#ffffff;')
+							| Save Draft
+					.save-draft-cont
+						button.btn.close_button.glyphicon.glyphicon-remove(ng-click="cancel()")
 		.modal-body
-			div.form-inline
-				.form-group
-					label Event Name
-					input.form-control(placeholder="Please enter event name" ng-model="eventName")
-				.form-group
-					label Type
-					select.form-control(placeholder="Select event type" ng-model="eventType" ng-options="event as event for event in eventTypes")
-						option(value="") - Select event type -			
-			br
-			br
+			.row(style='background-color:#ffffff;')
+				.col-lg-12
+					.form-comp-cont
+						label Event Name
+						input#exampleInputName2.form-control(placeholder="Please enter event name" ng-model="eventName")
+					.form-comp-cont
+						label Type
+						select.form-control(placeholder="Select event type" ng-model="eventType" ng-options="event as event for event in eventTypes")
+							option(value="") - Select event type -
 			.row
-				.col-lg-9.col-md-9.col-sm-9
-					tabset
-						tab(ng-repeat="category in document.categories" heading="{{category.displayValue}}")
-							div.form-inline.pull-right
-								.form-group
-									label Assign To
-									select.form-control(placeholder="Select Analyst" ng-model="userAssigned[category.displayValue]" ng-options="user as user for user in users" ng-change="assignUser(category.displayValue)")
-										option(value="") - Select an analyst -
-								br
-								br
-							div(ng-repeat="topic in document.categories[category.displayValue].topics")
-								.topic(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-									| {{topic.displayValue | descapeDot}}&nbsp;
-									label.btn.btn-default.btn-xs(ng-show="hover" ng-click="deleteTopic(category.displayValue,topic.displayValue)")
-										i.fa.fa-times
-								br
-								div(ng-repeat="subtopic in document.categories[category.displayValue].topics[topic.displayValue].subTopics")
-									.subTopic
-										| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{subtopic.displayValue}}
+				.col-lg-12.col-md-12.col-sm-12
+					.tab-container
+						tabset
+							tab(ng-repeat="category in document.categories" heading="{{category.displayValue}}")
+								// Tab panes
+								.tab-content(style='background-color:#ffffff;')
+									.tab-title-heading
+										img(src='img/news-icon.png', width='37', height='32')
+										|   {{category.displayValue}}
+									.assign-to-cont
+										label Assign To
+										select.form-control(placeholder="Select Analyst" ng-model="userAssigned[category.displayValue]" ng-options="user as user for user in users" ng-change="assignUser(category.displayValue)")
+											option(value="") - Select an analyst -
 									br
-								div.form-inline
-									.form-group
-										| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										input.eventTemplateSubTopic.form-control(type="text" ng-model="subTopicValue[category.displayValue+'-'+topic.displayValue]" placeholder="Add Sub Topic" ng-keyup="$event.keyCode == 13 ? addSubTopic(category.displayValue,topic.displayValue) : null")
-										//label.btn.btn-default.btn-sm(type="button" aria-label="Left Align" ng-click="addSubTopic(category.displayValue,topic.displayValue)")
-											| Add Sub Topic
-								hr
-							div.form-inline
-								.form-group
-									input.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" ng-keyup="$event.keyCode == 13 ? addTopic(category.displayValue) : null")
-									//label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
-										| Add Topic
+									br
+									br
+									hr
+									br
+									div(ng-repeat="topic in document.categories[category.displayValue].topics")
+										.topic-title(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+											| {{topic.displayValue | descapeDot}}&nbsp;
+											label.btn.btn-default.btn-xs.pull-right(ng-show="hover" ng-click="deleteTopic(category.displayValue,topic.displayValue)")
+												i.fa.fa-times
+										div(ng-repeat="subtopic in document.categories[category.displayValue].topics[topic.displayValue].subTopics")
+											.subTopic-title-outer
+												.subTopic-title
+													| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{subtopic.displayValue}}
+										.subTopic-title-outer
+											.subTopic-title
+												div.form-inline
+													.form-group
+														| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+														input.eventTemplateSubTopic.form-control(type="text" ng-model="subTopicValue[category.displayValue+'-'+topic.displayValue]" placeholder="Add Sub Topic" ng-keyup="$event.keyCode == 13 ? addSubTopic(category.displayValue,topic.displayValue) : null")
+														//label.btn.btn-default.btn-sm(type="button" aria-label="Left Align" ng-click="addSubTopic(category.displayValue,topic.displayValue)")
+															| Add Sub Topic
+										br
+									.topic-title
+										div.form-inline
+											.form-group
+												input.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" ng-keyup="$event.keyCode == 13 ? addTopic(category.displayValue) : null")
+												//label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
+													| Add Topic
 
 		.modal-footer
 			button.btn.btn-primary(ng-click="saveEvent()") Save
