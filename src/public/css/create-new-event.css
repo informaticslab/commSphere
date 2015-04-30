@@ -92,7 +92,8 @@ body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   min-height: 46px;
-  line-height: 20px
+  line-height: 20px;
+  font-size:17px;
  }
 
 .subTopic-title {
@@ -107,7 +108,8 @@ body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   min-height: 40px;
-  line-height: 20px
+  line-height: 20px;
+
  }
 
  .subTopic-title-outer {
