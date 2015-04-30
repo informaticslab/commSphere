@@ -1,0 +1,14 @@
+div(ng-controller='infoModalInstanceCtrl')
+  .modal-header
+    h4.modal-title Event Name: {{instance.eventName}}
+      br
+      |Event Id: {{instance.eventInstanceId}}
+      br
+      |Event Type: {{instance.eventType}}
+  .modal-body
+      |Date Created : {{instance.dateCreated | date:'MM/dd/yyyy' }}
+      br
+      
+  .modal-footer
+    button.btn.btn-default(type='button', ng-click="cancel()") Close
+    

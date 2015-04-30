@@ -42,8 +42,34 @@ for(var i = 0, l = $scope.instances.length; i < l; ++i){
 };
 }
 //    console.log(ProgressStatus(oneInstance.categories));
+
+
   
+$scope.showInfo = function(instance) {
+   $scope.instance = instance;
+   var modalInstance = $modal.open({
+      scope:$scope,
+      templateUrl: '/partials/infoModal',
+      controller: infoModalInstanceCtrl,
+      size: 'md',
+      resolve: {
+         instance: function () {
+           return $scope.instance;
+         }
+       }
+      
+    });
+};
 
+var infoModalInstanceCtrl = function ($scope, $modalInstance) {
 
+  $scope.ok = function () {
+    $modalInstance.close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
 }]);
 
