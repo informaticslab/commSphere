@@ -140,7 +140,7 @@ $scope.addSubTopic=function(category,topic)
 $scope.assignUser = function(category) {
 	var userAssigned = $scope.userAssigned[category];
 	$scope.eventdoc.categories[category].userAssigned = userAssigned;
-}
+};
 
 $scope.createEvent = function() {
 	console.log($scope.eventdoc.eventInstanceId);
@@ -148,9 +148,9 @@ $scope.createEvent = function() {
 
 
 	//var trimEventName = $scope.eventName.trim();
-	// $http.get('/api/events/duplicates').then(function(res) {
-	// 	console.log(res.data);
-	// });
+	 $http.get('/api/events/duplicates').then(function(res) {
+	 	console.log(res.data);
+	 });
 
 	if($scope.eventName.trim() == ''){
 		ngNotifier.notifyError('Event name cannot be blank');
@@ -175,7 +175,7 @@ $scope.createEvent = function() {
 
         $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
        	console.log(partialId);
-         console.log(res.data);
+        console.log(res.data);
          if(res.data) {
              //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
              //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));

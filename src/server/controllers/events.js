@@ -13,5 +13,23 @@ exports.saveEvent = function(req, res) {
 		} else {
 			res.send({success:true});
 		}
-	})
+	});
+};
+
+exports.getDuplicates = function(req, res) {
+ 	console.log("test");
+	 res.send('test');
+//	 var eventName = req.body.eventName;
+//	 var query = {'eventName':eventName};
+//	 var returnfield = {eventName:1};
+//	 var collection = mongo.mongodb.collection('events');
+//
+//	 collection.find({'eventName': 'Japan'}).toArray(function(err,result) {
+//	 	 //res.send(result);
+//	 	 if(err){
+//	 	 	console.log(err);
+//	 	 }
+//		 console.log(result);
+//	 	 res.send(result);
+//	 });
 };
