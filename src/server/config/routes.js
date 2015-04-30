@@ -19,8 +19,8 @@ module.exports = function(app) {
   app.get('/api/events/:status',dashboardData.getEvents);
   app.get('/api/events/getAvailEventId/:partialId',dashboardData.getAvailEventInstanceId);
   app.get('/api/events/getEventInstanceInfo/:Id',dashboardData.getEventInstanceInfo);
+  app.get('/api/events/duplicate/:eventName',events.findDuplicate);
 
-  app.get('/api/events/duplicates/:eventName',events.getDuplicates);
 
   
   app.get('/partials/*', function(req, res) {

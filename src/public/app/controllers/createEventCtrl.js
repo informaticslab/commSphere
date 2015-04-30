@@ -81,7 +81,7 @@ $scope.addTopic=function(category)
 		
 		console.log($scope.eventdoc);
 	}
-}
+};
 
 
 $scope.deleteTopic=function(category,topic)
@@ -90,7 +90,7 @@ $scope.deleteTopic=function(category,topic)
 	delete $scope.eventdoc.categories[category].topics[topic];
 	console.log($scope.eventdoc);
 
-}
+};
 
 
 $scope.addSubTopic=function(category,topic)
@@ -135,7 +135,7 @@ $scope.addSubTopic=function(category,topic)
 
 
 
-}
+};
 
 $scope.assignUser = function(category) {
 	var userAssigned = $scope.userAssigned[category];
@@ -147,17 +147,16 @@ $scope.createEvent = function() {
 	//var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
 
 
-	//var trimEventName = $scope.eventName.trim();
-
-	 $http.get('/api/events/duplicates/'+'event Name').then(function(res) {
-	 	console.log(res.data);
-	 });
-
-	if($scope.eventName.trim() == ''){
+	$http.get('/api/events/duplicate/'+$scope.eventName).then(function(res) {
+	
+	console.log(res.data.duplicate);
+    if($scope.eventName.trim() == ''){
 		ngNotifier.notifyError('Event name cannot be blank');
 	} else if($scope.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
 		ngNotifier.notifyError('Event name cannot contain only numbers');
-	} else if($scope.eventType == undefined) {
+	} else if(res.data.duplicate) {
+		ngNotifier.notifyError('Cannot create event. Duplicate name');
+	}  else if($scope.eventType == undefined) {
 		ngNotifier.notifyError('Please select an event type');
 	} else {
 
@@ -175,29 +174,29 @@ $scope.createEvent = function() {
         var partialId = genInstanceId($scope.eventName);
 
         $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
-       	console.log(partialId);
-        console.log(res.data);
+//       	console.log(partialId);
+//        console.log(res.data);
          if(res.data) {
              //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
              //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
              if(res.data.length>0)
              {
-                console.log("ID alreADy prsent");
+//                console.log("ID alreADy prsent");
                  $scope.eventdoc.eventInstanceId= partialId+"xx";
              }
              else
              {
-                console.log("id available to be used");
-                console.log(partialId);
+//                console.log("id available to be used");
+//                console.log(partialId);
                 $scope.eventdoc.eventInstanceId= partialId;
              }
 
-			console.log("eventIDNew",$scope.eventdoc.eventInstanceId);
+//			console.log("eventIDNew",$scope.eventdoc.eventInstanceId);
 
 			$scope.eventdoc.userCreated = currentUser;
 			$scope.eventdoc.dateCreated = new Date().getTime();
-			console.log($scope.eventdoc);
-			console.log($scope.eventdoc.eventInstanceId);
+//			console.log($scope.eventdoc);
+//			console.log($scope.eventdoc.eventInstanceId);
 			$http.post('/api/events', $scope.eventdoc).then(function(res) {
 
 				if(res.data.success) {
@@ -217,9 +216,12 @@ $scope.createEvent = function() {
         });
 
 
-	}
+	}	 
+	});
 	
-}
+	
+	
+};
 
 
 function getLatestInstance(partialId)
