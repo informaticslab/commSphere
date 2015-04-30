@@ -27,7 +27,8 @@
                                 th Status
                         tbody
                              tr(ng-repeat="instance in instances | filter: $parent.searchText | orderBy:sortType:sortReverse")
-                                td {{instance.eventName}}
+                                td 
+                                    a(href='/api/events/getEventInstanceInfo/{{instance.eventInstanceId}}'){{instance.eventName}}
                                 td {{instance.eventInstanceId}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td
