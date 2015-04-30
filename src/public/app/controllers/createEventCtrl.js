@@ -149,7 +149,7 @@ $scope.createEvent = function() {
 
 	$http.get('/api/events/duplicate/'+$scope.eventName).then(function(res) {
 	
-	console.log(res.data.duplicate);
+	//console.log(res.data.duplicate);
     if($scope.eventName.trim() == ''){
 		ngNotifier.notifyError('Event name cannot be blank');
 	} else if($scope.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
