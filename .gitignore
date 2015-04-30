@@ -16,3 +16,4 @@ src/node_modules
 
 src/server/config/certs
 src/data3.js
+.settings/launch.json

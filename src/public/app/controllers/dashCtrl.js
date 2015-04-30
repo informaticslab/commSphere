@@ -1,9 +1,9 @@
 commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData','$http', function($scope, $modal,$routeParams,ngEvents,ngRandomData,$http) {
 
 $scope.$parent.activeMenu='dashboard';
-console.log("test");
+//console.log("test");
 $http.get('/api/events/active').then(function(res){
-     console.log(res.data);
+//     console.log(res.data);
      if(res.data) {
          $scope.instances=res.data;
          getCompletionStatus();
