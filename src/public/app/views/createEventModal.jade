@@ -1,4 +1,4 @@
-div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
+div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 	.modal-content
 		.modal-header.header_dark
 			.row(style='background-color:#ffffff;')
@@ -13,8 +13,9 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 					.save-draft-cont
 						button.btn.btn-default(style='background-color:#bababa; color:#ffffff;')
 							| Save Draft
-					.save-draft-cont
-						button.btn.close_button.glyphicon.glyphicon-remove(ng-click="cancel()")
+					
+					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
+						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(ng-click="cancel()")
 		.modal-body(style='background-color:#f2f2f2;')
 			.row(style='background-color:#ffffff; margin-top:-15px;')
 				.col-lg-12
@@ -25,7 +26,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 						label Type
 						select.form-control(placeholder="Select event type" ng-model="eventType" ng-options="event as event for event in eventTypes")
 							option(value="") - Select event type -
-			.row(style='background-color:#f2f2f2;')
+			.row(style='background-color:#f2f2f2; height:100vh;')
 				.col-lg-12.col-md-12.col-sm-12
 					.tab-container
 						tabset
@@ -68,6 +69,8 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 												input.eventTemplateTopic.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" ng-keyup="$event.keyCode == 13 ? addTopic(category.displayValue) : null")
 												//label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
 													| Add Topic
+			.clear-divs
+
 
 			
 
