@@ -19,7 +19,7 @@ module.exports = function(app) {
   app.get('/api/events/:status',dashboardData.getEvents);
   app.get('/api/events/getAvailEventId/:partialId',dashboardData.getAvailEventInstanceId);
 
-  app.get('/api/events/duplicates',events.getDuplicates);
+  app.get('/api/events/duplicates/:eventName',events.getDuplicates);
 
   
   app.get('/partials/*', function(req, res) {
