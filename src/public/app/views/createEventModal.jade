@@ -65,7 +65,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2")
 									.topic-title
 										div.form-inline
 											.form-group
-												input.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" ng-keyup="$event.keyCode == 13 ? addTopic(category.displayValue) : null")
+												input.eventTemplateTopic.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" ng-keyup="$event.keyCode == 13 ? addTopic(category.displayValue) : null")
 												//label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
 													| Add Topic
 
