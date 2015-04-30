@@ -34,7 +34,9 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 								// Tab panes
 								.tab-content(style='background-color:#ffffff;')
 									.tab-title-heading
-										img(src='img/news-icon.png', width='37', height='32')
+										img(ng-if='category.displayValue=="Web"' src='img/web-icon.png', width='37', height='32')
+										img(ng-if='category.displayValue=="TV"' src='img/tv-icon.png', width='37', height='32')
+										img(ng-if='category.displayValue=="Print"' src='img/news-icon.png', width='37', height='32')
 										|   {{category.displayValue}}
 									.assign-to-cont
 										label Assign To
