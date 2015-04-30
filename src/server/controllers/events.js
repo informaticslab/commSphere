@@ -17,8 +17,9 @@ exports.saveEvent = function(req, res) {
 };
 
 exports.getDuplicates = function(req, res) {
- 	console.log("test");
-	 res.send('test');
+	
+ 	console.log(req.params.eventName);
+	res.send('test');
 //	 var eventName = req.body.eventName;
 //	 var query = {'eventName':eventName};
 //	 var returnfield = {eventName:1};

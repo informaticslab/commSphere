@@ -148,7 +148,8 @@ $scope.createEvent = function() {
 
 
 	//var trimEventName = $scope.eventName.trim();
-	 $http.get('/api/events/duplicates').then(function(res) {
+
+	 $http.get('/api/events/duplicates/'+'event Name').then(function(res) {
 	 	console.log(res.data);
 	 });
 

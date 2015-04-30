@@ -14,7 +14,7 @@ exports.getEvents = function(req, res) {
         res.send(eventInstances);
 
       
-  })
+  });
   };
 
 exports.getAvailEventInstanceId = function(req,res) {
@@ -29,6 +29,15 @@ exports.getAvailEventInstanceId = function(req,res) {
          res.send(docs)
          
      });
+};
+  exports.getEventInstanceInfo = function (req,res) {
+    
+     var collection = mongo.mongodb.collection('events');
+     var eventId = req.params.Id;
+
+     collection.find({'eventInstanceId': eventId}).toArray(function(err,docs){
+         res.send(docs);
+  });
      
      
      

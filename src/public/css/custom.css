@@ -9,18 +9,16 @@ body {
 }
 
 input[type="text"].eventTemplateSubTopic {
-   height: 30px;
-   font-size: 12px;
-   line-height: 30px;
+   height: 24px;
+   font-size: 14px;
+   line-height: 24px;
+}
+input[type="text"].eventTemplateTopic {
+   height: 24px;
+   font-size: 14px;
+   line-height: 24px;
 }
 
-.topic {
-  font-size: 24px;
-}
-
-.subTopic {
-  font-size: 18px;
-}
 /* THIS IS FOR COMMSPHERE -KEEP!-*/
 
 .modal.fade .modal-dialog {
