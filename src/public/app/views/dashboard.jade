@@ -33,11 +33,12 @@
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td
                                     .progress
-                                        .progress-bar(style="width: 75%;" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" )
-                                            | 75
+                                        progressbar(animate='false', value='instance.randomNumber')
+                                            | {{instance.randomNumber}}%
 //                                    .progress
-//                                        .progress-bar(role='progressbar', aria-valuenow='{{instance.randomNumber}}', aria-valuemin='0', aria-valuemax='100', style='width: {{instance.randomNumber}}%')
-//                                            | {{instance.randomNumber}}
+//                                        .progress-bar(style="width: 75%;" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" )
+//                                            | 75
+                                    
                                     
                                
                 
