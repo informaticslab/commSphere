@@ -5,9 +5,39 @@ div(ng-controller='infoModalInstanceCtrl')
       |Event Id: {{instance.eventInstanceId}}
       br
       |Event Type: {{instance.eventType}}
-  .modal-body
-      |Date Created : {{instance.dateCreated | date:'MM/dd/yyyy' }}
       br
+      |Created by: {{instance.userCreated}}
+      br
+      |Date Created : {{instance.dateCreated | date:'MM/dd/yyyy' }}
+      
+  .modal-body
+      .table-responsive
+                    table.table.table-hover.table-striped
+                        thead
+                            tr
+                                th
+                                  |Media Type
+                                th
+                                  |Assigned To
+                                th
+                                  |Number of Topics
+                                th
+                                  |Number of Subtopics
+                                th
+                                  |Completed 
+                                th 
+                                  |Date Completed
+                        tbody
+                             tr(ng-repeat="category in instance.categories")
+                                td {{category.displayValue}}
+                                td {{category.userAssigned}}
+                                td(style='text-align:center') {{category.topicCount}}
+                                td(style='text-align:center') {{category.subtopicCount}}
+                                td {{category.statusCompletedated }}
+                                td {{category.dateCompleted | date:'MM/dd/yyyy' }}
+  .progress
+        progressbar(animate='false', value='instance.randomNumber')
+                                            | {{instance.randomNumber}}%
       
   .modal-footer
     button.btn.btn-default(type='button', ng-click="cancel()") Close

@@ -63,6 +63,36 @@ $scope.showInfo = function(instance) {
 
 var infoModalInstanceCtrl = function ($scope, $modalInstance) {
 
+var instance = $scope.instance;
+var categoryCount = 0;
+var completedCount = 0;
+
+for (category in instance.categories)
+{     
+  if (instance.categories.hasOwnProperty(category)) {
+      var oneCategory = instance.categories[category];
+    //  console.log(oneCategory);
+      $scope.instance.categories[category].topicCount = getNodeCount(oneCategory.topics);
+      for (topic in oneCategory.topics) {
+          if (oneCategory.topics.hasOwnProperty(topic)) {
+            var oneTopic = oneCategory.topics[topic];
+        //    console.log(oneTopic);
+            $scope.instance.categories[category].subtopicCount = getNodeCount(oneTopic.subTopics);
+            
+          }
+      }
+  }
+}
+
+function getNodeCount(document) { 
+  var nodeCount = 0;
+  for (node in document) {
+         if (document.hasOwnProperty(node)) 
+              nodeCount++;
+                     
+  }
+  return nodeCount;
+};
   $scope.ok = function () {
     $modalInstance.close();
   };
