@@ -30,47 +30,56 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 				.col-lg-12.col-md-12.col-sm-12
 					.tab-container
 						tabset
-							tab(ng-repeat="category in eventdoc.categories" heading="{{category.displayValue}}")
-								// Tab panes
-								.tab-content(style='background-color:#ffffff;')
-									.tab-title-heading
-										img(ng-if='category.displayValue=="Web"' src='img/web-icon.png', width='37', height='32')
-										img(ng-if='category.displayValue=="TV"' src='img/tv-icon.png', width='37', height='32')
-										img(ng-if='category.displayValue=="Print"' src='img/news-icon.png', width='37', height='32')
-										|   {{category.displayValue}}
-									.assign-to-cont
-										label Assign To
-										select.form-control(placeholder="Select Analyst" ng-model="userAssigned[category.displayValue]" ng-options="user as user for user in users" ng-change="assignUser(category.displayValue)")
-											option(value="") - Select an analyst -
-									br
-									br
-									br
-									hr
-									br
-									div(ng-repeat="topic in eventdoc.categories[category.displayValue].topics")
-										.topic-title(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-											| {{topic.displayValue | descapeDot}}&nbsp;
-											label.btn.btn-default.btn-xs.pull-right(ng-show="hover" ng-click="deleteTopic(category.displayValue,topic.displayValue)")
-												i.fa.fa-times
-										div(ng-repeat="subtopic in eventdoc.categories[category.displayValue].topics[topic.displayValue].subTopics")
-											.subTopic-title-outer
-												.subTopic-title
-													| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{subtopic.displayValue}}
-										.subTopic-title-outer
-											.subTopic-title
-												div.form-inline
-													.form-group
-														| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-														input.eventTemplateSubTopic.form-control(type="text" ng-model="subTopicValue[category.displayValue+'-'+topic.displayValue]" placeholder="Add Sub Topic" ng-keyup="$event.keyCode == 13 ? addSubTopic(category.displayValue,topic.displayValue) : null")
-														//label.btn.btn-default.btn-sm(type="button" aria-label="Left Align" ng-click="addSubTopic(category.displayValue,topic.displayValue)")
-															| Add Sub Topic
-										br
-									.topic-title
-										div.form-inline
-											.form-group
-												input.eventTemplateTopic.form-control(type="text" ng-model="topicValue[category.displayValue]" placeholder="Add Topic" ng-keyup="$event.keyCode == 13 ? addTopic(category.displayValue) : null")
-												//label(type="button" class="btn btn-default" aria-label="Left Align" ng-click="addTopic(category.displayValue)" width="100%")
-													| Add Topic
+							tab(ng-repeat="category in eventdoc.categories" heading="{{category.name}}")
+								.row
+									.col-lg-12(ui-tree='options')
+										h3 {{category.name}}
+										ol(ui-tree-nodes='', ng-model='category.topics', data-type='topic')
+											li(ng-repeat='topic in category.topics', ui-tree-node='')
+												.topic-title.angular-ui-tree-handle(ng-show='!topic.editing')
+													a.btn.btn-danger.btn-xs.pull-right(href='', data-nodrag='', ng-click='removeTopic(topic)')
+														i.glyphicon.glyphicon-remove
+													a.btn.btn-primary.btn-xs.pull-right(href='', data-nodrag='', ng-click='editTopic(topic)')
+														i.glyphicon.glyphicon-pencil
+													div  {{topic.name}}
+												.topic-title.angular-ui-tree-handle(data-nodrag='', ng-show='topic.editing')
+													form.form-inline(role='form')
+														.form-topic
+															label.sr-only(for='topicName') Topic name
+															input.form-control(type='text', placeholder='Topic name', ng-model='topic.name' ng-keyup='$event.keyCode==13 ? saveTopic(topic) : null')
+														//button.btn.btn-default(type='submit', ng-click='saveTopic(topic)') Save
+														//button.btn.btn-default(type='submit', ng-click='cancelEditingTopic(topic)') Cancel
+												ol(ui-tree-nodes='', ng-model='topic.subTopics', data-type='subTopic')
+													li(ng-repeat='subTopic in topic.subTopics', ui-tree-node='')
+														.subTopic-title.angular-ui-tree-handle
+															a.btn.btn-danger.btn-xs.pull-right(href='', data-nodrag='', ng-click='removeSubTopic(topic, subTopic)')
+																i.glyphicon.glyphicon-remove
+															div
+																| {{subTopic.name}}
+												ol.angular-ui-tree-nodes(data-nodrag='')
+													li.angular-ui-tree-node
+														.subTopic-title.angular-ui-tree-handle
+															form.form-inline(role='form')
+																.form-topic
+																	label.sr-only(for='subTopicName') SubTopic name
+																	input.form-control(type='text', ng-model='topic.newSubTopicName', placeholder='SubTopic name' ng-keyup='$event.keyCode==13 ? addSubTopic(topic) : null')
+																//button.btn.btn-default(type='submit', ng-click='addSubTopic(topic)') Add SubTopic
+										ol.angular-ui-tree-nodes
+											li.angular-ui-tree-node
+												.topic-title.angular-ui-tree-handle
+													form.form-inline(role='form')
+														.form-topic
+															label.sr-only(for='topicName') Topic name
+															input#topicName.form-control(type='text', placeholder='Topic name' ng-model="topicValue[category.name]" ng-keyup='$event.keyCode==13 ? addTopic(category) : null')
+														//button.btn.btn-default(type='submit', ng-click='addTopic(category)') Add Topic
+								//.row
+									.col-lg-6
+											h3 Data binding
+											.info
+												| {{  }}
+											pre.code.
+												{{ eventdoc | json }}	
+
 			.clear-divs
 
 

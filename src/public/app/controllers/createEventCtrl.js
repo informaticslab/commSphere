@@ -9,133 +9,223 @@ $scope.topicValue={};
 	$scope.subTopicValue={};
 	$scope.userAssigned={};
 	$scope.eventName='';
-	$scope.eventdoc={
-  "eventName": "",
-  "eventType": "",
-  "eventInstanceId": "",
-  "userCreated": "",
-  "dateCreated": "",
-  "draftStatus": true,
-  "categories": {
-    "Web": {
-      "userAssigned": "",
-      "statusCompleted": false,
-      "dateCompleted": "",
-      "displayValue": "Web"
-    },
-    "TV": {
-      "userAssigned": "",
-      "statusCompleted": false,
-      "dateCompleted": "",
-      "displayValue": "TV"
-    },
-    "Print": {
-      "userAssigned": "",
-      "statusCompleted": false,
-      "dateCompleted": "",
-      "displayValue": "Print"
-    }
-  }
+
+$scope.eventdoc = {
+	"eventName": "",
+	"eventType": "",
+	"eventInstanceId": "",
+	"userCreated": "",
+	"dateCreated": "",
+	"draftStatus": true,
+	categories:[
+		{
+			name:'Web',
+			"userAssigned": "",
+			"statusCompleted": false,
+			"dateCompleted": "",
+			topics:[
+
+			]
+		},
+		{
+			name:'TV',
+			"userAssigned": "",
+			"statusCompleted": false,
+			"dateCompleted": "",
+			topics:[
+
+			]
+		},
+		{
+			name:'Print',
+			"userAssigned": "",
+			"statusCompleted": false,
+			"dateCompleted": "",
+			topics:[
+
+			]
+		},
+	]
 };
 
 $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
 $scope.date = new Date().getTime();
 
-$scope.addTopic=function(category)
-{
+//$scope.eventdoc.categories[0].topics = $scope.eventdoc.categories[0].topics;
+    
+
+    $scope.addTopic = function(category) {
+    	console.log(category);
+      // if ($scope.eventdoc.categories.indexOf(category).topics.length > 10) {
+      //   window.alert('You can\'t add more than 10 topics!');
+      //   return;
+      // }
+      //var topicName = document.getElementById('topicName').value;
+      var topicName = $scope.topicValue[category.name];
+      if (topicName.length > 0) {
+        $scope.eventdoc.categories[$scope.eventdoc.categories.indexOf(category)].topics.push({
+          name: topicName,
+          type: 'topic',
+          subTopics: [],
+          sortOrder: $scope.eventdoc.categories[$scope.eventdoc.categories.indexOf(category)].topics.length
+        });
+        document.getElementById('topicName').value = '';
+      }
+    };
+
+    $scope.editTopic = function(topic) {
+      topic.editing = true;
+    };
+
+    $scope.cancelEditingTopic = function(topic) {
+      topic.editing = false;
+    };
+
+    $scope.saveTopic = function(topic) {
+      // topic.save();
+      topic.editing = false;
+    };
+
+    $scope.removeTopic = function(topic) {
+      // if (window.confirm('Are you sure to remove this topic?')) {
+      //   //topic.destroy();  //TODO
+      // }
+      console.log();
+      console.log(topic);
+      var index = $scope.eventdoc.categories[0].topics.indexOf(topic);
+       if (index > -1) {
+         $scope.eventdoc.categories[0].topics.splice(index, 1)[0];
+       }
+    };
+
+    $scope.saveTopics = function() {
+      for (var i = $scope.eventdoc.categories[0].topics.length - 1; i >= 0; i--) {
+        var topic = $scope.eventdoc.categories[0].topics[i];
+        topic.sortOrder = i + 1;
+         // topic.save();
+      }
+    };
+
+    $scope.addSubTopic = function(topic) {
+      console.log(topic);
+      if (!topic.newSubTopicName || topic.newSubTopicName.length === 0) {
+        return;
+      }
+      topic.subTopics.push({
+        name: topic.newSubTopicName,
+        sortOrder: topic.subTopics.length,
+        type: 'subTopic'
+      });
+      topic.newSubTopicName = '';
+      // topic.save();
+    };
+
+    $scope.removeSubTopic = function(topic, subTopic) {
+      //if (window.confirm('Are you sure to remove this subTopic?')) {
+        var index = topic.subTopics.indexOf(subTopic);
+        if (index > -1) {
+          topic.subTopics.splice(index, 1)[0];
+        }
+        // topic.save();
+      //}
+    };
+
+
+// $scope.addTopic=function(category)
+// {
 	
-	var newTopic=$scope.topicValue[category];
-	console.log(newTopic);
+// 	var newTopic=$scope.topicValue[category];
+// 	console.log(newTopic);
 
-	newTopic=$filter('escapeDot')(newTopic);
+// 	newTopic=$filter('escapeDot')(newTopic);
 
-	if(newTopic=="")
-	{
-		ngNotifier.notifyError("Topic cannot be blank");
-	}
-	else if(newTopic.trim()=="")
-	{
-		ngNotifier.notifyError("Topic cannot be blank");
-	}
-	else
-	{
+// 	if(newTopic=="")
+// 	{
+// 		ngNotifier.notifyError("Topic cannot be blank");
+// 	}
+// 	else if(newTopic.trim()=="")
+// 	{
+// 		ngNotifier.notifyError("Topic cannot be blank");
+// 	}
+// 	else
+// 	{
 
-		if($scope.eventdoc.categories[category].topics==undefined)
-		{
-			$scope.eventdoc.categories[category].topics={};
-		}
+// 		if($scope.eventdoc.categories[category].topics==undefined)
+// 		{
+// 			$scope.eventdoc.categories[category].topics={};
+// 		}
 
 
-		if($scope.eventdoc.categories[category].topics[newTopic])
-		{
-			ngNotifier.notifyError(newTopic+" already exists");
-		}
-		else
-		{
-			$scope.eventdoc.categories[category].topics[newTopic]={};
-			$scope.eventdoc.categories[category].topics[newTopic].displayValue=newTopic;
-		}
+// 		if($scope.eventdoc.categories[category].topics[newTopic])
+// 		{
+// 			ngNotifier.notifyError(newTopic+" already exists");
+// 		}
+// 		else
+// 		{
+// 			$scope.eventdoc.categories[category].topics[newTopic]={};
+// 			$scope.eventdoc.categories[category].topics[newTopic].displayValue=newTopic;
+// 		}
 
-		$scope.topicValue[category]="";
+// 		$scope.topicValue[category]="";
 		
-		console.log($scope.eventdoc);
-	}
-};
+// 		console.log($scope.eventdoc);
+// 	}
+// };
 
 
-$scope.deleteTopic=function(category,topic)
-{
+// $scope.deleteTopic=function(category,topic)
+// {
 	
-	delete $scope.eventdoc.categories[category].topics[topic];
-	console.log($scope.eventdoc);
+// 	delete $scope.eventdoc.categories[category].topics[topic];
+// 	console.log($scope.eventdoc);
 
-};
+// };
 
 
-$scope.addSubTopic=function(category,topic)
-{
-	console.log(category,topic);
-	console.log($scope.eventdoc);
+// $scope.addSubTopic=function(category,topic)
+// {
+// 	console.log(category,topic);
+// 	console.log($scope.eventdoc);
 	
-	var newSubTopic=$scope.subTopicValue[category+'-'+topic];
+// 	var newSubTopic=$scope.subTopicValue[category+'-'+topic];
 
-	if(newSubTopic=="")
-	{
-		ngNotifier.notifyError("Sub Topic cannot be blank");
-	}
-	else if(newSubTopic.trim()=="")
-	{
-		ngNotifier.notifyError("Sub Topic cannot be blank");
-	}
-	else
-	{
-		console.log(newSubTopic,$scope.eventdoc.categories[category].topics[topic].subTopics);
+// 	if(newSubTopic=="")
+// 	{
+// 		ngNotifier.notifyError("Sub Topic cannot be blank");
+// 	}
+// 	else if(newSubTopic.trim()=="")
+// 	{
+// 		ngNotifier.notifyError("Sub Topic cannot be blank");
+// 	}
+// 	else
+// 	{
+// 		console.log(newSubTopic,$scope.eventdoc.categories[category].topics[topic].subTopics);
 
-		if($scope.eventdoc.categories[category].topics[topic].subTopics==undefined)
-		{
-			$scope.eventdoc.categories[category].topics[topic].subTopics={};
-		}
+// 		if($scope.eventdoc.categories[category].topics[topic].subTopics==undefined)
+// 		{
+// 			$scope.eventdoc.categories[category].topics[topic].subTopics={};
+// 		}
 
 
-		if($scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic])
-		{
-			ngNotifier.notifyError(newSubTopic+" already exists");
-		}
-		else
-		{
-			//$scope.eventdoc.categories[category].topics[topic].subTopics={};
+// 		if($scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic])
+// 		{
+// 			ngNotifier.notifyError(newSubTopic+" already exists");
+// 		}
+// 		else
+// 		{
+// 			//$scope.eventdoc.categories[category].topics[topic].subTopics={};
 
-			$scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic]={}
-			$scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
-		}
+// 			$scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic]={}
+// 			$scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
+// 		}
 		
-		$scope.subTopicValue[category+'-'+topic]="";
-	}
+// 		$scope.subTopicValue[category+'-'+topic]="";
+// 	}
 
 
 
-};
+// };
 
 $scope.assignUser = function(category) {
 	var userAssigned = $scope.userAssigned[category];

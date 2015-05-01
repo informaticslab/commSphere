@@ -80,7 +80,7 @@ body {
 	float:right; 
 	position:relative;
 }
-.topic-title {
+/*.topic-title {
   background: #8fbbe8 !important;
   border: 1px solid #dae2ea;
   color: #fff;
@@ -121,7 +121,7 @@ body {
   box-sizing: border-box;
   min-height: 40px;
   line-height: 20px
- }
+ }*/
 
 
 .modal-dialog {
