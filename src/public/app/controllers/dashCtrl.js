@@ -51,6 +51,7 @@ $scope.showInfo = function(instance) {
       scope:$scope,
       templateUrl: '/partials/infoModal',
       controller: infoModalInstanceCtrl,
+      windowClass: 'center-modal',
       size: 'md',
       resolve: {
          instance: function () {

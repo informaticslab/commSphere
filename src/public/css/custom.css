@@ -36,6 +36,15 @@ input[type="text"].eventTemplateTopic {
           transform: translate(0, 0);
 }
 
+.center-modal {
+    position: fixed;
+    top: 10%;
+    left: 18.5%;
+    z-index: 1050;
+    width: 80%;
+    height: 80%;
+    margin-left: -10%;
+}
 
 @media (min-width: 992px) {
   .modal-lg {
