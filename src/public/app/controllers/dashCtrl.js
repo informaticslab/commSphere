@@ -67,22 +67,29 @@ var instance = $scope.instance;
 var categoryCount = 0;
 var completedCount = 0;
 
+$scope.instance.categories[category].topicCount = 0;
+$scope.instance.categories[category].subtopicCount=0;
+
 for (category in instance.categories)
 {     
   if (instance.categories.hasOwnProperty(category)) {
       var oneCategory = instance.categories[category];
     //  console.log(oneCategory);
       $scope.instance.categories[category].topicCount = getNodeCount(oneCategory.topics);
+      var subTopicCount = 0;
       for (topic in oneCategory.topics) {
           if (oneCategory.topics.hasOwnProperty(topic)) {
             var oneTopic = oneCategory.topics[topic];
-        //    console.log(oneTopic);
-            $scope.instance.categories[category].subtopicCount = getNodeCount(oneTopic.subTopics);
-            
+            console.log(oneTopic);
+            subTopicCount += getNodeCount(oneTopic.subTopics);
+           
           }
       }
+       $scope.instance.categories[category].subtopicCount = subTopicCount;
+            
   }
 }
+console.log($scope.instance);
 
 function getNodeCount(document) { 
   var nodeCount = 0;
