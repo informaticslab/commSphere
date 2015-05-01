@@ -42,6 +42,10 @@ commSphereApp.config(['$routeProvider',
         templateUrl : '/partials/dashboardArchives',
         controller  : 'dashArchivesCtrl'
     }).
+    when('/login', {
+        templateUrl : '/partials/login',
+        controller  : 'loginCtrl'
+    }).
     otherwise({
         redirectTo: '/dashboard'
       });

@@ -1,6 +1,6 @@
 var express = require('express'),
 	cookieParser = require('cookie-parser'),
-	session = require('express-session')
+	session = require('express-session'),
 	passport = require('passport');
 var morgan = require('morgan');
 var fs = require('fs')

@@ -1,0 +1,24 @@
+#page-wrapper
+    .container-fluid
+        // Page Heading
+        .row
+            .header.col-lg-12
+                h2.page-header
+                    | Login  
+                .div
+                    .well
+                        form
+                            .form-group
+                                input.form-control(placeholder='Email' ng-model='username')
+                            .form-group
+                                input.form-control(type='password' placeholder='Password' ng-model='password')
+                            button.btn.btn-primary(ng-click="signin(username, password)") Sign In
+//.row
+//	.div
+//		.well
+//			form
+//				.form-group
+//			    	input.form-control(placeholder="Email", ng-model="username")
+//			    .form-group
+//			    	input.form-control(type="password", placeholder="Password", ng-model="password")
+//			    button.btn.btn-primary(ng-click="signin(username, password)") Sign In

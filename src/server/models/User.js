@@ -2,17 +2,18 @@ var mongoose = require('mongoose'),
   encrypt = require('../utilities/encryption');
 
 var userSchema = mongoose.Schema({
-  firstName: {type:String, required:'{PATH} is required!'},
-  lastName: {type:String, required:'{PATH} is required!'},
-  username: {
-    type: String,
-    required: '{PATH} is required!',
-    unique:true
-  },
-  salt: {type:String, required:'{PATH} is required!'},
-  hashed_pwd: {type:String, required:'{PATH} is required!'},
-  roles: [String]
+  firstName: {type:String},
+  lastName: {type:String},
+  email: {type: String},
+  salt: {type:String},
+  hashed_pwd: {type:String},
+  roles: {
+          admin: Boolean,
+          coordinator: Boolean,
+          analyst: Boolean},
+  displayName: {type: String}
 });
+
 userSchema.methods = {
   authenticate: function(passwordToMatch) {
     return encrypt.hashPwd(this.salt, passwordToMatch) === this.hashed_pwd;
@@ -28,16 +29,13 @@ function createDefaultUsers() {
     if(collection.length === 0) {
       var salt, hash;
       salt = encrypt.createSalt();
-      hash = encrypt.hashPwd(salt, 'joe');
-      User.create({firstName:'Joe',lastName:'Eames',username:'joe', salt: salt, hashed_pwd: hash, roles: ['admin']});
+      hash = encrypt.hashPwd(salt, 'tsavel');
+      User.create({firstName:'Tom',lastName:'Savel',email:'tsavel@cdc.gov', salt: salt, hashed_pwd: hash, roles: {admin:true, coordinator:true, analyst:true}, displayName:'Tom Savel'});
       salt = encrypt.createSalt();
-      hash = encrypt.hashPwd(salt, 'john');
-      User.create({firstName:'John',lastName:'Papa',username:'john', salt: salt, hashed_pwd: hash, roles: []});
-      salt = encrypt.createSalt();
-      hash = encrypt.hashPwd(salt, 'dan');
-      User.create({firstName:'Dan',lastName:'Wahlin',username:'dan', salt: salt, hashed_pwd: hash});
+      hash = encrypt.hashPwd(salt, 'kta');
+      User.create({firstName:'Michael',lastName:'Ta',email:'kta@cdc.gov', salt: salt, hashed_pwd: hash, roles: {admin:true, coordinator:true, analyst:true}, displayName:'Michael Ta'});
     }
-  })
+  });
 };
 
 exports.createDefaultUsers = createDefaultUsers;
