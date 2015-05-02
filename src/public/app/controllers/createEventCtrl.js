@@ -64,14 +64,15 @@ $scope.date = new Date().getTime();
       //var topicName = document.getElementById('topicName').value;
       var topicName = $scope.topicValue[category.name];
       if (topicName.length > 0) {
-        $scope.eventdoc.categories[$scope.eventdoc.categories.indexOf(category)].topics.push({
+        category.topics.push({
           name: topicName,
           type: 'topic',
           subTopics: [],
-          sortOrder: $scope.eventdoc.categories[$scope.eventdoc.categories.indexOf(category)].topics.length
+          sortOrder: category.topics.length
         });
-        document.getElementById('topicName').value = '';
+        
       }
+      $scope.topicValue={};
     };
 
     $scope.editTopic = function(topic) {
@@ -87,15 +88,15 @@ $scope.date = new Date().getTime();
       topic.editing = false;
     };
 
-    $scope.removeTopic = function(topic) {
+    $scope.removeTopic = function(category, topic) {
       // if (window.confirm('Are you sure to remove this topic?')) {
       //   //topic.destroy();  //TODO
       // }
-      console.log();
+      console.log(category);
       console.log(topic);
-      var index = $scope.eventdoc.categories[0].topics.indexOf(topic);
+      var index = category.topics.indexOf(topic);
        if (index > -1) {
-         $scope.eventdoc.categories[0].topics.splice(index, 1)[0];
+         category.topics.splice(index, 1)[0];
        }
     };
 
@@ -130,6 +131,34 @@ $scope.date = new Date().getTime();
         // topic.save();
       //}
     };
+
+
+      $scope.options = {
+      accept: function(sourceNode, destNodes, destIndex) {
+        var data = sourceNode.$modelValue;
+        var destType = destNodes.$element.attr('data-type');
+        return (data.type == destType); // only accept the same type
+      },
+      dropped: function(event) {
+        console.log(event);
+        var sourceNode = event.source.nodeScope;
+        var destNodes = event.dest.nodesScope;
+        // update changes to server
+        if (destNodes.isParent(sourceNode)
+          && destNodes.$element.attr('data-type') == 'subTopic') { // If it moves in the same topic, then only update topic
+          var topic = destNodes.$nodeScope.$modelValue;
+          // topic.save();
+        } else { // save all
+          $scope.saveTopics();
+        }
+      },
+      beforeDrop: function(event) {
+        if (!window.confirm('Are you sure you want to drop it here?')) {
+          event.source.nodeScope.$$apply = false;
+        }
+      }
+    };
+
 
 
 // $scope.addTopic=function(category)
