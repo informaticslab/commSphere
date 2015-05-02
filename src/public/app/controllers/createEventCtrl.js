@@ -153,9 +153,9 @@ $scope.date = new Date().getTime();
         }
       },
       beforeDrop: function(event) {
-        if (!window.confirm('Are you sure you want to drop it here?')) {
-          event.source.nodeScope.$$apply = false;
-        }
+        // if (!window.confirm('Are you sure you want to drop it here?')) {
+        //   event.source.nodeScope.$$apply = false;
+        // }
       }
     };
 
