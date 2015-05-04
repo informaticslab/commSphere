@@ -13,18 +13,25 @@
                         thead
                             tr
                                 th
-                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse") Event
+                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse")
+                                        | Event
                                         span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse") ID
+                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse")
+                                        | ID
                                         span(ng-show="sortType == 'eventInstanceId' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventInstanceId' &&  sortReverse" class="fa fa-caret-up")  
                                 th
-                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse") Date 
+                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
+                                        | Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up")  
-                                th Status
+                                th
+                                    a(href="" ng-click="sortType = 'randomNumber'; sortReverse = !sortReverse")
+                                        | Status 
+                                        span(ng-show="sortType == 'randomNumber' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'randomNumber' &&  sortReverse" class="fa fa-caret-up")  
                         tbody
                              //tr(ng-repeat="instance in instances | filter: $parent.searchText | orderBy:sortType:sortReverse")
                              tr(ng-repeat="instance in instances | searchAll : $parent.searchText | orderBy:sortType:sortReverse")
