@@ -132,6 +132,19 @@ $scope.date = new Date().getTime();
       //}
     };
 
+    $scope.editSubTopic = function(subTopic) {
+    	console.log("edit sub topic");
+      subTopic.editing = true;
+    };
+
+    // $scope.cancelEditingSubTopic = function(topic) {
+    //   topic.editing = false;
+    // };
+
+    $scope.saveSubTopic = function(subTopic) {
+      // topic.save();
+      subTopic.editing = false;
+    };
 
       $scope.options = {
       accept: function(sourceNode, destNodes, destIndex) {

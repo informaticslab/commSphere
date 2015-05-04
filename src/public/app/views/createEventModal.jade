@@ -51,11 +51,18 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 														//button.btn.btn-default(type='submit', ng-click='cancelEditingTopic(topic)') Cancel
 												ol(ui-tree-nodes='', ng-model='topic.subTopics', data-type='subTopic')
 													li(ng-repeat='subTopic in topic.subTopics', ui-tree-node='')
-														.subTopic-title.angular-ui-tree-handle(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+														.subTopic-title.angular-ui-tree-handle(ng-show='!subTopic.editing' ng-mouseenter="hover = true" ng-mouseleave="hover = false")
 															a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubTopic(topic, subTopic)')
 																i.glyphicon.glyphicon-remove
+															a.btn.btn-primary.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editSubTopic(subTopic)')
+																i.glyphicon.glyphicon-pencil
 															div
 																| {{subTopic.name}}
+														.subTopic-title.angular-ui-tree-handle(data-nodrag='', ng-show='subTopic.editing')
+															form.form-inline(role='form')
+																.form-topic
+																	label.sr-only(for='subTopicName') SubTopic name
+																	input.form-control(type='text', ng-model='subTopic.name', placeholder='SubTopic name' ng-keyup='$event.keyCode==13 ? saveSubTopic(subTopic) : null')
 												ol.angular-ui-tree-nodes(data-nodrag='')
 													li.angular-ui-tree-node
 														.subTopic-title.angular-ui-tree-handle
