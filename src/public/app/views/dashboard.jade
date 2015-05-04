@@ -26,7 +26,8 @@
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up")  
                                 th Status
                         tbody
-                             tr(ng-repeat="instance in instances | filter: $parent.searchText | orderBy:sortType:sortReverse")
+                             //tr(ng-repeat="instance in instances | filter: $parent.searchText | orderBy:sortType:sortReverse")
+                             tr(ng-repeat="instance in instances | searchAll : $parent.searchText | orderBy:sortType:sortReverse")
                                 td 
                                     a(href="javascript:void(0)" ng-click="showInfo(instance)"){{instance.eventName}}
                                 td {{instance.eventInstanceId}}
