@@ -14,22 +14,22 @@ html(lang="en" ng-app="app")
     link(rel="stylesheet" href="/css/create-new-event.css")
     link(rel="P3Pv1" href="http://www.cdc.gov/w3c/p3p.xml")
   
-    body(ng-controller='rootCtrl')
+    body.ng-cloak(ng-controller='rootCtrl')
         #wrapper
             // Navigation
-            nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+            nav.navbar.navbar-inverse.navbar-fixed-top.ng-cloak(role='navigation') 
                 // Brand and toggle get grouped for better mobile display
-                .navbar-header
+                .navbar-header.ng-cloak
                     img(src='img/comm-sphere-logo.png', height='71', width='234')
                 // Top Menu Items
                 .create-event-button
                     button.btn.btn-danger(type='button' ng-click="createEvent('lg')") Create New Event +
                 // Sidebar Menu Items - These collapse to the responsive navigation menu on small screens
-                .collapse.navbar-collapse.navbar-ex1-collapse
-                    ul.nav.navbar-nav.side-nav
-                        li.side-nav-welcome
-                            i.fa.fa-fw.fa-user
-                            |   Hello John Coordinator!
+                .collapse.navbar-collapse.navbar-ex1-collapse.ng-cloak
+                    ul.nav.navbar-nav.side-nav.ng-cloak
+                        li.side-nav-welcome( ng-show="identity.isAuthenticated()")
+                            i.fa.fa-fw.fa-user.ng-cloak
+                            |   Hello, {{identity.currentUser.displayName}}
                         li.side-nav-search
                             .col-md-12
                                 .right-inner-addon
@@ -53,7 +53,7 @@ html(lang="en" ng-app="app")
                         li
                             a(href='#') Display Options
                         li
-                            a(href='#')
+                            a(href='' ng-click='logout()')
                                 | Logout
                                 i.fa.fa-fw.fa-power-off
                         li.side-nav-cdc-logo

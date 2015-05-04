@@ -1,9 +1,9 @@
 /* global angular */
 angular.module('app').factory('ngAuth', function($http, ngIdentity, $q, ngUser) {
   return {
-    authenticateUser: function(username, password) {
+    authenticateUser: function(email, password) {
       var dfd = $q.defer();
-      $http.post('/login', {username:username, password:password}).then(function(response) {
+      $http.post('/login', {email:email, password:password}).then(function(response) {
         if(response.data.success) {
           var user = new ngUser();
           angular.extend(user, response.data.user);
@@ -29,20 +29,20 @@ angular.module('app').factory('ngAuth', function($http, ngIdentity, $q, ngUser) 
 
       return dfd.promise;
     },
-
-    updateCurrentUser: function(newUserData) {
-      var dfd = $q.defer();
-
-      var clone = angular.copy(ngIdentity.currentUser);
-      angular.extend(clone, newUserData);
-      clone.$update().then(function() {
-        ngIdentity.currentUser = clone;
-        dfd.resolve();
-      }, function(response) {
-        dfd.reject(response.data.reason);
-      });
-      return dfd.promise;
-    },
+// Not needed now
+//    updateCurrentUser: function(newUserData) {
+//      var dfd = $q.defer();
+//
+//      var clone = angular.copy(ngIdentity.currentUser);
+//      angular.extend(clone, newUserData);
+//      clone.$update().then(function() {
+//        ngIdentity.currentUser = clone;
+//        dfd.resolve();
+//      }, function(response) {
+//        dfd.reject(response.data.reason);
+//      });
+//      return dfd.promise;
+//    },
 
     logoutUser: function() {
       var dfd = $q.defer();
