@@ -3,9 +3,18 @@ angular.module('app').factory('ngUser', function($resource) {
     update: {method:'PUT',isArray:false}
   });
 
-  UserResource.prototype.isAdmin = function() {
-    return this.roles && this.roles.indexOf('admin') > -1;
-  }
+  	UserResource.prototype.isLevelThree = function() {
+		return this.roles && this.roles.levelThree;
+
+	};
+
+	UserResource.prototype.isLevelTwo = function() {
+		return this.roles && this.roles.levelTwo;
+	};
+
+	UserResource.prototype.isLevelOne = function() {
+		return this.roles && this.roles.levelOne;
+	};
 
   return UserResource;
 });

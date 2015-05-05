@@ -10,7 +10,7 @@ var properties = require('../lib/envProperties');
 
 module.exports = function(app, config) {
     app.configure(function() {
-        app.use(express.static(config.rootPath + '/public'));
+        
         app.set('views', config.rootPath + '/server/views');
         app.set('view engine', 'jade');
         app.use(cookieParser());
@@ -20,7 +20,7 @@ module.exports = function(app, config) {
         app.use(passport.session());
         //app.use(morgan('combined', {stream: accessLogStream}));
         app.use(morgan('dev')); //LOCAL LOGGING
-
+        app.use(express.static(config.rootPath + '/public'));
         
     });
 }

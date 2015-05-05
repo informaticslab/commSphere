@@ -10,7 +10,18 @@ angular.module('app').factory('ngIdentity', function($window, ngUser) {
       return !!this.currentUser;
     },
     isAuthorized: function(role) {
-      return !!this.currentUser && this.currentUser.roles.indexOf(role) > -1;
+      if (role == 'levelThree') {
+        return !!this.currentUser && this.currentUser.roles.levelThree;
+      }
+      if (role == 'levelTwo') {
+        return !!this.currentUser && this.currentUser.roles.levelTwo;
+      }
+      if (role == 'levelOne') {
+        return !!this.currentUser && this.currentUser.roles.levelOne;
+      }
+      if (role == 'levelTwoOrThree') {
+        return !!this.currentUser && (this.currentUser.roles.levelThree || this.currentUser.roles.levelTwo);
+      }
     }
   }
 })

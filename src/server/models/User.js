@@ -2,16 +2,18 @@ var mongoose = require('mongoose'),
   encrypt = require('../utilities/encryption');
 
 var userSchema = mongoose.Schema({
-  firstName: {type:String},
-  lastName: {type:String},
-  email: {type: String},
-  salt: {type:String},
-  hashed_pwd: {type:String},
+  firstName: String,
+  lastName: String,
+  email: String,
+  provider: String,
+  salt: String,
+  hashed_pwd: String,
   roles: {
-          admin: Boolean,
-          coordinator: Boolean,
-          analyst: Boolean},
-  displayName: {type: String}
+          levelOne: Boolean,
+          levelTwo: Boolean,
+          levelThree: Boolean
+          },
+  displayName: String
 });
 
 userSchema.methods = {
@@ -25,15 +27,74 @@ userSchema.methods = {
 var User = mongoose.model('User', userSchema);
 
 function createDefaultUsers() {
+  
   User.find({}).exec(function(err, collection) {
     if(collection.length === 0) {
       var salt, hash;
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'tsavel');
-      User.create({firstName:'Tom',lastName:'Savel',email:'tsavel@cdc.gov', salt: salt, hashed_pwd: hash, roles: {admin:true, coordinator:true, analyst:true}, displayName:'Tom Savel'});
+      User.create({firstName:'Tom',lastName:'Savel',email:'tsavel@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Tom Savel',provider:'local'},function(err, docs) {
+			  if (err){ console.log(err);} 
+			  else
+			  {//console.log(docs);	
+			  }
+      });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'kta');
-      User.create({firstName:'Michael',lastName:'Ta',email:'kta@cdc.gov', salt: salt, hashed_pwd: hash, roles: {admin:true, coordinator:true, analyst:true}, displayName:'Michael Ta'});
+      User.create({firstName:'Michael',lastName:'Ta',email:'kta@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Michael Ta',provider:'local'},function(err, docs) {
+			  if (err){ console.log(err);} 
+			  else
+			  {//console.log(docs);	
+			  }
+      });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'tnguyen');
+      User.create({firstName:'Trung',lastName:'Nguyen',email:'tnguyen@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Trung Nguyen',provider:'local'},function(err, docs) {
+			  if (err){ console.log(err);} 
+			  else
+			  {//console.log(docs);	
+			  }
+      });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'sdavid');
+      User.create({firstName:'Sanjith',lastName:'David',email:'sdavid@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Sanjith David',provider:'local'},function(err, docs) {
+			  if (err){ console.log(err);} 
+			  else
+			  {//console.log(docs);	
+			  }
+      });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'kxiong');
+      User.create({firstName:'KB',lastName:'Xiong',email:'kxiong@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'KB Xiong',provider:'local'},function(err, docs) {
+			  if (err){ console.log(err);}
+			  else
+			  {//console.log(docs);	
+			  }
+      });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'sanalyst');
+      User.create({firstName:'Scott',lastName:'Analyst',email:'sanalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Scott Analyst',provider:'local'},function(err, docs) {
+        if (err){ console.log(err);}
+        else
+        {//console.log(docs); 
+        }
+      });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'janalyst');
+      User.create({firstName:'Joe',lastName:'Analyst',email:'janalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Joe Analyst',provider:'local'},function(err, docs) {
+        if (err){ console.log(err);}
+        else
+        {//console.log(docs); 
+        }
+      });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'danalyst');
+      User.create({firstName:'Dan',lastName:'Analyst',email:'danalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Dan Analyst',provider:'local'},function(err, docs) {
+        if (err){ console.log(err);}
+        else
+        {//console.log(docs); 
+        }
+      });
     }
   });
 };

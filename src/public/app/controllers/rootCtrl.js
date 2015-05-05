@@ -1,7 +1,8 @@
-commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents', function($scope, $modal,$routeParams,ngEvents) {
+commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity', function($scope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity) {
 
 $scope.activeMenu='';
 $scope.searchText='';
+$scope.identity = ngIdentity;
 
 $scope.createEvent = function (size,draftInstance) {
 
@@ -19,6 +20,21 @@ $scope.createEvent = function (size,draftInstance) {
       });
     
     };
+
+$scope.logout = function(){
+		ngAuth.logoutUser().then(function() {
+			$scope.email = "";
+			$scope.password = "";
+			//This is for PIV
+//			if($location.protocol()=='https'){
+//				$window.location = $location.absUrl().replace('https','http').replace('4400','8089');
+//			}
+//			else{
+//				$location.path('/');    /
+//			}
+      $location.path('/login')
+		});
+	};
 
 }]);
 

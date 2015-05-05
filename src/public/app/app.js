@@ -11,6 +11,22 @@ var commSphereApp = angular.module('app', [
   // ,'angulartics.google.analytics'
 ]);
 
+//Role checking for routes
+var routeRoleChecks = {
+  levelThree:{auth: function(ngAuth){
+            return ngAuth.authorizeCurrentUserForRoute('levelThree')
+          }},
+  levelTwo:{auth:function(ngAuth){
+    return ngAuth.authorizeCurrentUserForRoute('levelTwo')
+          }},
+  levelOne:{auth:function(ngAuth){
+    return ngAuth.authorizeCurrentUserForRoute('levelOne')
+          }},
+  levelTwoOrThree:{auth:function(ngAuth){
+    return ngAuth.authorizeCurrentUserForRoute('levelTwoOrThree')
+  }} 
+};
+
 
 //to prevent IE caching
 commSphereApp.config([
@@ -26,22 +42,25 @@ commSphereApp.config([
         // Disable IE ajax request caching
         $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
     }
-])
+]);
 
 commSphereApp.config(['$routeProvider', 
   function($routeProvider) {
     $routeProvider.
     when('/dashboard', {
         templateUrl : '/partials/dashboard',
-        controller  : 'dashCtrl'
+        controller  : 'dashCtrl',
+        //resolve : routeRoleChecks.levelTwoOrThree  //
     }).
       when('/dashboard/drafts', {
         templateUrl : '/partials/dashboardDrafts',
-        controller  : 'dashDraftsCtrl'
+        controller  : 'dashDraftsCtrl',
+        //resolve : routeRoleChecks.levelTwoOrThree
     }).
     when('/dashboard/archives', {
         templateUrl : '/partials/dashboardArchives',
-        controller  : 'dashArchivesCtrl'
+        controller  : 'dashArchivesCtrl',
+        //resolve : routeRoleChecks.levelTwoOrThree
     }).
     when('/login', {
         templateUrl : '/partials/login',
@@ -55,7 +74,7 @@ commSphereApp.config(['$routeProvider',
 angular.module('app').run(function($rootScope,$location) {
   $rootScope.$on('$routeChangeError', function(evt,current, previous,rejection) {
     if(rejection === 'not authorized'){
-      $location.path('/main');
+      $location.path('/login');
     }
   }) 
 })
