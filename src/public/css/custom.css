@@ -114,3 +114,12 @@ input[type="text"].eventTemplateTopic {
   background-size: 60px 60px;
   background-position: 0 0,30px 30px;
 }
+
+
+.angular-ui-tree-nodes{
+  list-style-type: disc;
+}
+.angular-ui-tree-node{
+  display: list-item;
+}
+
