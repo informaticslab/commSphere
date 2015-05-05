@@ -9,7 +9,6 @@
 body {
     
     background: #f2f2f2;
-	
 }
 .create-new-event-cont {
 	float:left; 
@@ -80,57 +79,43 @@ body {
 	float:right; 
 	position:relative;
 }
-/*.topic-title {
-  background: #8fbbe8 !important;
-  border: 1px solid #dae2ea;
-  color: #fff;
-  padding: 10px 10px;
-    display: block;
-  text-decoration: none;
-  font-weight: 700;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  min-height: 46px;
-  line-height: 20px;
-  font-size:17px;
- }
+.col-md-2 {
+	padding:0px;
+}
+.col-md-2 li a {
+	color:#000000;
+}
+/*[contenteditable]:hover:not(:focus) {
+  outline: 2px dashed #0090D2;
+  padding:10px;
+}*/
+#editable-sub-topics { margin-bottom: 100px; }
+  [contenteditable="true"] { padding: 10px;}
+  [contenteditable="true"]:hover { outline: 2px dashed #a4cd77; }
 
-.subTopic-title {
-  background: #f4f6f7 !important;
-  border: 1px solid #dce2e8;
-  color: ##7c9eb;
-  padding: 10px 10px;
-    display: block;
-  text-decoration: none;
-  font-weight: 400;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  min-height: 40px;
-  line-height: 20px;
-
- }
-
- .subTopic-title-outer {
-
-  padding-left: 20px;
-  display: block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  min-height: 40px;
-  line-height: 20px
- }*/
-
-
-.modal-dialog {
-	position:absolute;
-	top:-40px;
-	right:0px;
-	}
-.clear-divs {
-	clear:both;
+.tab-pane2 {
+	display:none;
+	margin: -20px 10px 0 10px;
+}
+.tab-pane2 h3{
+	color:#498cd0;
+	font-size:24px;
+	font-weight:normal;	
+	margin-bottom:25px;
+}
+.tab-pane2 li {
+	margin-bottom:30px;
+}
+textarea{
+    height: 80px;
+	resize:none;
+	overflow: auto;
+    width: 100%;
+	border: 1px solid #cccccc;
+	padding: 5px 10px 5px 10px;
+   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
 }
 .btn-circle {
   width: 30px;
@@ -139,8 +124,6 @@ body {
   padding: 6px 0;
   font-size: 12px;
   line-height: 1.428571429;
-  background-color:#000000;
-  color:#ffffff;
   border-radius: 15px;
   border: 2px solid #ffffff;
   -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);

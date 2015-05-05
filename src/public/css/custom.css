@@ -57,6 +57,19 @@ input[type="text"].eventTemplateTopic {
     margin-right: 8px;
 }
 
+.angular-ui-tree-handle-clear {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #333333;
+    padding: 10px 10px;
+}
+
+.angular-ui-tree-handle-clear:hover {
+    color: #333333;
+    background: transparent;
+    border-color: transparent;
+}
+
 .angular-ui-tree-handle {
     background: #f8faff;
     border: 1px solid #dae2ea;

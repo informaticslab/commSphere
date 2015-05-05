@@ -36,7 +36,7 @@
                              //tr(ng-repeat="instance in instances | filter: $parent.searchText | orderBy:sortType:sortReverse")
                              tr(ng-repeat="instance in instances | searchAll : $parent.searchText | orderBy:sortType:sortReverse")
                                 td 
-                                    a(href="javascript:void(0)" ng-click="showInfo(instance)"){{instance.eventName}}
+                                    a(href="#/dashboard/{{instance._id}}" ){{instance.eventName}}
                                 td {{instance.eventInstanceId}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td
