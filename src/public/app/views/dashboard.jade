@@ -27,7 +27,7 @@
                                         | Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up")  
-                                th
+                                th(ng-show = "{{draftStatus}}")
                                     a(href="" ng-click="sortType = 'randomNumber'; sortReverse = !sortReverse")
                                         | Status 
                                         span(ng-show="sortType == 'randomNumber' && !sortReverse" class="fa fa-caret-down")

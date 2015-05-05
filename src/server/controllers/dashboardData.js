@@ -8,9 +8,10 @@ exports.getEvents = function(req, res) {
 
     
     var collection = mongo.mongodb.collection('events');
-  //var draftStatus = (req.params.status === 'drafts')
+    var draftStatus = (req.params.status === 'drafts');
+    console.log(draftStatus);
   
-  collection.find({}).sort('-dateCreated').toArray(function(err, eventInstances) {
+  collection.find({'draftStatus' : draftStatus}).sort('-dateCreated').toArray(function(err, eventInstances) {
         res.send(eventInstances);
 
       

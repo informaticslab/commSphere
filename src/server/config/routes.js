@@ -16,6 +16,7 @@ module.exports = function(app) {
   app.put('/api/users', users.updateUser);
 
   app.post('/api/events', events.saveEvent);
+  app.post('/api/events/drafts',events.saveDraft);
   app.get('/api/events/:status',dashboardData.getEvents);
   app.get('/api/events/getAvailEventId/:partialId',dashboardData.getAvailEventInstanceId);
   app.get('/api/events/getEventInstanceInfo/:Id',dashboardData.getEventInstanceInfo);

@@ -13,42 +13,32 @@
                         thead
                             tr
                                 th
-                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse") Event
+                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse")
+                                        |Event
                                         span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse") ID
+                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse")
+                                        |ID
                                         span(ng-show="sortType == 'eventInstanceId' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventInstanceId' &&  sortReverse" class="fa fa-caret-up")  
                                 th
-                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse") Date 
+                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
+                                        |Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up")  
-                                th Status
+                                th Edit
                         tbody
                              tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse")
                                 td {{instance.eventName}}
                                 td {{instance.eventInstanceId}}
-                                td {{instance.dateCreated*1000 | date:'MM/dd/yyyy' }}
+                                td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td
-                                    .progress
-                                        //- .progress-bar.progress-bar-info(style="width: {{instance.eventInstanceStatus*100}}%")
-                                        //-     span(class="sr-only")
-                                        //-         {{instance.eventInstanceStatus*100}}% Complete
-                                        .progress-bar.progress-bar-info(role='progressbar', aria-valuenow='60', aria-valuemin='0', aria-valuemax='100', style='width: 60%')
-                                            | 60
-                                        //-.progress-bar.progress-bar-warning(style="width: {{100-
-                                        //-.progress-bar.progress-bar-warning(style="width: {{100-(instance.eventInstanceStatus*100)}}%")
-                            //- tr
-                            //-     td Japanese Earthquake
-                            //-     td JE1
-                            //-     td 8/30/2010
-                            //-     td
-                            //-         .progress
-                            //-             .progress-bar.progress-bar-info(role='progressbar', aria-valuenow='20', aria-valuemin='0', aria-valuemax='100', style='width: 20%')
-                
-        // /.row
-        // pagination
+                                    a.btn.btn-primary.btn-xs.pull-right(href='', data-nodrag='', ng-click="editDraft('lg',instance)")
+                                        .glyphicon.glyphicon-pencil
+                                        | 
+                                     
+                             
         .row
             .col-lg-12
                 .pagination-container

@@ -3,17 +3,22 @@ commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvent
 $scope.activeMenu='';
 $scope.searchText='';
 
-$scope.createEvent = function (size) {
+$scope.createEvent = function (size,draftInstance) {
 
       var modalInstance = $modal.open({
         templateUrl: '/partials/createEventModal',
         controller: CreateEventModalInstanceCtrl,
         size: size,
         keyboard: false,
-        backdrop: 'static'
+        backdrop: 'static',
+        resolve: {
+         draftInstance: function () {
+           return draftInstance;
+         }
+       }
       });
     
-    }
+    };
 
 }]);
 
