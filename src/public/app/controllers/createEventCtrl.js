@@ -143,7 +143,8 @@ if (draftInstance) // draft version already exists, re-populate data
       topic.subTopics.push({
         name: topic.newSubTopicName,
         sortOrder: topic.subTopics.length,
-        type: 'subTopic'
+        type: 'subTopic',
+        bullets:[]
       });
       topic.newSubTopicName = '';
       // topic.save();

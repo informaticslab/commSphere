@@ -1,6 +1,6 @@
 
 var mongo = require('../lib/mongoConnection');
-
+var ObjectId = require('mongodb').ObjectID;
 
 //var EventInstance = require('mongoose').model('EventInstance')
 
@@ -16,6 +16,22 @@ exports.getEvents = function(req, res) {
 
       
   });
+  };
+
+exports.getEventById = function(req, res) {
+
+    console.log(req.params.id);
+    var id=req.params.id;
+    var collection = mongo.mongodb.collection('events');
+    collection.find({
+        _id: ObjectId(id)
+    }).toArray(function(err, eventdoc) {
+      console.log("eventdoc",eventdoc);
+        res.send(eventdoc);
+    });
+
+
+
   };
 
 exports.getAvailEventInstanceId = function(req,res) {

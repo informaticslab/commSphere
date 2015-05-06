@@ -47,6 +47,10 @@ commSphereApp.config([
 commSphereApp.config(['$routeProvider', 
   function($routeProvider) {
     $routeProvider.
+    when('/dashboard/:id', {
+        templateUrl : '/partials/dashboardEvent',
+        controller  : 'dashEventCtrl'
+    }).
     when('/dashboard', {
         templateUrl : '/partials/dashboard',
         controller  : 'dashCtrl',
