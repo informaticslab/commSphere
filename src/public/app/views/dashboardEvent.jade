@@ -47,22 +47,14 @@ div(style="background-color:#f2f2f2;")
                                                                                 a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubBullet(bullet, subBullet)')
                                                                                     i.glyphicon.glyphicon-remove
                                                                                 div
-                                                                                    i.fa.fa-caret-right
                                                                                     | &nbsp;&nbsp;{{subBullet.name}}
                                                                     ul.angular-ui-tree-nodes(data-nodrag='')
                                                                         li.angular-ui-tree-node
                                                                             .subBullet-title.angular-ui-tree-handle-clear
-                                                                                form.form-inline(role='form')
-                                                                                    .form-topic
-                                                                                        label.sr-only(for='subBulletName') subBullet name
-                                                                                    input.form-control(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null')
+                                                                                textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null')
                                                             ul.angular-ui-tree-nodes(data-nodrag='')
                                                                 li.angular-ui-tree-node
-                                                                    .bullet-title.angular-ui-tree-handle-clear
-                                                                        form.form-inline(role='form')
-                                                                            .form-topic
-                                                                                //label.sr-only(for='bulletName') bullet name
-                                                                                textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null')
+                                                                    textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null')
                                 //.row
                                     .col-lg-6
                                             h3 Data binding
