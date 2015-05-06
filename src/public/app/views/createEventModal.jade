@@ -21,10 +21,10 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 				.col-lg-12
 					.form-comp-cont
 						label Event Name
-						input#exampleInputName2.form-control(placeholder="Enter event name" ng-model="eventName")
+						input#exampleInputName2.form-control(placeholder="Enter event name" ng-model="eventdoc.eventName")
 					.form-comp-cont
 						label Type
-						select.form-control(placeholder="Select event type" ng-model="eventType" ng-options="event as event for event in eventTypes")
+						select.form-control(placeholder="Select event type" ng-model="eventdoc.eventType" ng-options="event as event for event in eventTypes")
 							option(value="") - Select event type -
 			.row(style='background-color:#f2f2f2; height:100vh;')
 				.col-lg-12.col-md-12.col-sm-12

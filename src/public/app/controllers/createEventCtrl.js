@@ -2,10 +2,11 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
 
 
 var draftInstance = $scope.draftInstance;
+console.log("draftInstance",draftInstance);
 var previousData = {eventName:"",eventType:"",categories:""};
 var  secondUnit = 1000;
 
-var autoSave = setInterval(function(){ checkDirty($scope) }, 60*secondUnit);
+var autoSave = setInterval(function(){ checkDirty($scope) }, 10*secondUnit);
 //
 //   $scope.$watchGroup(['previousData'], function(newValues, oldValues, scope) {
 //       // changed, do something here 
@@ -13,14 +14,16 @@ var autoSave = setInterval(function(){ checkDirty($scope) }, 60*secondUnit);
 //        });
 
     
-$scope.myInstance = {}; 
-$scope.eventName ="";
-$scope.eventType = "";
-$scope.eventInstanceId="";
+
+//$scope.eventName ="";
+//$scope.eventType = "";
+//$scope.eventInstanceId="";
+
 $scope.topicValue={};
 	$scope.subTopicValue={};
 	$scope.userAssigned={};
-	$scope.eventName='';
+
+
 
 $scope.eventdoc = {
 	"eventName": "",
@@ -60,25 +63,30 @@ $scope.eventdoc = {
 	]
 };
 
+if(draftInstance)
+{
+	$scope.eventdoc=draftInstance;
+}
+
 $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
 $scope.date = new Date().getTime();
+$scope.eventdoc.dateCreated=$scope.date;
 
-// initialize values
-if (draftInstance) // draft version already exists, re-populate data
-{  
-    $scope.eventName = draftInstance.eventName;
-    $scope.eventType = draftInstance.eventType;
-    $scope.dateCreated = draftInstance.dateCreated;
-    $scope.userCreated = draftInstance.userCreated;
-    $scope.draftStatus = draftInstance.draftStatus;
-    $scope.eventdoc.eventName = draftInstance.eventName;
-    $scope.eventdoc.eventType = draftInstance.eventType;
-    $scope.eventdoc.dateCreated = draftInstance.dateCreated;
-    $scope.eventdoc.userCreated = draftInstance.userCreated;
-    $scope.eventdoc.draftStatus = draftInstance.draftStatus;
-    $scope.eventdoc.categories = draftInstance.categories;
-}
+var currentUser = 'Joe Coordinator';
+$scope.eventdoc.userCreated = currentUser;
+
+// // initialize values
+// if (draftInstance) // draft version already exists, re-populate data
+// {  
+
+//     $scope.eventdoc.eventName = draftInstance.eventName;
+//     $scope.eventdoc.eventType = draftInstance.eventType;
+//     $scope.eventdoc.dateCreated = draftInstance.dateCreated;
+//     $scope.eventdoc.userCreated = draftInstance.userCreated;
+//     $scope.eventdoc.draftStatus = draftInstance.draftStatus;
+//     $scope.eventdoc.categories = draftInstance.categories;
+// }
 //$scope.eventdoc.categories[0].topics = $scope.eventdoc.categories[0].topics;
     
 
@@ -307,33 +315,26 @@ $scope.createEvent = function() {
 	//var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
 
 
-	$http.get('/api/events/duplicate/'+$scope.eventName).then(function(res) {
+	$http.get('/api/events/duplicate/'+$scope.eventdoc.eventName).then(function(res) {
 	
 	//console.log(res.data.duplicate);
-    if($scope.eventName.trim() == ''){
+    if($scope.eventdoc.eventName.trim() == ''){
 		ngNotifier.notifyError('Event name cannot be blank');
-	} else if($scope.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
+	} else if($scope.eventdoc.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
 		ngNotifier.notifyError('Event name cannot contain only numbers');
 	} else if(res.data.duplicate) {
 		ngNotifier.notifyError('Cannot create event. Duplicate name');
-	}  else if($scope.eventType == undefined) {
+	}  else if($scope.eventdoc.eventType == undefined) {
 		ngNotifier.notifyError('Please select an event type');
 	} else {
 
-		//data = $scope.eventdoc;
-		var currentUser = 'Joe Coordinator'; //hardcoded placeholder
 
-		//data = $scope.document;
-		$scope.eventdoc.eventName = $scope.eventName;
-		$scope.eventdoc.eventType = $scope.eventType;
-		$scope.eventdoc.eventInstanceId = ""; 
-		$scope.eventdoc.userCreated = currentUser;
 		$scope.eventdoc.dateCreated = $scope.date;
 		$scope.eventdoc.draftStatus = false;
-    if (draftInstance)
-      $scope.eventdoc._id = draftInstance._id;
+    // if (draftInstance)
+    //   $scope.eventdoc._id = draftInstance._id;
 
-        var partialId = genInstanceId($scope.eventName);
+        var partialId = genInstanceId($scope.eventdoc.eventName);
 
         $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
 //       	console.log(partialId);
@@ -355,14 +356,13 @@ $scope.createEvent = function() {
 
 //			console.log("eventIDNew",$scope.eventdoc.eventInstanceId);
 
-			$scope.eventdoc.userCreated = currentUser;
-			$scope.eventdoc.dateCreated = new Date().getTime();
+
 //			console.log($scope.eventdoc);
 //			console.log($scope.eventdoc.eventInstanceId);
 			$http.post('/api/events', $scope.eventdoc).then(function(res) {
 
 				if(res.data.success) {
-					ngNotifier.notify("Event has been saved!");
+					ngNotifier.notify("Event has been created!");
 			    $location.path('/dashboard/');
          	$route.reload();
 
@@ -387,37 +387,40 @@ $scope.createEvent = function() {
 };
 
 $scope.saveDraftEvent = function(autosave) {
-		//data = $scope.eventdoc;
-	var currentUser = 'Joe Coordinator'; //hardcoded placeholder
+
 
   
    	//data = $scope.document;
-		$scope.eventdoc.eventName = $scope.eventName;
-		$scope.eventdoc.eventType = $scope.eventType;
-		$scope.eventdoc.eventInstanceId = ""; 
-		$scope.eventdoc.userCreated = currentUser;
+		// $scope.eventdoc.eventName = $scope.eventName;
+		// $scope.eventdoc.eventType = $scope.eventdoc.eventType;
+		// $scope.eventdoc.eventInstanceId = ""; 
+
 		$scope.eventdoc.draftStatus = true;
-    if (!autosave)
-		  $scope.eventdoc.dateCreated = new Date().getTime();
-    if (draftInstance)
-       $scope.eventdoc._id = draftInstance._id;
+
+    // if (draftInstance)
+    //    $scope.eventdoc._id = draftInstance._id;
    	   $http.post('/api/events/drafts', $scope.eventdoc).then(function(res) {
 
-				if(res.data.success) {
+		if(res.data.success) {
           if (!autosave){
-					ngNotifier.notify("Draft Event has been create / update!");
+				ngNotifier.notify("Your event has been saved under drafts");
 			    $location.path("/dashboard/drafts");
-          $route.reload();
+			    $scope.ok();
+
           }
-           else
-            console.log('autosave actived');
-     		} else {
+          else
+          {
+          	ngNotifier.notify("Your event has been saved under drafts automatically.");
+          }
+
+            
+     	
+     	} else {
 					alert('there was an error');
 				}
 			});
       
-     if (!autosave) 
-    		$scope.ok();
+
 };
 
 
@@ -469,12 +472,12 @@ function getLatestInstance(partialId)
 //       $scope.saveDraftEvent('Yes');
 //        });
 //     
-       if ($scope.eventName !== previousData.eventName || $scope.eventType !== previousData.eventType
+       if ($scope.eventdoc.eventName !== previousData.eventName || $scope.eventdoc.eventType !== previousData.eventType
           || previousData.categories !== JSON.stringify($scope.eventdoc.categories))
            {  
                $scope.saveDraftEvent('Yes');
-               previousData.eventName = $scope.eventName;
-               previousData.eventType = $scope.eventType;
+               previousData.eventName = $scope.eventdoc.eventName;
+               previousData.eventType = $scope.eventdoc.eventType;
                previousData.categories = JSON.stringify($scope.eventdoc.categories);
            }
       //     console.log("previous data", previousData);

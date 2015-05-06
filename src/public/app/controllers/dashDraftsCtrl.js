@@ -32,15 +32,17 @@ $scope.editDraft = function (size,draftInstance) {
 
 }]);
 
-var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,draftInstance) {
+var CreateEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
 
  $scope.draftInstance = draftInstance;
   
   $scope.ok = function () {
     $modalInstance.close();
+    $route.reload();
   };
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
+    $route.reload();
   };
 };
