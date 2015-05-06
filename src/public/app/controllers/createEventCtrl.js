@@ -2,15 +2,15 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
 
 
 var draftInstance = $scope.draftInstance;
+var previousData = {eventName:"",eventType:"",categories:""};
+var  secondUnit = 1000;
 
-var  minuteUnit = 1000*60;
-
-var autoSave = setInterval(function(){ checkDirty($scope) }, 2*minuteUnit);
-$scope.$watchGroup(['eventName','eventType','eventdoc'], function(newValues, oldValues, scope) {
-  // alert('event name changed to ',newValues[2]);
-    
-});
-  
+var autoSave = setInterval(function(){ checkDirty($scope) }, 60*secondUnit);
+//
+//   $scope.$watchGroup(['previousData'], function(newValues, oldValues, scope) {
+//       // changed, do something here 
+//          alert('latest data changed');
+//        });
 
     
 $scope.myInstance = {}; 
@@ -66,7 +66,7 @@ $scope.date = new Date().getTime();
 
 // initialize values
 if (draftInstance) // draft version already exists, re-populate data
-{
+{  
     $scope.eventName = draftInstance.eventName;
     $scope.eventType = draftInstance.eventType;
     $scope.dateCreated = draftInstance.dateCreated;
@@ -386,7 +386,7 @@ $scope.createEvent = function() {
 	
 };
 
-$scope.saveDraftEvent = function() {
+$scope.saveDraftEvent = function(autosave) {
 		//data = $scope.eventdoc;
 	var currentUser = 'Joe Coordinator'; //hardcoded placeholder
 
@@ -397,23 +397,27 @@ $scope.saveDraftEvent = function() {
 		$scope.eventdoc.eventInstanceId = ""; 
 		$scope.eventdoc.userCreated = currentUser;
 		$scope.eventdoc.draftStatus = true;
-		$scope.eventdoc.dateCreated = new Date().getTime();
+    if (!autosave)
+		  $scope.eventdoc.dateCreated = new Date().getTime();
     if (draftInstance)
        $scope.eventdoc._id = draftInstance._id;
    	   $http.post('/api/events/drafts', $scope.eventdoc).then(function(res) {
 
 				if(res.data.success) {
+          if (!autosave){
 					ngNotifier.notify("Draft Event has been create / update!");
 			    $location.path("/dashboard/drafts");
           $route.reload();
+          }
+           else
+            console.log('autosave actived');
      		} else {
 					alert('there was an error');
 				}
 			});
       
-    
-   
-			$scope.ok();
+     if (!autosave) 
+    		$scope.ok();
 };
 
 
@@ -458,7 +462,22 @@ function getLatestInstance(partialId)
         return instanceId;
     }
     
-    function checkDirty($scope) {
-      // alert(' my timer is running');
+    function checkDirty() {
+      console.log('check dirty fired');
+//      $scope.$watchGroup(['eventName','eventType','eventdoc'], function(newValues, oldValues, scope) {
+//       // changed, do something here 
+//       $scope.saveDraftEvent('Yes');
+//        });
+//     
+       if ($scope.eventName !== previousData.eventName || $scope.eventType !== previousData.eventType
+          || previousData.categories !== JSON.stringify($scope.eventdoc.categories))
+           {  
+               $scope.saveDraftEvent('Yes');
+               previousData.eventName = $scope.eventName;
+               previousData.eventType = $scope.eventType;
+               previousData.categories = JSON.stringify($scope.eventdoc.categories);
+           }
+      //     console.log("previous data", previousData);
+
  }
 });
