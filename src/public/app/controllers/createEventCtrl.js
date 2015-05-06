@@ -1,7 +1,17 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location) {
 
 
 var draftInstance = $scope.draftInstance;
+
+var  minuteUnit = 1000*60;
+
+var autoSave = setInterval(function(){ checkDirty($scope) }, 2*minuteUnit);
+$scope.$watchGroup(['eventName','eventType','eventdoc'], function(newValues, oldValues, scope) {
+  // alert('event name changed to ',newValues[2]);
+    
+});
+  
+
     
 $scope.myInstance = {}; 
 $scope.eventName ="";
@@ -352,7 +362,9 @@ $scope.createEvent = function() {
 
 				if(res.data.success) {
 					ngNotifier.notify("Event has been saved!");
-					$route.reload();
+		//			$route.reload();
+          console.log("before redirect to main dashboard");
+          $location.path('/dashboard/');
 
 				} else {
 					alert('there was an error');
@@ -388,12 +400,12 @@ $scope.saveDraftEvent = function() {
 		$scope.eventdoc.dateCreated = new Date().getTime();
     if (draftInstance)
        $scope.eventdoc._id = draftInstance._id;
-   	$http.post('/api/events/drafts', $scope.eventdoc).then(function(res) {
+   	   $http.post('/api/events/drafts', $scope.eventdoc).then(function(res) {
 
 				if(res.data.success) {
-					ngNotifier.notify("Draft Event has been  create / update!");
-					$route.reload();
-
+					ngNotifier.notify("Draft Event has been create / update!");
+		//			$route.reload();
+          $location.path('/dashboard/drafts');
 				} else {
 					alert('there was an error');
 				}
@@ -445,4 +457,8 @@ function getLatestInstance(partialId)
             instanceId = nameComponent[0].substr(0,4)+ '-' + '01';
         return instanceId;
     }
+    
+    function checkDirty($scope) {
+      // alert(' my timer is running');
+ }
 });

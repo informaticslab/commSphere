@@ -23,41 +23,47 @@ exports.saveEvent = function(req, res) {
 	var eventData = req.body;
 	console.log("req body****",req.body);
 	var Id = eventData._id;
-  	eventData._id = null;
+  	delete eventData._id;
 	var collection = mongo.mongodb.collection('events');
-	collection.remove({"_id":ObjectID(Id)}, function(err, numberOfRemovedDocs) {
-       console.log("document removed ", numberOfRemovedDocs);
-  	});
-    collection.insert(eventData, function(err, result) {
-		
+	if (Id) {  // if existing id then update
+     collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
+       console.log("document changed ", affectedDocCount);
+   		});
+	}
+	else {
+  		collection.insert(eventData, function(err, result) {
 		if(err) {
 			res.send(err);
 			console.log(err);
 		} else {
 			res.send({success:true});
 		}
-	});
+ 	});
+  }
 };
 
 exports.saveDraft = function(req,res) {
   var eventData = req.body;
   var Id = eventData._id;
-  eventData._id = null;
+  delete eventData._id;
   var collection = mongo.mongodb.collection('events');
-  
-  // delete the doc then insert
-  collection.remove({"_id":ObjectID(Id)}, function(err, numberOfRemovedDocs) {
-       console.log("document removed ", numberOfRemovedDocs);
-  
-    });
-  collection.insert(eventData, function(err, result) {
+  if (Id) {  // if existing id then update
+  	 
+      collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
+       console.log("document changed ", affectedDocCount);
+   		});
+	}
+	else {
+  		collection.insert(eventData, function(err, result) {
 		if(err) {
 			res.send(err);
 			console.log(err);
 		} else {
 			res.send({success:true});
 		}
-	});
+ 	});
+  }
+
 };
 exports.findDuplicate = function(req, res) {
 	 var eventName = req.params.eventName;
