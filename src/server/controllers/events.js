@@ -27,7 +27,14 @@ exports.saveEvent = function(req, res) {
 	var collection = mongo.mongodb.collection('events');
 	if (Id) {  // if existing id then update
      collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
+       if (err) {
+			res.send(err);
+			console.log(err);
+		}
+		else {
        console.log("document changed ", affectedDocCount);
+	   res.send({success:true});
+		}
    		});
 	}
 	else {
@@ -45,15 +52,24 @@ exports.saveEvent = function(req, res) {
 exports.saveDraft = function(req,res) {
   var eventData = req.body;
   var Id = eventData._id;
+  console.log('I am in save draft');
   delete eventData._id;
   var collection = mongo.mongodb.collection('events');
   if (Id) {  // if existing id then update
   	 
       collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
+		if (err) {
+			res.send(err);
+			console.log(err);
+		}
+		else {
        console.log("document changed ", affectedDocCount);
-   		});
+	   res.send({success:true});
+		}
+   	 });
 	}
 	else {
+		console.log(" I am in draft insert");
   		collection.insert(eventData, function(err, result) {
 		if(err) {
 			res.send(err);

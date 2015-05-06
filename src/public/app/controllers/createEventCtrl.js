@@ -363,9 +363,8 @@ $scope.createEvent = function() {
 
 				if(res.data.success) {
 					ngNotifier.notify("Event has been saved!");
-		//			$route.reload();
-          console.log("before redirect to main dashboard");
-          $location.path('/dashboard/');
+			    $location.path('/dashboard/');
+         	$route.reload();
 
 				} else {
 					alert('there was an error');
@@ -405,9 +404,9 @@ $scope.saveDraftEvent = function() {
 
 				if(res.data.success) {
 					ngNotifier.notify("Draft Event has been create / update!");
-		//			$route.reload();
-          $location.path('/dashboard/drafts');
-				} else {
+			    $location.path("/dashboard/drafts");
+          $route.reload();
+     		} else {
 					alert('there was an error');
 				}
 			});
