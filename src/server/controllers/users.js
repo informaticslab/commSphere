@@ -1,5 +1,6 @@
 var User = require('mongoose').model('User'),
   encrypt = require('../utilities/encryption');
+var mongo = require('../lib/mongoConnection');
 
 exports.getUsers = function(req, res) {
   User.find({}).exec(function(err, collection) {
@@ -24,6 +25,17 @@ exports.createUser = function(req, res, next) {
       if(err) {return next(err);}
       res.send(user);
     });
+  });
+};
+
+exports.getAnalysts = function(req, res) {
+  var collection = mongo.mongodb.collection('users');
+  collection.find({'roles.levelThree':true},{'salt':0, 'hashed_pwd':0}).toArray(function(err,doc) {
+    if(err) {
+      console.log(err);
+    } else {
+      res.send(doc);
+    }
   });
 };
 

@@ -1,4 +1,4 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,ngIdentity) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,ngIdentity, ngUser) {
 
 
 
@@ -26,7 +26,7 @@ $scope.identity = ngIdentity;
 $scope.topicValue={};
 $scope.subTopicValue={};
 $scope.userAssigned={};
-
+$scope.users = [];
 
 
 $scope.eventdoc = {
@@ -73,12 +73,20 @@ if(draftInstance)
 	$scope.eventdoc=draftInstance;
 }
 
-$scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
+//$scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
 $scope.date = new Date().getTime();
 $scope.eventdoc.dateCreated=$scope.date;
 $scope.eventdoc.userCreated = {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
 var previousData = angular.toJson($scope.eventdoc);
+
+$http.get('/api/users/analysts').then(function(res) {
+  var analysts = res.data;
+  for(var i=0; i < analysts.length; i++) {
+    $scope.users.push(analysts[i].displayName);
+  }
+  console.log($scope.users);
+});
 
 // // initialize values
 // if (draftInstance) // draft version already exists, re-populate data
