@@ -1,4 +1,4 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,ngIdentity) {
 
 
 var draftInstance = $scope.draftInstance;
@@ -13,15 +13,13 @@ var autoSave = setInterval(function(){ checkDirty($scope) }, 10*secondUnit);
 //          alert('latest data changed');
 //        });
 
-    
-
 //$scope.eventName ="";
 //$scope.eventType = "";
 //$scope.eventInstanceId="";
-
+$scope.identity = ngIdentity;
 $scope.topicValue={};
-	$scope.subTopicValue={};
-	$scope.userAssigned={};
+$scope.subTopicValue={};
+$scope.userAssigned={};
 
 
 
@@ -72,9 +70,7 @@ $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
 $scope.date = new Date().getTime();
 $scope.eventdoc.dateCreated=$scope.date;
-
-var currentUser = 'Joe Coordinator';
-$scope.eventdoc.userCreated = currentUser;
+$scope.eventdoc.userCreated = {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
 var previousData = angular.toJson($scope.eventdoc);
 
 // // initialize values
