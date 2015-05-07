@@ -1,4 +1,4 @@
-commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity', function($scope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity) {
+commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route', function($scope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route) {
 
 $("body").show();
 $scope.activeMenu='';

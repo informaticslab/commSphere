@@ -82,6 +82,26 @@ exports.saveDraft = function(req,res) {
   }
 
 };
+
+exports.deleteDraft = function(req,res) {
+	 
+  var Id = req.params.Id;
+  console.log('I am in delete draft');
+  var collection = mongo.mongodb.collection('events');
+  if (Id) {  // if existing id then update
+  	 
+    collection.remove({"_id":ObjectID(Id)},function(err, affectedDocCount) {
+		if (err) {
+			res.send(err);
+			console.log(err);
+		}
+		else {
+			console.log("document deleted", affectedDocCount);
+			res.send({success:true});
+		}
+   	});
+	}
+};
 exports.findDuplicate = function(req, res) {
 	 var eventName = req.params.eventName;
 	 var collection = mongo.mongodb.collection('events');

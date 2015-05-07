@@ -4,13 +4,16 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
 
 var draftInstance = $scope.draftInstance;
 console.log("draftInstance",draftInstance);
-var previousData = {eventName:"",eventType:"",categories:""};
+
 var  secondUnit = 1000;
 var autoSave;
 
 autoSave = $interval( function() { $scope.checkDirty(); }, 10*secondUnit);
 $scope.$on('$destroy', function() {
+            $scope.checkDirty();
             $interval.cancel(autoSave);
+            $route.reload();
+            
           });
 
 //
@@ -75,7 +78,8 @@ if(draftInstance)
 
 //$scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
-$scope.date = new Date().getTime();
+//$scope.date = new Date().getTime();
+$scope.date = new Date();  // need both date and time
 $scope.eventdoc.dateCreated=$scope.date;
 $scope.eventdoc.userCreated = {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
 var previousData = angular.toJson($scope.eventdoc);
@@ -330,13 +334,13 @@ $scope.createEvent = function() {
 	$http.get('/api/events/duplicate/'+$scope.eventdoc.eventName).then(function(res) {
 	
 	//console.log(res.data.duplicate);
-    if($scope.eventdoc.eventName.trim() == ''){
+    if($scope.eventdoc.eventName.trim() === ''){
 		ngNotifier.notifyError('Event name cannot be blank');
 	} else if($scope.eventdoc.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
 		ngNotifier.notifyError('Event name cannot contain only numbers');
 	} else if(res.data.duplicate) {
 		ngNotifier.notifyError('Cannot create event. Duplicate name');
-	}  else if($scope.eventdoc.eventType == undefined) {
+	}  else if($scope.eventdoc.eventType === '') {
 		ngNotifier.notifyError('Please select an event type');
 	} else {
 
