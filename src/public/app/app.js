@@ -44,8 +44,8 @@ commSphereApp.config([
     }
 ]);
 
-commSphereApp.config(['$routeProvider', 
-  function($routeProvider) {
+commSphereApp.config(['$routeProvider', '$locationProvider', 
+  function($routeProvider,$locationProvider) {
     $routeProvider.
     when('/dashboard/event/:id', {
         templateUrl : '/partials/dashboardEvent',
@@ -54,17 +54,17 @@ commSphereApp.config(['$routeProvider',
     when('/dashboard', {
         templateUrl : '/partials/dashboard',
         controller  : 'dashCtrl',
-        //resolve : routeRoleChecks.levelTwoOrThree  //
+        resolve : routeRoleChecks.levelTwoOrThree  
     }).
       when('/dashboard/drafts', {
         templateUrl : '/partials/dashboardDrafts',
         controller  : 'dashDraftsCtrl',
-        //resolve : routeRoleChecks.levelTwoOrThree
+        resolve : routeRoleChecks.levelTwoOrThree
     }).
     when('/dashboard/archives', {
         templateUrl : '/partials/dashboardArchives',
         controller  : 'dashArchivesCtrl',
-        //resolve : routeRoleChecks.levelTwoOrThree
+        resolve : routeRoleChecks.levelTwoOrThree
     }).
     when('/login', {
         templateUrl : '/partials/login',
@@ -73,6 +73,8 @@ commSphereApp.config(['$routeProvider',
     otherwise({
         redirectTo: '/dashboard'
       });
+
+    //$locationProvider.html5Mode(true);
 }]);
 
 angular.module('app').run(function($rootScope,$location) {

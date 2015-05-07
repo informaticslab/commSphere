@@ -1,8 +1,10 @@
 commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity', function($scope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity) {
 
+$("body").show();
 $scope.activeMenu='';
 $scope.searchText='';
 $scope.identity = ngIdentity;
+
 
 $scope.createEvent = function (size,draftInstance) {
 
