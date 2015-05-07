@@ -7,7 +7,7 @@ console.log("draftInstance",draftInstance);
 var  secondUnit = 1000;
 var autoSave;
 
-autoSave = $interval( function() { $scope.checkDirty(); }, 10*secondUnit);
+autoSave = $interval( function() { $scope.checkDirty(); }, 60*secondUnit);
 $scope.$on('$destroy', function() {
        if ($scope.eventdoc.draftStatus)
            { 
