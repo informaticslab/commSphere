@@ -1,12 +1,18 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,ngIdentity) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,ngIdentity) {
+
 
 
 var draftInstance = $scope.draftInstance;
 console.log("draftInstance",draftInstance);
 var previousData = {eventName:"",eventType:"",categories:""};
 var  secondUnit = 1000;
+var autoSave;
 
-var autoSave = setInterval(function(){ checkDirty($scope) }, 10*secondUnit);
+autoSave = $interval( function() { $scope.checkDirty(); }, 10*secondUnit);
+$scope.$on('$destroy', function() {
+            $interval.cancel(autoSave);
+          });
+
 //
 //   $scope.$watchGroup(['previousData'], function(newValues, oldValues, scope) {
 //       // changed, do something here 
@@ -30,6 +36,7 @@ $scope.eventdoc = {
 	"userCreated": "",
 	"dateCreated": "",
 	"draftStatus": true,
+  "archiveStatus":false,
 	categories:[
 		{
 			name:'Web',
@@ -368,8 +375,8 @@ $scope.createEvent = function() {
 				}
 			});
 
-			$scope.ok();
-             
+			
+             $scope.ok();
              } else {
                  alert('no data received, assign new id');
              }
@@ -466,13 +473,8 @@ function getLatestInstance(partialId)
         return instanceId;
     }
     
-    function checkDirty() {
+    $scope.checkDirty = function () {
       console.log('check dirty fired');
-//      $scope.$watchGroup(['eventName','eventType','eventdoc'], function(newValues, oldValues, scope) {
-//       // changed, do something here 
-//       $scope.saveDraftEvent('Yes');
-//        });
-//     
       if (previousData !== angular.toJson($scope.eventdoc))
            {  
                $scope.saveDraftEvent('Yes');
@@ -488,5 +490,5 @@ function getLatestInstance(partialId)
 //           }
       //     console.log("previous data", previousData);
 
- }
+ };
 });
