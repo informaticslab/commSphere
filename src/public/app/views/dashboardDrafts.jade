@@ -27,16 +27,18 @@
                                         |Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up")  
-                                th Edit
+                                th 
                         tbody
-                             tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse")
+                             tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                 td {{instance.eventName}}
                                 td {{instance.eventInstanceId}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy hh:mm:ss' }}
-                                td
-                                    a.btn.btn-primary.btn-xs.pull-right(href='', data-nodrag='', ng-click="editDraft('lg',instance)")
+                                td(width="10%")
+                                    a.btn.btn-primary.btn-xs.pull-left(ng-show="hover" href='', data-nodrag='', ng-click="editDraft('lg',instance)")
                                         .glyphicon.glyphicon-pencil
-                                        | 
+                                    | 
+                                    a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click="deleteDraft(instance)")
+                                        .glyphicon.glyphicon-remove
                                      
                              
         .row

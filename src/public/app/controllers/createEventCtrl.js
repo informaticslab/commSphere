@@ -3,13 +3,16 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
 
 var draftInstance = $scope.draftInstance;
 console.log("draftInstance",draftInstance);
-var previousData = {eventName:"",eventType:"",categories:""};
+
 var  secondUnit = 1000;
 var autoSave;
 
 autoSave = $interval( function() { $scope.checkDirty(); }, 10*secondUnit);
 $scope.$on('$destroy', function() {
+            $scope.checkDirty();
             $interval.cancel(autoSave);
+            $route.reload();
+            
           });
 
 //
@@ -76,7 +79,8 @@ if(draftInstance)
 
 $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
 $scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
-$scope.date = new Date().getTime();
+//$scope.date = new Date().getTime();
+$scope.date = new Date();  // need both date and time
 $scope.eventdoc.dateCreated=$scope.date;
 
 var currentUser = 'Joe Coordinator';
