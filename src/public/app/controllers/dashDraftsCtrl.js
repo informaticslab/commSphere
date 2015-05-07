@@ -1,6 +1,7 @@
 commSphereApp.controller('dashDraftsCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http', function($scope, $modal,$routeParams,ngEvents,$http) {
 
 $scope.$parent.activeMenu='drafts';
+$scope.sortType = "-dateCreated";
 
 $http.get('/api/events/drafts').then(function(res){
 //     console.log(res.data);

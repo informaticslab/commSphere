@@ -1,6 +1,8 @@
 commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData','$http', function($scope, $modal,$routeParams,ngEvents,ngRandomData,$http) {
 
 $scope.$parent.activeMenu='dashboard';
+// set default sort column and direction;
+$scope.sortType = "-dateCreated";
 //console.log("test");
 $http.get('/api/events/active').then(function(res){
 //     console.log(res.data);
