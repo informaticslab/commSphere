@@ -329,13 +329,13 @@ $scope.createEvent = function() {
 	$http.get('/api/events/duplicate/'+$scope.eventdoc.eventName).then(function(res) {
 	
 	//console.log(res.data.duplicate);
-    if($scope.eventdoc.eventName.trim() == ''){
+    if($scope.eventdoc.eventName.trim() === ''){
 		ngNotifier.notifyError('Event name cannot be blank');
 	} else if($scope.eventdoc.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
 		ngNotifier.notifyError('Event name cannot contain only numbers');
 	} else if(res.data.duplicate) {
 		ngNotifier.notifyError('Cannot create event. Duplicate name');
-	}  else if($scope.eventdoc.eventType == undefined) {
+	}  else if($scope.eventdoc.eventType === '') {
 		ngNotifier.notifyError('Please select an event type');
 	} else {
 
