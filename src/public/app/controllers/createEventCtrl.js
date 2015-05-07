@@ -37,6 +37,7 @@ $scope.eventdoc = {
 	"userCreated": "",
 	"dateCreated": "",
 	"draftStatus": true,
+  "archiveStatus":false,
 	categories:[
 		{
 			name:'Web',
