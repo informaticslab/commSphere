@@ -75,7 +75,8 @@ exports.saveDraft = function(req,res) {
 			res.send(err);
 			console.log(err);
 		} else {
-			res.send({success:true});
+			// send the inserted record new id back to ctrl
+			res.send({'newId': result[0]._id,success:true});
 		}
  	});
   }

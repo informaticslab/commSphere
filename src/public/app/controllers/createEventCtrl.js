@@ -75,6 +75,7 @@ $scope.eventdoc.dateCreated=$scope.date;
 
 var currentUser = 'Joe Coordinator';
 $scope.eventdoc.userCreated = currentUser;
+var previousData = angular.toJson($scope.eventdoc);
 
 // // initialize values
 // if (draftInstance) // draft version already exists, re-populate data
@@ -410,6 +411,10 @@ $scope.saveDraftEvent = function(autosave) {
           }
           else
           {
+          if (res.data.newId) {
+              $scope.eventdoc._id = res.data.newId;
+              previousData = angular.toJson($scope.eventdoc);
+            }
           	ngNotifier.notify("Your event has been saved under drafts automatically.");
           }
 
@@ -472,14 +477,19 @@ function getLatestInstance(partialId)
 //       $scope.saveDraftEvent('Yes');
 //        });
 //     
-       if ($scope.eventdoc.eventName !== previousData.eventName || $scope.eventdoc.eventType !== previousData.eventType
-          || previousData.categories !== JSON.stringify($scope.eventdoc.categories))
+      if (previousData !== angular.toJson($scope.eventdoc))
            {  
                $scope.saveDraftEvent('Yes');
-               previousData.eventName = $scope.eventdoc.eventName;
-               previousData.eventType = $scope.eventdoc.eventType;
-               previousData.categories = JSON.stringify($scope.eventdoc.categories);
+               previousData = angular.toJson($scope.eventdoc);
            }
+//       if ($scope.eventdoc.eventName !== previousData.eventName || $scope.eventdoc.eventType !== previousData.eventType
+//          || previousData.categories !== JSON.stringify($scope.eventdoc.categories))
+//           {  
+//               $scope.saveDraftEvent('Yes');
+//               previousData.eventName = $scope.eventdoc.eventName;
+//               previousData.eventType = $scope.eventdoc.eventType;
+//               previousData.categories = JSON.stringify($scope.eventdoc.categories);
+//           }
       //     console.log("previous data", previousData);
 
  }
