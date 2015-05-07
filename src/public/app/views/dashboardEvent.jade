@@ -21,40 +21,48 @@ div(style="background-color:#f2f2f2;")
                             tab(ng-repeat="category in eventdoc.categories" heading="{{category.name}}")
                                 .row
                                     .col-lg-12
-                                        div.tab-content-container
-                                            ul.nav.nav-pills.nav-stacked.col-md-2(style="background-color:#f2f2f2;")
-                                                li(ng-repeat="topic in category.topics" ng-class="{active:activeTab=='tab_'+$index}")
-                                                    a(data-target="{{'#tab_'+$index}}" data-toggle="pill"  ng-click="setActiveTab('tab_'+$index)")
-                                                        | {{topic.name}}
-                                            div.tab-content.col-md-10
-                                                div.tab-pane2(ng-repeat="topic in category.topics" id="{{'#tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
-                                                    h3
-                                                        | {{topic.name}}
-                                                    div(ng-repeat="subTopic in topic.subTopics")
-                                                        h4
-                                                            | {{subTopic.name}}
-                                                        div(ui-tree='options')
-                                                            ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='subTopic.bullets', data-type='bullet')
-                                                                li.bullet-disc-node(ng-repeat='bullet in subTopic.bullets', ui-tree-node='')
-                                                                    .bullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-                                                                        a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeBullet(subTopic, bullet)')
-                                                                            i.glyphicon.glyphicon-remove
-                                                                        p
-                                                                            | {{bullet.name}}
-                                                                    ul.bullet-circle-nodes(ui-tree-nodes='', ng-model='bullet.subBullets', data-type='subBullet')
-                                                                        li.bullet-circle-node(ng-repeat='subBullet in bullet.subBullets', ui-tree-node='')
-                                                                            .subBullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-                                                                                a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubBullet(bullet, subBullet)')
-                                                                                    i.glyphicon.glyphicon-remove
-                                                                                div
-                                                                                    | &nbsp;&nbsp;{{subBullet.name}}
-                                                                    ul.bullet-circle-nodes.angular-ui-tree-nodes(data-nodrag='')
-                                                                        li.bullet-circle-node.angular-ui-tree-node
-                                                                            .subBullet-title.angular-ui-tree-handle-clear
-                                                                                textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null')
-                                                            ul.angular-ui-tree-nodes.bullet-disc-nodes(data-nodrag='')
-                                                                li.angular-ui-tree-node.bullet-disc-node
-                                                                    textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null')
+                                        .tab-title-heading
+                                            img(ng-if='category.name=="Web"' src='img/web-icon.png', width='37', height='32')
+                                            img(ng-if='category.name=="TV"' src='img/tv-icon.png', width='37', height='32')
+                                            img(ng-if='category.name=="Print"' src='img/news-icon.png', width='37', height='32')
+                                            |   {{category.name}}: by {{eventdoc.userAssigned}}
+                                        br
+                                        br
+                                        hr
+                                        br
+                                        ul.nav.nav-pills.nav-stacked.col-md-2(style="background-color:#f2f2f2;")
+                                            li(ng-repeat="topic in category.topics" ng-class="{active:activeTab=='tab_'+$index}")
+                                                a(data-target="{{'#tab_'+$index}}" data-toggle="pill"  ng-click="setActiveTab('tab_'+$index)")
+                                                    | {{topic.name}}
+                                        div.tab-content.col-md-10
+                                            div.tab-pane2(ng-repeat="topic in category.topics" id="{{'#tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
+                                                h3
+                                                    | {{topic.name}}
+                                                div(ng-repeat="subTopic in topic.subTopics")
+                                                    h4
+                                                        | {{subTopic.name}}
+                                                    div(ui-tree='options')
+                                                        ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='subTopic.bullets', data-type='bullet')
+                                                            li.bullet-disc-node(ng-repeat='bullet in subTopic.bullets', ui-tree-node='')
+                                                                .bullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                                                                    a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeBullet(subTopic, bullet)')
+                                                                        i.glyphicon.glyphicon-remove
+                                                                    p
+                                                                        | {{bullet.name}}
+                                                                ul.bullet-circle-nodes(ui-tree-nodes='', ng-model='bullet.subBullets', data-type='subBullet')
+                                                                    li.bullet-circle-node(ng-repeat='subBullet in bullet.subBullets', ui-tree-node='')
+                                                                        .subBullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                                                                            a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubBullet(bullet, subBullet)')
+                                                                                i.glyphicon.glyphicon-remove
+                                                                            div
+                                                                                | &nbsp;&nbsp;{{subBullet.name}}
+                                                                ul.bullet-circle-nodes.angular-ui-tree-nodes(data-nodrag='')
+                                                                    li.bullet-circle-node.angular-ui-tree-node
+                                                                        .subBullet-title.angular-ui-tree-handle-clear
+                                                                            textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null')
+                                                        ul.angular-ui-tree-nodes.bullet-disc-nodes(data-nodrag='')
+                                                            li.angular-ui-tree-node.bullet-disc-node
+                                                                textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null')
                                 //.row
                                     .col-lg-6
                                             h3 Data binding
