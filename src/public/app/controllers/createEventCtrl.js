@@ -10,7 +10,11 @@ var autoSave;
 
 autoSave = $interval( function() { $scope.checkDirty(); }, 10*secondUnit);
 $scope.$on('$destroy', function() {
-            $scope.checkDirty();
+       if ($scope.eventdoc.draftStaus)
+           { 
+              $scope.checkDirty();
+           }
+
             $interval.cancel(autoSave);
             $route.reload();
             
