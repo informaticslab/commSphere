@@ -28,7 +28,7 @@ $scope.$on('$destroy', function() {
 $scope.identity = ngIdentity;
 $scope.topicValue={};
 $scope.subTopicValue={};
-$scope.userAssigned={};
+//$scope.userAssigned={};
 $scope.users = [];
 
 
@@ -89,7 +89,6 @@ $http.get('/api/users/analysts').then(function(res) {
   for(var i=0; i < analysts.length; i++) {
     $scope.users.push(analysts[i].displayName);
   }
-  console.log($scope.users);
 });
 
 // // initialize values
@@ -321,10 +320,10 @@ $http.get('/api/users/analysts').then(function(res) {
 
 // };
 
-$scope.assignUser = function(category) {
-	var userAssigned = $scope.userAssigned[category];
-	$scope.eventdoc.categories[category].userAssigned = userAssigned;
-};
+// $scope.assignUser = function(category) {
+// 	var userAssigned = $scope.eventdoc.categories[category].userAssigned[category];
+// 	$scope.eventdoc.categories[category].userAssigned = userAssigned;
+// };
 
 $scope.createEvent = function() {
 	console.log($scope.eventdoc.eventInstanceId);
