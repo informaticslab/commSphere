@@ -88,10 +88,12 @@ $scope.eventdoc.dateCreated=$scope.date;
 $scope.eventdoc.userCreated = {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
 var previousData = angular.toJson($scope.eventdoc);
 
+
+//Generate analyst list from DB
 $http.get('/api/users/analysts').then(function(res) {
   var analysts = res.data;
   for(var i=0; i < analysts.length; i++) {
-    $scope.users.push(analysts[i].displayName);
+    $scope.users.push({'label':analysts[i].displayName, 'subDoc':{'id':analysts[i]._id, 'displayName':analysts[i].displayName }});
   }
 });
 

@@ -1,5 +1,6 @@
-commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData','$http', function($scope, $modal,$routeParams,ngEvents,ngRandomData,$http) {
+commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData','$http','ngIdentity', function($scope, $modal,$routeParams,ngEvents,ngRandomData,$http,ngIdentity) {
 
+$scope.identity = ngIdentity
 $scope.$parent.activeMenu='dashboard';
 // set default sort column and direction;
 $scope.sortType = "-dateCreated";
@@ -14,7 +15,7 @@ $http.get('/api/events/active').then(function(res){
          }
     });
     
-    
+console.log($scope.identity.currentUser);
 // if ($routeParams.draftStatus == null)
 //    $routeParams.draftStatus = 'active';
 // ngEvents.getEvents($routeParams.draftStatus).then(function(response) {
