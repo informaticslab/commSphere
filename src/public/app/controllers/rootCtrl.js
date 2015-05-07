@@ -5,7 +5,10 @@ $scope.activeMenu='';
 $scope.searchText='';
 $scope.identity = ngIdentity;
 
-
+if($scope.identity.currentUser === undefined){
+  $("body").css("background-color", "#2a2d33;");
+}
+// console.log($scope.identity.currentUser);
 $scope.createEvent = function (size,draftInstance) {
 
       var modalInstance = $modal.open({
@@ -35,6 +38,7 @@ $scope.logout = function(){
 //				$location.path('/');    /
 //			}
       $location.path('/login')
+      $("body").css("background-color", "#2a2d33;");
 		});
 	};
 

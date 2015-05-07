@@ -20,6 +20,7 @@ angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ng
 				ngNotifier.notifyError('Incorrect Email/Password');
 			}
 		});
+		$("body").css("background-color", "#FFF;");
 	};
 
 	
