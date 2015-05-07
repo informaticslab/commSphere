@@ -321,8 +321,10 @@ var previousData = angular.toJson($scope.eventdoc);
 // };
 
 $scope.assignUser = function(category) {
-	var userAssigned = $scope.userAssigned[category];
-	$scope.eventdoc.categories[category].userAssigned = userAssigned;
+	// console.log(category);
+	// var userAssigned = $scope.userAssigned[category.name];
+	// console.log(userAssigned);
+	// category.userAssigned = userAssigned;
 };
 
 $scope.createEvent = function() {

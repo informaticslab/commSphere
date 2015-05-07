@@ -117,11 +117,18 @@ input[type="text"].eventTemplateTopic {
 }
 
 
-.angular-ui-tree-nodes{
+.bullet-disc-nodes{
   list-style-type: disc;
   margin-left: 20px;
 }
-.angular-ui-tree-node{
+.bullet-disc-node{
   display: list-item;
 }
 
+.bullet-circle-nodes{
+  list-style-type: circle;
+  margin-left: 20px;
+}
+.bullet-circle-node{
+  display: list-item;
+}
