@@ -43,9 +43,11 @@ var CreateEventModalInstanceCtrl = function ($scope, $modalInstance) {
 
   $scope.ok = function () {
     $modalInstance.close();
+    $route.reload();
   };
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
+    $route.reload();
   };
 };

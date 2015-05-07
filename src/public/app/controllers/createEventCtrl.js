@@ -366,19 +366,18 @@ $scope.createEvent = function() {
 
 //			console.log($scope.eventdoc);
 //			console.log($scope.eventdoc.eventInstanceId);
-			$http.post('/api/events', $scope.eventdoc).then(function(res) {
+        			$http.post('/api/events', $scope.eventdoc).then(function(res) {
 
-				if(res.data.success) {
-					ngNotifier.notify("Event has been created!");
-			    $location.path('/dashboard/');
-         	$route.reload();
+        				if(res.data.success) {
+        					ngNotifier.notify("Event has been created!");
+        			    $location.path('/dashboard/');
 
-				} else {
-					alert('there was an error');
-				}
-			});
+        				} else {
+        					alert('there was an error');
+        				}
+        			});
 
-			$scope.ok();
+        			$scope.ok();
              
              } else {
                  alert('no data received, assign new id');
