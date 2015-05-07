@@ -9,7 +9,7 @@ var autoSave;
 
 autoSave = $interval( function() { $scope.checkDirty(); }, 10*secondUnit);
 $scope.$on('$destroy', function() {
-       if ($scope.eventdoc.draftStaus)
+       if ($scope.eventdoc.draftStatus)
            { 
               $scope.checkDirty();
            }
