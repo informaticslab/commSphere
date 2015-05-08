@@ -14,10 +14,7 @@ $scope.$on('$destroy', function() {
            { 
               $scope.checkDirty();
            }
-
             $interval.cancel(autoSave);
-            $route.reload();
-            
           });
 
 //
