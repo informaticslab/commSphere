@@ -56,7 +56,7 @@ exports.saveDraft = function(req,res) {
   delete eventData._id;
   var collection = mongo.mongodb.collection('events');
   if (Id) {  // if existing id then update
-  	 
+  	 console.log("ID true",Id);
       collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
 		if (err) {
 			res.send(err);
@@ -64,7 +64,7 @@ exports.saveDraft = function(req,res) {
 		}
 		else {
        console.log("document changed ", affectedDocCount);
-	   res.send({success:true});
+	   res.send({type:"update"});
 		}
    	 });
 	}
@@ -76,7 +76,7 @@ exports.saveDraft = function(req,res) {
 			console.log(err);
 		} else {
 			// send the inserted record new id back to ctrl
-			res.send({'newId': result[0]._id,success:true});
+			res.send({'eventdoc': result[0],type:"insert"});
 		}
  	});
   }

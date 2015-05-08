@@ -1,7 +1,8 @@
 commSphereApp.controller('dashDraftsCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','$route','$window','$filter', function($scope, $modal,$routeParams,ngEvents,$http,$route,$window,$filter) {
 
 $scope.$parent.activeMenu='drafts';
-$scope.sortType = "-dateCreated";
+$scope.sortReverse=true;
+$scope.sortType = "dateCreated";
 
 $http.get('/api/events/drafts').then(function(res){
 //     console.log(res.data);
@@ -70,13 +71,15 @@ var CreateEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draf
  $scope.draftInstance = draftInstance;
   
   $scope.ok = function () {
+    console.log("ok");
     $modalInstance.close();
-    $route.reload();
+    //$route.reload();
   };
 
   $scope.cancel = function () {
+    console.log("canceled");
     $modalInstance.dismiss('cancel');
-    $route.reload();
+    //$route.reload();
   };
 };
 
@@ -89,11 +92,16 @@ var DeleteEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draf
   
   $scope.ok = function () {
     $modalInstance.close();
-    $route.reload();
+    //$route.reload();
   };
 
   $scope.cancel = function () {
+    console.log("canceled");
     $modalInstance.dismiss('cancel');
-    $route.reload();
+
+    //$route.reload();
   };
 };
+
+
+
