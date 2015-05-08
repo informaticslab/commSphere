@@ -8,7 +8,7 @@ console.log("draftInstance",draftInstance);
 var  secondUnit = 1000;
 var autoSave;
 
-autoSave = $interval( function() { $scope.checkDirty(); }, 10*secondUnit);
+autoSave = $interval( function() { $scope.checkDirty(); }, 60*secondUnit);
 $scope.$on('$destroy', function() {
        if ($scope.eventdoc.draftStatus)
            { 
@@ -326,10 +326,13 @@ $http.get('/api/users/analysts').then(function(res) {
 
 // };
 
+
 // $scope.assignUser = function(category) {
 // 	var userAssigned = $scope.eventdoc.categories[category].userAssigned[category];
 // 	$scope.eventdoc.categories[category].userAssigned = userAssigned;
 // };
+
+
 
 $scope.createEvent = function() {
 	console.log($scope.eventdoc.eventInstanceId);
