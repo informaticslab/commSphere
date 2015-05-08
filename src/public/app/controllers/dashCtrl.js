@@ -5,7 +5,7 @@ $scope.$parent.activeMenu='dashboard';
 $scope.sortType = "-dateCreated";
 //console.log("test");
 $http.get('/api/events/active').then(function(res){
-//     console.log(res.data);
+     console.log(res.data);
      if(res.data) {
          $scope.instances=res.data;
          getCompletionStatus();

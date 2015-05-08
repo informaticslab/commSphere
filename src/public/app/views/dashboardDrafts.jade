@@ -14,17 +14,17 @@
                             tr
                                 th
                                     a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse")
-                                        |Event
+                                        | Event
                                         span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
                                 th
                                     a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse")
-                                        |ID
+                                        | ID
                                         span(ng-show="sortType == 'eventInstanceId' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventInstanceId' &&  sortReverse" class="fa fa-caret-up")  
                                 th
                                     a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
-                                        |Date 
+                                        | Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up")  
                                 th 

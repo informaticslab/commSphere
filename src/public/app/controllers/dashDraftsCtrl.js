@@ -5,7 +5,7 @@ $scope.sortReverse=true;
 $scope.sortType = "dateCreated";
 
 $http.get('/api/events/drafts').then(function(res){
-//     console.log(res.data);
+     console.log(res.data);
      if(res.data) {
          $scope.instances=res.data;
       //   getCompletionStatus();
@@ -28,6 +28,12 @@ $scope.editDraft = function (size,draftInstance) {
          }
        }
       });
+
+    modalInstance.result.then(function (selectedItem) {
+      console.log(selectedItem);
+    }, function () {
+      console.log('Modal dismissed at: ' + new Date());
+    });
     
     };
 
@@ -78,7 +84,8 @@ var CreateEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draf
 
   $scope.cancel = function () {
     console.log("canceled");
-    $modalInstance.dismiss('cancel');
+    $modalInstance.close();
+    //$modalInstance.dismiss('cancel');
     //$route.reload();
   };
 };

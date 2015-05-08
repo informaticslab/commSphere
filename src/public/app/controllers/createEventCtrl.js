@@ -1,8 +1,8 @@
 angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier, $location, $interval) {
 
 
-  var draftInstance = $scope.draftInstance;
-  console.log("draftInstance", draftInstance);
+  // var draftInstance = $scope.draftInstance;
+  // console.log("draftInstance", draftInstance);
 
   var secondUnit = 1000;
   var autoSave;
@@ -60,14 +60,14 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
     }, ]
   };
 
-  if (draftInstance) {
-    $scope.eventdoc = draftInstance;
+  if ($scope.draftInstance) {
+    $scope.eventdoc = $scope.draftInstance;
   }
 
   $scope.users = ['Dan', 'John', 'Steven', 'Paul', 'Tom']; //hardcoded placeholder
   $scope.eventTypes = ['Earthquake', 'Hurricane', 'Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
     //$scope.date = new Date().getTime();
-  $scope.date = new Date(); // need both date and time
+  $scope.date = new Date().getTime(); // need both date and time
 
 
   var currentUser = 'Joe Coordinator';
@@ -274,7 +274,7 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
 
   $scope.saveDraftEvent = function(clicked) {
 
-
+      console.log($scope.date);
       $scope.eventdoc.dateCreated = $scope.date;
 
     $http.post('/api/events/drafts', $scope.eventdoc).then(function(res) {
@@ -306,7 +306,7 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
       }
 
        else {
-        alert('A problem was encountered with saving this ecent. Please contact the admiistrator.');
+        alert('A problem was encountered with saving this event. Please contact the admiistrator.');
       }
     });
 
