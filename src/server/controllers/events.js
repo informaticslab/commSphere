@@ -104,10 +104,10 @@ exports.deleteDraft = function(req,res) {
 };
 
 exports.getEventsByAnalyst = function (req,res) {
-	var analyst = req.params.analystId;
-	console.log("analyst id", analyst);
+	var analystId = req.params.analystId;
+	console.log("analyst id", analystId);
     var collection = mongo.mongodb.collection('events');
-	collection.find({'categories':{$elemMatch:{'userAssigned': analyst}}, 'draftStatus': false}).toArray(function(err,eventInstances) {
+	collection.find({'categories':{$elemMatch:{'userAssigned.id': analystId}}, 'draftStatus': false}).toArray(function(err,eventInstances) {
 	  	if(err){
 	 	 	console.log(err);
 	 	 } else {

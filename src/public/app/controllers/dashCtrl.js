@@ -5,17 +5,33 @@ $scope.$parent.activeMenu='dashboard';
 // set default sort column and direction;
 $scope.sortType = "-dateCreated";
 //console.log("test");
-$http.get('/api/events/active').then(function(res){
-//     console.log(res.data);
-     if(res.data) {
-         $scope.instances=res.data;
-         getCompletionStatus();
-         } else {
-             alert('no data received, assign new id');
-         }
-    });
+
+
+if($scope.identity.currentUser.roles.levelThree) {  //Filtering for events for analysts
+
+  $http.get('/api/events/analyst/'+$scope.identity.currentUser._id).then(function(res){
+  //     console.log(res.data);
+       if(res.data) {
+           $scope.instances=res.data;
+           //getCompletionStatus();
+           } else {
+               alert('no data received');
+           }
+  });
     
-console.log($scope.identity.currentUser);
+} else {
+
+  $http.get('/api/events/active').then(function(res){
+  //     console.log(res.data);
+       if(res.data) {
+           $scope.instances=res.data;
+           getCompletionStatus();
+           } else {
+               alert('no data received, assign new id');
+           }
+      });
+  }
+    
 // if ($routeParams.draftStatus == null)
 //    $routeParams.draftStatus = 'active';
 // ngEvents.getEvents($routeParams.draftStatus).then(function(response) {
