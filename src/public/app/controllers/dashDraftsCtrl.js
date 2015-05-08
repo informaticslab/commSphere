@@ -1,10 +1,11 @@
 commSphereApp.controller('dashDraftsCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','$route','$window','$filter', function($scope, $modal,$routeParams,ngEvents,$http,$route,$window,$filter) {
 
 $scope.$parent.activeMenu='drafts';
-$scope.sortType = "-dateCreated";
+$scope.sortReverse=true;
+$scope.sortType = "dateCreated";
 
 $http.get('/api/events/drafts').then(function(res){
-//     console.log(res.data);
+     console.log(res.data);
      if(res.data) {
          $scope.instances=res.data;
       //   getCompletionStatus();
@@ -17,7 +18,7 @@ $scope.editDraft = function (size,draftInstance) {
  
         var modalInstance = $modal.open({
         templateUrl: '/partials/createEventModal',
-        controller: CreateEventModalInstanceCtrl,
+        controller: DraftEventModalInstanceCtrl,
         size: size,
         keyboard: false,
         backdrop: 'static',
@@ -27,6 +28,12 @@ $scope.editDraft = function (size,draftInstance) {
          }
        }
       });
+
+    // modalInstance.result.then(function (selectedItem) {
+    //   console.log(selectedItem);
+    // }, function () {
+    //   console.log('Modal dismissed at: ' + new Date());
+    // });
     
     };
 
@@ -65,35 +72,43 @@ $scope.deleteDraft = function (draftInstance) {
 
 }]);
 
-var CreateEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
+var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
 
  $scope.draftInstance = draftInstance;
   
   $scope.ok = function () {
+    console.log("ok");
     $modalInstance.close();
-    $route.reload();
+    //$route.reload();
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-    $route.reload();
+    console.log("canceled");
+    //$modalInstance.close();
+    $modalInstance.dismiss();
+    //$route.reload();
   };
 };
 
-var DeleteEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
+// var DeleteEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
 
- $scope.draftInstance = draftInstance;
- $scope.removeUser = function() {
+//  $scope.draftInstance = draftInstance;
+//  $scope.removeUser = function() {
   
-  }
+//   }
   
-  $scope.ok = function () {
-    $modalInstance.close();
-    $route.reload();
-  };
+//   $scope.ok = function () {
+//     $modalInstance.close();
+//     //$route.reload();
+//   };
 
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-    $route.reload();
-  };
-};
+//   $scope.cancel = function () {
+//     console.log("canceled");
+//     $modalInstance.dismiss('cancel');
+
+//     //$route.reload();
+//   };
+// };
+
+
+
