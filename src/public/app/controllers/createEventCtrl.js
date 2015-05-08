@@ -10,9 +10,14 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
   autoSave = $interval(function() {
     //$scope.checkDirty();
   }, 60 * secondUnit);
+
+  
   $scope.$on('$destroy', function() {
     console.log($scope.eventdoc );
-    $scope.saveDraftEvent();
+    if($scope.eventdoc.draftStatus)
+    {
+      $scope.saveDraftEvent();
+    }
     $interval.cancel(autoSave);
 
   });
@@ -286,7 +291,7 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
 
         if (clicked="clicked") {
           ngNotifier.notify("Your event has been saved under drafts");
-          //$location.path("/dashboard/drafts");
+          $location.path("/dashboard/drafts");
           //$scope.ok();
 
         } else {

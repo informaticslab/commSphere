@@ -39,15 +39,17 @@ $scope.logout = function(){
 }]);
 
 
-var CreateEventModalInstanceCtrl = function ($scope, $modalInstance) {
+var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$route) {
 
   $scope.ok = function () {
+    console.log($location.path);
     $modalInstance.close();
     $route.reload();
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
+    console.log($location.path);
+    $modalInstance.dismiss();
     $route.reload();
   };
 };

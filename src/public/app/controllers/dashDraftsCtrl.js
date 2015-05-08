@@ -18,7 +18,7 @@ $scope.editDraft = function (size,draftInstance) {
  
         var modalInstance = $modal.open({
         templateUrl: '/partials/createEventModal',
-        controller: CreateEventModalInstanceCtrl,
+        controller: DraftEventModalInstanceCtrl,
         size: size,
         keyboard: false,
         backdrop: 'static',
@@ -29,11 +29,11 @@ $scope.editDraft = function (size,draftInstance) {
        }
       });
 
-    modalInstance.result.then(function (selectedItem) {
-      console.log(selectedItem);
-    }, function () {
-      console.log('Modal dismissed at: ' + new Date());
-    });
+    // modalInstance.result.then(function (selectedItem) {
+    //   console.log(selectedItem);
+    // }, function () {
+    //   console.log('Modal dismissed at: ' + new Date());
+    // });
     
     };
 
@@ -72,7 +72,7 @@ $scope.deleteDraft = function (draftInstance) {
 
 }]);
 
-var CreateEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
+var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
 
  $scope.draftInstance = draftInstance;
   
@@ -84,31 +84,31 @@ var CreateEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draf
 
   $scope.cancel = function () {
     console.log("canceled");
-    $modalInstance.close();
-    //$modalInstance.dismiss('cancel');
+    //$modalInstance.close();
+    $modalInstance.dismiss();
     //$route.reload();
   };
 };
 
-var DeleteEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
+// var DeleteEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
 
- $scope.draftInstance = draftInstance;
- $scope.removeUser = function() {
+//  $scope.draftInstance = draftInstance;
+//  $scope.removeUser = function() {
   
-  }
+//   }
   
-  $scope.ok = function () {
-    $modalInstance.close();
-    //$route.reload();
-  };
+//   $scope.ok = function () {
+//     $modalInstance.close();
+//     //$route.reload();
+//   };
 
-  $scope.cancel = function () {
-    console.log("canceled");
-    $modalInstance.dismiss('cancel');
+//   $scope.cancel = function () {
+//     console.log("canceled");
+//     $modalInstance.dismiss('cancel');
 
-    //$route.reload();
-  };
-};
+//     //$route.reload();
+//   };
+// };
 
 
 
