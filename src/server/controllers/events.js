@@ -102,6 +102,21 @@ exports.deleteDraft = function(req,res) {
    	});
 	}
 };
+
+exports.getEventsByAnalyst = function (req,res) {
+	var analyst = req.params.analystId;
+	console.log("analyst id", analyst);
+    var collection = mongo.mongodb.collection('events');
+	collection.find({'categories':{$elemMatch:{'userAssigned': analyst}}, 'draftStatus': false}).toArray(function(err,eventInstances) {
+	  	if(err){
+	 	 	console.log(err);
+	 	 } else {
+			  
+		  	res.send(eventInstances);
+		 }
+	 });
+	
+};
 exports.findDuplicate = function(req, res) {
 	 var eventName = req.params.eventName;
 	 var collection = mongo.mongodb.collection('events');
