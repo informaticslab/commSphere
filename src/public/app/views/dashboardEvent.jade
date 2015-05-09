@@ -9,10 +9,10 @@ div(style="background-color:#f2f2f2;")
                         br
                         p.p-create-new {{eventdoc.dateCreated | date:'medium'}}
                     .create-btn-cont
-                        button.btn.btn-default.btn-success(type="button" ng-click="createEvent()")
-                            | Create
+                        button.btn.btn-default.btn-success(type="button" ng-click="createEvent()" ng-disabled='notAllowed()')
+                            | Submit
                     .save-draft-cont
-                        button.btn.btn-default(type="button" style='background-color:#bababa; color:#ffffff;')
+                        button.btn.btn-default(type="button" style='background-color:#bababa; color:#ffffff;' ng-disabled='notAllowed()')
                             | Save Draft
         .modal-body(style='background-color:#f2f2f2;')
             .row(style='background-color:#f2f2f2; height:100vh;')
@@ -43,7 +43,7 @@ div(style="background-color:#f2f2f2;")
                                                     h4
                                                         | {{subTopic.name}}
                                                     div(ui-tree='options')
-                                                        ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='subTopic.bullets', data-type='bullet')
+                                                        ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='subTopic.bullets', data-type='bullet' )
                                                             li.bullet-disc-node(ng-repeat='bullet in subTopic.bullets', ui-tree-node='')
                                                                 .bullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                                                     a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeBullet(subTopic, bullet)')
@@ -60,10 +60,10 @@ div(style="background-color:#f2f2f2;")
                                                                 ul.bullet-circle-nodes.angular-ui-tree-nodes(data-nodrag='')
                                                                     li.bullet-circle-node.angular-ui-tree-node
                                                                         .subBullet-title.angular-ui-tree-handle-clear
-                                                                            textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null')
+                                                                            textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null' ng-readonly="noEdit()")
                                                         ul.angular-ui-tree-nodes.bullet-disc-nodes(data-nodrag='')
                                                             li.angular-ui-tree-node.bullet-disc-node
-                                                                textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null')
+                                                                textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null' ng-readonly = 'noEdit()')
                                 //.row
                                     .col-lg-6
                                             h3 Data binding
