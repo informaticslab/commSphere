@@ -3,7 +3,7 @@ $scope.identity = ngIdentity;
 
   // var draftInstance = $scope.draftInstance;
   // console.log("draftInstance", draftInstance);
-
+$scope.allowSaveDrafts=false;
   var secondUnit = 1000;
   var autoSave;
 
@@ -11,12 +11,17 @@ $scope.identity = ngIdentity;
     //$scope.checkDirty();
   }, 60 * secondUnit);
 
-  
+
   $scope.$on('$destroy', function() {
     console.log($scope.eventdoc );
     if($scope.eventdoc.draftStatus)
     {
-      $scope.saveDraftEvent();
+      if($scope.allowSaveDrafts)
+      {
+        console.log("saving");
+        $scope.saveDraftEvent();
+      }
+      
     }
     $interval.cancel(autoSave);
 
@@ -294,9 +299,9 @@ $scope.identity = ngIdentity;
         
         //
 
-        if (clicked="clicked") {
+        if (clicked=="clicked") {
           ngNotifier.notify("Your event has been saved under drafts");
-          $location.path("/dashboard/drafts");
+          //$location.path("/dashboard/drafts");
           //$scope.ok();
 
         } else {
@@ -369,4 +374,17 @@ $scope.identity = ngIdentity;
 
 
   // };
+
+var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
+   console.log("watching");
+    if(newVal!=oldVal)
+    {
+      console.log('changed');
+      $scope.allowSaveDrafts=true;
+      unregister();
+    }
+   
+}, true);
+
+
 });

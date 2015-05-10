@@ -1,4 +1,4 @@
-angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier) {
+angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity) {
 
 
 $scope.myInstance = {}; 
@@ -95,12 +95,25 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 //   ]
 // };
 
-$scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
-$scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
+// $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
+//$scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
+$scope.currentUser = ngIdentity.currentUser;
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
 //$scope.eventdoc.categories[0].topics = $scope.eventdoc.categories[0].topics;
+//console.log(ngIdentity.currentUser);
+//console.log(ngIdentity.currentUser.roles.levelOne);
 
+$scope.noEdit = function () {
+  // assuming that the current category assigned user is matching with the current user
+    return !ngIdentity.isAuthorized("LevelOne") &&  $scope.eventdoc.categories[0].draftStatus==true ;
+ //     return true;
+};
+$scope.notAllowed = function() {
+ //  return !ngIdentity.isAuthorized("LevelOne");
+     return false;
+}
+console.log($scope.noEdit);
 
 $scope.setActiveTab = function(tabId)
 {
@@ -500,4 +513,6 @@ function getLatestInstance(partialId)
             instanceId = nameComponent[0].substr(0,4)+ '-' + '01';
         return instanceId;
     }
+    
+    
 });
