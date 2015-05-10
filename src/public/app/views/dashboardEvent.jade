@@ -26,7 +26,7 @@ div(style="background-color:#f2f2f2;")
                                             img(ng-if='category.name=="Web"' src='img/web-icon.png', width='37', height='32')
                                             img(ng-if='category.name=="TV"' src='img/tv-icon.png', width='37', height='32')
                                             img(ng-if='category.name=="Print"' src='img/news-icon.png', width='37', height='32')
-                                            |   {{category.name}}: by {{category.userAssigned}}
+                                            |   {{category.name}}: by {{category.userAssigned.displayName}}
                                         br
                                         br
                                         hr
