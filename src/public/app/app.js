@@ -49,7 +49,8 @@ commSphereApp.config(['$routeProvider', '$locationProvider',
     $routeProvider.
     when('/dashboard/event/:id', {
         templateUrl : '/partials/dashboardEvent',
-        controller  : 'dashEventCtrl'
+        controller  : 'dashEventCtrl',
+        resolve : routeRoleChecks.levelTwoOrThree
     }).
     when('/dashboard', {
         templateUrl : '/partials/dashboard',
