@@ -31,11 +31,11 @@ div(style="background-color:#f2f2f2;")
                                         br
                                         hr
                                         br
-                                        ul.nav.nav-pills.nav-stacked.col-md-2(style="background-color:#f2f2f2;")
+                                        ul.nav.nav-pills.nav-stacked.col-md-3(style="background-color:#f2f2f2;")
                                             li(ng-repeat="topic in category.topics" ng-class="{active:activeTab=='tab_'+$index}")
                                                 a(data-target="{{'#tab_'+$index}}" data-toggle="pill"  ng-click="setActiveTab('tab_'+$index)" style="cursor:pointer")
                                                     | {{topic.name}}
-                                        div.tab-content.col-md-10
+                                        div.tab-content.col-md-9
                                             div.tab-pane2(ng-repeat="topic in category.topics" id="{{'#tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
                                                 h3
                                                     | {{topic.name}}
