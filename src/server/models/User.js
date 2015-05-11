@@ -95,6 +95,22 @@ function createDefaultUsers() {
         {//console.log(docs); 
         }
       });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'ranalyst');
+      User.create({firstName:'Rob',lastName:'Analyst',email:'ranalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Rob Analyst',provider:'local'},function(err, docs) {
+        if (err){ console.log(err);}
+        else
+        {//console.log(docs); 
+        }
+      });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'lanalyst');
+      User.create({firstName:'Lisa',lastName:'Analyst',email:'lanalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Lisa Analyst',provider:'local'},function(err, docs) {
+        if (err){ console.log(err);}
+        else
+        {//console.log(docs); 
+        }
+      });
     }
   });
 };
