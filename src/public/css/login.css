@@ -5,6 +5,9 @@
 	background-color:#2a2d33;
 }
 */
+#wrapper {
+	padding:0px;
+}
 .login-cont {
 	width:600px; 
 	position:relative; 
