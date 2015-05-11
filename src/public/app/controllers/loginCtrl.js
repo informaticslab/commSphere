@@ -7,12 +7,10 @@ angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ng
 			if(success) {
 				if($scope.identity.currentUser.isLevelTwo()){
 					$location.path('/dashboard');
-				}
-				else if ($scope.identity.currentUser.isLevelOne()) {
-					//TODO: admin route
-				}
-				else if ($scope.identity.currentUser.isLevelThree()){
+				} else if ($scope.identity.currentUser.isLevelThree()){
 					$location.path('/dashboard');
+				} else if ($scope.identity.currentUser.isLevelOne()) {
+					//TODO: admin route
 				}
 				
 			} else {
