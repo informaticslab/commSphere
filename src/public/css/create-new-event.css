@@ -15,6 +15,13 @@ body {
 	position:relative; 
 	margin:0 0 10px 30px;
 }
+.event-title-cont {
+	float:left; 
+	position:relative; 
+	margin:20px 30px 10px 30px;
+	border-right:1px solid #eeeeee;
+	padding: 0 30px 0 0;
+}
 
 .h2-create-new {
 	font-weight:normal; 
@@ -37,6 +44,16 @@ body {
 	float:right; 
 	position:relative; 
 	margin:15px 10px 10px 0;
+}
+.submit-btn-cont {
+	float:left; 
+	position:relative; 
+	margin:45px 30px 10px 0;
+}
+.save-draft-cont-evt {
+	float:left; 
+	position:relative; 
+	margin:45px 10px 10px 0;
 }
 .hor-line-br {
 	width:100%; 

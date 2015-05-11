@@ -3,17 +3,17 @@ div(style="background-color:#f2f2f2;")
         .modal-header.header_dark
             .row(style='background-color:#ffffff;')
                 .col-lg-12
-                    .create-new-event-cont
+                    .event-title-cont
                         h2.h2-create-new(id='myModalLabel')
                             | {{eventdoc.eventName}}
                         br
                         p.p-create-new {{eventdoc.dateCreated | date:'medium'}}
-                    .create-btn-cont
-                        button.btn.btn-default.btn-success(type="button" ng-click="createEvent()" ng-disabled='notAllowed()')
-                            | Submit
-                    .save-draft-cont
+                    .save-draft-cont-evt
                         button.btn.btn-default(type="button" style='background-color:#bababa; color:#ffffff;' ng-disabled='notAllowed()')
                             | Save Draft
+                    .submit-btn-cont
+                        button.btn.btn-default.btn-success(type="button" ng-click="createEvent()" ng-disabled='notAllowed()')
+                            | Submit
         .modal-body(style='background-color:#f2f2f2;')
             .row(style='background-color:#f2f2f2; height:100vh;')
                 .col-lg-12.col-md-12.col-sm-12
