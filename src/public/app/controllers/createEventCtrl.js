@@ -207,14 +207,6 @@ $scope.allowSaveDrafts=false;
     }
   };
 
-
-  $scope.assignUser = function(category) {
-    // console.log(category);
-    // var userAssigned = $scope.userAssigned[category.name];
-    // console.log(userAssigned);
-    // category.userAssigned = userAssigned;
-  };
-
   $scope.createEvent = function() {
     console.log($scope.eventdoc.eventInstanceId);
     //var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
