@@ -12,13 +12,13 @@ angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ng
 				} else if ($scope.identity.currentUser.isLevelOne()) {
 					//TODO: admin route
 				}
-				
+				$("body").css("background-color", "#FFF;");
 			} else {
 				//console.log(success);
 				ngNotifier.notifyError('Incorrect Email/Password');
 			}
 		});
-		$("body").css("background-color", "#FFF;");
+		
 	};
 
 	
