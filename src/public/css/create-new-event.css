@@ -20,7 +20,7 @@ body {
 	position:relative; 
 	margin:20px 30px 10px 30px;
 	border-right:1px solid #eeeeee;
-	padding: 0 30px 0 0;
+	padding: 0 20px 0 0;
 }
 
 .h2-create-new {
@@ -154,7 +154,18 @@ color:#ffffff;
 	background-color:#ffffff;
 	color:#000000;
 }
-
+.btn-circle2 {
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  padding:0 0 0 0;
+  font-size: 23px;
+  line-height: 1;
+  border-radius: 15px;
+  color:#d5d5d5;
+  background-color:#ffffff;
+  border:none;
+}
 
 .topic-title {
   background: #8fbbe8 !important;
