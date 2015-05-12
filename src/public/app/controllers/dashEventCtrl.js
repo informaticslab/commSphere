@@ -446,6 +446,20 @@ for (var i = 0 ; i < instance.categories.length; i++)
             
  
 }
+
+
+  $scope.ok = function () {
+
+    $modalInstance.close();
+
+  };
+
+  $scope.cancel = function () {
+
+    $modalInstance.dismiss();
+
+  };
+
 };
 
 function getCompletionStatus() {    
