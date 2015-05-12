@@ -299,7 +299,15 @@ $scope.createEvent = function() {
 
 $scope.saveCategory = function (status) {  // save data for the current tab
  // var oneCategoryData = $filter('filter')($scope.eventdoc.categories, {'name' : $scope.activeCategory});
-  var oneCategoryData = $scope.eventdoc.categories[0];
+  var oneCategoryData;
+ for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
+ {
+   if ($scope.eventdoc.categories[i].userAssigned.id == $scope.identity.currentUser._id) {
+        oneCategoryData = $scope.eventdoc.categories[i];
+        break;
+   }
+ }
+ // var oneCategoryData = $scope.eventdoc.categories[0];
   console.log(oneCategoryData);
   if (status === 'completed') {
     oneCategoryData.statusCompleted = true;
