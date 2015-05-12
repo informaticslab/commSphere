@@ -25,6 +25,8 @@ module.exports = function(app) {
   app.get('/api/events/duplicate/:eventName',events.findDuplicate);
   app.post('/api/events/drafts/delete/:Id',events.deleteDraft);
   app.get('/api/events/analyst/:analystId',events.getEventsByAnalyst);
+  app.post('/api/events/saveEventCategory',events.saveEventCategory);
+
 
 
   

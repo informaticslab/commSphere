@@ -117,6 +117,28 @@ exports.getEventsByAnalyst = function (req,res) {
 	 });
 	
 };
+
+exports.saveEventCategory = function (req,res) {
+  var data = req.body;
+  var Id = data.docId;
+  var categoryData = data.categoryData;
+  
+  var collection = mongo.mongodb.collection('events');
+  if (Id) {  // if existing id then update
+     collection.update({"_id":ObjectID(Id),"categories.name":categoryData.name },{$set : {"categories.$" : categoryData}},function(err, affectedDocCount) {
+	 if (err) {
+           res.send(err);
+           console.log(err);
+		   console.log('category update encountered error');
+	 }
+	 else {
+       console.log("document changed ", affectedDocCount);
+                 res.send({success:true});
+                             }
+               });
+              }
+	
+};
 exports.findDuplicate = function(req, res) {
 	 var eventName = req.params.eventName;
 	 var collection = mongo.mongodb.collection('events');
