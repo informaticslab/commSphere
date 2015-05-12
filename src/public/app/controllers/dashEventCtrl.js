@@ -1,14 +1,7 @@
 angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location) {
 
+$scope.identity = ngIdentity;
 
-$scope.myInstance = {}; 
-$scope.eventName ="";
-$scope.eventType = "";
-$scope.eventInstanceId="";
-$scope.topicValue={};
-  $scope.subTopicValue={};
-  $scope.userAssigned={};
-  $scope.eventName='';
 console.log($routeParams.id);
 $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      if(res.data) {
@@ -20,95 +13,23 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      }
 });
 
-// $scope.eventdoc = {
-//   "eventName": "",
-//   "eventType": "",
-//   "eventInstanceId": "",
-//   "userCreated": "",
-//   "dateCreated": "",
-//   "draftStatus": true,
-//   "categories": [
-//     {
-//       "name": "Web",
-//       "userAssigned": "",
-//       "statusCompleted": false,
-//       "dateCompleted": "",
-//       "topics": [
-//         {
-//           "name": "TOPIC 1",
-//           "type": "topic",
-//           "subTopics": [
-//             {
-//               "name": "SUB TOPIC 1",
-//               "sortOrder": 0,
-//               "type": "subTopic",
-//               "bullets": []
-//             },
-//             {
-//               "name": "SUB TOPIC 2",
-//               "sortOrder": 1,
-//               "type": "subTopic",
-//               "bullets": []
-//             }
-//           ],
-//           "sortOrder": 1,
-//           "editing": false,
-//           "newSubTopicName": ""
-//         },
-//         {
-//           "name": "TOPIC 2",
-//           "type": "topic",
-//           "subTopics": [
-//             {
-//               "name": "SUBTOPIC 2 1",
-//               "sortOrder": 0,
-//               "type": "subTopic",
-//               "bullets": []
-//             },
-//             {
-//               "name": "SUB TOPIC 2 2",
-//               "sortOrder": 1,
-//               "type": "subTopic",
-//               "bullets": []
-//             }
-//           ],
-//           "sortOrder": 2,
-//           "editing": false,
-//           "newSubTopicName": ""
-//         }
-//       ]
-//     },
-//     {
-//       "name": "TV",
-//       "userAssigned": "",
-//       "statusCompleted": false,
-//       "dateCompleted": "",
-//       "topics": []
-//     },
-//     {
-//       "name": "Print",
-//       "userAssigned": "",
-//       "statusCompleted": false,
-//       "dateCompleted": "",
-//       "topics": []
-//     }
-//   ]
-// };
-
-// $scope.users=['Dan','John','Steven','Paul','Tom']; //hardcoded placeholder
-//$scope.eventTypes=['Earthquake','Hurricane','Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
-$scope.currentUser = ngIdentity.currentUser;
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
 //$scope.eventdoc.categories[0].topics = $scope.eventdoc.categories[0].topics;
 //console.log(ngIdentity.currentUser);
 //console.log(ngIdentity.currentUser.roles.levelOne);
 
-$scope.noEdit = function () {
-  // assuming that the current category assigned user is matching with the current user
-    return !ngIdentity.isAuthorized("LevelOne") &&  $scope.eventdoc.categories[0].draftStatus==true ;
- //     return true;
+$scope.hideFromCoordinator = function(index) {
+    return !($scope.identity.currentUser.roles.levelTwo &&  ($scope.eventdoc.categories[index].statusCompleted==false));
+    //return false;
+    //console.log(index);
 };
+
+$scope.filterTabForAnalyst = function(index) {
+  
+   return (($scope.eventdoc.categories[index].userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo);
+};
+
 $scope.notAllowed = function() {
  //  return !ngIdentity.isAuthorized("LevelOne");
      return false;
@@ -289,102 +210,6 @@ $scope.setActiveTab = function(tabId)
       }
     };
 
-
-
-// $scope.addTopic=function(category)
-// {
-  
-//  var newTopic=$scope.topicValue[category];
-//  console.log(newTopic);
-
-//  newTopic=$filter('escapeDot')(newTopic);
-
-//  if(newTopic=="")
-//  {
-//    ngNotifier.notifyError("Topic cannot be blank");
-//  }
-//  else if(newTopic.trim()=="")
-//  {
-//    ngNotifier.notifyError("Topic cannot be blank");
-//  }
-//  else
-//  {
-
-//    if($scope.eventdoc.categories[category].topics==undefined)
-//    {
-//      $scope.eventdoc.categories[category].topics={};
-//    }
-
-
-//    if($scope.eventdoc.categories[category].topics[newTopic])
-//    {
-//      ngNotifier.notifyError(newTopic+" already exists");
-//    }
-//    else
-//    {
-//      $scope.eventdoc.categories[category].topics[newTopic]={};
-//      $scope.eventdoc.categories[category].topics[newTopic].displayValue=newTopic;
-//    }
-
-//    $scope.topicValue[category]="";
-    
-//    console.log($scope.eventdoc);
-//  }
-// };
-
-
-// $scope.deleteTopic=function(category,topic)
-// {
-  
-//  delete $scope.eventdoc.categories[category].topics[topic];
-//  console.log($scope.eventdoc);
-
-// };
-
-
-// $scope.addSubTopic=function(category,topic)
-// {
-//  console.log(category,topic);
-//  console.log($scope.eventdoc);
-  
-//  var newSubTopic=$scope.subTopicValue[category+'-'+topic];
-
-//  if(newSubTopic=="")
-//  {
-//    ngNotifier.notifyError("Sub Topic cannot be blank");
-//  }
-//  else if(newSubTopic.trim()=="")
-//  {
-//    ngNotifier.notifyError("Sub Topic cannot be blank");
-//  }
-//  else
-//  {
-//    console.log(newSubTopic,$scope.eventdoc.categories[category].topics[topic].subTopics);
-
-//    if($scope.eventdoc.categories[category].topics[topic].subTopics==undefined)
-//    {
-//      $scope.eventdoc.categories[category].topics[topic].subTopics={};
-//    }
-
-
-//    if($scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic])
-//    {
-//      ngNotifier.notifyError(newSubTopic+" already exists");
-//    }
-//    else
-//    {
-//      //$scope.eventdoc.categories[category].topics[topic].subTopics={};
-
-//      $scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic]={}
-//      $scope.eventdoc.categories[category].topics[topic].subTopics[newSubTopic].displayValue=newSubTopic;
-//    }
-    
-//    $scope.subTopicValue[category+'-'+topic]="";
-//  }
-
-
-
-// };
 
 $scope.assignUser = function(category) {
   var userAssigned = $scope.userAssigned[category];

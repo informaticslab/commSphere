@@ -7,7 +7,7 @@ div(style="background-color:#f2f2f2;")
                         h2.h2-create-new(id='myModalLabel')
                             | {{eventdoc.eventName}}
                             .save-draft-cont(style='position:relative; float:right; margin-left:10px; margin-top:0px; margin-right:0px;')
-                                button.btn.btn-default.btn-circle2.glyphicon.glyphicon-info-sign(type='button', ng-click='showInfo()')
+                                button.btn.btn-default.btn-circle2.glyphicon.glyphicon-info-sign(type='button', ng-click='showInfo()' ng-hide="identity.isAuthorized('levelThree')")
                         br
                         p.p-create-new {{eventdoc.dateCreated | date:'medium'}}
                     .save-draft-cont-evt
@@ -21,7 +21,7 @@ div(style="background-color:#f2f2f2;")
                 .col-lg-12.col-md-12.col-sm-12
                     .tab-container
                         tabset
-                            tab(ng-repeat="category in eventdoc.categories" heading="{{category.name}}")
+                            tab(ng-repeat="category in eventdoc.categories" heading="{{category.name}}" ng-if="filterTabForAnalyst($index)")
                                 .row
                                     .col-lg-12
                                         .tab-title-heading
