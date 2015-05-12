@@ -1,4 +1,4 @@
-angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity) {
+angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal) {
 
 
 $scope.myInstance = {}; 
@@ -112,7 +112,7 @@ $scope.noEdit = function () {
 $scope.notAllowed = function() {
  //  return !ngIdentity.isAuthorized("LevelOne");
      return false;
-}
+};
 console.log($scope.noEdit);
 
 $scope.setActiveTab = function(tabId)
@@ -120,7 +120,7 @@ $scope.setActiveTab = function(tabId)
   console.log(tabId);
   $scope.activeTab=tabId;
 
-}
+};
 
     $scope.addTopic = function(category) {
       console.log(category);
@@ -472,6 +472,32 @@ $scope.createEvent = function() {
   
 };
 
+$scope.saveCategory = function (status) {  // save data for the current tab
+ // var oneCategoryData = $filter('filter')($scope.eventdoc.categories, {'name' : $scope.activeCategory});
+  var oneCategoryData = $scope.eventdoc.categories[0];
+  console.log(oneCategoryData);
+  if (status === 'completed') {
+    oneCategoryData.statusCompleted = true;
+    oneCategoryData.dateCompleted = new Date().getTime();
+  }
+  else {
+      oneCategoryData.statusCompleted = false;
+  }
+  var data = { docId : $scope.eventdoc._id , categoryData : oneCategoryData };
+
+    $http.post('/api/events/saveEventCategory',data).then(function(res) {
+
+        if(res.data.success) {
+          ngNotifier.notify("Event category has been saved!");
+          if (oneCategoryData.statusCompleted === true) {
+             $location.path('/dashboard/');
+          //   $route.reload();
+          }
+        } else {
+          alert('there was an error');
+        }
+      });
+};
 
 function getLatestInstance(partialId)
     { 
@@ -514,5 +540,119 @@ function getLatestInstance(partialId)
         return instanceId;
     }
     
+    $scope.showInfo = function() {
+   $scope.instance = $scope.eventdoc;
+   var modalInstance = $modal.open({
+      scope:$scope,
+      templateUrl: '/partials/moreInfoModal',
+      controller: infoModalInstanceCtrl,
+      windowClass: 'center-modal',
+      size: 'md',
+      resolve: {
+         instance: function () {
+           return $scope.instance;
+         }
+       }
+      
+    });
+};
+
+//var infoModalInstanceCtrl = function ($scope, $modalInstance) {
+//
+//var instance = $scope.instance;
+//console.log('instance in modal ',instance);
+//var categoryCount = 0;
+//var completedCount = 0;
+//var category = 0;
+//
+//
+//
+//for (category in instance.categories)
+//{ 
+//  $scope.instance.categories[category.name].topicCount = 0;
+//  $scope.instance.categories[category.name].subtopicCount=0;    
+//  if (instance.categories.hasOwnProperty(category)) {
+//      var oneCategory = instance.categories[category];
+//    //  console.log(oneCategory);
+//      $scope.instance.categories[category].topicCount = getNodeCount(oneCategory.topics);
+//      var subTopicCount = 0;
+//      for (topic in oneCategory.topics) {
+//          if (oneCategory.topics.hasOwnProperty(topic)) {
+//            var oneTopic = oneCategory.topics[topic];
+//            console.log(oneTopic);
+//            subTopicCount += getNodeCount(oneTopic.subTopics);
+//           
+//          }
+//      }
+//       $scope.instance.categories[category].subtopicCount = subTopicCount;
+//            
+//  }
+//}
+//};
+
+var infoModalInstanceCtrl = function ($scope, $modalInstance) {
+
+var instance = $scope.instance;
+console.log('instance in modal ',instance);
+var categoryCount = 0;
+var completedCount = 0;
+
+
+
+
+for (var i = 0 ; i < instance.categories.length; i++) 
+   
+{ 
+  $scope.instance.categories[i].topicCount = 0;
+  $scope.instance.categories[i].subtopicCount=0;    
+  if (instance.categories.hasOwnProperty(category)) {
+      var oneCategory = instance.categories[category];
+      console.log(oneCategory);
+      $scope.instance.categories[category].topicCount = getNodeCount(oneCategory.topics);
+      var subTopicCount = 0;
+      for (topic in oneCategory.topics) {
+          if (oneCategory.topics.hasOwnProperty(topic)) {
+            var oneTopic = oneCategory.topics[topic];
+            console.log(oneTopic);
+            subTopicCount += getNodeCount(oneTopic.subTopics);
+           
+          }
+      }
+       $scope.instance.categories[category].subtopicCount = subTopicCount;
+            
+  }
+}
+};
+
+function getCompletionStatus() {    
+for(var i = 0, l = $scope.instances.length; i < l; ++i){
+    $scope.instances[i].randomNumber = ngRandomData.getRandomNumber();  //FOR "random" Mock data remove when real data has been implemented
+    oneInstance = $scope.instances[i];
+    var categoryCount = 0;
+    var completedCount = 0;
+    for (category in oneInstance.categories) {
+                   if (oneInstance.categories.hasOwnProperty(category)) {
+                 categoryCount++;
+//                 console.log(oneInstance.categories[category].completedStatus);
+                 if (oneInstance.categories[category].completedStatus)   
+                           completedCount ++;      
+             }
+    }
+      oneInstance.eventInstanceStatus = completedCount / categoryCount;
+//    console.log('category count ' + categoryCount);
+//    console.log('completed count = ' + completedCount);
+    
+}
+};
+
+function getNodeCount(document) { 
+  var nodeCount = 0;
+  for (node in document) {
+         if (document.hasOwnProperty(node)) 
+              nodeCount++;
+                     
+  }
+  return nodeCount;
+};
     
 });

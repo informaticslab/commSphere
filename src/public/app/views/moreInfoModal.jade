@@ -22,7 +22,7 @@ div(ng-controller='infoModalInstanceCtrl')
               |  {{eventdoc.eventType}}
             p
               strong Created by:
-              |  {{eventdoc.userCreated}}
+              |  {{eventdoc.userCreated.displayName}}
             p
               strong Date Created:
               |  {{eventdoc.dateCreated | date :'MM/dd/yyyy'}}
@@ -42,7 +42,7 @@ div(ng-controller='infoModalInstanceCtrl')
                 tbody
                   tr(ng-repeat="category in eventdoc.categories")
                     td {{category.name}}
-                    td {{category.userAssigned}}
+                    td {{category.userAssigned.displayName}}
                     td {{category.topicCount}}
                     td {{category.subtopicCount}}
                     td {{category.statusCompleted ? 'Yes' : 'No'}}
