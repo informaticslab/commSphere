@@ -43,7 +43,7 @@ html(lang="en" ng-app="app")
                             a(href='/#/') Active Events
                         li(ng-class="{active:activeMenu=='drafts'}" ng-show="identity.isAuthorized('levelTwo')")
                             a(href='/#/dashboard/drafts') Saved Drafts
-                        li(ng-class="{active:activeMenu=='archives'}")
+                        li(ng-class="{active:activeMenu=='archives'}" ng-show="identity.isAuthorized('levelTwo')")
                             a(href='/#/dashboard/archives') Archived Events
                             br
                         li.side-nav-settings
