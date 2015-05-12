@@ -1,4 +1,4 @@
-angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal) {
+angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location) {
 
 
 $scope.myInstance = {}; 
