@@ -1,0 +1,50 @@
+div(ng-controller='infoModalInstanceCtrl')
+  .modal-header
+  .modal-body
+    .row(style='background-color:#ffffff; margin:0px;')
+      .col-lg-12
+        .create-new-event-cont
+          h2.h2-create-new More Information
+        .hor-line-br  
+    // Content
+    .row(style='margin:0px;')
+      .col-lg-12(style='padding:30px;')
+        .panel.panel-default
+          .panel-body
+            p
+              strong Event Name:
+              |  {{eventdoc.eventName}}
+            p
+              strong Event ID:
+              |  {{eventdoc.eventId}}
+            p
+              strong Event Type:
+              |  {{eventdoc.eventType}}
+            p
+              strong Created by:
+              |  {{eventdoc.userCreated}}
+            p
+              strong Date Created:
+              |  {{eventdoc.dateCreated | date :'MM/dd/yyyy'}}
+            br
+            hr
+            // TABLE
+            .table-responsive
+              table.table.table-hover.table-striped
+                thead
+                  tr
+                    th Media Type
+                    th Assigned To
+                    th Topics
+                    th Sub-topics
+                    th Completed
+                    th Date Completed
+                tbody
+                  tr(ng-repeat="category in eventdoc.categories")
+                    td {{category.name}}
+                    td {{category.userAssigned}}
+                    td {{category.topicCount}}
+                    td {{category.subtopicCount}}
+                    td {{category.statusCompleted ? 'Yes' : 'No'}}
+                    td {{category.dateCompleted | date: 'MM/dd/yyyy'}}
+                  
