@@ -82,12 +82,14 @@ $scope.allowSaveDrafts=false;
   $scope.eventdoc.userCreated = {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
   var previousData = angular.toJson($scope.eventdoc);
 
+
   $http.get('/api/users/analysts').then(function(res) {
   var analysts = res.data;
   for(var i=0; i < analysts.length; i++) {
-    $scope.users.push({'label':analysts[i].displayName, 'subDoc':{'id':analysts[i]._id, 'displayName':analysts[i].displayName }});
+    $scope.users.push({'id':analysts[i]._id, 'displayName':analysts[i].displayName });
+    // $scope.users.push(analysts[i].displayName);
   }
-});
+  });
 
 
   $scope.addTopic = function(category) {
@@ -313,7 +315,7 @@ $scope.allowSaveDrafts=false;
       }
 
        else {
-        alert('A problem was encountered with saving this event. Please contact the admiistrator.');
+        alert('A problem was encountered with saving this event. Please contact the admistrator.');
       }
     });
 

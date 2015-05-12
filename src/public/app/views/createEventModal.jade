@@ -41,7 +41,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 												|   {{category.name}}
 											.assign-to-cont
 												label Assign To
-												select.form-control(placeholder='Select Analyst' ng-model='eventdoc.categories[$index].userAssigned' ng-options='user.subDoc as user.label for user in users' )
+												select.form-control(placeholder='Select Analyst' ng-model='category.userAssigned' ng-options='user as user.displayName for user in users track by user.id' )
 													option(value="") - Select an analyst -
 											br
 											br
