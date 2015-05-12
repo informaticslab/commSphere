@@ -113,7 +113,7 @@ $scope.notAllowed = function() {
  //  return !ngIdentity.isAuthorized("LevelOne");
      return false;
 };
-console.log($scope.noEdit);
+
 
 $scope.setActiveTab = function(tabId)
 {
@@ -605,22 +605,21 @@ for (var i = 0 ; i < instance.categories.length; i++)
 { 
   $scope.instance.categories[i].topicCount = 0;
   $scope.instance.categories[i].subtopicCount=0;    
-  if (instance.categories.hasOwnProperty(category)) {
-      var oneCategory = instance.categories[category];
-      console.log(oneCategory);
-      $scope.instance.categories[category].topicCount = getNodeCount(oneCategory.topics);
+  var oneCategory = instance.categories[i];
+  //    console.log(oneCategory);
+      $scope.instance.categories[i].topicCount = getNodeCount(oneCategory.topics);
       var subTopicCount = 0;
       for (topic in oneCategory.topics) {
           if (oneCategory.topics.hasOwnProperty(topic)) {
             var oneTopic = oneCategory.topics[topic];
-            console.log(oneTopic);
+        //    console.log(oneTopic);
             subTopicCount += getNodeCount(oneTopic.subTopics);
            
           }
       }
-       $scope.instance.categories[category].subtopicCount = subTopicCount;
+       $scope.instance.categories[i].subtopicCount = subTopicCount;
             
-  }
+ 
 }
 };
 
@@ -648,9 +647,7 @@ for(var i = 0, l = $scope.instances.length; i < l; ++i){
 function getNodeCount(document) { 
   var nodeCount = 0;
   for (node in document) {
-         if (document.hasOwnProperty(node)) 
-              nodeCount++;
-                     
+        nodeCount++;
   }
   return nodeCount;
 };
