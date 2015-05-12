@@ -107,7 +107,7 @@ exports.getEventsByAnalyst = function (req,res) {
 	var analystId = req.params.analystId;
 	console.log("analyst id", analystId);
     var collection = mongo.mongodb.collection('events');
-	collection.find({'categories':{$elemMatch:{'userAssigned.id': analystId, 'statusCompleted' :false}}}).toArray(function(err,eventInstances) {
+	collection.find({'draftStatus':false,'categories':{$elemMatch:{'userAssigned.id': analystId, 'statusCompleted' :false}}}).toArray(function(err,eventInstances) {
 	  	if(err){
 	 	 	console.log(err);
 	 	 } else {
