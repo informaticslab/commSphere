@@ -21,7 +21,7 @@ div(style="background-color:#f2f2f2;")
                 .col-lg-12.col-md-12.col-sm-12
                     .tab-container
                         tabset
-                            tab(ng-repeat="category in eventdoc.categories" heading="{{category.name}}" ng-if="filterTabForAnalyst($index)")
+                            tab(ng-repeat="category in eventdoc.categories | filter: filterTabForAnalyst" heading="{{category.name}}" )
                                 .row
                                     .col-lg-12
                                         .tab-title-heading
@@ -49,14 +49,14 @@ div(style="background-color:#f2f2f2;")
                                                                 | {{subTopic.name}}
                                                             div(ui-tree='options')
                                                                 ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='subTopic.bullets', data-type='bullet' )
-                                                                    li.bullet-disc-node(ng-repeat='bullet in subTopic.bullets', ui-tree-node='')
+                                                                    li.bullet-disc-node(ng-repeat='bullet in subTopic.bullets', ui-tree-node='' ng-show="hideFromCoordinator(category)")
                                                                         .bullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                                                             a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeBullet(subTopic, bullet)')
                                                                                 i.glyphicon.glyphicon-remove
                                                                             p
                                                                                 | {{bullet.name}}
                                                                         ul.bullet-circle-nodes(ui-tree-nodes='', ng-model='bullet.subBullets', data-type='subBullet')
-                                                                            li.bullet-circle-node(ng-repeat='subBullet in bullet.subBullets', ui-tree-node='')
+                                                                            li.bullet-circle-node(ng-repeat='subBullet in bullet.subBullets', ui-tree-node='' ng-show="hideFromCoordinator($index)")
                                                                                 .subBullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                                                                     a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubBullet(bullet, subBullet)')
                                                                                         i.glyphicon.glyphicon-remove
@@ -65,10 +65,11 @@ div(style="background-color:#f2f2f2;")
                                                                         ul.bullet-circle-nodes.angular-ui-tree-nodes(data-nodrag='')
                                                                             li.bullet-circle-node.angular-ui-tree-node
                                                                                 .subBullet-title.angular-ui-tree-handle-clear
-                                                                                    textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null' ng-readonly="noEdit()")
+                                                                                    textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null' )
                                                                 ul.angular-ui-tree-nodes.bullet-disc-nodes(data-nodrag='')
                                                                     li.angular-ui-tree-node.bullet-disc-node
-                                                                        textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null' ng-readonly = 'noEdit()')
+                                                                        textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null'  ng-show="hideFromCoordinator(category)")
+                                                                        textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Awaiting Bullets' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null' ng-readonly = 'true' ng-hide="hideFromCoordinator(category)")
                                 //.row
                                     .col-lg-6
                                             h3 Data binding

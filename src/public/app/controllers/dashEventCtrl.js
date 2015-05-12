@@ -19,15 +19,15 @@ $scope.activeTab="tab_0";
 //console.log(ngIdentity.currentUser);
 //console.log(ngIdentity.currentUser.roles.levelOne);
 
-$scope.hideFromCoordinator = function(index) {
-    return !($scope.identity.currentUser.roles.levelTwo &&  ($scope.eventdoc.categories[index].statusCompleted==false));
+$scope.hideFromCoordinator = function(category) {
+    return !($scope.identity.isAuthorized('levelTwo') &&  (category.statusCompleted==false));
     //return false;
     //console.log(index);
 };
 
-$scope.filterTabForAnalyst = function(index) {
+$scope.filterTabForAnalyst = function(category) {
   
-   return (($scope.eventdoc.categories[index].userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo);
+   return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo);
 };
 
 $scope.notAllowed = function() {
