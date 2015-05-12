@@ -1,10 +1,12 @@
 div(ng-controller='infoModalInstanceCtrl')
   .modal-header
-  .modal-body
+  .modal-body(style='height:105vh;')
     .row(style='background-color:#ffffff; margin:0px;')
       .col-lg-12
         .create-new-event-cont
           h2.h2-create-new More Information
+        .save-draft-cont(style='position:absolute; float:left; margin-left:-45px;')
+            button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
         .hor-line-br  
     // Content
     .row(style='margin:0px;')
@@ -16,7 +18,7 @@ div(ng-controller='infoModalInstanceCtrl')
               |  {{eventdoc.eventName}}
             p
               strong Event ID:
-              |  {{eventdoc.eventId}}
+              |  {{eventdoc.eventInstanceId}}
             p
               strong Event Type:
               |  {{eventdoc.eventType}}
@@ -47,4 +49,5 @@ div(ng-controller='infoModalInstanceCtrl')
                     td {{category.subtopicCount}}
                     td {{category.statusCompleted ? 'Yes' : 'No'}}
                     td {{category.dateCompleted | date: 'MM/dd/yyyy'}}
+    .clear-divs
                   

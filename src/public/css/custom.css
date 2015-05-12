@@ -38,6 +38,16 @@ input[type="text"].eventTemplateTopic {
 
 .center-modal {
     position: fixed;
+    top: -20px;
+    left: 30%;
+    z-index: 1050;
+    width: 80%;
+    
+    margin-left: -10%;
+}
+/*
+.center-modal {
+    position: fixed;
     top: 10%;
     left: 18.5%;
     z-index: 1050;
@@ -45,6 +55,7 @@ input[type="text"].eventTemplateTopic {
     height: 80%;
     margin-left: -10%;
 }
+*/
 
 @media (min-width: 992px) {
   .modal-lg {
@@ -133,4 +144,7 @@ input[type="text"].eventTemplateTopic {
 }
 .bullet-circle-node{
   display: list-item;
+}
+.clear-divs {
+	clear:both;
 }
