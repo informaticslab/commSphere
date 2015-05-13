@@ -30,11 +30,27 @@ $scope.filterTabForAnalyst = function(category) {
    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo);
 };
 
-$scope.notAllowed = function() {
- //  return !ngIdentity.isAuthorized("LevelOne");
-     return false;
+$scope.coordinatorAllowed = function() {
+  return !ngIdentity.isAuthorized("levelThree") && allCategoriesCompleted();
 };
 
+function allCategoriesCompleted()
+{  
+   var categoryCount = 0;
+    var completedCount = 0;
+    for (var i=0; i < $scope.eventdoc.categories.length; i++)
+    {  var category = $scope.eventdoc.categories[i]; 
+      if (category.userAssigned)
+       {
+             categoryCount++;
+             if (category.statusCompleted)
+              {
+                completedCount++;
+              }
+     }
+    } 
+     return (completedCount == categoryCount && categoryCount > 0);
+}
 
 $scope.setActiveTab = function(tabId)
 {
@@ -326,6 +342,20 @@ $scope.saveCategory = function (status) {  // save data for the current tab
              $location.path('/dashboard/');
           //   $route.reload();
           }
+        } else {
+          alert('there was an error');
+        }
+      });
+};
+
+$scope.saveEvent = function () {  // save data for the current document
+ 
+  var data = $scope.eventdoc;
+
+    $http.post('/api/events',data).then(function(res) {
+
+        if(res.data.success) {
+          ngNotifier.notify("Event document has been saved!");
         } else {
           alert('there was an error');
         }
