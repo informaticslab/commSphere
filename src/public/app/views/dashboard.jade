@@ -52,7 +52,10 @@
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td(ng-show="identity.isAuthorized('levelTwo')")
-                                    progressbar(animate='false', value='instance.eventInstanceStatus')
+                                    progressbar(animate='false', value='instance.eventInstanceStatus' type ="success" ng-if="instance.eventInstanceStatus==100")
+                                        span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
+                                            | {{instance.eventInstanceStatus}}%
+                                    progressbar(animate='false', value='instance.eventInstanceStatus' ng-if="instance.eventInstanceStatus<100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
                                             | {{instance.eventInstanceStatus}}%
 //                                    .progress
