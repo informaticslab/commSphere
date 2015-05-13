@@ -294,39 +294,68 @@ $scope.createEvent = function() {
 };
 
 $scope.saveCategory = function (status) {  // save data for the current tab
- // var oneCategoryData = $filter('filter')($scope.eventdoc.categories, {'name' : $scope.activeCategory});
+
  var oneCategoryData;
- for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
- {
-   if ($scope.eventdoc.categories[i].name == $scope.activeCategory) {
-        oneCategoryData = $scope.eventdoc.categories[i];
-        break;
-   }
+ 
+ if (ngIdentity.isAuthorized('levelTwo'))
+ { // coordinator save
+     console.log("i am in coordinator save");
+     for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
+     {
+       console.log($scope.eventdoc.categories[i]);
+       if ($scope.eventdoc.categories[i].statusCompleted) {
+            console.log
+            oneCategoryData = $scope.eventdoc.categories[i];
+            var data = { docId : $scope.eventdoc._id , categoryData : oneCategoryData };
+            saveOneCategory(data);
+       }
+     }
  }
- // var oneCategoryData = $scope.eventdoc.categories[0];
-//  console.log(oneCategoryData);
-  if (status === 'completed') {
-    oneCategoryData.statusCompleted = true;
-    oneCategoryData.dateCompleted = new Date().getTime();
-  }
-  else {
-      oneCategoryData.statusCompleted = false;
-  }
-  var data = { docId : $scope.eventdoc._id , categoryData : oneCategoryData };
-
-    $http.post('/api/events/saveEventCategory',data).then(function(res) {
-
-        if(res.data.success) {
-          ngNotifier.notify("Event category has been saved!");
-          if (oneCategoryData.statusCompleted === true) {
-             $location.path('/dashboard/');
-          //   $route.reload();
-          }
-        } else {
-          alert('there was an error');
-        }
-      });
+ else
+ {  // analyst save 
+     for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
+     {
+       if ($scope.eventdoc.categories[i].name == $scope.activeCategory) {
+ //      if ($scope.eventdoc.categories[i].userAssigned.id ==  $scope.identity.currentUser._id) {
+            oneCategoryData = $scope.eventdoc.categories[i];
+            break;
+       }
+     }
+      if (status === 'completed') {
+        oneCategoryData.statusCompleted = true;
+        oneCategoryData.dateCompleted = new Date().getTime();
+      }
+      else {
+          oneCategoryData.statusCompleted = false;
+      }
+      var data = { docId : $scope.eventdoc._id , categoryData : oneCategoryData };
+    
+        $http.post('/api/events/saveEventCategory',data).then(function(res) {
+    
+            if(res.data.success) {
+              ngNotifier.notify("Event category has been saved!");
+              if (oneCategoryData.statusCompleted === true) {
+                 $location.path('/dashboard/');
+              //   $route.reload();
+              }
+            } else {
+              alert('there was an error');
+            }
+          });
+ }
+ 
 };
+function saveOneCategory(data) {
+   console.log ("i am in save one category" , data);
+   $http.post('/api/events/saveEventCategory',data).then(function(res) {
+              if(res.data.success) {
+                ngNotifier.notify("Event category "+ data.categoryData.name  + " has been saved!");
+              } else {
+                alert('there was an error');
+              }
+            });
+            
+}
 
 $scope.saveEvent = function () {  // save data for the current document
  
