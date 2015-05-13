@@ -30,27 +30,7 @@ $scope.filterTabForAnalyst = function(category) {
    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo);
 };
 
-$scope.coordinatorAllowed = function() {
-  return !ngIdentity.isAuthorized("levelThree") && allCategoriesCompleted();
-};
 
-function allCategoriesCompleted()
-{  
-   var categoryCount = 0;
-    var completedCount = 0;
-    for (var i=0; i < $scope.eventdoc.categories.length; i++)
-    {  var category = $scope.eventdoc.categories[i]; 
-      if (category.userAssigned)
-       {
-             categoryCount++;
-             if (category.statusCompleted)
-              {
-                completedCount++;
-              }
-     }
-    } 
-     return (completedCount == categoryCount && categoryCount > 0);
-}
 
 $scope.setActiveTab = function(tabId)
 {
@@ -315,16 +295,16 @@ $scope.createEvent = function() {
 
 $scope.saveCategory = function (status) {  // save data for the current tab
  // var oneCategoryData = $filter('filter')($scope.eventdoc.categories, {'name' : $scope.activeCategory});
-  var oneCategoryData;
+ var oneCategoryData;
  for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
  {
-   if ($scope.eventdoc.categories[i].userAssigned.id == $scope.identity.currentUser._id) {
+   if ($scope.eventdoc.categories[i].name == $scope.activeCategory) {
         oneCategoryData = $scope.eventdoc.categories[i];
         break;
    }
  }
  // var oneCategoryData = $scope.eventdoc.categories[0];
-  console.log(oneCategoryData);
+//  console.log(oneCategoryData);
   if (status === 'completed') {
     oneCategoryData.statusCompleted = true;
     oneCategoryData.dateCompleted = new Date().getTime();
@@ -529,4 +509,39 @@ function getNodeCount(document) {
   return nodeCount;
 };
     
+    
+$scope.coordinatorAllowed = function() {
+  return !ngIdentity.isAuthorized("levelThree") && allCategoriesCompleted($scope);
+};
+
+function allCategoriesCompleted(scope)
+{  
+   var categoryCount = 0;
+    var completedCount = 0;
+  //  console.log($scope.eventdoc.categories);
+  try
+  {
+    for (var i=0; i < scope.eventdoc.categories.length; i++)
+    {  var category = scope.eventdoc.categories[i]; 
+      if (category.userAssigned)
+       {
+             categoryCount++;
+             if (category.statusCompleted)
+              {
+                completedCount++;
+              }
+     }
+    } 
+  }
+  catch(e) {}
+  
+     return (completedCount == categoryCount && categoryCount > 0);
+}
+
+$scope.setActiveCategory = function(category)
+{
+  $scope.activeCategory= category;
+ // console.log("current category ",category);
+};
+
 });
