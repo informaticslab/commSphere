@@ -1,6 +1,7 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,ngIdentity, ngUser) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser) {
 $scope.identity = ngIdentity;
 
+$animate.enabled(false, "div");
   // var draftInstance = $scope.draftInstance;
   // console.log("draftInstance", draftInstance);
 $scope.allowSaveDrafts=false;
