@@ -1,9 +1,9 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log) {
 $scope.identity = ngIdentity;
 
 $animate.enabled(false, "div");
   // var draftInstance = $scope.draftInstance;
-  // console.log("draftInstance", draftInstance);
+  // $log.debug("draftInstance", draftInstance);
 $scope.allowSaveDrafts=false;
   var secondUnit = 1000;
   var autoSave;
@@ -14,12 +14,12 @@ $scope.allowSaveDrafts=false;
 
 
   $scope.$on('$destroy', function() {
-    console.log($scope.eventdoc );
+    $log.debug($scope.eventdoc );
     if($scope.eventdoc.draftStatus)
     {
       if($scope.allowSaveDrafts)
       {
-        console.log("saving");
+        $log.debug("saving");
         $scope.saveDraftEvent();
       }
       
@@ -92,9 +92,11 @@ $scope.allowSaveDrafts=false;
   }
   });
 
+  $log.debug($scope.date);
+  
 
   $scope.addTopic = function(category) {
-    console.log(category);
+    $log.debug(category);
     // if ($scope.eventdoc.categories.indexOf(category).topics.length > 10) {
     //   window.alert('You can\'t add more than 10 topics!');
     //   return;
@@ -130,8 +132,8 @@ $scope.allowSaveDrafts=false;
     // if (window.confirm('Are you sure to remove this topic?')) {
     //   //topic.destroy();  //TODO
     // }
-    console.log(category);
-    console.log(topic);
+    $log.debug(category);
+    $log.debug(topic);
     var index = category.topics.indexOf(topic);
     if (index > -1) {
       category.topics.splice(index, 1)[0];
@@ -147,7 +149,7 @@ $scope.allowSaveDrafts=false;
   };
 
   $scope.addSubTopic = function(topic) {
-    console.log(topic);
+    $log.debug(topic);
     if (!topic.newSubTopicName || topic.newSubTopicName.length === 0) {
       return;
     }
@@ -172,7 +174,7 @@ $scope.allowSaveDrafts=false;
   };
 
   $scope.editSubTopic = function(subTopic) {
-    console.log("edit sub topic");
+    $log.debug("edit sub topic");
     subTopic.editing = true;
   };
 
@@ -192,7 +194,7 @@ $scope.allowSaveDrafts=false;
       return (data.type == destType); // only accept the same type
     },
     dropped: function(event) {
-      console.log(event);
+      $log.debug(event);
       var sourceNode = event.source.nodeScope;
       var destNodes = event.dest.nodesScope;
       // update changes to server
@@ -211,12 +213,12 @@ $scope.allowSaveDrafts=false;
   };
 
   $scope.createEvent = function() {
-    console.log($scope.eventdoc.eventInstanceId);
+    $log.debug($scope.eventdoc.eventInstanceId);
     //var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
 
       $scope.eventdoc.dateCreated = $scope.date;
     $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res) {
-      //console.log(res.data.duplicate);
+      //$log.debug(res.data.duplicate);
       if ($scope.eventdoc.eventName.trim() === '') {
         ngNotifier.notifyError('Event name cannot be blank');
       } else if ($scope.eventdoc.eventName.replace(/ /g, '').match(/^[0-9]+$/) != null) {
@@ -236,25 +238,25 @@ $scope.allowSaveDrafts=false;
         var partialId = genInstanceId($scope.eventdoc.eventName);
 
         $http.get('/api/events/getAvailEventId/' + partialId).then(function(res) {
-          //       	console.log(partialId);
-          //        console.log(res.data);
+          //       	$log.debug(partialId);
+          //        $log.debug(res.data);
           if (res.data) {
             //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
             //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
             if (res.data.length > 0) {
-              //                console.log("ID alreADy prsent");
+              //                $log.debug("ID alreADy prsent");
               $scope.eventdoc.eventInstanceId = partialId + "xx";
             } else {
-              //                console.log("id available to be used");
-              //                console.log(partialId);
+              //                $log.debug("id available to be used");
+              //                $log.debug(partialId);
               $scope.eventdoc.eventInstanceId = partialId;
             }
 
-            //			console.log("eventIDNew",$scope.eventdoc.eventInstanceId);
+            //			$log.debug("eventIDNew",$scope.eventdoc.eventInstanceId);
 
 
-            //			console.log($scope.eventdoc);
-            //			console.log($scope.eventdoc.eventInstanceId);
+            //			$log.debug($scope.eventdoc);
+            //			$log.debug($scope.eventdoc.eventInstanceId);
             $http.post('/api/events', $scope.eventdoc).then(function(res) {
 
               if (res.data.success) {
@@ -284,12 +286,12 @@ $scope.allowSaveDrafts=false;
 
   $scope.saveDraftEvent = function(clicked) {
 
-      console.log($scope.date);
+      $log.debug($scope.date);
       $scope.eventdoc.dateCreated = $scope.date;
 
     $http.post('/api/events/drafts', $scope.eventdoc).then(function(res) {
 
-      console.log(res.data);
+      $log.debug(res.data);
       if (res.data.type=="update") {
         
         //
@@ -326,20 +328,20 @@ $scope.allowSaveDrafts=false;
 
 
   function getLatestInstance(partialId) {
-    console.log(partialId);
+    $log.debug(partialId);
 
     $http.get('/api/events/getAvailEventId/' + partialId).then(function(res) {
-      console.log(partialId);
-      console.log(res.data);
+      $log.debug(partialId);
+      $log.debug(res.data);
       if (res.data) {
         //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
         //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
         if (res.data.length > 0) {
-          console.log("ID alreADy prsent");
+          $log.debug("ID alreADy prsent");
           return partialId + "xx";
         } else {
-          console.log("id available to be used");
-          console.log(partialId);
+          $log.debug("id available to be used");
+          $log.debug(partialId);
           return partialId;
         }
 
@@ -362,7 +364,7 @@ $scope.allowSaveDrafts=false;
   }
 
   // $scope.checkDirty = function() {
-  //   console.log('check dirty fired');
+  //   $log.debug('check dirty fired');
   //   if (previousData !== angular.toJson($scope.eventdoc)) {
   //     $scope.saveDraftEvent('Yes');
   //     previousData = angular.toJson($scope.eventdoc);
@@ -372,10 +374,10 @@ $scope.allowSaveDrafts=false;
   // };
 
 var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
-   console.log("watching");
+   $log.debug("watching");
     if(newVal!=oldVal)
     {
-      console.log('changed');
+      $log.debug('changed');
       $scope.allowSaveDrafts=true;
       unregister();
     }

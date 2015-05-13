@@ -30,7 +30,8 @@ var routeRoleChecks = {
 
 //to prevent IE caching
 commSphereApp.config([
-    '$httpProvider', function ($httpProvider) {
+    '$httpProvider','$logProvider', function ($httpProvider,$logProvider) {
+         $logProvider.debugEnabled(false);
         // Initialize get if not there
         if (!$httpProvider.defaults.headers.get) {
             $httpProvider.defaults.headers.get = {};

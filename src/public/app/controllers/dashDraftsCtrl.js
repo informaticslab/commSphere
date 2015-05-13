@@ -1,11 +1,11 @@
-commSphereApp.controller('dashDraftsCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','$route','$window','$filter', function($scope, $modal,$routeParams,ngEvents,$http,$route,$window,$filter) {
+commSphereApp.controller('dashDraftsCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','$route','$window','$filter','$log', function($scope, $modal,$routeParams,ngEvents,$http,$route,$window,$filter,$log) {
 
 $scope.$parent.activeMenu='drafts';
 $scope.sortReverse=true;
 $scope.sortType = "dateCreated";
 
 $http.get('/api/events/drafts').then(function(res){
-     console.log(res.data);
+     $log.debug(res.data);
      if(res.data) {
          $scope.instances=res.data;
       //   getCompletionStatus();
@@ -30,9 +30,9 @@ $scope.editDraft = function (size,draftInstance) {
       });
 
     // modalInstance.result.then(function (selectedItem) {
-    //   console.log(selectedItem);
+    //   $log.debug(selectedItem);
     // }, function () {
-    //   console.log('Modal dismissed at: ' + new Date());
+    //   $log.debug('Modal dismissed at: ' + new Date());
     // });
     
     };
@@ -77,13 +77,13 @@ var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draft
  $scope.draftInstance = draftInstance;
   
   $scope.ok = function () {
-    console.log("ok");
+    $log.debug("ok");
     $modalInstance.close();
     //$route.reload();
   };
 
   $scope.cancel = function () {
-    console.log("canceled");
+    $log.debug("canceled");
     //$modalInstance.close();
     $modalInstance.dismiss();
     //$route.reload();
@@ -103,7 +103,7 @@ var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draft
 //   };
 
 //   $scope.cancel = function () {
-//     console.log("canceled");
+//     $log.debug("canceled");
 //     $modalInstance.dismiss('cancel');
 
 //     //$route.reload();

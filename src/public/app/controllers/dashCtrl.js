@@ -1,16 +1,16 @@
-commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData','$http','ngIdentity', function($scope, $modal,$routeParams,ngEvents,ngRandomData,$http,ngIdentity) {
+commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData','$http','ngIdentity','$log', function($scope, $modal,$routeParams,ngEvents,ngRandomData,$http,ngIdentity,$log) {
 
 $scope.identity = ngIdentity
 $scope.$parent.activeMenu='dashboard';
 // set default sort column and direction;
 $scope.sortType = "-dateCreated";
-//console.log("test");
+//$log.debug("test");
 
 
 if($scope.identity.currentUser.roles.levelThree) {  //Filtering for events for analysts
 
   $http.get('/api/events/analyst/'+$scope.identity.currentUser._id).then(function(res){
-  //     console.log(res.data);
+  //     $log.debug(res.data);
        if(res.data) {
            $scope.instances=res.data;
            //getCompletionStatus();
@@ -22,7 +22,7 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering for events for a
 } else {
 
   $http.get('/api/events/active').then(function(res){
-  //     console.log(res.data);
+  //     $log.debug(res.data);
        if(res.data) {
            $scope.instances=res.data;
            getCompletionStatus();
@@ -57,12 +57,12 @@ function getCompletionStatus() {
       }
         $scope.instances[i].eventInstanceStatus = Math.round((completedCount / categoryCount*100));
 
-        console.log($scope.instances[i].eventInstanceStatus);
-        console.log('category count ' + categoryCount);
-        console.log('completed count = ' + completedCount);
+        $log.debug($scope.instances[i].eventInstanceStatus);
+        $log.debug('category count ' + categoryCount);
+        $log.debug('completed count = ' + completedCount);
   }
 };
-//    console.log(ProgressStatus(oneInstance.categories));
+//    $log.debug(ProgressStatus(oneInstance.categories));
 
 
   
@@ -96,13 +96,13 @@ for (category in instance.categories)
 {     
   if (instance.categories.hasOwnProperty(category)) {
       var oneCategory = instance.categories[category];
-    //  console.log(oneCategory);
+    //  $log.debug(oneCategory);
       $scope.instance.categories[category].topicCount = getNodeCount(oneCategory.topics);
       var subTopicCount = 0;
       for (topic in oneCategory.topics) {
           if (oneCategory.topics.hasOwnProperty(topic)) {
             var oneTopic = oneCategory.topics[topic];
-            console.log(oneTopic);
+            $log.debug(oneTopic);
             subTopicCount += getNodeCount(oneTopic.subTopics);
            
           }
@@ -111,7 +111,7 @@ for (category in instance.categories)
             
   }
 }
-console.log($scope.instance);
+$log.debug($scope.instance);
 
 function getNodeCount(document) { 
   var nodeCount = 0;

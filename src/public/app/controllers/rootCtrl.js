@@ -1,4 +1,4 @@
-commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route', function($scope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route) {
+commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route','$log', function($scope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route,$log) {
 
 $("body").show();
 $scope.activeMenu='';
@@ -8,7 +8,7 @@ $scope.identity = ngIdentity;
 if($scope.identity.currentUser === undefined){
   $("body").css("background-color", "#2a2d33;");
 }
-// console.log($scope.identity.currentUser);
+// $log.debug($scope.identity.currentUser);
 $scope.createEvent = function (size,draftInstance) {
 
       var modalInstance = $modal.open({

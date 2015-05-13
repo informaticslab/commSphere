@@ -1,4 +1,4 @@
-angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ngNotifier,ngAuth,$location,$window){ 
+angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ngNotifier,ngAuth,$location,$window,$log){ 
 	$scope.identity = ngIdentity;
 
 	$scope.login = function(email, password){
@@ -14,7 +14,7 @@ angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ng
 				}
 				$("body").css("background-color", "#FFF;");
 			} else {
-				//console.log(success);
+				//$log.debug(success);
 				ngNotifier.notifyError('Incorrect Email/Password');
 			}
 		});

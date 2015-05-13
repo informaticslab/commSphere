@@ -1,11 +1,11 @@
-angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location) {
+angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log) {
 
 $scope.identity = ngIdentity;
 
-console.log($routeParams.id);
+$log.debug($routeParams.id);
 $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      if(res.data) {
-     console.log(res.data[0]);
+     $log.debug(res.data[0]);
      $scope.eventdoc=res.data[0];
      
      } else {
@@ -16,13 +16,13 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
 //$scope.eventdoc.categories[0].topics = $scope.eventdoc.categories[0].topics;
-//console.log(ngIdentity.currentUser);
-//console.log(ngIdentity.currentUser.roles.levelOne);
+//$log.debug(ngIdentity.currentUser);
+//$log.debug(ngIdentity.currentUser.roles.levelOne);
 
 $scope.hideFromCoordinator = function(category) {
     return !($scope.identity.isAuthorized('levelTwo') &&  (category.statusCompleted==false));
     //return false;
-    //console.log(index);
+    //$log.debug(index);
 };
 
 $scope.filterTabForAnalyst = function(category) {
@@ -34,13 +34,13 @@ $scope.filterTabForAnalyst = function(category) {
 
 $scope.setActiveTab = function(tabId)
 {
-  console.log(tabId);
+  $log.debug(tabId);
   $scope.activeTab=tabId;
 
 };
 
     $scope.addTopic = function(category) {
-      console.log(category);
+      $log.debug(category);
       // if ($scope.eventdoc.categories.indexOf(category).topics.length > 10) {
       //   window.alert('You can\'t add more than 10 topics!');
       //   return;
@@ -76,8 +76,8 @@ $scope.setActiveTab = function(tabId)
       // if (window.confirm('Are you sure to remove this topic?')) {
       //   //topic.destroy();  //TODO
       // }
-      console.log(category);
-      console.log(topic);
+      $log.debug(category);
+      $log.debug(topic);
       var index = category.topics.indexOf(topic);
        if (index > -1) {
          category.topics.splice(index, 1)[0];
@@ -93,7 +93,7 @@ $scope.setActiveTab = function(tabId)
     };
 
     $scope.addSubTopic = function(topic) {
-      console.log(topic);
+      $log.debug(topic);
       if (!topic.newSubTopicName || topic.newSubTopicName.length === 0) {
         return;
       }
@@ -118,7 +118,7 @@ $scope.setActiveTab = function(tabId)
     };
 
     $scope.addBullet = function(subTopic) {
-      console.log(subTopic);
+      $log.debug(subTopic);
       if (!subTopic.newBulletName || subTopic.newBulletName.length === 0) {
         return;
       }
@@ -143,7 +143,7 @@ $scope.setActiveTab = function(tabId)
     };
 
     $scope.addSubBullet = function(bullet) {
-      console.log(bullet);
+      $log.debug(bullet);
       if (!bullet.newSubBulletName || bullet.newSubBulletName.length === 0) {
         return;
       }
@@ -167,7 +167,7 @@ $scope.setActiveTab = function(tabId)
      };
 
     $scope.editSubTopic = function(subTopic) {
-      console.log("edit sub topic");
+      $log.debug("edit sub topic");
       subTopic.editing = true;
     };
 
@@ -187,7 +187,7 @@ $scope.setActiveTab = function(tabId)
         return (data.type == destType); // only accept the same type
       },
       dropped: function(event) {
-        console.log(event);
+        $log.debug(event);
         var sourceNode = event.source.nodeScope;
         var destNodes = event.dest.nodesScope;
         // update changes to server
@@ -213,13 +213,13 @@ $scope.assignUser = function(category) {
 };
 
 $scope.createEvent = function() {
-  console.log($scope.eventdoc.eventInstanceId);
+  $log.debug($scope.eventdoc.eventInstanceId);
   //var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
 
 
   $http.get('/api/events/duplicate/'+$scope.eventName).then(function(res) {
   
-  //console.log(res.data.duplicate);
+  //$log.debug(res.data.duplicate);
     if($scope.eventName.trim() == ''){
     ngNotifier.notifyError('Event name cannot be blank');
   } else if($scope.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
@@ -244,29 +244,29 @@ $scope.createEvent = function() {
         var partialId = genInstanceId($scope.eventName);
 
         $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
-//        console.log(partialId);
-//        console.log(res.data);
+//        $log.debug(partialId);
+//        $log.debug(res.data);
          if(res.data) {
              //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
              //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
              if(res.data.length>0)
              {
-//                console.log("ID alreADy prsent");
+//                $log.debug("ID alreADy prsent");
                  $scope.eventdoc.eventInstanceId= partialId+"xx";
              }
              else
              {
-//                console.log("id available to be used");
-//                console.log(partialId);
+//                $log.debug("id available to be used");
+//                $log.debug(partialId);
                 $scope.eventdoc.eventInstanceId= partialId;
              }
 
-//      console.log("eventIDNew",$scope.eventdoc.eventInstanceId);
+//      $log.debug("eventIDNew",$scope.eventdoc.eventInstanceId);
 
       $scope.eventdoc.userCreated = currentUser;
       $scope.eventdoc.dateCreated = new Date().getTime();
-//      console.log($scope.eventdoc);
-//      console.log($scope.eventdoc.eventInstanceId);
+//      $log.debug($scope.eventdoc);
+//      $log.debug($scope.eventdoc.eventInstanceId);
       $http.post('/api/events', $scope.eventdoc).then(function(res) {
 
         if(res.data.success) {
@@ -299,10 +299,10 @@ $scope.saveCategory = function (status) {  // save data for the current tab
  
  if (ngIdentity.isAuthorized('levelTwo'))
  { // coordinator save
-     console.log("i am in coordinator save");
+     $log.debug("i am in coordinator save");
      for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
      {
-       console.log($scope.eventdoc.categories[i]);
+       $log.debug($scope.eventdoc.categories[i]);
        if ($scope.eventdoc.categories[i].statusCompleted) {
             console.log
             oneCategoryData = $scope.eventdoc.categories[i];
@@ -373,23 +373,23 @@ $scope.saveEvent = function () {  // save data for the current document
 
 function getLatestInstance(partialId)
     { 
-      console.log(partialId);
+      $log.debug(partialId);
        
        $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
-        console.log(partialId);
-         console.log(res.data);
+        $log.debug(partialId);
+         $log.debug(res.data);
          if(res.data) {
              //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
              //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
              if(res.data.length>0)
              {
-                console.log("ID alreADy prsent");
+                $log.debug("ID alreADy prsent");
                  return partialId+"xx";
              }
              else
              {
-                console.log("id available to be used");
-                console.log(partialId);
+                $log.debug("id available to be used");
+                $log.debug(partialId);
                 return partialId;
              }
              
@@ -432,7 +432,7 @@ function getLatestInstance(partialId)
 //var infoModalInstanceCtrl = function ($scope, $modalInstance) {
 //
 //var instance = $scope.instance;
-//console.log('instance in modal ',instance);
+//$log.debug('instance in modal ',instance);
 //var categoryCount = 0;
 //var completedCount = 0;
 //var category = 0;
@@ -445,13 +445,13 @@ function getLatestInstance(partialId)
 //  $scope.instance.categories[category.name].subtopicCount=0;    
 //  if (instance.categories.hasOwnProperty(category)) {
 //      var oneCategory = instance.categories[category];
-//    //  console.log(oneCategory);
+//    //  $log.debug(oneCategory);
 //      $scope.instance.categories[category].topicCount = getNodeCount(oneCategory.topics);
 //      var subTopicCount = 0;
 //      for (topic in oneCategory.topics) {
 //          if (oneCategory.topics.hasOwnProperty(topic)) {
 //            var oneTopic = oneCategory.topics[topic];
-//            console.log(oneTopic);
+//            $log.debug(oneTopic);
 //            subTopicCount += getNodeCount(oneTopic.subTopics);
 //           
 //          }
@@ -465,7 +465,7 @@ function getLatestInstance(partialId)
 var infoModalInstanceCtrl = function ($scope, $modalInstance) {
 
 var instance = $scope.instance;
-console.log('instance in modal ',instance);
+$log.debug('instance in modal ',instance);
 var categoryCount = 0;
 var completedCount = 0;
 
@@ -478,13 +478,13 @@ for (var i = 0 ; i < instance.categories.length; i++)
   $scope.instance.categories[i].topicCount = 0;
   $scope.instance.categories[i].subtopicCount=0;    
   var oneCategory = instance.categories[i];
-  //    console.log(oneCategory);
+  //    $log.debug(oneCategory);
       $scope.instance.categories[i].topicCount = getNodeCount(oneCategory.topics);
       var subTopicCount = 0;
       for (topic in oneCategory.topics) {
           if (oneCategory.topics.hasOwnProperty(topic)) {
             var oneTopic = oneCategory.topics[topic];
-        //    console.log(oneTopic);
+        //    $log.debug(oneTopic);
             subTopicCount += getNodeCount(oneTopic.subTopics);
            
           }
@@ -518,14 +518,14 @@ for(var i = 0, l = $scope.instances.length; i < l; ++i){
     for (category in oneInstance.categories) {
                    if (oneInstance.categories.hasOwnProperty(category)) {
                  categoryCount++;
-//                 console.log(oneInstance.categories[category].completedStatus);
+//                 $log.debug(oneInstance.categories[category].completedStatus);
                  if (oneInstance.categories[category].completedStatus)   
                            completedCount ++;      
              }
     }
       oneInstance.eventInstanceStatus = completedCount / categoryCount;
-//    console.log('category count ' + categoryCount);
-//    console.log('completed count = ' + completedCount);
+//    $log.debug('category count ' + categoryCount);
+//    $log.debug('completed count = ' + completedCount);
     
 }
 };
@@ -547,7 +547,7 @@ function allCategoriesCompleted(scope)
 {  
    var categoryCount = 0;
     var completedCount = 0;
-  //  console.log($scope.eventdoc.categories);
+  //  $log.debug($scope.eventdoc.categories);
   try
   {
     for (var i=0; i < scope.eventdoc.categories.length; i++)
@@ -570,7 +570,7 @@ function allCategoriesCompleted(scope)
 $scope.setActiveCategory = function(category)
 {
   $scope.activeCategory= category;
- // console.log("current category ",category);
+ // $log.debug("current category ",category);
 };
 
 });
