@@ -312,6 +312,7 @@ $scope.allowSaveDrafts=false;
       }
       else if(res.data.type=="insert")
       {
+        ngNotifier.notify("Your event has been saved under drafts");
         $scope.eventdoc = res.data.eventdoc;
       }
 
