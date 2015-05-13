@@ -41,25 +41,27 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering for events for a
 
 
 function getCompletionStatus() {    
-for(var i = 0, l = $scope.instances.length; i < l; ++i){
-    $scope.instances[i].randomNumber = ngRandomData.getRandomNumber();  //FOR "random" Mock data remove when real data has been implemented
-    oneInstance = $scope.instances[i];
-    var categoryCount = 0;
-    var completedCount = 0;
-    for (category in oneInstance.categories) {
-                   if (oneInstance.categories.hasOwnProperty(category)) {
-                 categoryCount++;
-//                 console.log(oneInstance.categories[category].completedStatus);
-                 if (oneInstance.categories[category].completedStatus)   
-                           completedCount ++;      
-             }
-    }
-      oneInstance.eventInstanceStatus = completedCount / categoryCount;
-//    console.log('category count ' + categoryCount);
-//    console.log('completed count = ' + completedCount);
-    
+  for(var i = 0, l = $scope.instances.length; i < l; ++i){
+      //$scope.instances[i].randomNumber = ngRandomData.getRandomNumber();  //FOR "random" Mock data remove when real data has been implemented
+      oneInstance = $scope.instances[i];
+      var categoryCount = 0;
+      var completedCount = 0;
+      for (category in $scope.instances[i].categories) {
+       if ($scope.instances[i].categories.hasOwnProperty(category) && ($scope.instances[i].categories[category].userAssigned != '')) {
+            categoryCount++;
+            }
+       
+        if ($scope.instances[i].categories[category].statusCompleted) { 
+                 completedCount ++;      
+            }
+      }
+        $scope.instances[i].eventInstanceStatus = Math.round((completedCount / categoryCount*100));
+
+        console.log($scope.instances[i].eventInstanceStatus);
+        console.log('category count ' + categoryCount);
+        console.log('completed count = ' + completedCount);
+  }
 };
-}
 //    console.log(ProgressStatus(oneInstance.categories));
 
 

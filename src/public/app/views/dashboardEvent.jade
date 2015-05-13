@@ -10,11 +10,8 @@ div(style="background-color:#f2f2f2;")
                                 button.btn.btn-default.btn-circle2.glyphicon.glyphicon-info-sign(type='button', ng-click='showInfo()' ng-hide="identity.isAuthorized('levelThree')")
                         br
                         p.p-create-new {{eventdoc.dateCreated | date:'medium'}}
-                    .save-draft-cont-evt
-                        button.btn.btn-default(type="button" ng-click="saveEvent()" style='background-color:#bababa; color:#ffffff;' ng-if='coordinatorAllowed()')
-                            | Save 
-                        button.btn.btn-default(type="button" ng-click="saveCategory('draft')" style='background-color:#bababa; color:#ffffff;' ng-if="identity.isAuthorized('levelThree')")
-                        
+                    .save-draft-cont-evt 
+                        button.btn.btn-default(type="button" ng-click="saveCategory('draft')" style='background-color:#bababa; color:#ffffff;')
                             | Save 
                     .submit-btn-cont
                         button.btn.btn-default.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")

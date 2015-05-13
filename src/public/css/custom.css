@@ -148,3 +148,7 @@ input[type="text"].eventTemplateTopic {
 .clear-divs {
 	clear:both;
 }
+
+.progressbartextblack{
+  color: black;
+}
