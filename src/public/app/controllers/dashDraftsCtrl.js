@@ -72,7 +72,7 @@ $scope.deleteDraft = function (draftInstance) {
 
 }]);
 
-var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
+var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance,$log) {
 
  $scope.draftInstance = draftInstance;
   

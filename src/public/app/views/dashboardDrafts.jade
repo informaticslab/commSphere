@@ -34,16 +34,15 @@
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
                         tbody
                              tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-                                td 
-                                    a(href="#/dashboard/event/{{instance._id}}" ){{instance.eventName}}
+                                td {{instance.eventName}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td(width="10%")
-                                    a.btn.btn-primary.btn-xs.pull-left(ng-show="hover" href='', data-nodrag='', ng-click="editDraft('lg',instance)")
+                                    a.btn.btn-primary.btn-xs.pull-left(href='', data-nodrag='', ng-click="editDraft('lg',instance)")
                                         .glyphicon.glyphicon-pencil
                                     | 
-                                    a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click="deleteDraft(instance)")
+                                    a.btn.btn-danger.btn-xs.pull-right( href='', data-nodrag='', ng-click="deleteDraft(instance)")
                                         .glyphicon.glyphicon-remove
                                      
                              
