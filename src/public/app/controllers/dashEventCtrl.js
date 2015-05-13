@@ -1,5 +1,5 @@
 angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log) {
-
+$scope.contentloaded=false;
 $scope.identity = ngIdentity;
 
 $log.debug($routeParams.id);
@@ -7,7 +7,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      if(res.data) {
      $log.debug(res.data[0]);
      $scope.eventdoc=res.data[0];
-     
+     $scope.contentloaded = true;
      } else {
          alert('no data received, assign new id');
      }
