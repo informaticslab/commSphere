@@ -214,9 +214,14 @@ $scope.allowSaveDrafts=false;
 
   $scope.createEvent = function() {
     $log.debug($scope.eventdoc.eventInstanceId);
+    var minimumAssign = false;
     //var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
-
-      $scope.eventdoc.dateCreated = $scope.date;
+    for(var i=0; i < $scope.eventdoc.categories.length; i++){
+      if($scope.eventdoc.categories[i].userAssigned != '') {
+        minimumAssign = true;
+      }
+    }
+    $scope.eventdoc.dateCreated = $scope.date;
     $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res) {
       //$log.debug(res.data.duplicate);
       if ($scope.eventdoc.eventName.trim() === '') {
@@ -227,6 +232,8 @@ $scope.allowSaveDrafts=false;
         ngNotifier.notifyError('Cannot create event. Duplicate name');
       } else if ($scope.eventdoc.eventType === '') {
         ngNotifier.notifyError('Please select an event type');
+      } else if (minimumAssign === false){
+        ngNotifier.notifyError('You must assign atleast one category to an analyst');
       } else {
 
 
