@@ -570,6 +570,7 @@ function allCategoriesCompleted(scope)
 $scope.setActiveCategory = function(category)
 {
   $scope.activeCategory= category;
+  $scope.activeTab="tab_0";
  // $log.debug("current category ",category);
 };
 
