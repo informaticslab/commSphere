@@ -23,7 +23,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                         tabset
                             tab(ng-repeat="category in eventdoc.categories | filter: filterTabForAnalyst" heading="{{category.name}}" select="setActiveCategory(category.name)")
                                 .return-event-cont
-                                    button.btn.btn-primary(type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted")
+                                    button.btn.btn-primary(type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
                                         | Return
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12
@@ -68,11 +68,16 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                         ul.bullet-circle-nodes.angular-ui-tree-nodes(data-nodrag='')
                                                                             li.bullet-circle-node.angular-ui-tree-node
                                                                                 .subBullet-title.angular-ui-tree-handle-clear
-                                                                                    textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='SubBullet name' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null' )
+                                                                                    textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='Add sub-bullet' ng-keyup='$event.keyCode==13 ? addSubBullet(bullet) : null' )
                                                                 ul.angular-ui-tree-nodes.bullet-disc-nodes(data-nodrag='')
-                                                                    li.angular-ui-tree-node.bullet-disc-node
-                                                                        textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Bullet name' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null'  ng-show="hideFromCoordinator(category)")
-                                                                        textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Awaiting Bullets' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null' ng-readonly = 'true' ng-hide="hideFromCoordinator(category)")
+                                                                    li.angular-ui-tree-node(ng-hide="hideFromCoordinator(category)")
+                                                                        div.awaiting
+                                                                            | Awaiting information from analyst
+                                                                    li.angular-ui-tree-node.bullet-disc-node(ng-show="hideFromCoordinator(category)")
+                                                                        textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Add bullet' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null' )
+                                                                        //- div(ng-hide="hideFromCoordinator(category)")
+                                                                        //-     | Awaiting information from analyst
+                                                                        //- textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Awaiting information from analyst' ng-keyup='$event.keyCode==13 ? addBullet(subTopic) : null' ng-readonly = 'true' ng-hide="hideFromCoordinator(category)")
                                 //.row
                                     .col-lg-6
                                             h3 Data binding
