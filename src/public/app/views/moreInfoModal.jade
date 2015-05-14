@@ -48,6 +48,9 @@ div(ng-controller='infoModalInstanceCtrl')
                     td {{category.topicCount}}
                     td {{category.subTopicCount}}
                     td {{category.statusCompleted ? 'Yes' : 'No'}}
-                    td {{category.dateCompleted | date: 'MM/dd/yyyy'}}
+                    td
+                      | {{category.dateCompleted | date: 'MM/dd/yyyy'}}
+                      br
+                      | {{category.dateCompleted | date: 'hh:mm a'}}
     .clear-divs
                   
