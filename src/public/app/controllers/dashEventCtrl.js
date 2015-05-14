@@ -33,8 +33,11 @@ $scope.hideFromCoordinator = function(category) {
 };
 
 $scope.filterTabForAnalyst = function(category) {
-  
-   return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo);
+  if($scope.identity.currentUser)
+  {
+    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo); 
+  }
+   
 };
 
 $scope.returnToAnalyst = function(category) {
