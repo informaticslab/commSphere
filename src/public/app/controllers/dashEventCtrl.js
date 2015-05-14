@@ -15,9 +15,6 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
-//$scope.eventdoc.categories[0].topics = $scope.eventdoc.categories[0].topics;
-//$log.debug(ngIdentity.currentUser);
-//$log.debug(ngIdentity.currentUser.roles.levelOne);
 
 $scope.hideFromCoordinator = function(category) {
     return !($scope.identity.isAuthorized('levelTwo') &&  (category.statusCompleted==false));
@@ -206,92 +203,6 @@ $scope.setActiveTab = function(tabId)
       }
     };
 
-
-$scope.assignUser = function(category) {
-  var userAssigned = $scope.userAssigned[category];
-  $scope.eventdoc.categories[category].userAssigned = userAssigned;
-};
-
-$scope.createEvent = function() {
-  $log.debug($scope.eventdoc.eventInstanceId);
-  //var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
-
-
-  $http.get('/api/events/duplicate/'+$scope.eventName).then(function(res) {
-  
-  //$log.debug(res.data.duplicate);
-    if($scope.eventName.trim() == ''){
-    ngNotifier.notifyError('Event name cannot be blank');
-  } else if($scope.eventName.replace(/ /g,'').match(/^[0-9]+$/) != null ) {
-    ngNotifier.notifyError('Event name cannot contain only numbers');
-  } else if(res.data.duplicate) {
-    ngNotifier.notifyError('Cannot create event. Duplicate name');
-  }  else if($scope.eventType == undefined) {
-    ngNotifier.notifyError('Please select an event type');
-  } else {
-
-    //data = $scope.eventdoc;
-    var currentUser = 'Joe Coordinator'; //hardcoded placeholder
-
-    //data = $scope.document;
-    $scope.eventdoc.eventName = $scope.eventName;
-    $scope.eventdoc.eventType = $scope.eventType;
-    $scope.eventdoc.eventInstanceId = ""; 
-    $scope.eventdoc.userCreated = currentUser;
-    $scope.eventdoc.dateCreated = $scope.date;
-    $scope.eventdoc.draftStatus = false;
-
-        var partialId = genInstanceId($scope.eventName);
-
-        $http.get('/api/events/getAvailEventId/'+partialId).then(function(res){
-//        $log.debug(partialId);
-//        $log.debug(res.data);
-         if(res.data) {
-             //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
-             //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
-             if(res.data.length>0)
-             {
-//                $log.debug("ID alreADy prsent");
-                 $scope.eventdoc.eventInstanceId= partialId+"xx";
-             }
-             else
-             {
-//                $log.debug("id available to be used");
-//                $log.debug(partialId);
-                $scope.eventdoc.eventInstanceId= partialId;
-             }
-
-//      $log.debug("eventIDNew",$scope.eventdoc.eventInstanceId);
-
-      $scope.eventdoc.userCreated = currentUser;
-      $scope.eventdoc.dateCreated = new Date().getTime();
-//      $log.debug($scope.eventdoc);
-//      $log.debug($scope.eventdoc.eventInstanceId);
-      $http.post('/api/events', $scope.eventdoc).then(function(res) {
-
-        if(res.data.success) {
-          ngNotifier.notify("Event has been saved!");
-          $route.reload();
-
-        } else {
-          alert('there was an error');
-        }
-      });
-
-      $scope.ok();
-             
-             } else {
-                 alert('no data received, assign new id');
-             }
-        });
-
-
-  }  
-  });
-  
-  
-  
-};
 
 $scope.saveCategory = function (status) {  // save data for the current tab
 
