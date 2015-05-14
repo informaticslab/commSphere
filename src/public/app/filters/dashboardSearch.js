@@ -12,6 +12,7 @@ commSphereApp.filter('searchAll', function($filter) {
             instances[i].eventInstanceId.toString().search(searchRegx) != -1 ||
             instances[i].eventType.toString().search(searchRegx) != -1 ||
             instances[i].userCreated.displayName.toString().search(searchRegx) != -1 ||
+            instances[i].eventInstanceStatus.toString().search(searchRegx) != -1 ||
             $filter('date')(new Date(instances[i].dateCreated),'MM/dd/yyyy').search(searchRegx) != -1)
             {
             result.push(instances[i]);
