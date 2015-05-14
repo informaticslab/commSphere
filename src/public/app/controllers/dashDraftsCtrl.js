@@ -72,27 +72,27 @@ $scope.deleteDraft = function (draftInstance) {
 
 }]);
 
-// var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance,$log) {
+var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance,$log) {
 
-//  $scope.draftInstance = draftInstance;
+ $scope.draftInstance = draftInstance;
   
-//   // $scope.ok = function () {
-//   //   console.log("ok dashctrl");
-//   //   $log.debug("ok");
+  $scope.ok = function () {
+    console.log("ok dashctrl");
+    $log.debug("ok");
     
-//   //   //$route.reload();
-//   //   $modalInstance.close();
-//   // };
+    //$route.reload();
+    $modalInstance.close();
+  };
 
-//   // $scope.cancel = function () {
-//   //   console.log("cancel dashctrl");
-//   //   $log.debug("canceled");
-//   //   //$modalInstance.close();
+  $scope.cancel = function () {
+    console.log("cancel dashctrl");
+    $log.debug("canceled");
+    //$modalInstance.close();
     
-//   //   //$route.reload();
-//   //   $modalInstance.dismiss();
-//   // };
-// };
+    //$route.reload();
+    $modalInstance.dismiss();
+  };
+};
 
 // var DeleteEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance) {
 
