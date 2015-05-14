@@ -1,7 +1,7 @@
 angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log) {
 $scope.identity = ngIdentity;
 
-//$animate.enabled(".modal-content", false);
+$animate.enabled(false, 'div');
   // var draftInstance = $scope.draftInstance;
   // $log.debug("draftInstance", draftInstance);
 $scope.allowSaveDrafts=false;
