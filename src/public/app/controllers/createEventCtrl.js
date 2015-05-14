@@ -9,8 +9,8 @@ $scope.allowSaveDrafts=false;
   var autoSave;
 
   autoSave = $interval(function() {
-    //$scope.checkDirty();
-  }, 60 * secondUnit);
+    $scope.checkDirty();
+  }, 150 * secondUnit);
 
 
   $scope.$on('$destroy', function() {
@@ -323,6 +323,7 @@ $scope.allowSaveDrafts=false;
       {
         ngNotifier.notify("Your event has been saved under drafts");
         $scope.eventdoc = res.data.eventdoc;
+        previousData = angular.toJson($scope.eventdoc);
       }
 
        else {
@@ -370,15 +371,15 @@ $scope.allowSaveDrafts=false;
     return instanceId;
   }
 
-  // $scope.checkDirty = function() {
-  //   $log.debug('check dirty fired');
-  //   if (previousData !== angular.toJson($scope.eventdoc)) {
-  //     $scope.saveDraftEvent('Yes');
-  //     previousData = angular.toJson($scope.eventdoc);
-  //   }
+   $scope.checkDirty = function() {
+     $log.debug('check dirty fired');
+     if (previousData !== angular.toJson($scope.eventdoc)) {
+     $scope.saveDraftEvent('Yes');
+      previousData = angular.toJson($scope.eventdoc);
+   }
 
 
-  // };
+  };
 
 var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
    $log.debug("watching");
