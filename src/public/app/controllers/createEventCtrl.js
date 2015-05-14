@@ -20,7 +20,7 @@ $scope.allowSaveDrafts=false;
       if($scope.allowSaveDrafts)
       {
         $log.debug("saving");
-        $scope.saveDraftEvent('xclicked');
+        $scope.saveDraftEvent();
       }
       
     }
@@ -324,10 +324,7 @@ $scope.allowSaveDrafts=false;
         ngNotifier.notify("Your event has been saved under drafts");
         $scope.eventdoc = res.data.eventdoc;
         previousData = angular.toJson($scope.eventdoc);
-        if (clicked=="xclicked") {
-          $location.path("/dashboard/drafts");
-          $route.reload();
-        }
+
       }
 
        else {
