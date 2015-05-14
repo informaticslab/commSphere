@@ -42,11 +42,11 @@ div(ng-controller='infoModalInstanceCtrl')
                     th Completed
                     th Date Completed
                 tbody
-                  tr(ng-repeat="category in eventdoc.categories")
+                  tr(ng-repeat="category in instance")
                     td {{category.name}}
-                    td {{category.userAssigned.displayName}}
+                    td {{category.userAssigned}}
                     td {{category.topicCount}}
-                    td {{category.subtopicCount}}
+                    td {{category.subTopicCount}}
                     td {{category.statusCompleted ? 'Yes' : 'No'}}
                     td {{category.dateCompleted | date: 'MM/dd/yyyy'}}
     .clear-divs
