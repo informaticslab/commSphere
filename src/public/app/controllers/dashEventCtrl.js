@@ -27,6 +27,22 @@ $scope.filterTabForAnalyst = function(category) {
    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo);
 };
 
+$scope.returnToAnalyst = function(category) {
+
+  category.statusCompleted = false;
+
+  var data = { docId : $scope.eventdoc._id , categoryData : category};
+
+  $http.post('/api/events/saveEventCategory',data).then(function(res) {
+    if(res.data.success) {
+      ngNotifier.notify(data.categoryData.name  + " has been returned to "+ data.categoryData.userAssigned.displayName);
+    } else {
+      alert('There was an error, failed to return to analyst.');
+    }
+  });
+  
+};
+
 
 
 $scope.setActiveTab = function(tabId)
@@ -244,10 +260,12 @@ $scope.saveCategory = function (status) {  // save data for the current tab
         $http.post('/api/events/saveEventCategory',data).then(function(res) {
     
             if(res.data.success) {
-              ngNotifier.notify("Event category has been saved!");
               if (oneCategoryData.statusCompleted === true) {
-                 $location.path('/dashboard/');
+                ngNotifier.notify("Thank you. Your information has been submitted for review.");
+                $location.path('/dashboard/');
               //   $route.reload();
+              } else {
+                ngNotifier.notify("Saved");
               }
             } else {
               alert('there was an error');
@@ -257,7 +275,7 @@ $scope.saveCategory = function (status) {  // save data for the current tab
  
 };
 function saveOneCategory(data) {
-   console.log ("i am in save one category" , data);
+   $log.debug("i am in save one category" , data);
    $http.post('/api/events/saveEventCategory',data).then(function(res) {
               if(res.data.success) {
                 ngNotifier.notify("Event category "+ data.categoryData.name  + " has been saved!");

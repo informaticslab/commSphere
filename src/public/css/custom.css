@@ -149,6 +149,10 @@ input[type="text"].eventTemplateTopic {
 	clear:both;
 }
 
-.progressbartextblack{
+.progressbartextblack {
   color: black;
+}
+
+.return-event-cont {
+  float: right;
 }
