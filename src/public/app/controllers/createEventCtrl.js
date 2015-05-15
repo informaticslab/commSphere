@@ -45,7 +45,7 @@ $scope.allowSaveDrafts=false;
     "draftStatus": true,
     "archiveStatus": false,
     categories: [{
-      name: 'Web',
+      name: 'Traditional News Media',
       "userAssigned": "",
       "statusCompleted": false,
       "dateCompleted": "",
@@ -53,22 +53,14 @@ $scope.allowSaveDrafts=false;
 
       ]
     }, {
-      name: 'TV',
+      name: 'Social Media',
       "userAssigned": "",
       "statusCompleted": false,
       "dateCompleted": "",
       topics: [
 
       ]
-    }, {
-      name: 'Print',
-      "userAssigned": "",
-      "statusCompleted": false,
-      "dateCompleted": "",
-      topics: [
-
-      ]
-    }, ]
+    }]
   };
 
   if ($scope.draftInstance) {
