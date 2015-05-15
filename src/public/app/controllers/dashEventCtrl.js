@@ -152,6 +152,7 @@ $scope.setActiveTab = function(tabId)
         name: subTopic.newBulletName,
         sortOrder: subTopic.bullets.length,
         type: 'bullet',
+        editing:'',
         subBullets:[]
       });
       subTopic.newBulletName = '';
@@ -168,6 +169,14 @@ $scope.setActiveTab = function(tabId)
       //}
     };
 
+    $scope.editBullet = function(bullet) {
+      bullet.editing=true;
+    };
+
+    $scope.saveBullet = function(bullet) {
+      bullet.editing=false;
+    };
+
     $scope.addSubBullet = function(bullet) {
       $log.debug(bullet);
       if (!bullet.newSubBulletName || bullet.newSubBulletName.length === 0) {
@@ -176,10 +185,19 @@ $scope.setActiveTab = function(tabId)
       bullet.subBullets.push({
         name: bullet.newSubBulletName,
         sortOrder: bullet.subBullets.length,
+        editing:'',
         type: 'subBullet'
       });
       bullet.newSubBulletName = '';
       // topic.save();
+    };
+
+    $scope.editSubBullet = function(subBullet) {
+      subBullet.editing=true;
+    };
+
+    $scope.saveSubBullet = function(subBullet) {
+      subBullet.editing=false;
     };
 
     $scope.removeSubBullet = function(bullet, subBullet) {

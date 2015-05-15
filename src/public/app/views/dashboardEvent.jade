@@ -52,19 +52,27 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                 | {{subTopic.name}}
                                                             div(ui-tree='options')
                                                                 ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='subTopic.bullets', data-type='bullet' )
-                                                                    li.bullet-disc-node(ng-repeat='bullet in subTopic.bullets', ui-tree-node='' ng-show="hideFromCoordinator(category)")
-                                                                        .bullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                                                                    li.bullet-disc-node(ng-repeat='bullet in subTopic.bullets', ui-tree-node='' ng-show="hideFromCoordinator(category)" )
+                                                                        .bullet-title.angular-ui-tree-handle-clear(ng-show='!bullet.editing' ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                                                             a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeBullet(subTopic, bullet)')
                                                                                 i.glyphicon.glyphicon-remove
+                                                                            a.btn.btn-primary.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editBullet(bullet)')
+                                                                                i.glyphicon.glyphicon-pencil
                                                                             p
                                                                                 | {{bullet.name}}
+                                                                        .bullet-title.angular-ui-tree-handle-clear(data-nodrag='', ng-show='bullet.editing')
+                                                                            textarea(type='text', ng-model='bullet.name' ng-keyup='$event.keyCode==13 ? saveBullet(bullet) : null')
                                                                         ul.bullet-circle-nodes(ui-tree-nodes='', ng-model='bullet.subBullets', data-type='subBullet')
                                                                             li.bullet-circle-node(ng-repeat='subBullet in bullet.subBullets', ui-tree-node='' ng-show="hideFromCoordinator($index)")
-                                                                                .subBullet-title.angular-ui-tree-handle-clear(ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                                                                                .subBullet-title.angular-ui-tree-handle-clear(ng-show='!subBullet.editing' ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                                                                     a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubBullet(bullet, subBullet)')
                                                                                         i.glyphicon.glyphicon-remove
+                                                                                    a.btn.btn-primary.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editSubBullet(subBullet)')
+                                                                                        i.glyphicon.glyphicon-pencil
                                                                                     div
                                                                                         | &nbsp;&nbsp;{{subBullet.name}}
+                                                                                .subBullet-title.angular-ui-tree-handle-clear(data-nodrag='', ng-show='subBullet.editing')
+                                                                                    textarea(type='text', ng-model='subBullet.name' ng-keyup='$event.keyCode==13 ? saveSubBullet(subBullet) : null')
                                                                         ul.bullet-circle-nodes.angular-ui-tree-nodes(data-nodrag='')
                                                                             li.bullet-circle-node.angular-ui-tree-node
                                                                                 .subBullet-title.angular-ui-tree-handle-clear
