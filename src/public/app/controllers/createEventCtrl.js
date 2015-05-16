@@ -2,18 +2,18 @@ angular.module('app').controller('createEventCtrl', function($scope, $http, $fil
 $scope.identity = ngIdentity;
 
 $animate.enabled(false, 'div');
-  // var draftInstance = $scope.draftInstance;
-  // $log.debug("draftInstance", draftInstance);
 $scope.allowSaveDrafts=false;
   var secondUnit = 1000;
   var autoSave;
 
   autoSave = $interval(function() {
+  // repeat check if eventdoc has been changed for every 150 seconds.   
     $scope.checkDirty();
-  }, 150 * secondUnit);
+  }, 150 * secondUnit);  // change time delay here
 
 
   $scope.$on('$destroy', function() {
+  // do a final save if user close the screen
     $log.debug($scope.eventdoc );
     if($scope.eventdoc.draftStatus)
     {
@@ -69,7 +69,6 @@ $scope.allowSaveDrafts=false;
 
 
   $scope.eventTypes = ['Earthquake', 'Hurricane', 'Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
-    //$scope.date = new Date().getTime();
   $scope.date = new Date().getTime(); // need both date and time
 
   $scope.eventdoc.userCreated = {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
@@ -80,7 +79,6 @@ $scope.allowSaveDrafts=false;
   var analysts = res.data;
   for(var i=0; i < analysts.length; i++) {
     $scope.users.push({'id':analysts[i]._id, 'displayName':analysts[i].displayName });
-    // $scope.users.push(analysts[i].displayName);
   }
   });
 
@@ -207,7 +205,6 @@ $scope.allowSaveDrafts=false;
   $scope.createEvent = function() {
     $log.debug($scope.eventdoc.eventInstanceId);
     var minimumAssign = false;
-    //var formattedEventInstanceId = 'EQSA-01'; //TODO: Create actual eventInstanceId do this on server-side?
     for(var i=0; i < $scope.eventdoc.categories.length; i++){
       if($scope.eventdoc.categories[i].userAssigned != '') {
         minimumAssign = true;
@@ -215,7 +212,6 @@ $scope.allowSaveDrafts=false;
     }
     $scope.eventdoc.dateCreated = $scope.date;
     $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res) {
-      //$log.debug(res.data.duplicate);
       if ($scope.eventdoc.eventName.trim() === '') {
         ngNotifier.notifyError('Event name cannot be blank');
       } else if ($scope.eventdoc.eventName.replace(/ /g, '').match(/^[0-9]+$/) != null) {
@@ -231,31 +227,18 @@ $scope.allowSaveDrafts=false;
 
         $scope.eventdoc.dateCreated = $scope.date;
         $scope.eventdoc.draftStatus = false;
-        // if (draftInstance)
-        //   $scope.eventdoc._id = draftInstance._id;
-
-        var partialId = genInstanceId($scope.eventdoc.eventName);
+ 
+        var partialId = genInstanceId($scope.eventdoc.eventName); // get next avail id
 
         $http.get('/api/events/getAvailEventId/' + partialId).then(function(res) {
-          //       	$log.debug(partialId);
-          //        $log.debug(res.data);
+          // check against database for existing document with the same id 
           if (res.data) {
-            //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
-            //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
             if (res.data.length > 0) {
-              //                $log.debug("ID alreADy prsent");
               $scope.eventdoc.eventInstanceId = partialId + "xx";
             } else {
-              //                $log.debug("id available to be used");
-              //                $log.debug(partialId);
               $scope.eventdoc.eventInstanceId = partialId;
             }
 
-            //			$log.debug("eventIDNew",$scope.eventdoc.eventInstanceId);
-
-
-            //			$log.debug($scope.eventdoc);
-            //			$log.debug($scope.eventdoc.eventInstanceId);
             $http.post('/api/events', $scope.eventdoc).then(function(res) {
 
               if (res.data.success) {
@@ -297,14 +280,7 @@ $scope.allowSaveDrafts=false;
 
         if (clicked=="clicked") {
           ngNotifier.notify("Your event has been saved under drafts");
-          //$location.path("/dashboard/drafts");
-          //$scope.ok();
-
         } else {
-          // if (res.data.newId) {
-            
-          //   previousData = angular.toJson($scope.eventdoc);
-          // }
           ngNotifier.notify("Your event has been saved under drafts automatically.");
         }
 
@@ -335,8 +311,6 @@ $scope.allowSaveDrafts=false;
       $log.debug(partialId);
       $log.debug(res.data);
       if (res.data) {
-        //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
-        //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
         if (res.data.length > 0) {
           $log.debug("ID alreADy prsent");
           return partialId + "xx";
@@ -365,9 +339,12 @@ $scope.allowSaveDrafts=false;
   }
 
    $scope.checkDirty = function() {
+     // this function compare previously saved copy of eventdoc against the current eventdoc
+     // if they are not the same then save the current eventdoc
      $log.debug('check dirty fired');
      if (previousData !== angular.toJson($scope.eventdoc)) {
      $scope.saveDraftEvent('Yes');
+     // re-initialize and wait for the next check
       previousData = angular.toJson($scope.eventdoc);
    }
 
