@@ -28,8 +28,7 @@ $scope.activeTab="tab_0";
 
 $scope.hideFromCoordinator = function(category) {
     return !($scope.identity.isAuthorized('levelTwo') &&  (category.statusCompleted==false));
-    //return false;
-    //$log.debug(index);
+   
 };
 
 $scope.filterTabForAnalyst = function(category) {
@@ -41,7 +40,7 @@ $scope.filterTabForAnalyst = function(category) {
 };
 
 $scope.returnToAnalyst = function(category) {
-
+// set category statusCompleted flag back to false so analyst could access their assigned category
   category.statusCompleted = false;
 
   var data = { docId : $scope.eventdoc._id , categoryData : category};
@@ -256,7 +255,7 @@ $scope.saveCategory = function (status) {  // save data for the current tab
  var oneCategoryData;
  
  if (ngIdentity.isAuthorized('levelTwo'))
- { // coordinator save
+ { // coordinator save - save data from each category only if category statusCompleted flag = true
      $log.debug("i am in coordinator save");
      for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
      {
@@ -274,7 +273,6 @@ $scope.saveCategory = function (status) {  // save data for the current tab
      for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
      {
        if ($scope.eventdoc.categories[i].name == $scope.activeCategory) {
- //      if ($scope.eventdoc.categories[i].userAssigned.id ==  $scope.identity.currentUser._id) {
             oneCategoryData = $scope.eventdoc.categories[i];
             break;
        }
@@ -294,7 +292,6 @@ $scope.saveCategory = function (status) {  // save data for the current tab
               if (oneCategoryData.statusCompleted === true) {
                 ngNotifier.notify("Thank you. Your information has been submitted for review.");
                 $location.path('/dashboard/');
-              //   $route.reload();
               } else {
                 ngNotifier.notify("Saved");
               }
@@ -322,7 +319,9 @@ $scope.saveCategory = function (status) {  // save data for the current tab
      
     }, true);
 };
+
 function saveOneCategory(data) {
+  // save category's data only
    $log.debug("i am in save one category" , data);
    $http.post('/api/events/saveEventCategory',data).then(function(res) {
               if(res.data.success) {
@@ -334,20 +333,6 @@ function saveOneCategory(data) {
             
 }
 
-$scope.saveEvent = function () {  // save data for the current document
- 
-  var data = $scope.eventdoc;
-
-    $http.post('/api/events',data).then(function(res) {
-
-        if(res.data.success) {
-          ngNotifier.notify("Event document has been saved!");
-        } else {
-          alert('there was an error');
-        }
-      });
-};
-
 function getLatestInstance(partialId)
     { 
       $log.debug(partialId);
@@ -356,8 +341,6 @@ function getLatestInstance(partialId)
         $log.debug(partialId);
          $log.debug(res.data);
          if(res.data) {
-             //var eventInstanceIdParts = res.data.eventInstanceId.split("-");
-             //$scope.eventInstanceId= eventInstanceIdParts[0] + '-' + String('0'+(Number(eventInstanceIdParts[1]) + 1));
              if(res.data.length>0)
              {
                 $log.debug("ID alreADy prsent");
@@ -389,8 +372,8 @@ function getLatestInstance(partialId)
         return instanceId;
     }
     
-    $scope.showInfo = function() {
-   //$scope.instance = $scope.eventdoc;
+$scope.showInfo = function() {
+  // function to activate "moreinfomodal"
    var modalInstance = $modal.open({
       scope:$scope,
       templateUrl: '/partials/moreInfoModal',
@@ -406,70 +389,25 @@ function getLatestInstance(partialId)
     });
 };
 
-//var infoModalInstanceCtrl = function ($scope, $modalInstance) {
-//
-//var instance = $scope.instance;
-//$log.debug('instance in modal ',instance);
-//var categoryCount = 0;
-//var completedCount = 0;
-//var category = 0;
-//
-//
-//
-//for (category in instance.categories)
-//{ 
-//  $scope.instance.categories[category.name].topicCount = 0;
-//  $scope.instance.categories[category.name].subtopicCount=0;    
-//  if (instance.categories.hasOwnProperty(category)) {
-//      var oneCategory = instance.categories[category];
-//    //  $log.debug(oneCategory);
-//      $scope.instance.categories[category].topicCount = getNodeCount(oneCategory.topics);
-//      var subTopicCount = 0;
-//      for (topic in oneCategory.topics) {
-//          if (oneCategory.topics.hasOwnProperty(topic)) {
-//            var oneTopic = oneCategory.topics[topic];
-//            $log.debug(oneTopic);
-//            subTopicCount += getNodeCount(oneTopic.subTopics);
-//           
-//          }
-//      }
-//       $scope.instance.categories[category].subtopicCount = subTopicCount;
-//            
-//  }
-//}
-//};
 
 var infoModalInstanceCtrl = function ($scope, $modalInstance) {
-
+// controller for More Information modal popup 
 $scope.instance = {};
 $log.debug('instance in modal ',$scope.instance);
 var categoryCount = 0;
 var completedCount = 0;
 
 
-
-
 for (var i = 0 ; i < $scope.eventdoc.categories.length; i++) 
    
 { 
-  // instance.categories[i].topicCount = 0;
-  // instance.categories[i].subtopicCount=0;    
   var oneCategory =  $scope.eventdoc.categories[i];
   var topicCount=oneCategory.topics.length;
-  //    $log.debug(oneCategory);
-      //instance.categories[i].topicCount = getNodeCount(oneCategory.topics);
       var subTopicCount = 0;
       for (topic in oneCategory.topics) {
         $log.debug('topic object',topic);
-        //   if (oneCategory.topics.hasOwnProperty(topic)) {
-        //     var oneTopic = oneCategory.topics[topic];
-        // //    $log.debug(oneTopic);
-        //     //subTopicCount += getNodeCount(oneTopic.subTopics);
-           
-        //   }
         subTopicCount=oneCategory.topics[topic].subTopics.length+subTopicCount;
       }
-      //instance.categories[i].subtopicCount = subTopicCount;
             
  $scope.instance[oneCategory.name]={topicCount:topicCount,subTopicCount:subTopicCount,name:oneCategory.name,userAssigned:oneCategory.userAssigned.displayName,statusCompleted:oneCategory.statusCompleted,dateCompleted:oneCategory.dateCompleted};
 }
@@ -500,41 +438,12 @@ function getNodeCount(document) {
   }
   return nodeCount;
 };
-    
-    
-$scope.coordinatorAllowed = function() {
-  return !ngIdentity.isAuthorized("levelThree") && allCategoriesCompleted($scope);
-};
-
-function allCategoriesCompleted(scope)
-{  
-   var categoryCount = 0;
-    var completedCount = 0;
-  //  $log.debug($scope.eventdoc.categories);
-  try
-  {
-    for (var i=0; i < scope.eventdoc.categories.length; i++)
-    {  var category = scope.eventdoc.categories[i]; 
-      if (category.userAssigned)
-       {
-             categoryCount++;
-             if (category.statusCompleted)
-              {
-                completedCount++;
-              }
-     }
-    } 
-  }
-  catch(e) {}
-  
-     return (completedCount == categoryCount && categoryCount > 0);
-}
 
 $scope.setActiveCategory = function(category)
+// retrieve category for the selected category tab
 {
   $scope.activeCategory= category;
   $scope.activeTab="tab_0";
- // $log.debug("current category ",category);
 };
 
    var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
