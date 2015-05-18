@@ -1,0 +1,48 @@
+div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
+.save-draft-cont(style='position:absolute; float:left; margin-left:-20 px;')
+    button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
+#page-wrapper
+   .container-fluid
+        // Page Heading
+        .row
+            .header.col-lg-12
+                h2.page-header
+                    | Available Events for Import
+        // Page Content
+        .row
+            .col-lg-12
+                .table-responsive
+                    table.table.table-hover.table-striped
+                        thead
+                            tr
+                                th
+                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse")
+                                        | Event
+                                        span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
+                                th
+                                    a(href="" ng-click="sortType = 'eventType'; sortReverse = !sortReverse")
+                                        | Type 
+                                        span(ng-show="sortType == 'eventType' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'eventType' &&  sortReverse" class="fa fa-caret-up") 
+                                th
+                                    a(href="" ng-click="sortType = 'coordinatorAssign'; sortReverse = !sortReverse")
+                                        | Coordinator 
+                                        span(ng-show="sortType == 'coordinatorAssign' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'coordinatorAssign' &&  sortReverse" class="fa fa-caret-up") 
+                                th
+                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
+                                        | Date 
+                                        span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
+                        tbody
+                             tr(ng-repeat="instance in importInstances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                                td {{instance.eventName}}
+                                td {{instance.eventType}}
+                                td {{instance.userCreated.displayName}}
+                                td {{instance.dateCreated | date:'MM/dd/yyyy' }}
+                                td(width="10%")
+                                    a(href='', data-nodrag='', ng-click="importInstance(instance)")
+                                        img(src='img/copy.png', width='32', height='32')
+                                
+                                     

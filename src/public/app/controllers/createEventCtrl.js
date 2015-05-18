@@ -21,6 +21,7 @@ $scope.allowSaveDrafts=false;
       {
         $log.debug("saving");
         $scope.saveDraftEvent();
+        $location.path('/dashboard/drafts');
       }
       
     }
