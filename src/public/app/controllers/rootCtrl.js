@@ -5,10 +5,10 @@ $scope.activeMenu='';
 $scope.searchText='';
 $scope.identity = ngIdentity;
 
-if($scope.identity.currentUser === undefined){
+if($scope.identity.currentUser === undefined){  //changed background color based on authenticated or not
   $("body").css("background-color", "#2a2d33;");
 }
-// $log.debug($scope.identity.currentUser);
+
 $scope.createEvent = function (size,draftInstance) {
 
       var modalInstance = $modal.open({

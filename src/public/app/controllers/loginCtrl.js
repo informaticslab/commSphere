@@ -2,16 +2,17 @@ angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ng
 	$scope.identity = ngIdentity;
 
 	$scope.login = function(email, password){
-		ngAuth.authenticateUser(email,password).then(function(success) {  //TODO make changes for commSphere usage
+		ngAuth.authenticateUser(email,password).then(function(success) {  
 			
 			if(success) {
 				if($scope.identity.currentUser.isLevelTwo()){
 					$location.path('/dashboard');
 				} else if ($scope.identity.currentUser.isLevelThree()){
 					$location.path('/dashboard');
-				} else if ($scope.identity.currentUser.isLevelOne()) {
-					//TODO: admin route
 				}
+				// } else if ($scope.identity.currentUser.isLevelOne()) {  //Comment out admin route for now, until we decide if we need an admin role.
+				// 	//TODO: admin route
+				// }
 				$("body").css("background-color", "#FFF;");
 			} else {
 				//$log.debug(success);
