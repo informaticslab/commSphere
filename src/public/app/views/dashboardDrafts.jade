@@ -39,11 +39,11 @@
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td(width="10%")
-                                    a.btn.btn-primary.btn-xs.pull-left(href='', data-nodrag='', ng-click="editDraft('lg',instance)")
+                                    a.del-edit-btn.btn.btn-default.btn-xs.pull-left(href='', data-nodrag='', ng-click="editDraft('lg',instance)")
                                         .glyphicon.glyphicon-pencil
                                     | 
-                                    a.btn.btn-danger.btn-xs.pull-right( href='', data-nodrag='', ng-click="deleteDraft(instance)")
-                                        .glyphicon.glyphicon-remove
+                                    a.del-edit-btn.btn.btn-default.btn-xs.pull-right( href='', data-nodrag='', ng-click="deleteDraft(instance)")
+                                        .glyphicon.glyphicon-trash
                                      
                              
         //- .row

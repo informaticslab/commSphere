@@ -163,3 +163,6 @@ input[type="text"].eventTemplateTopic {
   font-style: italic;
   font-size: 16;
 }
+.del-edit-btn {
+	color:#498cd0;
+}

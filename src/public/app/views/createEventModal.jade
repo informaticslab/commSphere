@@ -50,9 +50,9 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 											ol(ui-tree-nodes='', ng-model='category.topics', data-type='topic')
 												li(ng-repeat='topic in category.topics', ui-tree-node='')
 													.topic-title.angular-ui-tree-handle(ng-show='!topic.editing' ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-														a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeTopic(category,topic)')
-															i.glyphicon.glyphicon-remove
-														a.btn.btn-primary.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editTopic(topic)')
+														a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeTopic(category,topic)')
+															i.glyphicon.glyphicon-trash
+														a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editTopic(topic)')
 															i.glyphicon.glyphicon-pencil
 														div  {{topic.name}}
 													.topic-title.angular-ui-tree-handle(data-nodrag='', ng-show='topic.editing')
@@ -65,9 +65,9 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 													ol(ui-tree-nodes='', ng-model='topic.subTopics', data-type='subTopic')
 														li(ng-repeat='subTopic in topic.subTopics', ui-tree-node='')
 															.subTopic-title.angular-ui-tree-handle(ng-show='!subTopic.editing' ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-																a.btn.btn-danger.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubTopic(topic, subTopic)')
-																	i.glyphicon.glyphicon-remove
-																a.btn.btn-primary.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editSubTopic(subTopic)')
+																a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubTopic(topic, subTopic)')
+																	i.glyphicon.glyphicon-trash
+																a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editSubTopic(subTopic)')
 																	i.glyphicon.glyphicon-pencil
 																div
 																	| {{subTopic.name}}
