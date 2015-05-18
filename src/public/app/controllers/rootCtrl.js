@@ -1,12 +1,16 @@
 commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route','$log', function($scope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route,$log) {
 
-$("body").show();
+$("#wrapper").show();
 $scope.activeMenu='';
 $scope.searchText='';
 $scope.identity = ngIdentity;
 
 if($scope.identity.currentUser === undefined){  //changed background color based on authenticated or not
   $("body").css("background-color", "#2a2d33;");
+}
+else
+{
+  $("body").css("background-color", "#f7f7f7;");
 }
 
 $scope.createEvent = function (size,draftInstance) {

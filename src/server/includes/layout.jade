@@ -15,8 +15,8 @@ html(lang="en" ng-app="app")
     link(rel="stylesheet" href="/css/login.css")
     link(rel="P3Pv1" href="http://www.cdc.gov/w3c/p3p.xml")
   
-    body(ng-controller='rootCtrl' style="display:none")
-        #wrapper
+    body(ng-controller='rootCtrl')
+        #wrapper(style="display:none")
             // Navigation
             nav.navbar.navbar-inverse.navbar-fixed-top.ng-cloak(role='navigation' ng-show="identity.isAuthenticated()") 
                 // Brand and toggle get grouped for better mobile display
