@@ -71,10 +71,12 @@ $scope.allowSaveDrafts=false;
   $scope.eventTypes = ['Earthquake', 'Hurricane', 'Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
   $scope.date = new Date().getTime(); // need both date and time
 
+  //create an object with ID and displayName for userCreated.
   $scope.eventdoc.userCreated = {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
+
   var previousData = angular.toJson($scope.eventdoc);
 
-
+  //retrieve list of analysts from db for dropdown
   $http.get('/api/users/analysts').then(function(res) {
   var analysts = res.data;
   for(var i=0; i < analysts.length; i++) {
@@ -168,10 +170,6 @@ $scope.allowSaveDrafts=false;
     subTopic.editing = true;
   };
 
-  // $scope.cancelEditingSubTopic = function(topic) {
-  //   topic.editing = false;
-  // };
-
   $scope.saveSubTopic = function(subTopic) {
     // topic.save();
     subTopic.editing = false;
@@ -212,6 +210,8 @@ $scope.allowSaveDrafts=false;
     }
     $scope.eventdoc.dateCreated = $scope.date;
     $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res) {
+
+      //validation before event creation
       if ($scope.eventdoc.eventName.trim() === '') {
         ngNotifier.notifyError('Event name cannot be blank');
       } else if ($scope.eventdoc.eventName.replace(/ /g, '').match(/^[0-9]+$/) != null) {

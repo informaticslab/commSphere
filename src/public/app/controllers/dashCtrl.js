@@ -6,8 +6,8 @@ $scope.$parent.activeMenu='dashboard';
 $scope.sortType = "-dateCreated";
 //$log.debug("test");
 
-
-if($scope.identity.currentUser.roles.levelThree) {  //Filtering for events for analysts
+//Filtering events for analysts
+if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analysts
 
   $http.get('/api/events/analyst/'+$scope.identity.currentUser._id).then(function(res){
   //     $log.debug(res.data);
@@ -42,7 +42,6 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering for events for a
 
 function getCompletionStatus() {    
   for(var i = 0, l = $scope.instances.length; i < l; ++i){
-      //$scope.instances[i].randomNumber = ngRandomData.getRandomNumber();  //FOR "random" Mock data remove when real data has been implemented
       oneInstance = $scope.instances[i];
       var categoryCount = 0;
       var completedCount = 0;
@@ -62,9 +61,6 @@ function getCompletionStatus() {
         $log.debug('completed count = ' + completedCount);
   }
 };
-//    $log.debug(ProgressStatus(oneInstance.categories));
-
-
   
 $scope.showInfo = function(instance) {
    $scope.instance = instance;
