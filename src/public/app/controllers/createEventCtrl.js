@@ -1,7 +1,7 @@
 angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log) {
 $scope.identity = ngIdentity;
 
-$animate.enabled(false, 'div');
+$animate.enabled(false);
 $scope.allowSaveDrafts=false;
   var secondUnit = 1000;
   var autoSave;
@@ -265,7 +265,7 @@ $scope.allowSaveDrafts=false;
 
       }
     });
-
+    $animate.enabled(true);
 
 
   };

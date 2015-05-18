@@ -45,14 +45,16 @@ $scope.logout = function(){
 }]);
 
 
-var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$route,$timeout) {
+var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$animate) {
 
   $scope.ok = function () {
+    $animate.enabled(true);
     $modalInstance.close();
     $route.reload();
   };
 
   $scope.cancel = function () {
+    $animate.enabled(true);
     $modalInstance.dismiss();
     $timeout($route.reload,300);
   };
