@@ -56,10 +56,10 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             div(ui-tree='options')
                                                                 ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='subTopic.bullets', data-type='bullet' )
                                                                     li.bullet-disc-node(ng-repeat='bullet in subTopic.bullets', ui-tree-node='' ng-show="hideFromCoordinator(category)" )
-                                                                        .bullet-title.angular-ui-tree-handle-clear(ng-show='!bullet.editing' ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-                                                                            a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeBullet(subTopic, bullet)')
+                                                                        .bullet-title.angular-ui-tree-handle-clear(ng-show='!bullet.editing' ng-mouseenter="hoverBullet = true" ng-mouseleave="hoverBullet = false")
+                                                                            a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverBullet" href='', data-nodrag='', ng-click='removeBullet(subTopic, bullet)')
                                                                                 i.glyphicon.glyphicon-trash
-                                                                            a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editBullet(bullet)')
+                                                                            a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverBullet" href='', data-nodrag='', ng-click='editBullet(bullet)')
                                                                                 i.glyphicon.glyphicon-pencil
                                                                             p
                                                                                 | {{bullet.name}}
@@ -67,10 +67,10 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                             textarea(type='text', ng-model='bullet.name' ng-keydown='$event.keyCode==13 ? saveBullet(bullet,$event) : null')
                                                                         ul.bullet-circle-nodes(ui-tree-nodes='', ng-model='bullet.subBullets', data-type='subBullet')
                                                                             li.bullet-circle-node(ng-repeat='subBullet in bullet.subBullets', ui-tree-node='' ng-show="hideFromCoordinator($index)")
-                                                                                .subBullet-title.angular-ui-tree-handle-clear(ng-show='!subBullet.editing' ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-                                                                                    a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='removeSubBullet(bullet, subBullet)')
+                                                                                .subBullet-title.angular-ui-tree-handle-clear(ng-show='!subBullet.editing' ng-mouseenter="hoverSubBullet = true" ng-mouseleave="hoverSubBullet = false")
+                                                                                    a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverSubBullet" href='', data-nodrag='', ng-click='removeSubBullet(bullet, subBullet)')
                                                                                         i.glyphicon.glyphicon-trash
-                                                                                    a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hover" href='', data-nodrag='', ng-click='editSubBullet(subBullet)')
+                                                                                    a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverSubBullet" href='', data-nodrag='', ng-click='editSubBullet(subBullet)')
                                                                                         i.glyphicon.glyphicon-pencil
                                                                                     div
                                                                                         | &nbsp;&nbsp;{{subBullet.name}}
