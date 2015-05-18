@@ -1,5 +1,5 @@
 commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','ngIdentity','$log', function($scope, $modal,$routeParams,ngEvents,$http,ngIdentity,$log) {
-
+$("body").css("background-color", "#f7f7f7;");
 $scope.identity = ngIdentity
 $scope.$parent.activeMenu='dashboard';
 // set default sort column and direction;
