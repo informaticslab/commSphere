@@ -33,7 +33,7 @@ $scope.editDraft = function (size,draftInstance) {
 $scope.deleteDraft = function (draftInstance) {
   // delete the passed in draft instance
     var draftDate = $filter('date')(draftInstance.dateCreated,'MM/dd/yyyy - hh:mm:ss');
-    var deleteConfirm = $window.confirm('Are you absolutely sure you want to delete drarft:' + draftInstance.eventName +' created on ' + draftDate + '? ');
+    var deleteConfirm = $window.confirm('Are you absolutely sure you want to delete draft:' + draftInstance.eventName +' created on ' + draftDate + '? ');
 
     if (deleteConfirm) {
       
