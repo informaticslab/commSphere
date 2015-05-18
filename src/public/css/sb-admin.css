@@ -8,13 +8,17 @@
 
 body {
     margin-top: 100px;
-    background-color: #2a2d33;
+    background-color: #f7f7f7;
 }
 
 @media(min-width:768px) {
     body {
         margin-top: 50px;
     }
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
 }
 
 #wrapper {
