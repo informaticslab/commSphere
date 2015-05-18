@@ -22,17 +22,20 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                     .tab-container
                         tabset
                             tab(ng-repeat="category in eventdoc.categories | filter: filterTabForAnalyst" heading="{{category.name}}" select="setActiveCategory(category.name)")
-                                .return-event-cont
-                                    button.btn.btn-default(type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
-                                        | Return to analyst
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12
-                                        .tab-title-heading
-                                            img(ng-if='category.name=="Web"' src='img/web-icon.png', width='37', height='32')
-                                            img(ng-if='category.name=="TV"' src='img/tv-icon.png', width='37', height='32')
-                                            img(ng-if='category.name=="Print"' src='img/news-icon.png', width='37', height='32')
-                                            |   {{category.name}}: by {{category.userAssigned.displayName}}
                                         br
+                                        .row
+                                            .col-lg-9.col-md-9.col-sm-9
+                                                .tab-title-heading
+                                                    img(ng-if='category.name=="Web"' src='img/web-icon.png', width='37', height='32')
+                                                    img(ng-if='category.name=="TV"' src='img/tv-icon.png', width='37', height='32')
+                                                    img(ng-if='category.name=="Print"' src='img/news-icon.png', width='37', height='32')
+                                                    |   {{category.name}}: by {{category.userAssigned.displayName}}
+                                            .col-lg-3.col-md-3.col-sm-3
+                                                .return-event-cont
+                                                    button.btn.btn-default(type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
+                                                        | Return to analyst
                                         br
                                         hr
                                         br
