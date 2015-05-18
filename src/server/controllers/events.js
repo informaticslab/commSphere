@@ -153,3 +153,13 @@ exports.findDuplicate = function(req, res) {
 		 }
 	 });
 };
+
+
+exports.getEventsForImport = function(req, res) {
+// get all active and archived events    
+var collection = mongo.mongodb.collection('events');
+collection.find( { $or: [{'draftStatus' : false},{'archiveStatus' : true}]}).toArray(function(err, eventInstances) {
+        res.send(eventInstances);
+  });
+  };
+

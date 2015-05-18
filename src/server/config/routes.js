@@ -26,6 +26,7 @@ module.exports = function(app) {
   app.post('/api/events/drafts/delete/:Id',events.deleteDraft);
   app.get('/api/events/analyst/:analystId',events.getEventsByAnalyst);
   app.post('/api/events/saveEventCategory',events.saveEventCategory);
+  app.get('/api/events/getEventsForImport',events.getEventsForImport);
 
 
 

@@ -25,6 +25,8 @@ html(lang="en" ng-app="app")
                 // Top Menu Items
                 .create-event-button
                     button.btn.btn-danger.ng-cloak(type='button' ng-click="createEvent('lg')" ng-show="identity.isAuthorized('levelTwo')") Create New Event +
+                 .create-event-button
+                    button.btn.btn-danger.ng-cloak(type='button' ng-click="showAvailEvents('lg')" ng-show="identity.isAuthorized('levelTwo')") Create Event from Existing
                 // Sidebar Menu Items - These collapse to the responsive navigation menu on small screens
                 .collapse.navbar-collapse.navbar-ex1-collapse.ng-cloak
                     ul.nav.navbar-nav.side-nav.ng-cloak
