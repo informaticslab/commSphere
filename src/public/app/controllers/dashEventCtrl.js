@@ -3,6 +3,7 @@ $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $scope.continueNav = true;
 
+//Prevent accidental leaving of dashboard event screen
 $scope.$on('$locationChangeStart', function( event ) {
   if (!$scope.continueNav){
       var answer = confirm("Are you sure you want to leave this page?")
@@ -26,17 +27,17 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
 
+//hide categories from coordinator if incomplete
 $scope.hideFromCoordinator = function(category) {
-    return !($scope.identity.isAuthorized('levelTwo') &&  (category.statusCompleted==false));
-   
+  return !($scope.identity.isAuthorized('levelTwo') &&  (category.statusCompleted==false));
 };
 
+//show tabs only the tabes assigned to logged in user
 $scope.filterTabForAnalyst = function(category) {
   if($scope.identity.currentUser)
   {
     return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo); 
   }
-   
 };
 
 $scope.returnToAnalyst = function(category) {
