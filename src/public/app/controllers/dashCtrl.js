@@ -1,4 +1,4 @@
-commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngRandomData','$http','ngIdentity','$log', function($scope, $modal,$routeParams,ngEvents,ngRandomData,$http,ngIdentity,$log) {
+commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','ngIdentity','$log', function($scope, $modal,$routeParams,ngEvents,$http,ngIdentity,$log) {
 
 $scope.identity = ngIdentity
 $scope.$parent.activeMenu='dashboard';
