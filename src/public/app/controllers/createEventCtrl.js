@@ -87,7 +87,7 @@ $scope.allowSaveDrafts=false;
   $log.debug($scope.date);
   
 
-  $scope.addTopic = function(category) {
+  $scope.addTopic = function(category,e) {
     $log.debug(category);
     // if ($scope.eventdoc.categories.indexOf(category).topics.length > 10) {
     //   window.alert('You can\'t add more than 10 topics!');
@@ -105,6 +105,7 @@ $scope.allowSaveDrafts=false;
 
     }
     $scope.topicValue = {};
+    e.preventDefault();
   };
 
   $scope.editTopic = function(topic) {
@@ -115,9 +116,10 @@ $scope.allowSaveDrafts=false;
     topic.editing = false;
   };
 
-  $scope.saveTopic = function(topic) {
+  $scope.saveTopic = function(topic,e) {
     // topic.save();
     topic.editing = false;
+    e.preventDefault();
   };
 
   $scope.removeTopic = function(category, topic) {
@@ -140,7 +142,7 @@ $scope.allowSaveDrafts=false;
     }
   };
 
-  $scope.addSubTopic = function(topic) {
+  $scope.addSubTopic = function(topic,e) {
     $log.debug(topic);
     if (!topic.newSubTopicName || topic.newSubTopicName.length === 0) {
       return;
@@ -152,6 +154,7 @@ $scope.allowSaveDrafts=false;
       bullets: []
     });
     topic.newSubTopicName = '';
+    e.preventDefault();
     // topic.save();
   };
 
@@ -170,9 +173,10 @@ $scope.allowSaveDrafts=false;
     subTopic.editing = true;
   };
 
-  $scope.saveSubTopic = function(subTopic) {
+  $scope.saveSubTopic = function(subTopic,e) {
     // topic.save();
     subTopic.editing = false;
+    e.preventDefault();
   };
 
   $scope.options = {

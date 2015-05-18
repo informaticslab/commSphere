@@ -59,7 +59,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 														form.form-inline(role='form')
 															.form-topic
 																label.sr-only(for='topicName') Topic name
-																input.form-control(type='text', placeholder='Topic name', ng-model='topic.name' ng-keyup='$event.keyCode==13 ? saveTopic(topic) : null')
+																input.form-control(type='text', placeholder='Topic name', ng-model='topic.name' ng-keyup='$event.keyCode==13 ? saveTopic(topic,$event) : null')
 															//button.btn.btn-default(type='submit', ng-click='saveTopic(topic)') Save
 															//button.btn.btn-default(type='submit', ng-click='cancelEditingTopic(topic)') Cancel
 													ol(ui-tree-nodes='', ng-model='topic.subTopics', data-type='subTopic')
@@ -75,14 +75,14 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 																form.form-inline(role='form')
 																	.form-topic
 																		label.sr-only(for='subTopicName') SubTopic name
-																		input.form-control(type='text', ng-model='subTopic.name', placeholder='SubTopic name' ng-keyup='$event.keyCode==13 ? saveSubTopic(subTopic) : null')
+																		input.form-control(type='text', ng-model='subTopic.name', placeholder='SubTopic name' ng-keyup='$event.keyCode==13 ? saveSubTopic(subTopic,$event) : null')
 													ol.angular-ui-tree-nodes(data-nodrag='')
 														li.angular-ui-tree-node
 															.subTopic-title.angular-ui-tree-handle
 																form.form-inline(role='form')
 																	.form-topic
 																		label.sr-only(for='subTopicName') SubTopic name
-																		input.form-control(type='text', ng-model='topic.newSubTopicName', placeholder='SubTopic name' ng-keyup='$event.keyCode==13 ? addSubTopic(topic) : null')
+																		input.form-control(type='text', ng-model='topic.newSubTopicName', placeholder='SubTopic name' ng-keyup='$event.keyCode==13 ? addSubTopic(topic,$event) : null')
 																	//button.btn.btn-default(type='submit', ng-click='addSubTopic(topic)') Add SubTopic
 											ol.angular-ui-tree-nodes
 												li.angular-ui-tree-node
@@ -90,7 +90,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 														form.form-inline(role='form')
 															.form-topic
 																label.sr-only(for='topicName') Topic name
-																input#topicName.form-control(type='text', placeholder='Topic name' ng-model="topicValue[category.name]" ng-keyup='$event.keyCode==13 ? addTopic(category) : null')
+																input#topicName.form-control(type='text', placeholder='Topic name' ng-model="topicValue[category.name]" ng-keyup='$event.keyCode==13 ? addTopic(category,$event) : null')
 															//button.btn.btn-default(type='submit', ng-click='addTopic(category)') Add Topic
 								//.row
 									.col-lg-6
