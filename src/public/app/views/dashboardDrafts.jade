@@ -32,17 +32,20 @@
                                         | Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
+                                th
+                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
+                                        | Edit Controls
                         tbody
-                             tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                            tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                 td {{instance.eventName}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
-                                td(width="10%")
-                                    a.del-edit-btn.btn.btn-default.btn-xs.pull-left(href='', data-nodrag='', ng-click="editDraft('lg',instance)")
+                                td
+                                    a.del-edit-btn.btn.btn-default.btn-xs(href='', data-nodrag='', ng-click="editDraft('lg',instance)")
                                         .glyphicon.glyphicon-pencil
-                                    | 
-                                    a.del-edit-btn.btn.btn-default.btn-xs.pull-right( href='', data-nodrag='', ng-click="deleteDraft(instance)")
+                                    &nbsp;
+                                    a.del-edit-btn.btn.btn-default.btn-xs( href='', data-nodrag='', ng-click="deleteDraft(instance)")
                                         .glyphicon.glyphicon-trash
                                      
                              
