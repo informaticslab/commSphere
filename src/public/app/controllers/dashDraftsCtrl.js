@@ -58,13 +58,11 @@ var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draft
  $scope.draftInstance = draftInstance;
   
   $scope.ok = function () {
-    console.log("ok dashctrl");
     $log.debug("ok");
     $modalInstance.close();
   };
 
   $scope.cancel = function () {
-    console.log("cancel dashctrl");
     $log.debug("canceled");
     $modalInstance.dismiss();
   };
