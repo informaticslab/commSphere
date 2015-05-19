@@ -1,15 +1,14 @@
 div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
-.save-draft-cont(style='position:absolute; float:left; margin-left:-20 px;')
-    button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
-#page-wrapper
-   .container-fluid
-        // Page Heading
-        .row
-            .header.col-lg-12
-                h2.page-header
-                    | Available Events for Import
-        // Page Content
-        .row
+.modal-header
+  .modal-body(style='height:105vh;')
+    .row(style='background-color:#ffffff; margin:0px;')
+      .col-lg-12
+      .save-draft-cont(style='position:absolute; float:left; margin-left:-45px;')
+            button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
+      .create-new-event-cont
+      .h2.h2-create-new Available Events for Import
+      .hor-line-br
+    .row
             .col-lg-12
                 .table-responsive
                     table.table.table-hover.table-striped
