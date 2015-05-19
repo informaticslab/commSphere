@@ -6,10 +6,17 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
       .save-draft-cont(style='position:absolute; float:left; margin-left:-45px;')
             button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
       .create-new-event-cont
-      .h2.h2-create-new Available Events for Import
-      .hor-line-br
+      .h2.h2-create-new|Available Events for Import
+      br
+    .row(style='width:230px')
+        .col-md-12
+            .right-inner-addon
+                i.fa.fa-fw.fa-search
+                input.form-control(ng-model="searchText" type='search', placeholder='Search Events', style='background-color:#ff4474c; border: 1px thin; border-color:#212328; color:#fffff; font-weight:normal;')
+        br
+        .hor-line-br
     .row
-            .col-lg-12
+        .col-lg-12
                 .table-responsive
                     table.table.table-hover.table-striped
                         thead
@@ -35,11 +42,12 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
                         tbody
-                             tr(ng-repeat="instance in importInstances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                             tr(ng-repeat="instance in importInstances | searchAll : searchText | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                 td {{instance.eventName}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
+                                td(display:'none') {{instance.eventInstanceStatus=''}}
                                 td(width="10%")
                                     a(href='', data-nodrag='', ng-click="importInstance(instance)")
                                         img(src='img/copy.png', width='32', height='32')

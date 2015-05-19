@@ -77,7 +77,7 @@ $scope.cleanDoc = function(selectedInstance)
        selectedInstance.categories[i].dateCompleted = "";
    }
    
-   console.log(selectedInstance);
+   $log.debug(selectedInstance);
 };
 
 
