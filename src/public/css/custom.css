@@ -70,7 +70,8 @@ input[type="text"].eventTemplateTopic {
 
 .angular-ui-tree-handle-clear {
     background: transparent;
-    border: 1px solid transparent;
+    /*border: 1px solid transparent;*/
+	border:none;
     color: #333333;
 	padding:0px;
     /*padding: 10px 10px;*/

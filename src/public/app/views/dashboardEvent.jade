@@ -11,10 +11,10 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                         br
                         p.p-create-new {{eventdoc.dateCreated | date:'medium'}}
                     .save-draft-cont-evt 
-                        button.btn.btn-default.btn-info(type="button" ng-click="saveCategory('draft')")
+                        button.btn.btn-default(style='color:#337ab7;', type="button" ng-click="saveCategory('draft')")
                             | Save 
                     .submit-btn-cont
-                        button.btn.btn-default.btn-info(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
+                        button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
                             | Submit
         .modal-body(style='background-color:#f2f2f2;')
             .row(style='background-color:#f2f2f2; height:100vh;')
@@ -34,7 +34,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     |   {{category.name}}: by {{category.userAssigned.displayName}}
                                             .col-lg-3.col-md-3.col-sm-3
                                                 .return-event-cont
-                                                    button.btn.btn-default(type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
+                                                    button.btn.btn-default(style='color:#337ab7;', type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
                                                         | Return to analyst
                                         br
                                         hr

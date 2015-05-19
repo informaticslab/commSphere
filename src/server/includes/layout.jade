@@ -24,9 +24,9 @@ html(lang="en" ng-app="app")
                     img(src='img/comm-sphere-logo.png', height='71', width='234')
                 // Top Menu Items
                 .create-event-button
-                    button.btn.btn-danger.ng-cloak(type='button' ng-click="createEvent('lg')" ng-show="identity.isAuthorized('levelTwo')") Create New Event +
+                    button.btn.btn-primary.ng-cloak(type='button' ng-click="createEvent('lg')" ng-show="identity.isAuthorized('levelTwo')") Create New Event +
                  .create-event-button
-                    button.btn.btn-danger.ng-cloak(type='button' ng-click="showAvailEvents('lg')" ng-show="identity.isAuthorized('levelTwo')") Create Event from Existing
+                    button.btn.btn-primary.ng-cloak(type='button' ng-click="showAvailEvents('lg')" ng-show="identity.isAuthorized('levelTwo')") Create from Existing Event
                 // Sidebar Menu Items - These collapse to the responsive navigation menu on small screens
                 .collapse.navbar-collapse.navbar-ex1-collapse.ng-cloak
                     ul.nav.navbar-nav.side-nav.ng-cloak
