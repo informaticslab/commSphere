@@ -78,8 +78,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                                     textarea(type='text', ng-model='subBullet.name' ng-keydown='$event.keyCode==13 ? saveSubBullet(subBullet,$event) : null')
                                                                         ul.bullet-circle-nodes.angular-ui-tree-nodes(data-nodrag='')
                                                                             li.bullet-circle-node.angular-ui-tree-node
-                                                                                .subBullet-title.angular-ui-tree-handle-clear
-                                                                                    textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='Add sub-bullet' ng-keydown='$event.keyCode==13 ? addSubBullet(bullet,$event) : null' )
+                                                                                textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='Add sub-bullet' ng-keydown='$event.keyCode==13 ? addSubBullet(bullet,$event) : null' )
                                                                 ul.angular-ui-tree-nodes.bullet-disc-nodes(data-nodrag='')
                                                                     li.angular-ui-tree-node(ng-hide="hideFromCoordinator(category)")
                                                                         div.awaiting
