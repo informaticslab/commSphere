@@ -8,7 +8,7 @@
         // Page Content
         .row
             .col-lg-12
-                .table-responsive
+                .table-responsive.ng-cloak
                     table.table.table-hover.table-striped
                         thead
                             tr
@@ -36,7 +36,7 @@
                                     a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
                                         | Edit Controls
                         tbody
-                            tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                            tr(ng-repeat="instance in filteredInstances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                 td {{instance.eventName}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
@@ -47,8 +47,10 @@
                                     &nbsp;
                                     a.del-edit-btn.btn.btn-default.btn-xs( href='', data-nodrag='', ng-click="deleteDraft(instance)")
                                         .glyphicon.glyphicon-trash
-                                     
-                             
+                       .pagination-container
+                                pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()")
+                                
+        // end pagination                     
         //- .row
         //-     .col-lg-12
         //-         .pagination-container

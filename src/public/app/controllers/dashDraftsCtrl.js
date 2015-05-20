@@ -3,16 +3,25 @@ commSphereApp.controller('dashDraftsCtrl', ['$scope', '$modal','$routeParams','n
 $scope.$parent.activeMenu='drafts';
 $scope.sortReverse=true;
 $scope.sortType = "dateCreated";
+$scope.totalInstances = 0;
+$scope.itemsPerPage = 15;
+$scope.currentPage = 1;
+
 
 $http.get('/api/events/drafts').then(function(res){
 // retrieve all draft instances from the database  
      $log.debug(res.data);
      if(res.data) {
          $scope.instances=res.data;
+         $scope.totalInstances = $scope.instances.length;
+          var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+          var endItem = beginItem + $scope.itemsPerPage;
+        $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
          } else {
              alert('no data received, assign new id');
          }
     });
+    
 
 $scope.editDraft = function (size,draftInstance) {
 // activate the modal for edit draft  
@@ -50,6 +59,19 @@ $scope.deleteDraft = function (draftInstance) {
     }
     };
 
+$scope.pageCount = function () {
+    return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
+  };
+
+$scope.setPage = function (pageNo) {
+    $scope.currentPage = pageNo;
+  };
+
+$scope.pageChanged = function() {
+    var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+    var endItem = beginItem + $scope.itemsPerPage;
+    $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
+  };
 
 }]);
 
@@ -67,3 +89,5 @@ var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draft
     $modalInstance.dismiss();
   };
 };
+
+ 
