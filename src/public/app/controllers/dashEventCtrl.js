@@ -272,6 +272,7 @@ $scope.saveCategory = function (status) {  // save data for the current tab
             saveOneCategory(data);
        }
      }
+     ngNotifier.notify("Event has been saved!");
  }
  else
  {  // analyst save 
@@ -330,7 +331,7 @@ function saveOneCategory(data) {
    $log.debug("i am in save one category" , data);
    $http.post('/api/events/saveEventCategory',data).then(function(res) {
               if(res.data.success) {
-                ngNotifier.notify("Event category "+ data.categoryData.name  + " has been saved!");
+                
               } else {
                 alert('there was an error');
               }
