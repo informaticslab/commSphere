@@ -36,6 +36,7 @@ $scope.allowSaveDrafts=false;
   $scope.userAssigned = {};
 
   $scope.users = [];
+  $scope.eventTypes = [];
 
   $scope.eventdoc = {
     "eventName": "",
@@ -68,8 +69,15 @@ $scope.allowSaveDrafts=false;
     $scope.eventdoc = $scope.draftInstance;
   }
 
-
-  $scope.eventTypes = ['Earthquake', 'Hurricane', 'Flood', 'Infectious Disease', 'Famine'] //hardcoded placeholder
+  //retrieve list of event types from db for dropdown
+  $http.get('/api/eventTypes').then(function(res) {
+    if (res.data.length != 0) {
+      var types = res.data[0].eventTypeList[0].eventTypes;
+      for (var i = 0; i < types.length; i++) {
+        $scope.eventTypes.push(types[i].name);
+      }
+    }
+  });
   $scope.date = new Date().getTime(); // need both date and time
 
   //create an object with ID and displayName for userCreated.
@@ -170,7 +178,7 @@ $scope.allowSaveDrafts=false;
   };
 
   $scope.editSubTopic = function(subTopic) {
-    $log.debug("edit sub topic");
+    $log.debug("edit sub topic",subTopic);
     subTopic.editing = true;
   };
 

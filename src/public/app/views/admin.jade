@@ -1,0 +1,34 @@
+#page-wrapper
+	.container-fluid
+		.row
+			.header.col-lg-12
+				h2.page-header Admin Settings
+		.row(style='background-color: #f2f2f2; height:100vh;')
+			.col-lg-12.col-md-12.col-sm-12
+				// Event Type Section
+				.row
+					.col-lg-4.col-md-4.col-sm-4
+						div(ng-repeat='eventTypeList in eventListDoc.eventTypeList')
+							h3 Edit Event Types
+							br
+							div(ui-tree='options')
+								ol(ui-tree-nodes='', ng-model='eventTypeList.eventTypes', data-type='eventType')
+									li(ng-repeat='eventType in eventTypeList.eventTypes', ui-tree-node='',data-nodrag='')
+										.event-type-title(ng-show='!eventType.editing' ng-mouseenter="hoverEvent = true" ng-mouseleave="hoverEvent = false")
+											a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverEvent" href='', data-nodrag='', ng-click='removeEvent(eventTypeList,eventType);saveEventTypes()')
+												i.glyphicon.glyphicon-trash
+											a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverEvent" href='', data-nodrag='', ng-click='editEvent(eventType)')
+												i.glyphicon.glyphicon-pencil
+											div  {{eventType.name}}
+										.event-type-title(data-nodrag='', ng-show='eventType.editing')
+											form.form-inline(role='form')
+												.form-topic
+													label.sr-only(for='eventTypeName') Event Type
+													input.form-control(type='text', placeholder='Event Type', ng-model='eventType.name' ng-keyup='$event.keyCode==13 ? saveEvent(eventType,$event) : null; $event.keyCode==13 ? saveEventTypes(): null')
+							ol.angular-ui-tree-nodes
+								li.angular-ui-tree-node
+									.event-type-title
+										form.form-inline(role='form')
+											.form-topic
+												label.sr-only(for='eventTypeName') Event Type
+												input#eventTypeName.form-control(type='text', placeholder='Event Type' ng-model="eventTypeValue[eventTypeList.name]" ng-keyup='$event.keyCode==13 ? addEvent(eventTypeList,$event) : null; $event.keyCode==13 ? saveEventTypes(): null')

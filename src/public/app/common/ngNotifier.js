@@ -5,7 +5,9 @@ angular.module('app').factory('ngNotifier',function(ngToastr) {
 		notifyError: function(msg) {
 			ngToastr.options = {
 				'positionClass':'toast-top-full-width',
-				'timeOut' : '1800'
+				'timeOut' : '2600',
+				'closeButton' : true,
+				'preventDuplicates' : true
 			};
 			ngToastr.error(msg);
 			//console.log(msg);
@@ -13,7 +15,9 @@ angular.module('app').factory('ngNotifier',function(ngToastr) {
 		notify: function(msg) {
 			ngToastr.options = {
 				'positionClass':'toast-top-center',
-				'timeOut' : '1800'
+				'timeOut' : '2600',
+				'closeButton' : true,
+				//'preventDuplicates' : true
 			};
 			ngToastr.success(msg);
 			//console.log(msg);
