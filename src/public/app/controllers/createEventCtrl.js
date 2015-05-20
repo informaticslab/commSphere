@@ -71,9 +71,11 @@ $scope.allowSaveDrafts=false;
 
   //retrieve list of event types from db for dropdown
   $http.get('/api/eventTypes').then(function(res) {
-    var types = res.data[0].eventTypeList[0].eventTypes;
-    for(var i=0; i < types.length; i++) {
-      $scope.eventTypes.push(types[i].name);
+    if (res.data.length != 0) {
+      var types = res.data[0].eventTypeList[0].eventTypes;
+      for (var i = 0; i < types.length; i++) {
+        $scope.eventTypes.push(types[i].name);
+      }
     }
   });
   $scope.date = new Date().getTime(); // need both date and time
@@ -176,7 +178,7 @@ $scope.allowSaveDrafts=false;
   };
 
   $scope.editSubTopic = function(subTopic) {
-    $log.debug("edit sub topic");
+    $log.debug("edit sub topic",subTopic);
     subTopic.editing = true;
   };
 
