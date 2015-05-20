@@ -57,5 +57,7 @@
                                     progressbar(animate='false', value='instance.eventInstanceStatus' ng-if="instance.eventInstanceStatus<100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
                                             | {{instance.eventInstanceStatus}}%
-               .pagination-container(ng-show='totalInstances > itemsPerPage')
-                                pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()")
+        .row(ng-show='totalInstances > itemsPerPage')
+            .col-lg-12
+                .text-center
+                    pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()")

@@ -48,8 +48,10 @@
                                     &nbsp;
                                     a.del-edit-btn.btn.btn-default.btn-xs( href='', data-nodrag='', ng-click="deleteDraft(instance)")
                                         .glyphicon.glyphicon-trash
-                       .pagination-container(ng-show='totalInstances > itemsPerPage')
-                                pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()")
+        .row(ng-show="totalInstances > itemsPerPage")
+            .col-lg-12
+                .text-center
+                    pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()")
                                 
         // end pagination                     
         //- .row
