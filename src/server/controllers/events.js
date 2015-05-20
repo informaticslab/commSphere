@@ -163,3 +163,23 @@ collection.find( { $or: [{'draftStatus' : false},{'archiveStatus' : true}]}).toA
   });
   };
 
+
+exports.deleteActiveEvent = function(req,res) {
+// delete event by id.  could have used the same delete draft function but we may need to include other criteria or functionality such as archiving
+// instead of permanent delete	 
+  var Id = req.params.Id;
+  var collection = mongo.mongodb.collection('events');
+  if (Id) {  // if existing id then update
+  	 
+    collection.remove({"_id":ObjectID(Id)},function(err, affectedDocCount) {
+		if (err) {
+			res.send(err);
+			console.log(err);
+		}
+		else {
+			console.log("document deleted", affectedDocCount);
+			res.send({success:true});
+		}
+   	});
+	}
+};
