@@ -214,16 +214,18 @@ $scope.allowSaveDrafts=false;
       }
     }
     $scope.eventdoc.dateCreated = $scope.date;
-    $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res) {
+  //  $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res) {
 
       //validation before event creation
       if ($scope.eventdoc.eventName.trim() === '') {
         ngNotifier.notifyError('Event name cannot be blank');
       } else if ($scope.eventdoc.eventName.replace(/ /g, '').match(/^[0-9]+$/) != null) {
         ngNotifier.notifyError('Event name cannot contain only numbers');
-      } else if (res.data.duplicate) {
-        ngNotifier.notifyError('Cannot create event. Duplicate name');
-      } else if ($scope.eventdoc.eventType === '') {
+      } 
+//      else if (res.data.duplicate) {
+//        ngNotifier.notifyError('Cannot create event. Duplicate name');
+//      }
+       else if ($scope.eventdoc.eventType === '') {
         ngNotifier.notifyError('Please select an event type');
       } else if (minimumAssign === false){
         ngNotifier.notifyError('You must assign atleast one category to an analyst');
@@ -234,12 +236,22 @@ $scope.allowSaveDrafts=false;
         $scope.eventdoc.draftStatus = false;
  
         var partialId = genInstanceId($scope.eventdoc.eventName); // get next avail id
-
+        var increment;
         $http.get('/api/events/getAvailEventId/' + partialId).then(function(res) {
           // check against database for existing document with the same id 
           if (res.data) {
             if (res.data.length > 0) {
-              $scope.eventdoc.eventInstanceId = partialId + "xx";
+              var idParts = res.data[0].eventInstanceId.split('-');
+              //increase the suffix by 1
+              increment =  Number(idParts[1])+1;
+              if (increment < 10) 
+              {
+                $scope.eventdoc.eventInstanceId = idParts[0]+'-' + ("0" + increment);
+              }
+              else {
+                $scope.eventdoc.eventInstanceId = idParts[0]+'-' + increment;
+              }
+              
             } else {
               $scope.eventdoc.eventInstanceId = partialId;
             }
@@ -265,7 +277,7 @@ $scope.allowSaveDrafts=false;
 
 
       }
-    });
+  //  });
     $animate.enabled(true);
 
 
