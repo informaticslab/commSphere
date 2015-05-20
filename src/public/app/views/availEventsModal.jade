@@ -8,13 +8,19 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
       .create-new-event-cont
       .h2.h2-create-new|Available Events for Import
       br
-    .row(style='width:230px')
-        .col-md-12
+      .hor-line-br
+      br
+    .row
+        .col-md-4
+        
             .right-inner-addon
                 i.fa.fa-fw.fa-search
-                input.form-control(ng-model="searchText" type='search', placeholder='Search Events', style='background-color:#ff4474c; border: 1px thin; border-color:#212328; color:#fffff; font-weight:normal;')
+                input.form-control(ng-model="searchText" type='search', placeholder='Search Events', style='background-color:#ffffff; border: 1px thin; border-color:#c7c7c7; font-weight:normal;')
         br
-        .hor-line-br
+        br
+    .row
+        .col-lg-12
+            .hor-line-br("style='margin-top:15px;'")
     .row
         .col-lg-12
                 .table-responsive
@@ -43,13 +49,12 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
                         tbody
                              tr(ng-repeat="instance in importInstances | searchAll : searchText | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-                                td {{instance.eventName}}
+                                td {{instance.eventName}} 
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
-                                td(display:'none') {{instance.eventInstanceStatus=''}}
-                                td(width="10%")
+                                td
                                     a(href='', data-nodrag='', ng-click="importInstance(instance)")
-                                        img(src='img/copy.png', width='32', height='32')
+                                        span.glyphicon.glyphicon-duplicate("style='font-size:1.4em;'")
                                 
                                      
