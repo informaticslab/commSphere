@@ -101,9 +101,21 @@ var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$r
 
 var importEventModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$http) {
 // display modal popup to show list of available events   
+$scope.sortReverse=true;
+$scope.sortType = "dateCreated";
+
+//setup pagination here
+$scope.totalInstances = 0;
+$scope.itemsPerPage = 10;
+$scope.currentPage = 1;
+
   $http.get('/api/events/getEventsForImport').then(function(res){
        if(res.data) {
            $scope.importInstances=res.data;
+           $scope.totalInstances = $scope.importInstances.length;
+          var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+          var endItem = beginItem + $scope.itemsPerPage;
+        $scope.filteredInstances = $scope.importInstances.slice(beginItem,endItem);
            } else {
                alert('no data received');
            }
@@ -123,6 +135,21 @@ var importEventModalCtrl = function ($scope, $modalInstance,$location,$route,$ti
     $modalInstance.dismiss();
     $route.reload();
   };
+  
+  $scope.pageCount = function () {
+    return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
+  };
+
+$scope.setPage = function (pageNo) {
+    $scope.currentPage = pageNo;
+  };
+
+$scope.pageChanged = function() {
+    var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+    var endItem = beginItem + $scope.itemsPerPage;
+    $scope.filteredInstances = $scope.importInstances.slice(beginItem,endItem);
+  };
+
 };
 
 
