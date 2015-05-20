@@ -17,14 +17,14 @@ body {
   font-weight: normal;
 }
 .bulletPlaceHoder:-ms-input-placeholder {
-    color: #ccc;
+  color: #ccc;
   opacity: 1;
   font-style: italic;
   font-size: 12px;
   font-weight: normal;
 }
 .bulletPlaceHoder::-webkit-input-placeholder {
-    color: #ccc;
+  color: #ccc;
   opacity: 1;
   font-style: italic;
   font-size: 12px;

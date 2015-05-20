@@ -109,6 +109,7 @@ $scope.allowSaveDrafts=false;
         name: topicName,
         type: 'topic',
         subTopics: [],
+        bullets: [],
         sortOrder: category.topics.length
       });
 
