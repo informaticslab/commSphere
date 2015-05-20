@@ -8,6 +8,29 @@ body {
 
 }
 
+
+.bulletPlaceHoder::-moz-placeholder {
+  color: #ccc;
+  opacity: 1;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: normal;
+}
+.bulletPlaceHoder:-ms-input-placeholder {
+    color: #ccc;
+  opacity: 1;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: normal;
+}
+.bulletPlaceHoder::-webkit-input-placeholder {
+    color: #ccc;
+  opacity: 1;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: normal;
+}
+
 input[type="text"].eventTemplateSubTopic {
    height: 33px;
    font-size: 14px;

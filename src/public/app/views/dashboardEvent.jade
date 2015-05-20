@@ -64,7 +64,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                             p
                                                                                 | {{bullet.name}}
                                                                         .bullet-title(data-nodrag='', ng-show='bullet.editing')
-                                                                            textarea(type='text', ng-model='bullet.name' ng-keydown='$event.keyCode==13 ? saveBullet(bullet,$event) : null')
+                                                                            textarea.bulletPlaceHoder(type='text', ng-model='bullet.name' ng-keydown='$event.keyCode==13 ? saveBullet(bullet,$event) : null')
                                                                         ul.bullet-circle-nodes(ui-tree-nodes='', ng-model='bullet.subBullets', data-type='subBullet')
                                                                             li.bullet-circle-node(ng-repeat='subBullet in bullet.subBullets', ui-tree-node='' ng-show="hideFromCoordinator($index)")
                                                                                 .subBullet-title.angular-ui-tree-handle-clear(ng-show='!subBullet.editing' ng-mouseenter="hoverSubBullet = true" ng-mouseleave="hoverSubBullet = false")
@@ -75,16 +75,16 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                                     div
                                                                                         | &nbsp;&nbsp;{{subBullet.name}}
                                                                                 .subBullet-title(data-nodrag='', ng-show='subBullet.editing')
-                                                                                    textarea(type='text', ng-model='subBullet.name' ng-keydown='$event.keyCode==13 ? saveSubBullet(subBullet,$event) : null')
+                                                                                    textarea.bulletPlaceHoder(type='text', ng-model='subBullet.name' ng-keydown='$event.keyCode==13 ? saveSubBullet(subBullet,$event) : null')
                                                                         ul.bullet-circle-nodes.angular-ui-tree-nodes(data-nodrag='')
                                                                             li.bullet-circle-node.angular-ui-tree-node
-                                                                                textarea(type='text', ng-model='bullet.newSubBulletName', placeholder='Add sub-bullet' ng-keydown='$event.keyCode==13 ? addSubBullet(bullet,$event) : null' )
+                                                                                textarea.bulletPlaceHoder(type='text', ng-model='bullet.newSubBulletName', placeholder='Add sub-bullet. (Hit enter to add next sub-bullet)' ng-keydown='$event.keyCode==13 ? addSubBullet(bullet,$event) : null' )
                                                                 ul.angular-ui-tree-nodes.bullet-disc-nodes(data-nodrag='')
                                                                     li.angular-ui-tree-node(ng-hide="hideFromCoordinator(category)")
                                                                         div.awaiting
                                                                             | Awaiting information from analyst
                                                                     li.angular-ui-tree-node.bullet-disc-node(ng-show="hideFromCoordinator(category)")
-                                                                        textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Add bullet' ng-keydown='$event.keyCode==13 ? addBullet(subTopic,$event) : null' )
+                                                                        textarea.bulletPlaceHoder(type='text', ng-model='subTopic.newBulletName', placeholder='Add bullet. (Hit enter to add next bullet)' ng-keydown='$event.keyCode==13 ? addBullet(subTopic,$event) : null' )
                                                                         //- div(ng-hide="hideFromCoordinator(category)")
                                                                         //-     | Awaiting information from analyst
                                                                         //- textarea(type='text', ng-model='subTopic.newBulletName', placeholder='Awaiting information from analyst' ng-keydown='$event.keyCode==13 ? addBullet(subTopic) : null' ng-readonly = 'true' ng-hide="hideFromCoordinator(category)")
