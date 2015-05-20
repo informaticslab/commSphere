@@ -68,6 +68,11 @@ commSphereApp.config(['$routeProvider', '$locationProvider',
         controller  : 'dashArchivesCtrl',
         resolve : routeRoleChecks.levelTwoOrThree
     }).
+    when('/admin', {
+        templateUrl: '/partials/admin',
+        controller: 'adminCtrl',
+        resolve: routeRoleChecks.levelTwo
+    }).
     when('/login', {
         templateUrl : '/partials/login',
         controller  : 'loginCtrl'

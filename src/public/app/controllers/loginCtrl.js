@@ -1,7 +1,6 @@
 angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ngNotifier,ngAuth,$location,$window,$log){ 
 	$scope.identity = ngIdentity;
-
-	$log.debug($scope.identity.isAuthenticated());
+	
 	if($scope.identity.isAuthenticated()) {
 		$location.path('/');
 	}
