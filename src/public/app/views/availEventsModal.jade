@@ -24,7 +24,7 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
     .row
         .col-lg-12
                 .table-responsive
-                    table.table.table-hover.table-striped
+                    table.table.table-hover
                         thead
                             tr
                                 th
@@ -48,13 +48,16 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
                         tbody
-                             tr(ng-repeat="instance in importInstances | searchAll : searchText | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                             tr(ng-repeat="instance in filteredInstances | searchAll : searchText | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                 td {{instance.eventName}} 
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
+                                td(display:none) {{instance.eventInstanceStatus=''}}
                                 td
                                     a(href='', data-nodrag='', ng-click="importInstance(instance)")
                                         span.glyphicon.glyphicon-duplicate("style='font-size:1.4em;'")
                                 
-                                     
+                 .pagination-container
+                                pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()")
+                                              
