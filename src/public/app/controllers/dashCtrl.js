@@ -3,17 +3,24 @@ $("body").css("background-color", "#f7f7f7;");
 $scope.identity = ngIdentity
 $scope.$parent.activeMenu='dashboard';
 // set default sort column and direction;
-$scope.sortType = "-dateCreated";
-//$log.debug("test");
+$scope.sortReverse=true;
+$scope.sortType = "dateCreated";
+// set up pagination
+$scope.totalInstances = 0;
+$scope.itemsPerPage = 15;
+$scope.currentPage = 1;
+
 
 //Filtering events for analysts
 if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analysts
 
   $http.get('/api/events/analyst/'+$scope.identity.currentUser._id).then(function(res){
-  //     $log.debug(res.data);
        if(res.data) {
            $scope.instances=res.data;
-           //getCompletionStatus();
+            $scope.totalInstances = $scope.instances.length;
+            var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+            var endItem = beginItem + $scope.itemsPerPage;
+            $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
            } else {
                alert('no data received');
            }
@@ -22,23 +29,19 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analy
 } else {
 
   $http.get('/api/events/active').then(function(res){
-  //     $log.debug(res.data);
        if(res.data) {
            $scope.instances=res.data;
            getCompletionStatus();
+           $scope.totalInstances = $scope.instances.length;
+            var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+            var endItem = beginItem + $scope.itemsPerPage;
+            $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
            } else {
                alert('no data received, assign new id');
            }
       });
   }
     
-// if ($routeParams.draftStatus == null)
-//    $routeParams.draftStatus = 'active';
-// ngEvents.getEvents($routeParams.draftStatus).then(function(response) {
-//   $scope.instances = response;
-//   getCompletionStatus($scope);
-// });
-
 
 function getCompletionStatus() {    
   for(var i = 0, l = $scope.instances.length; i < l; ++i){
@@ -120,5 +123,21 @@ function getNodeCount(document) {
 };
 
 };
+// pagination functions
+$scope.pageCount = function () {
+    return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
+  };
+
+$scope.setPage = function (pageNo) {
+    $scope.currentPage = pageNo;
+  };
+
+$scope.pageChanged = function() {
+    var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+    var endItem = beginItem + $scope.itemsPerPage;
+    console.log($scope.currentPage);
+    console.log(beginItem, endItem);
+    $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
+  };
 }]);
 
