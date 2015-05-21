@@ -99,7 +99,7 @@ var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$r
   };
 };
 
-var importEventModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$http) {
+var importEventModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$http,$filter) {
 // display modal popup to show list of available events   
 $scope.sortReverse=true;
 $scope.sortType = "dateCreated";
@@ -112,10 +112,11 @@ $scope.currentPage = 1;
   $http.get('/api/events/getEventsForImport').then(function(res){
        if(res.data) {
            $scope.importInstances=res.data;
-           $scope.totalInstances = $scope.importInstances.length;
+           $scope.filteredInstances = $filter('searchAll')($scope.importInstances,'');
+           $scope.totalInstances = $scope.filteredInstances.length;
           var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
           var endItem = beginItem + $scope.itemsPerPage;
-        $scope.filteredInstances = $scope.importInstances.slice(beginItem,endItem);
+           $scope.filteredInstances = $filter('searchAll')($scope.importInstances,'').slice(beginItem,endItem);
            } else {
                alert('no data received');
            }
@@ -136,6 +137,23 @@ $scope.currentPage = 1;
     $route.reload();
   };
   
+  $scope.$watch('searchText', function (searchText) {
+        if (!searchText){
+          searchText = '';
+        }
+          if ($scope.importInstances) {
+             $scope.currentPage = 1;
+             var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+             var endItem = beginItem + $scope.itemsPerPage;
+             $scope.filteredInstances = $filter('searchAll')($scope.importInstances,searchText).slice(beginItem,endItem);
+            if (searchText =='') {
+               $scope.totalInstances = $scope.importInstances.length;
+            }
+            else {
+               $scope.totalInstances = $scope.filteredInstances.length;
+            }
+        }
+ });
   $scope.pageCount = function () {
     return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
   };
@@ -144,10 +162,10 @@ $scope.setPage = function (pageNo) {
     $scope.currentPage = pageNo;
   };
 
-$scope.pageChanged = function() {
+$scope.pageChanged = function(searchText) {
     var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
     var endItem = beginItem + $scope.itemsPerPage;
-    $scope.filteredInstances = $scope.importInstances.slice(beginItem,endItem);
+    $scope.filteredInstances = $filter('searchAll')($scope.importInstances,searchText).slice(beginItem,endItem);
   };
 
 };
