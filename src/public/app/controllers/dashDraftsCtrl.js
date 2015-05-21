@@ -4,7 +4,7 @@ $scope.$parent.activeMenu='drafts';
 $scope.sortReverse=true;
 $scope.sortType = "dateCreated";
 $scope.totalInstances = 0;
-$scope.itemsPerPage = 2;
+$scope.itemsPerPage = 15;
 $scope.currentPage = 1;
 
 
