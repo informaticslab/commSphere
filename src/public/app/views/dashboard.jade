@@ -60,4 +60,4 @@
         .row(ng-show='totalInstances > itemsPerPage')
             .col-lg-12
                 .text-center
-                    pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()")
+                    pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()"  previous-text='‹' next-text='›' first-text='«' last-text='»')
