@@ -31,6 +31,11 @@ body {
   font-weight: normal;
 }
 
+.glyphicon-info-sign:before {
+  content: "\e086";
+  color: #337ab7;
+}
+
 input[type="text"].eventTemplateSubTopic {
    height: 33px;
    font-size: 14px;
