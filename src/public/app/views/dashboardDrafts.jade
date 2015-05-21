@@ -36,7 +36,7 @@
                                     a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
                                         | Edit Controls
                         tbody
-                            tr(ng-repeat="instance in filteredInstances | searchAll : $parent.searchText | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                            tr(ng-repeat="instance in filteredInstances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                 td {{instance.eventName}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}

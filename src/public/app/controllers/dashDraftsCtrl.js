@@ -4,7 +4,7 @@ $scope.$parent.activeMenu='drafts';
 $scope.sortReverse=true;
 $scope.sortType = "dateCreated";
 $scope.totalInstances = 0;
-$scope.itemsPerPage = 15;
+$scope.itemsPerPage = 2;
 $scope.currentPage = 1;
 
 
@@ -13,10 +13,12 @@ $http.get('/api/events/drafts').then(function(res){
      $log.debug(res.data);
      if(res.data) {
          $scope.instances=res.data;
-         $scope.totalInstances = $scope.instances.length;
+         $scope.filteredInstances = $filter('searchAll')($scope.instances,'');
+         $scope.totalInstances = $scope.filteredInstances.length;
           var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
           var endItem = beginItem + $scope.itemsPerPage;
-        $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
+  //      $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
+         $scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
          } else {
              alert('no data received, assign new id');
          }
@@ -59,6 +61,24 @@ $scope.deleteDraft = function (draftInstance) {
     }
     };
 
+$scope.$watch('$parent.searchText', function (searchText) {
+        if (!searchText){
+          searchText = '';
+        }
+          if ($scope.instances) {
+             $scope.currentPage = 1;
+             var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+             var endItem = beginItem + $scope.itemsPerPage;
+             $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
+            if (searchText =='') {
+               $scope.totalInstances = $scope.instances.length;
+            }
+            else {
+               $scope.totalInstances = $scope.filteredInstances.length;
+            }
+        }
+ });
+  
 $scope.pageCount = function () {
     return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
   };
@@ -67,10 +87,10 @@ $scope.setPage = function (pageNo) {
     $scope.currentPage = pageNo;
   };
 
-$scope.pageChanged = function() {
+$scope.pageChanged = function(searchText) {
     var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
     var endItem = beginItem + $scope.itemsPerPage;
-    $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
+    $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
   };
 
 }]);
