@@ -49,7 +49,7 @@ $scope.logout = function(){
   $scope.showAvailEvents = function (size) {
   // retrieve all events with active and archived status pending users requirements
       var modalInstance = $modal.open({
-        templateUrl: '/partials/availEventSModal',
+        templateUrl: '/partials/availEventsModal',
         controller: importEventModalCtrl,
         size: size,
         keyboard: false,
