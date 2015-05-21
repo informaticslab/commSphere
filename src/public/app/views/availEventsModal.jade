@@ -33,6 +33,11 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
                                         span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
                                 th
+                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse")
+                                        | ID
+                                        span(ng-show="sortType == 'eventInstanceId' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'eventInstanceId' &&  sortReverse" class="fa fa-caret-up")  
+                                th
                                     a(href="" ng-click="sortType = 'eventType'; sortReverse = !sortReverse")
                                         | Type 
                                         span(ng-show="sortType == 'eventType' && !sortReverse" class="fa fa-caret-down")
@@ -50,6 +55,7 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
                         tbody
                              tr(ng-repeat="instance in filteredInstances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                 td {{instance.eventName}} 
+                                td {{instance.eventInstanceId}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
