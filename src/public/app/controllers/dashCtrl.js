@@ -152,7 +152,7 @@ $scope.setPage = function (pageNo) {
     $scope.currentPage = pageNo;
   };
 
-$scope.pageChanged = function() {
+$scope.pageChanged = function(searchText) {
     var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
     var endItem = beginItem + $scope.itemsPerPage;
     $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
