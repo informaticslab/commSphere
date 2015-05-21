@@ -43,7 +43,7 @@
                                         span(ng-show="sortType == 'randomNumber' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'randomNumber' &&  sortReverse" class="fa fa-caret-up")  
                         tbody
-                             tr(ng-repeat="instance in filteredInstances | searchAll : $parent.searchText | orderBy:sortType:sortReverse")
+                             tr(ng-repeat="instance in filteredInstances | orderBy:sortType:sortReverse")
                                 td 
                                     a(href="#/dashboard/event/{{instance._id}}" ){{instance.eventName}}
                                 td {{instance.eventInstanceId}}

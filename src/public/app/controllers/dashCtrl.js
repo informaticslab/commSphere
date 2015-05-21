@@ -1,4 +1,4 @@
-commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','ngIdentity','$log', function($scope, $modal,$routeParams,ngEvents,$http,ngIdentity,$log) {
+commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','ngIdentity','$log','$filter', function($scope, $modal,$routeParams,ngEvents,$http,ngIdentity,$log,$filter) {
 $("body").css("background-color", "#f7f7f7;");
 $scope.identity = ngIdentity
 $scope.$parent.activeMenu='dashboard';
@@ -17,10 +17,11 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analy
   $http.get('/api/events/analyst/'+$scope.identity.currentUser._id).then(function(res){
        if(res.data) {
            $scope.instances=res.data;
-            $scope.totalInstances = $scope.instances.length;
-            var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-            var endItem = beginItem + $scope.itemsPerPage;
-            $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
+           $scope.filteredInstances = $filter('searchAll')($scope.instances,'');
+           $scope.totalInstances = $scope.filteredInstances.length;
+           var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+           var endItem = beginItem + $scope.itemsPerPage;
+           $scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
            } else {
                alert('no data received');
            }
@@ -32,10 +33,11 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analy
        if(res.data) {
            $scope.instances=res.data;
            getCompletionStatus();
-           $scope.totalInstances = $scope.instances.length;
-            var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-            var endItem = beginItem + $scope.itemsPerPage;
-            $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
+           $scope.filteredInstances = $filter('searchAll')($scope.instances,'');
+           $scope.totalInstances = $scope.filteredInstances.length;
+           var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+           var endItem = beginItem + $scope.itemsPerPage;
+           $scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
            } else {
                alert('no data received, assign new id');
            }
@@ -124,6 +126,24 @@ function getNodeCount(document) {
 
 };
 // pagination functions
+$scope.$watch('$parent.searchText', function (searchText) {
+        if (!searchText){
+          searchText = '';
+        }
+          if ($scope.instances) {
+             $scope.currentPage = 1;
+             var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+             var endItem = beginItem + $scope.itemsPerPage;
+             $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
+            if (searchText =='') {
+               $scope.totalInstances = $scope.instances.length;
+            }
+            else {
+               $scope.totalInstances = $scope.filteredInstances.length;
+            }
+        }
+ });
+
 $scope.pageCount = function () {
     return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
   };
@@ -135,9 +155,7 @@ $scope.setPage = function (pageNo) {
 $scope.pageChanged = function() {
     var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
     var endItem = beginItem + $scope.itemsPerPage;
-    console.log($scope.currentPage);
-    console.log(beginItem, endItem);
-    $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
+    $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
   };
 }]);
 
