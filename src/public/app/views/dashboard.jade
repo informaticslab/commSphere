@@ -46,13 +46,11 @@
                              tr(ng-repeat="instance in filinstances =(instances | searchAll : $parent.searchText) | limitTo: endItem : beginItem " )
                                 td 
                                     a(href="#/dashboard/event/{{instance._id}}" ){{instance.eventName}}
-                                td {{instance.eventInstanceId}} {{instances.length}}
+                                td {{instance.eventInstanceId}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td(ng-show="identity.isAuthorized('levelTwo')")
-                                    div(ng-show="true")
-                                        | {{totalInstances=$index}}
                                     progressbar(animate='false', value='instance.eventInstanceStatus' type ="success" ng-if="instance.eventInstanceStatus==100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
                                             | {{instance.eventInstanceStatus}}%
