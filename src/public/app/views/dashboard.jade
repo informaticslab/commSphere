@@ -13,51 +13,53 @@
                         thead
                             tr
                                 th
-                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse; sortInstances('eventName')")
                                         | Event
                                         span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse; sortInstances('eventName')")
                                         | ID
                                         span(ng-show="sortType == 'eventInstanceId' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventInstanceId' &&  sortReverse" class="fa fa-caret-up")  
                                 th
-                                    a(href="" ng-click="sortType = 'eventType'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'eventType'; sortReverse = !sortReverse; sortInstances('eventName')")
                                         | Type 
                                         span(ng-show="sortType == 'eventType' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventType' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'coordinatorAssign'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'coordinatorAssign'; sortReverse = !sortReverse; sortInstances('eventName')")
                                         | Coordinator 
                                         span(ng-show="sortType == 'coordinatorAssign' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'coordinatorAssign' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse; sortInstances('eventName')")
                                         | Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
                                 th(ng-show="identity.isAuthorized('levelTwo')")
-                                    a(href="" ng-click="sortType = 'randomNumber'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'randomNumber'; sortReverse = !sortReverse; sortInstances('eventName')")
                                         | Status 
                                         span(ng-show="sortType == 'randomNumber' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'randomNumber' &&  sortReverse" class="fa fa-caret-up")  
                         tbody
-                             tr(ng-repeat="instance in filteredInstances | orderBy:sortType:sortReverse")
+                             tr(ng-repeat="instance in filinstances =(instances | searchAll : $parent.searchText) | limitTo: endItem : beginItem " )
                                 td 
                                     a(href="#/dashboard/event/{{instance._id}}" ){{instance.eventName}}
-                                td {{instance.eventInstanceId}}
+                                td {{instance.eventInstanceId}} {{instances.length}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td(ng-show="identity.isAuthorized('levelTwo')")
+                                    div(ng-show="true")
+                                        | {{totalInstances=$index}}
                                     progressbar(animate='false', value='instance.eventInstanceStatus' type ="success" ng-if="instance.eventInstanceStatus==100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
                                             | {{instance.eventInstanceStatus}}%
                                     progressbar(animate='false', value='instance.eventInstanceStatus' ng-if="instance.eventInstanceStatus<100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
                                             | {{instance.eventInstanceStatus}}%
-        .row(ng-show='totalInstances > itemsPerPage')
+        .row(ng-show='filinstances.length > itemsPerPage')
             .col-lg-12
                 .text-center
-                    pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()"  previous-text='‹' next-text='›' first-text='«' last-text='»')
+                    pagination.pagination-sm(total-items="filinstances.length", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()"  previous-text='‹' next-text='›' first-text='«' last-text='»')

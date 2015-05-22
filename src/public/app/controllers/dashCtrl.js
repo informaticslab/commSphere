@@ -9,19 +9,17 @@ $scope.sortType = "dateCreated";
 $scope.totalInstances = 0;
 $scope.itemsPerPage = 15;
 $scope.currentPage = 1;
-
-
 //Filtering events for analysts
 if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analysts
 
   $http.get('/api/events/analyst/'+$scope.identity.currentUser._id).then(function(res){
        if(res.data) {
            $scope.instances=res.data;
-           $scope.filteredInstances = $filter('searchAll')($scope.instances,'');
-           $scope.totalInstances = $scope.filteredInstances.length;
-           var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-           var endItem = beginItem + $scope.itemsPerPage;
-           $scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
+           //$scope.filteredInstances = $filter('searchAll')($scope.instances,'');
+           $scope.totalInstances = $scope.instances.length;
+           $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+           $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
+           //$scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
            } else {
                alert('no data received');
            }
@@ -33,17 +31,45 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analy
        if(res.data) {
            $scope.instances=res.data;
            getCompletionStatus();
-           $scope.filteredInstances = $filter('searchAll')($scope.instances,'');
-           $scope.totalInstances = $scope.filteredInstances.length;
-           var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-           var endItem = beginItem + $scope.itemsPerPage;
-           $scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
+           //$scope.filteredInstances = $filter('searchAll')($scope.instances,'');
+           $scope.totalInstances = $scope.instances.length;
+           $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+           $scope.endItem = beginItem + $scope.itemsPerPage;
+           //$scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
            } else {
                alert('no data received, assign new id');
            }
       });
   }
-    
+
+
+$scope.sortInstances = function(sortType) {
+  if($scope.sortReverse)
+  {
+    $scope.instances.sort(compareAsc);  
+  }
+  else
+  {
+    $scope.instances.sort(compareDesc);
+  }
+
+}
+
+function compareAsc(a,b) {
+  if (a[$scope.sortType] < b[$scope.sortType])
+    return -1;
+  if (a[$scope.sortType] > b[$scope.sortType])
+    return 1;
+  return 0;
+}
+
+function compareDesc(a,b) {
+  if (a[$scope.sortType] > b[$scope.sortType])
+    return -1;
+  if (a[$scope.sortType] < b[$scope.sortType])
+    return 1;
+  return 0;
+}
 
 function getCompletionStatus() {    
   for(var i = 0, l = $scope.instances.length; i < l; ++i){
@@ -125,24 +151,26 @@ function getNodeCount(document) {
 };
 
 };
-// pagination functions
-$scope.$watch('$parent.searchText', function (searchText) {
-        if (!searchText){
-          searchText = '';
-        }
-          if ($scope.instances) {
-             $scope.currentPage = 1;
-             var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-             var endItem = beginItem + $scope.itemsPerPage;
-             $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
-            if (searchText =='') {
-               $scope.totalInstances = $scope.instances.length;
-            }
-            else {
-               $scope.totalInstances = $scope.filteredInstances.length;
-            }
-        }
- });
+// // pagination functions
+// $scope.$watch('$parent.searchText', function (searchText) {
+//         if (!searchText){
+//           searchText = '';
+//         }
+//           if ($scope.instances) {
+//              $scope.currentPage = 1;
+//              var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+//              var endItem = beginItem + $scope.itemsPerPage;
+//              $scope.beginItem=beginItem;
+//               $scope.endItem=endItem;
+//              $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
+//             if (searchText =='') {
+//                $scope.totalInstances = $scope.instances.length;
+//             }
+//             else {
+//                $scope.totalInstances = $scope.filteredInstances.length;
+//             }
+//         }
+//  });
 
 $scope.pageCount = function () {
     return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
@@ -153,9 +181,9 @@ $scope.setPage = function (pageNo) {
   };
 
 $scope.pageChanged = function(searchText) {
-    var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-    var endItem = beginItem + $scope.itemsPerPage;
-    $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
+    $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+    $scope.endItem = beginItem + $scope.itemsPerPage;
+    //$scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
   };
 }]);
 
