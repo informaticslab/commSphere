@@ -211,3 +211,11 @@ input[type="text"].eventTemplateTopic {
   line-height: 20px;
   font-size:17px;
  }
+
+.tableCustom th, .tableCustom td { 
+     border-top: none !important; 
+ }
+
+ .tableStripe{
+background-color: #f7f7f7;
+ }
