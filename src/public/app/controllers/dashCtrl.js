@@ -34,7 +34,7 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analy
            //$scope.filteredInstances = $filter('searchAll')($scope.instances,'');
            $scope.totalInstances = $scope.instances.length;
            $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-           $scope.endItem = beginItem + $scope.itemsPerPage;
+           $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
            //$scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
            } else {
                alert('no data received, assign new id');
@@ -182,7 +182,7 @@ $scope.setPage = function (pageNo) {
 
 $scope.pageChanged = function(searchText) {
     $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-    $scope.endItem = beginItem + $scope.itemsPerPage;
+    $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
     //$scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
   };
 }]);
