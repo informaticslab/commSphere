@@ -13,7 +13,7 @@ else
   $("body").css("background-color", "#f7f7f7;");
 }
 
-$scope.createEvent = function (size,draftInstance) {
+$scope.createEvent = function (size,draftInstance,isNew) {
 
       var modalInstance = $modal.open({
         templateUrl: '/partials/createEventModal',
@@ -24,8 +24,11 @@ $scope.createEvent = function (size,draftInstance) {
         resolve: {
          draftInstance: function () {
            return draftInstance;
-         }
+         },
+         isNew : function() {
+            return isNew;
        }
+     }
       });
     
     };
@@ -58,7 +61,7 @@ $scope.logout = function(){
       modalInstance.result.then(function (selectedInstance) {
       // user selected one event, pass it to create event function
           $scope.cleanDoc(selectedInstance);
-          $scope.createEvent('lg',selectedInstance); 
+          $scope.createEvent('lg',selectedInstance,false); 
       }, function () {
             $log.info('Modal dismissed at: ' + new Date());
       });
@@ -84,8 +87,9 @@ $scope.cleanDoc = function(selectedInstance)
 }]);
 
 
-var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$animate,draftInstance) {
+var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$animate,draftInstance,isNew) {
  $scope.draftInstance = draftInstance;
+ $scope.isNew = isNew;
   $scope.ok = function () {
     $animate.enabled(true);
     $modalInstance.close();

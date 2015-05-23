@@ -25,7 +25,7 @@ $http.get('/api/events/drafts').then(function(res){
     });
     
 
-$scope.editDraft = function (size,draftInstance) {
+$scope.editDraft = function (size,draftInstance,isNew) {
 // activate the modal for edit draft  
         var modalInstance = $modal.open({
         templateUrl: '/partials/createEventModal',
@@ -36,6 +36,9 @@ $scope.editDraft = function (size,draftInstance) {
         resolve: {
          draftInstance: function () {
            return draftInstance;
+         },
+         isNew : function() {
+           return isNew;
          }
        }
       });
@@ -61,23 +64,31 @@ $scope.deleteDraft = function (draftInstance) {
     }
     };
 
-$scope.$watch('$parent.searchText', function (searchText) {
-        if (!searchText){
-          searchText = '';
-        }
-          if ($scope.instances) {
-             $scope.currentPage = 1;
-             var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-             var endItem = beginItem + $scope.itemsPerPage;
-             $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
-            if (searchText =='') {
-               $scope.totalInstances = $scope.instances.length;
-            }
-            else {
-               $scope.totalInstances = $scope.filteredInstances.length;
-            }
-        }
- });
+// $scope.$watch('$scope.sortType',function() {
+//     console.log('sorting fired');
+//     if ($scope.sortType !== '') {
+//              $scope.instances = $filter('orderBy')($scope.instances,$scope.sortType, $scope.sortReverse);
+//           }
+// });
+
+// $scope.$watch('$parent.searchText', function (searchText) {
+//         if (!searchText){
+//           searchText = '';
+//         }
+//           if ($scope.instances) {
+//              $scope.currentPage = 1;
+//              var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+//              var endItem = beginItem + $scope.itemsPerPage;
+//              $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
+//             if (searchText =='') {
+//                $scope.totalInstances = $scope.instances.length;
+//             }
+//             else {
+//                $scope.totalInstances = $scope.filteredInstances.length;
+//             }
+          
+//         }
+//  });
   
 $scope.pageCount = function () {
     return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
@@ -90,14 +101,15 @@ $scope.setPage = function (pageNo) {
 $scope.pageChanged = function(searchText) {
     var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
     var endItem = beginItem + $scope.itemsPerPage;
-    $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
+//    $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
   };
 
 }]);
 
-var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance,$log) {
+var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance,isNew,$log) {
 // controller for draft edit modal screen
  $scope.draftInstance = draftInstance;
+ $scope.isNew = isNew;
   
   $scope.ok = function () {
     $log.debug("ok");
