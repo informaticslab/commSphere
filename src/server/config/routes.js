@@ -28,6 +28,7 @@ module.exports = function(app) {
   app.get('/api/events/analyst/:analystId',events.getEventsByAnalyst);
   app.post('/api/events/saveEventCategory',events.saveEventCategory);
   app.get('/api/events/getEventsForImport',events.getEventsForImport);
+  app.get('/api/events/findDuplicateId/:eventId',events.findDuplicateId);
 
   app.get('/api/eventTypes', admin.getEventTypes);
   app.post('/api/eventTypes', admin.updateEventTypes);
