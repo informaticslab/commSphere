@@ -213,9 +213,10 @@ input[type="text"].eventTemplateTopic {
  }
 
 .tableCustom th, .tableCustom td { 
-     border-top: none !important; 
+     border-top: none; 
  }
 
  .tableStripe{
 background-color: #f7f7f7;
+border-top: thick double #ff0000;
  }
