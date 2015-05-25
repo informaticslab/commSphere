@@ -140,10 +140,9 @@ exports.saveEventCategory = function (req,res) {
 	
 };
 exports.findDuplicate = function(req, res) {
-	 var eventName = req.params.eventName;
+	 var eventName =  new RegExp(req.params.eventName,'i');
 	 var collection = mongo.mongodb.collection('events');
-
-	 collection.find({'eventName': eventName, 'draftStatus': false}).toArray(function(err,result) {
+	 collection.find({'eventName': {$regex: eventName}, 'draftStatus': false}).toArray(function(err,result) {
 		  if(err){
 	 	 	console.log(err);
 	 	 } else if (result.length < 1) {
@@ -154,6 +153,19 @@ exports.findDuplicate = function(req, res) {
 	 });
 };
 
+exports.findDuplicateId = function(req, res) {
+	 var eventId = req.params.eventId;
+	 var collection = mongo.mongodb.collection('events');
+	 collection.find({'eventInstanceId': eventId, 'draftStatus': false}).toArray(function(err,result) {
+		  if(err){
+	 	 	console.log(err);
+	 	 } else if (result.length < 1) {
+		 	 res.send({duplicate:false});
+		 } else {
+			 res.send({duplicate:true});
+		 }
+	 });
+};
 
 exports.getEventsForImport = function(req, res) {
 // get all active and archived events    
@@ -182,4 +194,15 @@ exports.deleteActiveEvent = function(req,res) {
 		}
    	});
 	}
+};
+ 
+exports.getAvailEventInstanceId = function(req,res) {
+    
+    var collection = mongo.mongodb.collection('events');
+     var partialId = new RegExp('^'+req.params.partialId.split('-')[0]);
+
+     collection.find({'eventInstanceId': {$regex: partialId}}).sort({'dateCreated':-1}).limit(1).toArray(function(err,docs){
+         res.send(docs);
+         
+     });
 };

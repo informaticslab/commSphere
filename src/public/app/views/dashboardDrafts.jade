@@ -36,13 +36,13 @@
                                     a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
                                         | Edit Controls
                         tbody
-                            tr(ng-repeat="instance in filteredInstances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                            tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
                                 td {{instance.eventName}}
                                 td {{instance.eventType}}
                                 td {{instance.userCreated.displayName}}
                                 td {{instance.dateCreated | date:'MM/dd/yyyy' }}
                                 td
-                                    a.del-edit-btn.btn.btn-default.btn-xs(href='', data-nodrag='', ng-click="editDraft('lg',instance)")
+                                    a.del-edit-btn.btn.btn-default.btn-xs(href='', data-nodrag='', ng-click="editDraft('lg',instance,true)")
                                         .glyphicon.glyphicon-pencil
                                     &nbsp;
                                     a.del-edit-btn.btn.btn-default.btn-xs( href='', data-nodrag='', ng-click="deleteDraft(instance)")
