@@ -1,4 +1,4 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log,ngEventIdService,$q) {
 $scope.identity = ngIdentity;
 
 $animate.enabled(false);
@@ -70,7 +70,19 @@ $scope.allowSaveDrafts=false;
     $scope.eventdoc = $scope.draftInstance;
   }
 
-  console.log($scope.isNew);
+ // console.log($scope.isNew);
+if (!$scope.isNew) {
+    $scope.savedEventName = $scope.eventdoc.eventName;
+    $scope.eventNameReadonly = true;
+    $scope.eventNameOverrideDisable = false;
+}
+else {
+        $scope.eventNameOverride = $scope.isNew;
+        $scope.eventNameReadonly = false;
+        $scope.eventNameOverrideDisable = true;
+        
+
+}
   //retrieve list of event types from db for dropdown
   $http.get('/api/eventTypes').then(function(res) {
     if (res.data.length != 0) {
@@ -96,7 +108,7 @@ $scope.allowSaveDrafts=false;
   });
 
   $log.debug($scope.date);
-  
+   
 
   $scope.addTopic = function(category,e) {
     $log.debug(category);
@@ -217,6 +229,9 @@ $scope.allowSaveDrafts=false;
   };
 
   $scope.createEvent = function() {
+ //   var checkNamedeferred = $q.defer();
+ //   checkNamedeferred.promise
+
     $log.debug($scope.eventdoc.eventInstanceId);
     var minimumAssign = false;
     var workingId="";
@@ -241,6 +256,7 @@ $scope.allowSaveDrafts=false;
       else { // validation passed continue to check event Id logic
           if ($scope.isNew)
           {  //creating brand new event 
+              
               $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res)
               {
                 console.log(' check duplicate', res);
@@ -315,7 +331,17 @@ $scope.allowSaveDrafts=false;
              })
           }
           else {// create from existing
-
+                 var primaryId = genPrimaryId($scope.eventdoc.eventName);
+                 // check for the latest instance
+                 $scope.getLatestInstance(primaryId).then (function(result){
+                     
+                     if (result.data.length>0) {
+                     //break apart and reassemble
+                       var idParts = result.data[0].eventInstanceId.split('-');
+                       $scope.eventdoc.eventInstanceId = idParts[0]+ '-' + getnextNum(idParts[1]);
+                       $scope.saveEvent();
+                     }
+                 });
           }
      }
                              
@@ -486,5 +512,29 @@ $scope.saveEvent = function()
      });
      $scope.ok();
 }
+
+$scope.getLatestInstance= function(id) {
+   var myInstance = ngEventIdService.getLatestID(id);
+   var dfd = $q.defer();
+   if(myInstance) {
+        dfd.resolve(ngEventIdService.getLatestID(id));
+    }
+   return dfd.promise;
+}
+
+$scope.setOverrideFlags = function() {
+   
+ 
+   if($scope.eventNameOverride) {  // user checked the override box
+      $scope.isNew = true;
+      $scope.eventNameReadonly = false;
+   }
+   else {// user unchecked the box
+      // reset the name
+      $scope.eventdoc.eventName = $scope.savedEventName;
+      $scope.isNew = false;
+      $scope.eventNameReadonly = true;
+   }
+} 
 
 });

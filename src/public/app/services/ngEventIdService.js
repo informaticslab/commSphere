@@ -1,7 +1,7 @@
   commSphereApp.service('ngEventIdService', function($http,$q) {
 
 	return { 
-		nameIsDuplicated : function(eventName) {
+		nameExisted : function(eventName) {
         console.log('event name passed in ',eventName);
         var deferred = $q.defer();
           $http.get('/api/events/duplicate/' + eventName).then(function (res) {
@@ -19,19 +19,28 @@
        //      });
             return deferred.promise;
  	 		},
-   		idDuplicated : function(id) {
+   		idExisted : function(id) {
          var deferred = $q.defer();
    			 $http.get('/api/events/findDuplicateId/' + id).then(function (res) {
                 deferred.resolve(res.data.duplicate);
             });
         return deferred.promise;  
    		},
-   		primaryIdDuplicated : function(partialId) {
+   		primaryIdExist : function(partialId) {
         var deferred = $q.defer();
    			$http.get('/api/events/getPrimaryId/' + partialId).then(function (res) {
               deferred.resolve(res.data);
             });
          return deferred.promise;
-   		}
+   		},
+      getLatestID : function(id) {
+        var deferred = $q.defer();
+        var mydata;
+        $http.get('/api/events/getAvailEventId/' + id).then(function (res) {
+                deferred.resolve(res);
+            });
+        return deferred.promise;
+      }
+
 	}
 });

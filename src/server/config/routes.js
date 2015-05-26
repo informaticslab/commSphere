@@ -21,7 +21,7 @@ module.exports = function(app) {
   app.post('/api/events/drafts',events.saveDraft);
   app.get('/api/events/id/:id',dashboardData.getEventById);
   app.get('/api/events/:status',dashboardData.getEvents);
-  app.get('/api/events/getAvailEventId/:partialId',dashboardData.getAvailEventInstanceId);
+  app.get('/api/events/getAvailEventId/:partialId',events.getAvailEventInstanceId);
   app.get('/api/events/getEventInstanceInfo/:Id',dashboardData.getEventInstanceInfo);
   app.get('/api/events/duplicate/:eventName',events.findDuplicate);
   app.post('/api/events/drafts/delete/:Id',events.deleteDraft);
