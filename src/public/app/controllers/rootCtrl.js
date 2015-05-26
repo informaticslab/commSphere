@@ -69,7 +69,7 @@ $scope.logout = function(){
      
 $scope.cleanDoc = function(selectedInstance)
 {  delete selectedInstance._id;
-   selectedInstance.eventInstanceId = "";
+ //  selectedInstance.eventInstanceId = "";
    selectedInstance.userCreated =  {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
    selectedInstance.dateCreated = "";
    selectedInstance.draftStatus = true;
