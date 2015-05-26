@@ -253,7 +253,7 @@ else {
       else { // validation passed continue to check event Id logic
           if ($scope.isNew)
           {  //creating brand new event 
-              
+              $scope.eventdoc.eventInstanceId = "";
               $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res)
               {
                 console.log(' check duplicate', res);
@@ -328,10 +328,9 @@ else {
              })
           }
           else {// create from existing
-                 var primaryId = genPrimaryId($scope.eventdoc.eventName);
+                 var primaryId = $scope.eventdoc.eventInstanceId.split('-')[0];
                  // check for the latest instance
                  $scope.getLatestInstance(primaryId).then (function(result){
-                     
                      if (result.data.length>0) {
                      //break apart and reassemble
                        var idParts = result.data[0].eventInstanceId.split('-');
