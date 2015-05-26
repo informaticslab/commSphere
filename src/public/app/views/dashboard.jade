@@ -44,17 +44,17 @@
                                         span(ng-show="sortType == 'randomNumber' &&  sortReverse" class="fa fa-caret-up")  
                         tbody
                              tr(ng-repeat="instance in filinstances =(instances | searchAll : $parent.searchText) | limitTo: endItem : beginItem "  )
-                                td(ng-class-even="'tableStripe'")
+                                td(ng-class-odd="'tableStripe'")
                                     a(href="#/dashboard/event/{{instance._id}}" ){{instance.eventName}}
-                                td(ng-class-even="'tableStripe'")
+                                td(ng-class-odd="'tableStripe'")
                                     | {{instance.eventInstanceId}}
-                                td(ng-class-even="'tableStripe'")
+                                td(ng-class-odd="'tableStripe'")
                                     | {{instance.eventType}}
-                                td(ng-class-even="'tableStripe'")
+                                td(ng-class-odd="'tableStripe'")
                                     | {{instance.userCreated.displayName}}
-                                td(ng-class-even="'tableStripe'")
+                                td(ng-class-odd="'tableStripe'")
                                     | {{instance.dateCreated | date:'MM/dd/yyyy' }}
-                                td(ng-show="identity.isAuthorized('levelTwo')" ng-class-even="'tableStripe'")
+                                td(ng-show="identity.isAuthorized('levelTwo')" ng-class-odd="'tableStripe'")
                                     progressbar(animate='false', value='instance.eventInstanceStatus' type ="success" ng-if="instance.eventInstanceStatus==100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
                                             | {{instance.eventInstanceStatus}}%
