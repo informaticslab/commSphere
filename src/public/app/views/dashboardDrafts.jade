@@ -13,35 +13,39 @@
                         thead
                             tr
                                 th
-                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse; sortInstances('eventName')")
                                         | Event
                                         span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'eventType'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'eventType'; sortReverse = !sortReverse; sortInstances('eventType')")
                                         | Type 
                                         span(ng-show="sortType == 'eventType' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventType' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'coordinatorAssign'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'coordinatorAssign'; sortReverse = !sortReverse; sortInstances('coordinatorAssign')")
                                         | Coordinator 
                                         span(ng-show="sortType == 'coordinatorAssign' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'coordinatorAssign' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
+                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse; sortInstances('dateCreated')")
                                         | Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse")
-                                        | Edit Controls
+                                    //a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse; sortInstances('eventName')")
+                                    | Edit Controls
                         tbody
-                            tr(ng-repeat="instance in instances | orderBy:sortType:sortReverse" ng-mouseenter="hover = true" ng-mouseleave="hover = false")
-                                td {{instance.eventName}}
-                                td {{instance.eventType}}
-                                td {{instance.userCreated.displayName}}
-                                td {{instance.dateCreated | date:'MM/dd/yyyy' }}
-                                td
+                            tr(ng-repeat="instance in filinstances =(instances | searchAll : $parent.searchText) | limitTo: itemsPerPage : beginItem " ng-mouseenter="hover = true" ng-mouseleave="hover = false")
+                                td(ng-class-odd="'tableStripe'")
+                                    | {{instance.eventName}}
+                                td(ng-class-odd="'tableStripe'")
+                                    | {{instance.eventType}}
+                                td(ng-class-odd="'tableStripe'")
+                                    | {{instance.userCreated.displayName}}
+                                td(ng-class-odd="'tableStripe'")
+                                    | {{instance.dateCreated | date:'MM/dd/yyyy' }}
+                                td(ng-class-odd="'tableStripe'")
                                     a.del-edit-btn.btn.btn-default.btn-xs(href='', data-nodrag='', ng-click="editDraft('lg',instance,true)")
                                         .glyphicon.glyphicon-pencil
                                     &nbsp;
@@ -50,7 +54,7 @@
         .row(ng-show="totalInstances > itemsPerPage")
             .col-lg-12
                 .text-center
-                    pagination.pagination-sm(total-items="totalInstances", items-per-page='itemsPerPage', ng-model='currentPage', max-size='maxsize', boundary-links='true' ng-change="pageChanged()"  previous-text='‹' next-text='›' first-text='«' last-text='»')
+                    pagination.pagination-sm(total-items="filinstances.length", items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true' ng-change="pageChanged()"  previous-text='‹' next-text='›' first-text='«' last-text='»')
                                 
         // end pagination                     
         //- .row

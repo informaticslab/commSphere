@@ -13,12 +13,12 @@ $http.get('/api/events/drafts').then(function(res){
      $log.debug(res.data);
      if(res.data) {
          $scope.instances=res.data;
-         $scope.filteredInstances = $filter('searchAll')($scope.instances,'');
-         $scope.totalInstances = $scope.filteredInstances.length;
-          var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-          var endItem = beginItem + $scope.itemsPerPage;
+         //$scope.filteredInstances = $filter('searchAll')($scope.instances,'');
+         $scope.totalInstances = $scope.instances.length;
+          $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+          $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
   //      $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
-         $scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
+         //$scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
          } else {
              alert('no data received, assign new id');
          }
@@ -89,7 +89,36 @@ $scope.deleteDraft = function (draftInstance) {
           
 //         }
 //  });
-  
+
+$scope.sortInstances = function(sortType) {
+  if($scope.sortReverse)
+  {
+    $scope.instances.sort(compareAsc);  
+  }
+  else
+  {
+    $scope.instances.sort(compareDesc);
+  }
+
+}
+
+function compareAsc(a,b) {
+  if (a[$scope.sortType] < b[$scope.sortType])
+    return -1;
+  if (a[$scope.sortType] > b[$scope.sortType])
+    return 1;
+  return 0;
+}
+
+function compareDesc(a,b) {
+  if (a[$scope.sortType] > b[$scope.sortType])
+    return -1;
+  if (a[$scope.sortType] < b[$scope.sortType])
+    return 1;
+  return 0;
+}
+
+
 $scope.pageCount = function () {
     return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
   };
@@ -99,8 +128,9 @@ $scope.setPage = function (pageNo) {
   };
 
 $scope.pageChanged = function(searchText) {
-    var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-    var endItem = beginItem + $scope.itemsPerPage;
+    $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+    $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
+    console.log($scope.beginItem, $scope.endItem);
 //    $scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
   };
 
