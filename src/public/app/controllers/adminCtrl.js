@@ -19,15 +19,16 @@ angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier,
 	$http.get('/api/categories').then(function(res) {
 		$scope.categoryListDoc = res.data[0];
 		console.log($scope.categoryListDoc);
-		// if(categoryList == undefined) { 	//default
-		// 	$scope.categories = [{
-		//       name: 'Traditional News Media',
-		//       "userAssigned": "",
-		//       "statusCompleted": false,
-		//       "dateCompleted": "",
-		//       topics: []
-		//   }];
-		// }
+		if ($scope.categoryListDoc == undefined) { //default
+			$scope.categoryListDoc = {
+				categoryList:
+				[{
+					categories: [{
+					
+					}]
+				}]
+			};
+		}
 	});
 	
 	$scope.saveEventTypes = function() {
