@@ -18,32 +18,32 @@
                                         span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse; sortInstances('eventName')")
+                                    a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse; sortInstances('eventInstanceId')")
                                         | ID
                                         span(ng-show="sortType == 'eventInstanceId' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventInstanceId' &&  sortReverse" class="fa fa-caret-up")  
                                 th
-                                    a(href="" ng-click="sortType = 'eventType'; sortReverse = !sortReverse; sortInstances('eventName')")
+                                    a(href="" ng-click="sortType = 'eventType'; sortReverse = !sortReverse; sortInstances('eventType')")
                                         | Type 
                                         span(ng-show="sortType == 'eventType' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventType' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'coordinatorAssign'; sortReverse = !sortReverse; sortInstances('eventName')")
+                                    a(href="" ng-click="sortType = 'coordinatorAssign'; sortReverse = !sortReverse; sortInstances('coordinatorAssign')")
                                         | Coordinator 
                                         span(ng-show="sortType == 'coordinatorAssign' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'coordinatorAssign' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse; sortInstances('eventName')")
+                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse; sortInstances('dateCreated')")
                                         | Date 
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
                                 th(ng-show="identity.isAuthorized('levelTwo')")
-                                    a(href="" ng-click="sortType = 'randomNumber'; sortReverse = !sortReverse; sortInstances('eventName')")
+                                    a(href="" ng-click="sortType = 'randomNumber'; sortReverse = !sortReverse; sortInstances('randomNumber')")
                                         | Status 
                                         span(ng-show="sortType == 'randomNumber' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'randomNumber' &&  sortReverse" class="fa fa-caret-up")  
                         tbody
-                             tr(ng-repeat="instance in filinstances =(instances | searchAll : $parent.searchText) | limitTo: endItem : beginItem "  )
+                             tr(ng-repeat="instance in filinstances =(instances | searchAll : $parent.searchText) | limitTo: itemsPerPage : beginItem "  )
                                 td(ng-class-odd="'tableStripe'")
                                     a(href="#/dashboard/event/{{instance._id}}" ){{instance.eventName}}
                                 td(ng-class-odd="'tableStripe'")
