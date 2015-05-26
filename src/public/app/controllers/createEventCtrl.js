@@ -1,4 +1,4 @@
-angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log,ngEventIdService) {
+angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log) {
 $scope.identity = ngIdentity;
 
 $animate.enabled(false);
