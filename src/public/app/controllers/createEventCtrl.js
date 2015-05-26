@@ -47,28 +47,13 @@ $scope.allowSaveDrafts=false;
     "dateCreated": "",
     "draftStatus": true,
     "archiveStatus": false,
-    categories: [{
-      name: 'Traditional News Media',
-      "userAssigned": "",
-      "statusCompleted": false,
-      "dateCompleted": "",
-      topics: [
-
-      ]
-    }, {
-      name: 'Social Media',
-      "userAssigned": "",
-      "statusCompleted": false,
-      "dateCompleted": "",
-      topics: [
-
-      ]
-    }]
+    categories: []
   };
 
   if ($scope.draftInstance) {
     $scope.eventdoc = $scope.draftInstance;
   }
+
 
  // console.log($scope.isNew);
 if (!$scope.isNew) {
@@ -83,6 +68,17 @@ else {
         
 
 }
+
+  //retrieve list of category names from db for tabs
+  $http.get('/api/categories').then(function(res) {
+    if (res.data[0].categoryList[0].length != 0) {
+      var cats = res.data[0].categoryList[0].categories;
+      for (var i = 0; i < cats.length; i++) {
+        $scope.eventdoc.categories.push(cats[i]);
+      }
+    }
+  });
+
   //retrieve list of event types from db for dropdown
   $http.get('/api/eventTypes').then(function(res) {
     if (res.data.length != 0) {
@@ -92,6 +88,7 @@ else {
       }
     }
   });
+  
   $scope.date = new Date().getTime(); // need both date and time
 
   //create an object with ID and displayName for userCreated.

@@ -111,6 +111,14 @@ function createDefaultUsers() {
         {//console.log(docs); 
         }
       });
+      salt = encrypt.createSalt();
+      hash = encrypt.hashPwd(salt, 'klubell');
+      User.create({firstName:'Keri',lastName:'Lubell',email:'klubell@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Keri Lubell',provider:'local'},function(err, docs) {
+        if (err){ console.log(err);} 
+        else
+        {//console.log(docs); 
+        }
+      });
     }
   });
 };

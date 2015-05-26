@@ -32,7 +32,8 @@ module.exports = function(app) {
 
   app.get('/api/eventTypes', admin.getEventTypes);
   app.post('/api/eventTypes', admin.updateEventTypes);
-
+  app.get('/api/categories', admin.getCategories);
+  app.post('/api/categories', admin.updateCategories);
 
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/views/' + req.params);

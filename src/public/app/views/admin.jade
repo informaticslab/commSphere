@@ -31,4 +31,29 @@
 										form.form-inline(role='form')
 											.form-topic
 												label.sr-only(for='eventTypeName') Event Type
-												input#eventTypeName.form-control(type='text', placeholder='Event Type' ng-model="eventTypeValue[eventTypeList.name]" ng-keyup='$event.keyCode==13 ? addEvent(eventTypeList,$event) : null; $event.keyCode==13 ? saveEventTypes(): null')
+												input#eventTypeName.form-control(type='text', placeholder='Event Type' ng-model="eventTypeValue[eventTypeList.name]", ng-keyup='$event.keyCode==13 ? addEvent(eventTypeList,$event) : null; $event.keyCode==13 ? saveEventTypes(): null')
+					.col-lg-4.col-md-4.col-sm-4
+						div(ng-repeat='categoryList in categoryListDoc.categoryList')
+							h3 Edit Categories
+							br
+							div(ui-tree='options')
+								ol(ui-tree-nodes='', ng-model='categoryList.categories', data-type='category')
+									li(ng-repeat='category in categoryList.categories', ui-tree-node='', data-nodrag='')
+										.event-type-title(ng-show='!category.editing' ng-mouseenter="hoverEvent = true" ng-mouseleave="hoverEvent = false")
+											a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverEvent" href='', data-nodrag='', ng-click='removeCategory(categoryList,category);saveCategoryList()')
+												i.glyphicon.glyphicon-trash
+											a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverEvent" href='', data-nodrag='', ng-click='editCategory(category)')
+												i.glyphicon.glyphicon-pencil
+											div  {{category.name}}
+										.event-type-title(data-nodrag='', ng-show='category.editing')
+											form.form-inline(role='form')
+												.form-topic
+													label.sr-only(for='categoryName') Category
+													input.form-control(type='text', placeholder='Category', ng-model='category.name' ng-keyup='$event.keyCode==13 ? saveCategory(category,$event) : null; $event.keyCode==13 ? saveCategoryList(): null')
+							ol.angular-ui-tree-nodes
+								li.angular-ui-tree-node
+									.event-type-title
+										form.form-inline(role='form')
+											.form-topic
+												label.sr-only(for='categoryName') Event Type
+												input#categoryName.form-control(type='text', placeholder='Category' ng-model="categoryValue[categoryList.name]",  ng-keyup='$event.keyCode==13 ? addCategory(categoryList,$event) : null; $event.keyCode==13 ? saveCategoryList(): null')

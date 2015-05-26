@@ -1,9 +1,9 @@
 angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier, $http) {
  	// $scope.eventTypes = {};
 	$scope.eventTypeValue = {};
+	$scope.categoryValue = {};
 
 	$http.get('/api/eventTypes').then(function(res) {
-		var eventTypes = res.data;
 		$scope.eventListDoc = res.data[0];
 		// $scope.eventTypes = eventTypes[0];
 		if ($scope.eventListDoc == undefined) {  //default
@@ -16,8 +16,20 @@ angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier,
 		}
 	});
 	
-	//$log.debug($scope.eventListDoc.eventTypeList);
-
+	$http.get('/api/categories').then(function(res) {
+		$scope.categoryListDoc = res.data[0];
+		console.log($scope.categoryListDoc);
+		// if(categoryList == undefined) { 	//default
+		// 	$scope.categories = [{
+		//       name: 'Traditional News Media',
+		//       "userAssigned": "",
+		//       "statusCompleted": false,
+		//       "dateCompleted": "",
+		//       topics: []
+		//   }];
+		// }
+	});
+	
 	$scope.saveEventTypes = function() {
 		$http.post('/api/eventTypes', $scope.eventListDoc).then(function(res) {
 			console.log(res.data.success);
@@ -66,11 +78,61 @@ angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier,
 		}
 	};
 
-	// $scope.saveTopics = function() {
-	// 	for (var i = $scope.eventdoc.categories[0].topics.length - 1; i >= 0; i--) {
-	// 		var topic = $scope.eventdoc.categories[0].topics[i];
-	// 		topic.sortOrder = i + 1;
-	// 		// topic.save();
-	// 	}
-	// };
+	$scope.saveCategoryList = function() {
+		$http.post('/api/categories', $scope.categoryListDoc).then(function(res) {
+			console.log(res.data.success);
+			if (res.data.success) {
+                $log.debug(res.data);
+              } else {
+                alert('there was an error');
+              }
+		});
+	};
+
+
+
+	$scope.addCategory = function(categoryList, e) {
+		//$log.debug(eventTypeList);
+		var categoryName = $scope.categoryValue[categoryList.name];
+		if (categoryName.length > 0) {
+			categoryList.categories.push({name:categoryName,
+										userAssigned: "",
+										statusCompleted: false,
+										dateCompleted: "",
+										topics:[]
+			});
+		}
+		ngNotifier.notify("Category list has been updated!");
+
+		$scope.categoryValue = {};
+		e.preventDefault();
+	};
+
+	$scope.editCategory = function(category) {
+		$log.debug(category);
+		category.editing = true;
+		console.log(category.editing);
+	};
+
+	$scope.cancelEditingCategory = function(category) {
+		category.editing = false;
+	};
+
+	$scope.saveCategory = function(category, e) {
+		// topic.save();
+		category.editing = false;
+		ngNotifier.notify("Event types list has been updated!");
+		e.preventDefault();
+	};
+
+	$scope.removeCategory = function(categoryList, category) {
+		var index = categoryList.categories.indexOf(category);
+		if (index > -1) {
+			categoryList.categories.splice(index, 1)[0];
+			ngNotifier.notify("Event types list has been updated!");
+		}
+	};
+
+
+
 });
