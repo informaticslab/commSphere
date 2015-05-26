@@ -115,12 +115,12 @@ $scope.currentPage = 1;
 
   $http.get('/api/events/getEventsForImport').then(function(res){
        if(res.data) {
-           $scope.importInstances=res.data;
-           $scope.filteredInstances = $filter('searchAll')($scope.importInstances,'');
-           $scope.totalInstances = $scope.filteredInstances.length;
-          var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-          var endItem = beginItem + $scope.itemsPerPage;
-           $scope.filteredInstances = $filter('searchAll')($scope.importInstances,'').slice(beginItem,endItem);
+           $scope.instances=res.data;
+           //$scope.filteredInstances = $filter('searchAll')($scope.importInstances,'');
+           $scope.totalInstances = $scope.instances.length;
+          $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+          $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
+           //$scope.filteredInstances = $filter('searchAll')($scope.importInstances,'').slice(beginItem,endItem);
            } else {
                alert('no data received');
            }
@@ -141,23 +141,23 @@ $scope.currentPage = 1;
     $route.reload();
   };
   
-  $scope.$watch('searchText', function (searchText) {
-        if (!searchText){
-          searchText = '';
-        }
-          if ($scope.importInstances) {
-             $scope.currentPage = 1;
-             var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-             var endItem = beginItem + $scope.itemsPerPage;
-             $scope.filteredInstances = $filter('searchAll')($scope.importInstances,searchText).slice(beginItem,endItem);
-            if (searchText =='') {
-               $scope.totalInstances = $scope.importInstances.length;
-            }
-            else {
-               $scope.totalInstances = $scope.filteredInstances.length;
-            }
-        }
- });
+ //  $scope.$watch('searchText', function (searchText) {
+ //        if (!searchText){
+ //          searchText = '';
+ //        }
+ //          if ($scope.importInstances) {
+ //             $scope.currentPage = 1;
+ //             var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+ //             var endItem = beginItem + $scope.itemsPerPage;
+ //             $scope.filteredInstances = $filter('searchAll')($scope.importInstances,searchText).slice(beginItem,endItem);
+ //            if (searchText =='') {
+ //               $scope.totalInstances = $scope.importInstances.length;
+ //            }
+ //            else {
+ //               $scope.totalInstances = $scope.filteredInstances.length;
+ //            }
+ //        }
+ // });
   $scope.pageCount = function () {
     return Math.ceil($scope.totalInstances / $scope.itemsPerPage);
   };
@@ -167,10 +167,38 @@ $scope.setPage = function (pageNo) {
   };
 
 $scope.pageChanged = function(searchText) {
-    var beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
-    var endItem = beginItem + $scope.itemsPerPage;
-    $scope.filteredInstances = $filter('searchAll')($scope.importInstances,searchText).slice(beginItem,endItem);
+    $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
+    $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
+    //$scope.filteredInstances = $filter('searchAll')($scope.importInstances,searchText).slice(beginItem,endItem);
   };
+
+  $scope.sortInstances = function(sortType) {
+  if($scope.sortReverse)
+  {
+    $scope.instances.sort(compareAsc);  
+  }
+  else
+  {
+    $scope.instances.sort(compareDesc);
+  }
+
+}
+
+function compareAsc(a,b) {
+  if (a[$scope.sortType] < b[$scope.sortType])
+    return -1;
+  if (a[$scope.sortType] > b[$scope.sortType])
+    return 1;
+  return 0;
+}
+
+function compareDesc(a,b) {
+  if (a[$scope.sortType] > b[$scope.sortType])
+    return -1;
+  if (a[$scope.sortType] < b[$scope.sortType])
+    return 1;
+  return 0;
+}
 
 };
 
