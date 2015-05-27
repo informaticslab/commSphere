@@ -105,7 +105,7 @@ var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$r
 
 var importEventModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$http,$filter) {
 // display modal popup to show list of available events   
-$scope.sortReverse=true;
+$scope.sortReverse=false;
 $scope.sortType = "dateCreated";
 
 //setup pagination here
@@ -121,6 +121,7 @@ $scope.currentPage = 1;
           $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
           $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
            //$scope.filteredInstances = $filter('searchAll')($scope.importInstances,'').slice(beginItem,endItem);
+            $scope.sortInstances();
            } else {
                alert('no data received');
            }
