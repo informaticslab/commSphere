@@ -12,6 +12,17 @@ $scope.allowSaveDrafts=false;
     $scope.checkDirty();
   }, 150 * secondUnit);  // change time delay here
 
+  var changeWatcher = function() {   //function to watch for changes on eventdoc
+    var unregister = $scope.$watch('eventdoc', function(newVal, oldVal) {
+      $log.debug("watching");
+      if (newVal != oldVal) {
+        $log.debug('changed');
+        $scope.allowSaveDrafts = true;
+        unregister();
+      }
+
+    }, true);
+  };
 
   $scope.$on('$destroy', function() {
   // do a final save if user close the screen
@@ -55,29 +66,31 @@ $scope.allowSaveDrafts=false;
   }
 
 
- // console.log($scope.isNew);
-if (!$scope.isNew) {
+  //created from existing event
+  if (!$scope.isNew) {
     $scope.savedEventName = $scope.eventdoc.eventName;
     $scope.eventNameReadonly = true;
     $scope.eventNameOverrideDisable = false;
-}
-else {
-        $scope.eventNameOverride = $scope.isNew;
-        $scope.eventNameReadonly = false;
-        $scope.eventNameOverrideDisable = true;
-        
+    changeWatcher();
+    
+  //new event 
+  } else {                                           
+    $scope.eventNameOverride = $scope.isNew;
+    $scope.eventNameReadonly = false;
+    $scope.eventNameOverrideDisable = true;
 
-}
-
-  //retrieve list of category names from db for tabs
-  $http.get('/api/categories').then(function(res) {
-    if (res.data[0].categoryList[0].length != 0) {
-      var cats = res.data[0].categoryList[0].categories;
-      for (var i = 0; i < cats.length; i++) {
-        $scope.eventdoc.categories.push(cats[i]);
+    //retrieve list of category names from db for tabs
+    $http.get('/api/categories').then(function(res) {
+      if (res.data[0].categoryList[0].length != 0) {
+        var cats = res.data[0].categoryList[0].categories;
+        for (var i = 0; i < cats.length; i++) {
+          $scope.eventdoc.categories.push(cats[i]);
+        }
+        changeWatcher();
       }
-    }
-  });
+    });
+
+  }
 
   //retrieve list of event types from db for dropdown
   $http.get('/api/eventTypes').then(function(res) {
@@ -98,14 +111,17 @@ else {
 
   //retrieve list of analysts from db for dropdown
   $http.get('/api/users/analysts').then(function(res) {
-  var analysts = res.data;
-  for(var i=0; i < analysts.length; i++) {
-    $scope.users.push({'id':analysts[i]._id, 'displayName':analysts[i].displayName });
-  }
+    var analysts = res.data;
+    for (var i = 0; i < analysts.length; i++) {
+      $scope.users.push({
+        'id': analysts[i]._id,
+        'displayName': analysts[i].displayName
+      });
+    }
   });
 
   $log.debug($scope.date);
-   
+
 
   $scope.addTopic = function(category,e) {
     $log.debug(category);
@@ -343,16 +359,7 @@ else {
 
   };
 
-var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
-   $log.debug("watching");
-    if(newVal!=oldVal)
-    {
-      $log.debug('changed');
-      $scope.allowSaveDrafts=true;
-      unregister();
-    }
-   
-}, true);
+
 
 function getnextNum(numText) {
 
