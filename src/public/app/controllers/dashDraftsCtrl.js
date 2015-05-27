@@ -104,17 +104,17 @@ $scope.sortInstances = function(sortType) {
 }
 
 function compareAsc(a,b) {
-  if (a[$scope.sortType] < b[$scope.sortType])
+  if ((a[$scope.sortType]).toString().toLowerCase() < (b[$scope.sortType]).toString().toLowerCase())
     return -1;
-  if (a[$scope.sortType] > b[$scope.sortType])
+  if ((a[$scope.sortType]).toString().toLowerCase() > (b[$scope.sortType]).toString().toLowerCase())
     return 1;
   return 0;
 }
 
 function compareDesc(a,b) {
-  if (a[$scope.sortType] > b[$scope.sortType])
+  if ((a[$scope.sortType]).toString().toLowerCase() > (b[$scope.sortType]).toString().toLowerCase())
     return -1;
-  if (a[$scope.sortType] < b[$scope.sortType])
+  if ((a[$scope.sortType]).toString().toLowerCase() < (b[$scope.sortType]).toString().toLowerCase())
     return 1;
   return 0;
 }
