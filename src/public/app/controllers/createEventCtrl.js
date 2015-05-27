@@ -254,90 +254,24 @@ else {
           if ($scope.isNew)
           {  //creating brand new event 
               $scope.eventdoc.eventInstanceId = "";
-              $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res)
-              {
-                console.log(' check duplicate', res);
-                if (res.data.duplicate){
-                     ngNotifier.notifyError("Event name already exists");
-                     oKtoSave= false;
-                 }
-                 else
-                  { // name not exist, generate primary portion
-                        console.log('name not exist');
-                        primaryId = genPrimaryId($scope.eventdoc.eventName);
-                        console.log('primary id ', primaryId);
-                        $http.get('/api/events/getAvailEventId/' + primaryId).then(function(result) {
-                          if (result.data)
-                          {  
-                            if (result.data.length > 0)
-                            {   console.log('primaryId already exist, append optional part' , result.data[0].eventInstanceId);
-                                var idParts = result.data[0].eventInstanceId.split('_');
-                                if (idParts.length === 1) {
-                                   console.log('no existing id with optional part found, assign "A"');
-                                   workingId = primaryId + '_' + 'A'+'-01';
-                                   $http.get('/api/events/findDuplicateId/' + workingId).then(function(result) {
-                                      if (result.data.duplicate){
-                                          ngNotifier.notifyError("something wrong with ID generation.  Please contact IT");
-                                          oKtoSave = false;
-                                      }
-                                      else {
-                                        $scope.eventdoc.eventInstanceId = workingId;
-                                        oKtoSave = true;
-                                        $scope.saveEvent();
-                                      }
-
-                                   })
-                                }
-                                else
-                                {
-                                   // get next available optional part
-                                     console.log('i am in get next optional letter');
-                                     //strip the '-xx' part
-                                     currentChar = idParts[1].split('-')[0];
-                                     workingId = primaryId + '_' +  nextChar(currentChar)+'-01';
-                                     $http.get('/api/events/findDuplicateId/' + workingId).then(function(res) {
-                                        if(res.data.duplicate)
-                                         {
-                                          // stop, something wrong
-                                           ngNotifier.notifyError("something wrong with the ID generation, Please contact IT Support");
-                                           oKtoSave= false;
-
-                                         }
-                                       else {
-                                         console.log('workingId is valid', workingId);
-                                         $scope.eventdoc.eventInstanceId = workingId;
-                                         oKtoSave= true;
-                                         $scope.saveEvent();
-                                       }
-
-                                     });
-                                }
-
-                            }
-                            else
-                             {
-                               console.log('no primary exist, append suffix 01'); 
-                               $scope.eventdoc.eventInstanceId = primaryId + '-' + '01';
-                               oKtoSave = true;
-                               $scope.saveEvent();
-                            }
-                          }
-                       });
-                 }
-               
-             })
+               $http.get('/api/getNextAutoId/').then(function(result) {
+                 $scope.eventdoc.eventInstanceId = genPrimaryId($scope.eventdoc.eventName) + result.data.availNumber+'-001';
+                 $scope.saveEvent();
+                   
+              });
           }
           else {// create from existing
                  var primaryId = $scope.eventdoc.eventInstanceId.split('-')[0];
                  // check for the latest instance
-                 $scope.getLatestInstance(primaryId).then (function(result){
-                     if (result.data.length>0) {
+                 console.log(primaryId);
+                 $http.get('/api/events/getAvailEventId/' + primaryId).then(function (res) {
+                  if (res.data.length>0) {
                      //break apart and reassemble
-                       var idParts = result.data[0].eventInstanceId.split('-');
+                       var idParts = res.data[0].eventInstanceId.split('-');
                        $scope.eventdoc.eventInstanceId = idParts[0]+ '-' + getnextNum(idParts[1]);
                        $scope.saveEvent();
-                     }
-                 });
+                  }
+                });
           }
      }
                              
@@ -384,58 +318,7 @@ else {
 
   };
 
-
-  function getLatestInstance(partialId) {
-    $log.debug(partialId);
-
-    $http.get('/api/events/getAvailEventId/' + partialId).then(function(res) {
-      $log.debug(partialId);
-      $log.debug(res.data);
-      if (res.data) {
-        if (res.data.length > 0) {
-          $log.debug("ID alreADy prsent");
-          return partialId + "xx";
-        } else {
-          $log.debug("id available to be used");
-          $log.debug(partialId);
-          return partialId;
-        }
-
-      } else {
-        alert('no data received, assign new id');
-      }
-    });
-
-
-  }
-
-  $scope.checkDuplicateName = function(eventName)
-  {
-    $http.get('/api/events/duplicate/' + eventName).then(function(res) {
-          if (res.data) { 
-                if (res.data.duplicate){
-                     ngNotifier.notifyError("Event name already exists");
-                 }
-          }
-          else
-          {
-            alert('no data received, assign new id');
-            return false;
-          }
-
-        })
-  }
-
-  function genInstanceId(eventName) {
-    var nameComponent = eventName.toUpperCase().split(' ');
-    var instanceId;
-    if (nameComponent.length > 1)
-      instanceId = nameComponent[0].substr(0, 2) + nameComponent[1].substr(0, 2) + '-' + '01';
-    else
-      instanceId = nameComponent[0].substr(0, 4) + '-' + '01';
-    return instanceId;
-  }
-
+ 
    $scope.checkDirty = function() {
      // this function compare previously saved copy of eventdoc against the current eventdoc
      // if they are not the same then save the current eventdoc
@@ -462,34 +345,25 @@ var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
 
 
 function genPrimaryId(eventName) {
-      
-      var tmpEventName = eventName.replace(" ","").trim().toUpperCase();
-      var primaryId;
-      if (tmpEventName.length >= 6) {
-          primaryId = tmpEventName.substring(0,2)+ tmpEventName.substring(4,6);
-      } else if (tmpEventName.length === 5){
-        primaryId =  tmpEventName.substring(0,2)+ tmpEventName.substring(3,5);
-      } else if (tmpEventName.length === 4){
-          primaryId = tmpEventName;
+      var skipWords = ["THE", "A", "AND"];
+      var nonBlanks = [];
+      var eventNameParts = eventName.split(' ');
+      for (var i = 0; i < eventNameParts.length; i++) {
+          if (eventNameParts[i] != ""){
+             nonBlanks.push(eventNameParts[i]);
+          }
       }
-        return primaryId;  
-    }
-
-function nextChar(c) {
-    return String.fromCharCode(c.charCodeAt(0) + 1);
-}
-
-function getnextNum(numText) {
-
-    increment =   Number(numText)+1;
-    if (increment < 10) 
-    {
-        return ("0" + increment);
-    }
-    else {
-        return +increment;
-    }
+      if (skipWords.indexOf(eventNameParts[0].toUpperCase()) == -1) {
+           tmpEventName = nonBlanks[0].substring(0,2).toUpperCase();   
+      }
+      else {
+         // make
+           tmpEventName =  nonBlanks[1].substring(0,2); 
+      } 
+          
+      return tmpEventName;
   }
+
 
 $scope.saveEvent = function()
 {
@@ -509,14 +383,6 @@ $scope.saveEvent = function()
      $scope.ok();
 }
 
-$scope.getLatestInstance= function(id) {
-   var myInstance = ngEventIdService.getLatestID(id);
-   var dfd = $q.defer();
-   if(myInstance) {
-        dfd.resolve(ngEventIdService.getLatestID(id));
-    }
-   return dfd.promise;
-}
 
 $scope.setOverrideFlags = function() {
    

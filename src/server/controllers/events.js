@@ -206,3 +206,51 @@ exports.getAvailEventInstanceId = function(req,res) {
          
      });
 };
+
+exports.getNextAutoId = function(req,res){
+	var collection = mongo.mongodb.collection('eventCounters');
+	collection.find().toArray(function(err1, items) {
+		if (items.length >= 1) {
+
+			var availNumber = items[0].nextAutoId;
+			if (availNumber > 9999) {
+				res.send({'error':'next available id has reached limit of 9999'});
+			}
+			else {
+				collection.update({},{ $inc: { nextAutoId: 1 }},function(err, affectedDocCount) {
+					if (err) {
+						res.send(err);
+						console.log(err);
+					}
+					else {
+	       			//	console.log("document changed ", affectedDocCount);
+		   	  		}
+				});
+				res.send({'availNumber': getPaddedNum(availNumber,3)});
+			}
+		}
+		else {
+		  // collection not found , create one
+		   console.log('not found')
+		   collection.insert({'nextAutoId':2}, function(err, result) {
+		   	  if (result){
+		   	  console.log('creating collection eventCounters');
+
+		   	  res.send({'availNumber': getPaddedNum(1,3)});
+			  }
+			})
+   	   	}
+   			
+	});
+	
+}
+
+function getPaddedNum(numText,padLength) {
+ var zeroes="";
+ var numberLen = numText.toString().length;
+   for (var i=0; i<= padLength-numberLen; i++){
+       zeroes = zeroes + '0';
+   }
+   return zeroes + numText;
+ 
+}
