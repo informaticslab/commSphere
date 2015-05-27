@@ -1,7 +1,7 @@
 commSphereApp.controller('dashDraftsCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','$route','$window','$filter','$log', function($scope, $modal,$routeParams,ngEvents,$http,$route,$window,$filter,$log) {
 
 $scope.$parent.activeMenu='drafts';
-$scope.sortReverse=true;
+$scope.sortReverse=false;
 $scope.sortType = "dateCreated";
 $scope.totalInstances = 0;
 $scope.itemsPerPage = 15;
@@ -19,6 +19,7 @@ $http.get('/api/events/drafts').then(function(res){
           $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
   //      $scope.filteredInstances = $scope.instances.slice(beginItem,endItem);
          //$scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
+         $scope.sortInstances();
          } else {
              alert('no data received, assign new id');
          }
