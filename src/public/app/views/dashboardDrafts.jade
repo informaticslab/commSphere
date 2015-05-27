@@ -44,7 +44,7 @@
                                 td(ng-class-odd="'tableStripe'")
                                     | {{instance.userCreated.displayName}}
                                 td(ng-class-odd="'tableStripe'")
-                                    | {{instance.dateCreated | date:'MM/dd/yyyy' }}
+                                    | {{instance.dateCreated | date:'medium' }}
                                 td(ng-class-odd="'tableStripe'")
                                     a.del-edit-btn.btn.btn-default.btn-xs(href='', data-nodrag='', ng-click="editDraft('lg',instance,true)")
                                         .glyphicon.glyphicon-pencil
