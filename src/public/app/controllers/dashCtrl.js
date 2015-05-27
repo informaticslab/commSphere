@@ -3,7 +3,7 @@ $("body").css("background-color", "#f7f7f7;");
 $scope.identity = ngIdentity
 $scope.$parent.activeMenu='dashboard';
 // set default sort column and direction;
-$scope.sortReverse=true;
+$scope.sortReverse=false;
 $scope.sortType = "dateCreated";
 // set up pagination
 $scope.totalInstances = 0;
@@ -20,6 +20,7 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analy
            $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
            $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
            //$scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
+           $scope.sortInstances();
            } else {
                alert('no data received');
            }
@@ -36,6 +37,7 @@ if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analy
            $scope.beginItem = (($scope.currentPage - 1) * $scope.itemsPerPage);
            $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
            //$scope.filteredInstances = $filter('searchAll')($scope.instances,'').slice(beginItem,endItem);
+           $scope.sortInstances();
            } else {
                alert('no data received, assign new id');
            }
