@@ -69,7 +69,7 @@ div(ng-controller="importEventCtrl" style="background-color:#f2f2f2;")
                                 td(ng-class-odd="'tableStripe'")
                                     a(href='', data-nodrag='', ng-click="importInstance(instance)")
                                         span.glyphicon.glyphicon-duplicate(style='font-size:1.4em;')
-    .row(ng-show='totalInstances > itemsPerPage')
+    .row(ng-show='filinstances.length > itemsPerPage')
         .col-lg-12(style="margin: 0 auto;")
             .text-center
                 pagination.pagination-sm(total-items="filinstances.length", items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true' ng-change="pageChanged()"  previous-text='‹' next-text='›' first-text='«' last-text='»')

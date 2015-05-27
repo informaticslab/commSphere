@@ -44,14 +44,14 @@
                                 td(ng-class-odd="'tableStripe'")
                                     | {{instance.userCreated.displayName}}
                                 td(ng-class-odd="'tableStripe'")
-                                    | {{instance.dateCreated | date:'MM/dd/yyyy' }}
+                                    | {{instance.dateCreated | date:'medium' }}
                                 td(ng-class-odd="'tableStripe'")
                                     a.del-edit-btn.btn.btn-default.btn-xs(href='', data-nodrag='', ng-click="editDraft('lg',instance,true)")
                                         .glyphicon.glyphicon-pencil
                                     &nbsp;
                                     a.del-edit-btn.btn.btn-default.btn-xs( href='', data-nodrag='', ng-click="deleteDraft(instance)")
                                         .glyphicon.glyphicon-trash
-        .row(ng-show="totalInstances > itemsPerPage")
+        .row(ng-show="filinstances.length > itemsPerPage")
             .col-lg-12
                 .text-center
                     pagination.pagination-sm(total-items="filinstances.length", items-per-page='itemsPerPage', ng-model='currentPage', boundary-links='true' ng-change="pageChanged()"  previous-text='‹' next-text='›' first-text='«' last-text='»')

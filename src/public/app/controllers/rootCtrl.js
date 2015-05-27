@@ -186,19 +186,41 @@ $scope.pageChanged = function(searchText) {
 }
 
 function compareAsc(a,b) {
-  if ((a[$scope.sortType]).toString().toLowerCase() < (b[$scope.sortType]).toString().toLowerCase())
-    return -1;
-  if ((a[$scope.sortType]).toString().toLowerCase() > (b[$scope.sortType]).toString().toLowerCase())
-    return 1;
-  return 0;
+  if($scope.sortType=="coordinatorAssign")
+  {
+    if ((a.userCreated.displayName).toString().toLowerCase() < (b.userCreated.displayName).toString().toLowerCase())
+      return -1;
+    if ((a.userCreated.displayName).toString().toLowerCase() > (b.userCreated.displayName).toString().toLowerCase())
+      return 1;
+    return 0;
+  }
+  else
+  {
+    if ((a[$scope.sortType]).toString().toLowerCase() < (b[$scope.sortType]).toString().toLowerCase())
+      return -1;
+    if ((a[$scope.sortType]).toString().toLowerCase() > (b[$scope.sortType]).toString().toLowerCase())
+      return 1;
+    return 0;
+  }
 }
 
 function compareDesc(a,b) {
-  if ((a[$scope.sortType]).toString().toLowerCase() > (b[$scope.sortType]).toString().toLowerCase())
-    return -1;
-  if ((a[$scope.sortType]).toString().toLowerCase() < (b[$scope.sortType]).toString().toLowerCase())
-    return 1;
-  return 0;
+  if($scope.sortType=="coordinatorAssign")
+  {
+    if ((a.userCreated.displayName).toString().toLowerCase() > (b.userCreated.displayName).toString().toLowerCase())
+      return -1;
+    if ((a.userCreated.displayName).toString().toLowerCase() < (b.userCreated.displayName).toString().toLowerCase())
+      return 1;
+    return 0;
+  }
+  else
+  {
+    if ((a[$scope.sortType]).toString().toLowerCase() > (b[$scope.sortType]).toString().toLowerCase())
+      return -1;
+    if ((a[$scope.sortType]).toString().toLowerCase() < (b[$scope.sortType]).toString().toLowerCase())
+      return 1;
+    return 0;
+  }
 }
 
 };
