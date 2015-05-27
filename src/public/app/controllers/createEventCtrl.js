@@ -63,6 +63,7 @@ $scope.allowSaveDrafts=false;
 
   if ($scope.draftInstance) {
     $scope.eventdoc = $scope.draftInstance;
+    $scope.showOverrideCheckbox = true;
   }
 
 
