@@ -38,10 +38,10 @@
                                         span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
                                 th(ng-show="identity.isAuthorized('levelTwo')")
-                                    a(href="" ng-click="sortType = 'randomNumber'; sortReverse = !sortReverse; sortInstances('randomNumber')")
+                                    a(href="" ng-click="sortType = 'eventInstanceStatus'; sortReverse = !sortReverse; sortInstances('randomNumber')")
                                         | Status 
-                                        span(ng-show="sortType == 'randomNumber' && !sortReverse" class="fa fa-caret-down")
-                                        span(ng-show="sortType == 'randomNumber' &&  sortReverse" class="fa fa-caret-up")  
+                                        span(ng-show="sortType == 'eventInstanceStatus' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'eventInstanceStatus' &&  sortReverse" class="fa fa-caret-up")  
                         tbody
                              tr(ng-repeat="instance in filinstances =(instances | searchAll : $parent.searchText) | limitTo: itemsPerPage : beginItem "  )
                                 td(ng-class-odd="'tableStripe'")
