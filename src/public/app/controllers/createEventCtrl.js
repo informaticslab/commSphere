@@ -253,12 +253,23 @@ else {
       else { // validation passed continue to check event Id logic
           if ($scope.isNew)
           {  //creating brand new event 
-              $scope.eventdoc.eventInstanceId = "";
-               $http.get('/api/getNextAutoId/').then(function(result) {
-                 $scope.eventdoc.eventInstanceId = genPrimaryId($scope.eventdoc.eventName) + result.data.availNumber+'-001';
-                 $scope.saveEvent();
-                   
-              });
+            // checking if name already exist
+            $http.get('/api/events/duplicate/' + $scope.eventdoc.eventName).then(function(res) {
+            if (res.data) { 
+                if (res.data.duplicate){
+                     ngNotifier.notifyError("Event name already exists");
+                 }
+            }
+            else {
+            
+              $http.get('/api/getNextAutoId/').then(function(result) {
+                   $scope.eventdoc.eventInstanceId = genPrimaryId($scope.eventdoc.eventName) + result.data.availNumber+'-001';
+                   $scope.saveEvent();
+                     
+                });
+            }
+          });
+               
           }
           else {// create from existing
                  var primaryId = $scope.eventdoc.eventInstanceId.split('-')[0];
@@ -342,6 +353,18 @@ var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
     }
    
 }, true);
+
+function getnextNum(numText) {
+
+    increment =   Number(numText)+1;
+    if (increment < 100) 
+    {
+        return ("00" + increment);
+    }
+    else {
+        return +increment;
+    }
+  }
 
 
 function genPrimaryId(eventName) {
