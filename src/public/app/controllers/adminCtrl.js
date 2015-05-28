@@ -18,19 +18,25 @@ angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier,
 	
 	$http.get('/api/categories').then(function(res) {
 		$scope.categoryListDoc = res.data[0];
-		console.log($scope.categoryListDoc);
+		//console.log($scope.categoryListDoc);
 		if ($scope.categoryListDoc == undefined) { //default
 			$scope.categoryListDoc = {
 				categoryList:
 				[{
-					categories: [{
-					
-					}]
+					categories: []
 				}]
 			};
 		}
 	});
 	
+	// $scope.inputRoles = [
+	// 	{id:'levelOne', name:'Admin', selected: false},
+	// 	{id:'levelTwo', name:'Coordinator', selected: false},
+	// 	{id:'levelThree', name: 'Analyst', selected: false}
+	// ];
+
+	// $scope.outputRoles = [];
+
 	$scope.saveEventTypes = function() {
 		$http.post('/api/eventTypes', $scope.eventListDoc).then(function(res) {
 			console.log(res.data.success);
