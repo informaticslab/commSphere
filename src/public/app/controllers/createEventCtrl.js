@@ -413,14 +413,18 @@ $scope.saveEvent = function()
 
 
 $scope.setOverrideFlags = function() {
+
+  if($scope.eventNameOverride){
+    var editConfirm = confirm('By checking this box and editing the event name, you are creating a new event.  Do you want to continue?');
+  }  
    
- 
-   if($scope.eventNameOverride) {  // user checked the override box
+   if($scope.eventNameOverride && editConfirm) {  // user checked the override box
       $scope.isNew = true;
       $scope.eventNameReadonly = false;
    }
    else {// user unchecked the box
       // reset the name
+      $scope.eventNameOverride = false;
       $scope.eventdoc.eventName = $scope.savedEventName;
       $scope.isNew = false;
       $scope.eventNameReadonly = true;
