@@ -288,7 +288,7 @@ $scope.allowSaveDrafts=false;
           else {// create from existing
                  var primaryId = $scope.eventdoc.eventInstanceId.split('-')[0];
                  // check for the latest instance
-                 console.log(primaryId);
+                 $log.debug(primaryId);
                  $http.get('/api/events/getAvailEventId/' + primaryId).then(function (res) {
                   if (res.data.length>0) {
                      //break apart and reassemble
