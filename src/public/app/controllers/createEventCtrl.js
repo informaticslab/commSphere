@@ -63,7 +63,6 @@ $scope.allowSaveDrafts=false;
 
   if ($scope.draftInstance) {
     $scope.eventdoc = $scope.draftInstance;
-    $scope.showOverrideCheckbox = true;
   }
 
 
@@ -276,15 +275,14 @@ $scope.allowSaveDrafts=false;
                 if (res.data.duplicate){
                      ngNotifier.notifyError("Event name already exists");
                  }
+                else {
+                        $http.get('/api/getNextAutoId/').then(function(result) {
+                          $scope.eventdoc.eventInstanceId = genPrimaryId($scope.eventdoc.eventName) + result.data.availNumber+'-001';
+                          $scope.saveEvent();
+                        });
+                }
             }
-            else {
-            
-              $http.get('/api/getNextAutoId/').then(function(result) {
-                   $scope.eventdoc.eventInstanceId = genPrimaryId($scope.eventdoc.eventName) + result.data.availNumber+'-001';
-                   $scope.saveEvent();
-                     
-                });
-            }
+           
           });
                
           }

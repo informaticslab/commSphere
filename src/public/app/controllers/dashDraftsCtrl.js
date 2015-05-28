@@ -26,7 +26,7 @@ $http.get('/api/events/drafts').then(function(res){
     });
     
 
-$scope.editDraft = function (size,draftInstance,isNew) {
+$scope.editDraft = function (size,draftInstance,isNew,showOverrideCheckbox) {
 // activate the modal for edit draft  
         var modalInstance = $modal.open({
         templateUrl: '/partials/createEventModal',
@@ -40,6 +40,9 @@ $scope.editDraft = function (size,draftInstance,isNew) {
          },
          isNew : function() {
            return isNew;
+         },
+         showOverrideCheckbox : function() {
+           return showOverrideCheckbox;
          }
        }
       });

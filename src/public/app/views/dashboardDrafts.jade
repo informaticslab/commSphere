@@ -46,7 +46,7 @@
                                 td(ng-class-odd="'tableStripe'")
                                     | {{instance.dateCreated | date:'medium' }}
                                 td(ng-class-odd="'tableStripe'")
-                                    a.del-edit-btn.btn.btn-default.btn-xs(href='', data-nodrag='', ng-click="editDraft('lg',instance,true)")
+                                    a.del-edit-btn.btn.btn-default.btn-xs(href='', data-nodrag='', ng-click="editDraft('lg',instance,true,true)")
                                         .glyphicon.glyphicon-pencil
                                     &nbsp;
                                     a.del-edit-btn.btn.btn-default.btn-xs( href='', data-nodrag='', ng-click="deleteDraft(instance)")

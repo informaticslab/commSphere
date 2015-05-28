@@ -13,7 +13,7 @@ else
   $("body").css("background-color", "#f7f7f7;");
 }
 
-$scope.createEvent = function (size,draftInstance,isNew) {
+$scope.createEvent = function (size,draftInstance,isNew,showOverrideCheckbox) {
 
       var modalInstance = $modal.open({
         templateUrl: '/partials/createEventModal',
@@ -27,8 +27,11 @@ $scope.createEvent = function (size,draftInstance,isNew) {
          },
          isNew : function() {
             return isNew;
-       }
-     }
+          },
+         showOverrideCheckbox : function() {
+           return showOverrideCheckbox;
+         }
+      }
       });
     
     };
@@ -61,7 +64,7 @@ $scope.logout = function(){
       modalInstance.result.then(function (selectedInstance) {
       // user selected one event, pass it to create event function
           $scope.cleanDoc(selectedInstance);
-          $scope.createEvent('lg',selectedInstance,false); 
+          $scope.createEvent('lg',selectedInstance,false,true); 
       }, function () {
             $log.info('Modal dismissed at: ' + new Date());
       });
@@ -87,9 +90,10 @@ $scope.cleanDoc = function(selectedInstance)
 }]);
 
 
-var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$animate,draftInstance,isNew) {
+var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$animate,draftInstance,isNew,showOverrideCheckbox) {
  $scope.draftInstance = draftInstance;
  $scope.isNew = isNew;
+ $scope.showOverrideCheckbox = showOverrideCheckbox;
   $scope.ok = function () {
     $animate.enabled(true);
     $modalInstance.close();
