@@ -375,18 +375,14 @@ function getnextNum(numText) {
 function genPrimaryId(eventName) {
       var skipWords = ["THE", "A", "AND"];
       var nonBlanks = [];
-      var eventNameParts = eventName.split(' ');
-      for (var i = 0; i < eventNameParts.length; i++) {
-          if (eventNameParts[i] != ""){
-             nonBlanks.push(eventNameParts[i]);
-          }
-      }
-      if (skipWords.indexOf(eventNameParts[0].toUpperCase()) == -1) {
-           tmpEventName = nonBlanks[0].substring(0,2).toUpperCase();   
+      var uCaseEventName = eventName.toUpperCase();
+      var eventNameParts = uCaseEventName.split(' ');
+      if (skipWords.indexOf(eventNameParts[0]) == -1) {
+             tmpEventName = uCaseEventName.replace(/ +/g, "").substring(0,2);  
       }
       else {
          // make
-           tmpEventName =  nonBlanks[1].substring(0,2); 
+           tmpEventName =  uCaseEventName.replace(/ +/g, "").substring(eventNameParts[0].length).substring(0,2); 
       } 
           
       return tmpEventName;
