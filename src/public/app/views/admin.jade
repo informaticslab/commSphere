@@ -34,7 +34,7 @@
 												input#eventTypeName.form-control(type='text', placeholder='Event Type' ng-model="eventTypeValue[eventTypeList.name]", ng-keyup='$event.keyCode==13 ? addEvent(eventTypeList,$event) : null; $event.keyCode==13 ? saveEventTypes(): null')
 					.col-lg-4.col-md-4.col-sm-4
 						div(ng-repeat='categoryList in categoryListDoc.categoryList')
-							h3 Edit Categories
+							h4 Edit Categories
 							br
 							div(ui-tree='options')
 								ol(ui-tree-nodes='', ng-model='categoryList.categories', data-type='category')
