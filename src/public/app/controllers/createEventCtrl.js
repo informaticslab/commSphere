@@ -65,7 +65,6 @@ $scope.allowSaveDrafts=false;
     $scope.eventdoc = $scope.draftInstance;
   }
 
-
   //created from existing event
   if (!$scope.isNew) {
     $scope.savedEventName = $scope.eventdoc.eventName;
@@ -74,14 +73,14 @@ $scope.allowSaveDrafts=false;
     changeWatcher();
     
   //new event 
-  } else {                                           
+  } else if (!$scope.draftInstance){                                           
     $scope.eventNameOverride = $scope.isNew;
     $scope.eventNameReadonly = false;
     $scope.eventNameOverrideDisable = true;
 
     //retrieve list of category names from db for tabs
     $http.get('/api/categories').then(function(res) {
-      if (res.data[0].categoryList[0].length != 0) {
+      if (res.data[0] != undefined) {
         var cats = res.data[0].categoryList[0].categories;
         for (var i = 0; i < cats.length; i++) {
           $scope.eventdoc.categories.push(cats[i]);
