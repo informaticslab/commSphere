@@ -232,7 +232,7 @@ $scope.setActiveTab = function(tabId)
       accept: function(sourceNode, destNodes, destIndex) {
         var data = sourceNode.$modelValue;
         var destType = destNodes.$element.attr('data-type');
-        return (data.type == destType); // only accept the same type
+        return true;//(data.type == destType); // only accept the same type
       },
       dropped: function(event) {
         $log.debug(event);
