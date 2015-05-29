@@ -63,10 +63,11 @@ $scope.logout = function(){
       });
       modalInstance.result.then(function (selectedInstance) {
       // user selected one event, pass it to create event function
-          $scope.cleanDoc(selectedInstance);
+      // also need to check for copy option
+          $scope.cleanDoc(selectedInstance,copyOption);
           $scope.createEvent('lg',selectedInstance,false,true); 
       }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
+   //         $log.info('Modal dismissed at: ' + new Date());
       });
      };
      
@@ -131,10 +132,28 @@ $scope.currentPage = 1;
            }
       });
       
-  $scope.importInstance = function(instance)
-  {
+  $scope.importInstance = function(instance) {
+    // need to add a popup here to ask user to select copy option 
      $modalInstance.close(instance);
+
   };
+
+  $scope.showCopyOption = function (size) {
+  // retrieve all events with active and archived status pending users requirements
+      var modalInstance = $modal.open({
+        templateUrl: '/partials/copyOptionModal',
+        controller: copyOptionModalCtrl,
+        size: size,
+        keyboard: false,
+        backdrop: 'static'
+      });
+      modalInstance.result.then(function (copyOption) {
+      // user selected one event, pass it to create event function
+          $scope.createEvent('lg',selectedInstance,false,true); 
+      }, function () {
+   //         $log.info('Modal dismissed at: ' + new Date());
+      });
+     };
   
   $scope.ok = function () {
     $modalInstance.close();
