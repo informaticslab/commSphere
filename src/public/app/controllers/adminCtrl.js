@@ -128,7 +128,7 @@ angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier,
 	$scope.saveCategory = function(category, e) {
 		// topic.save();
 		category.editing = false;
-		ngNotifier.notify("Event types list has been updated!");
+		ngNotifier.notify("Category list has been updated!");
 		e.preventDefault();
 	};
 
@@ -136,7 +136,7 @@ angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier,
 		var index = categoryList.categories.indexOf(category);
 		if (index > -1) {
 			categoryList.categories.splice(index, 1)[0];
-			ngNotifier.notify("Event types list has been updated!");
+			ngNotifier.notify("Category list has been updated!");
 		}
 	};
 
