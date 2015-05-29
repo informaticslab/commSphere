@@ -88,7 +88,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 														form.form-inline(role='form')
 															.form-topic
 																label.sr-only(for='topicName') Topic name
-																input#topicName.form-control(type='text', placeholder='Topic name' ng-model="topicValue[category.name]" ng-keyup='$event.keyCode==13 ? addTopic(category,$event) : null' ng-blur='addTopic(category,$event)')
+																input#topicName.form-control(type='text', placeholder='Topic name' ng-model="category.newTopicName" ng-keyup='$event.keyCode==13 ? addTopic(category,$event) : null' ng-blur='addTopic(category,$event)')
 															//button.btn.btn-default(type='submit', ng-click='addTopic(category)') Add Topic
 								//.row
 									.col-lg-6

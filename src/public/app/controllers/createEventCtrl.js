@@ -43,8 +43,8 @@ $scope.allowSaveDrafts=false;
 
 
   
-  $scope.topicValue = {};
-  $scope.subTopicValue = {};
+  //$scope.topicValue = {};
+  //$scope.subTopicValue = {};
   $scope.userAssigned = {};
 
   $scope.users = [];
@@ -124,12 +124,15 @@ $scope.allowSaveDrafts=false;
 
   $scope.addTopic = function(category,e) {
     $log.debug(category);
+    if (!category.newTopicName || category.newTopicName.length === 0) {
+      return;
+    }
     // if ($scope.eventdoc.categories.indexOf(category).topics.length > 10) {
     //   window.alert('You can\'t add more than 10 topics!');
     //   return;
     // }
     //var topicName = document.getElementById('topicName').value;
-    var topicName = $scope.topicValue[category.name];
+    var topicName = category.newTopicName;
     if (topicName.length > 0) {
       category.topics.push({
         name: topicName,
@@ -140,7 +143,7 @@ $scope.allowSaveDrafts=false;
       });
 
     }
-    $scope.topicValue = {};
+    category.newTopicName="";
     e.preventDefault();
   };
 
