@@ -6,7 +6,7 @@ $scope.continueNav = true;
 //Prevent accidental leaving of dashboard event screen
 $scope.$on('$locationChangeStart', function( event ) {
   if (!$scope.continueNav){
-      var answer = confirm("Are you sure you want to leave this page?")
+      var answer = confirm("You have unsaved changes.  Do you want to leave this page?")
       if (!answer) {
           event.preventDefault();
       }
