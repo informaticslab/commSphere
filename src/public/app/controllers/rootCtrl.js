@@ -61,18 +61,21 @@ $scope.logout = function(){
         keyboard: false,
         backdrop: 'static'
       });
-      modalInstance.result.then(function (selectedInstance) {
+      modalInstance.result.then(function (newResult) {
       // user selected one event, pass it to create event function
       // also need to check for copy option
+          var selectedInstance = newResult.selectedInstance;
+          var copyOption = newResult.copyOption;
           $scope.cleanDoc(selectedInstance,copyOption);
           $scope.createEvent('lg',selectedInstance,false,true); 
       }, function () {
    //         $log.info('Modal dismissed at: ' + new Date());
       });
-     };
+  };
      
-$scope.cleanDoc = function(selectedInstance)
-{  delete selectedInstance._id;
+$scope.cleanDoc = function(selectedInstance,copyOption)
+{ 
+  delete selectedInstance._id;
  //  selectedInstance.eventInstanceId = "";
    selectedInstance.userCreated =  {id:$scope.identity.currentUser._id, displayName: $scope.identity.currentUser.displayName};
    selectedInstance.dateCreated = "";
@@ -82,6 +85,9 @@ $scope.cleanDoc = function(selectedInstance)
    {
        selectedInstance.categories[i].statusCompleted = false;
        selectedInstance.categories[i].dateCompleted = "";
+       if (copyOption.optionValue == 2) {
+        // clear data here
+       }
    }
    
    $log.debug(selectedInstance);
@@ -108,7 +114,8 @@ var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$r
   };
 };
 
-var importEventModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$http,$filter) {
+
+var importEventModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,$http,$filter,$modal) {
 // display modal popup to show list of available events   
 $scope.sortReverse=false;
 $scope.sortType = "dateCreated";
@@ -130,30 +137,17 @@ $scope.currentPage = 1;
            } else {
                alert('no data received');
            }
-      });
+  });
       
+
+
   $scope.importInstance = function(instance) {
     // need to add a popup here to ask user to select copy option 
      $modalInstance.close(instance);
 
   };
 
-  $scope.showCopyOption = function (size) {
-  // retrieve all events with active and archived status pending users requirements
-      var modalInstance = $modal.open({
-        templateUrl: '/partials/copyOptionModal',
-        controller: copyOptionModalCtrl,
-        size: size,
-        keyboard: false,
-        backdrop: 'static'
-      });
-      modalInstance.result.then(function (copyOption) {
-      // user selected one event, pass it to create event function
-          $scope.createEvent('lg',selectedInstance,false,true); 
-      }, function () {
-   //         $log.info('Modal dismissed at: ' + new Date());
-      });
-     };
+  
   
   $scope.ok = function () {
     $modalInstance.close();
@@ -245,6 +239,69 @@ function compareDesc(a,b) {
     return 0;
   }
 }
+
+$scope.showCopyOption = function (size,selectedInstance) {
+  // retrieve all events with active and archived status pending users requirements
+     
+      var modalInstance2 = $modal.open({
+        templateUrl: '/partials/copyOptionModal',
+        controller: copyOptionModalCtrl,
+        size: size,
+        keyboard: false,
+        backdrop: 'static',
+        resolve: {
+         selectedInstance: function () {
+           return selectedInstance;
+         }
+      
+        } 
+      });
+      modalInstance2.result.then(function (copyOption) {
+      // user selected one event, pass it to create event function
+        //  $scope.cleanDoc(selectedInstance,copyOption);
+          var newResult = {'selectedInstance':selectedInstance, 'copyOption': copyOption};
+          $modalInstance.close(newResult)
+      }, function () {
+           
+      });
+
+
+     };
+
+
+var copyOptionModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,selectedInstance) {
+  $scope.selectedInstance = selectedInstance;
+   $scope.copyOptions = [{
+        displayText: "Copy All Data",
+        optionValue : 1,
+        checked: true
+    }, {
+        displayText: "Copy Only Meta Data",
+        optionValue : 2,
+        checked: false
+    }];
+    $scope.selectedOption = $scope.copyOptions[0];
+
+    $scope.copyOptionSelected = function(option) {
+        angular.forEach($scope.copyOptions, function(oneOption) {
+            oneOption.checked = false;
+        });
+        option.checked = true;
+        $scope.selectedOption = option; 
+    };
+ 
+  $scope.accept = function (selectedOption) {
+    $modalInstance.close(selectedOption);
+    
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss();
+    
+  };
+
+}
+
 
 };
 
