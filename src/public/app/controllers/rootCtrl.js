@@ -85,16 +85,23 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
    {
        selectedInstance.categories[i].statusCompleted = false;
        selectedInstance.categories[i].dateCompleted = "";
-       topics = selectedInstance.categories[i].topics;
+      
        if (copyOption.optionValue == 2) {
         // clear data here
-          for (var j=0; j < topics.length; j++){  
+          topics = selectedInstance.categories[i].topics;
+          if (topics) {
+            for (var j=0; j < topics.length; j++){  
               subTopics = topics[j].subTopics;
-              for (var k=0; k < subTopics.length; k++ ) { // loop through subtopics and remove the bullets
-                 delete subTopics[i].bullets;
+              if (subTopics) {
+                for (var k=0; k < subTopics.length; k++ ) { // loop through subtopics and remove the bullets
+                   if (subTopics[k].bullets) {
+                    delete subTopics[k].bullets;
+                   }
+                }
               }
           }
-       }
+        }
+     }
    }
    
    $log.debug(selectedInstance);
