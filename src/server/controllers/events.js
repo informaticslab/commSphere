@@ -254,3 +254,12 @@ function getPaddedNum(numText,padLength) {
    return zeroes + numText;
  
 }
+
+exports.getDataById = function(req,res){
+	var collection = mongo.mongodb.collection('eventData');
+	var partialId = new RegExp('^'+req.params.id.split('-')[0]);
+	collection.find({'eventInstanceId': {$regex: partialId}}).sort({'dateCollected':-1}).toArray(function(err,docs){
+         res.send(docs);
+
+	})
+}

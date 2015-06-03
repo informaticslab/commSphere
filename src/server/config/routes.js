@@ -30,6 +30,7 @@ module.exports = function(app) {
   app.get('/api/events/getEventsForImport',events.getEventsForImport);
   app.get('/api/events/findDuplicateId/:eventId',events.findDuplicateId);
   app.get('/api/getNextAutoId/',events.getNextAutoId);
+  app.get('/api/events/data/:id',events.getDataById);
 
   app.get('/api/eventTypes', admin.getEventTypes);
   app.post('/api/eventTypes', admin.updateEventTypes);
