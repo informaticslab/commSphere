@@ -25,6 +25,7 @@ exports.saveEvent = function(req, res) {
 	var Id = eventData._id;
   	delete eventData._id;
 	var collection = mongo.mongodb.collection('events');
+	var eventDataCollection = mongo.mongodb.collection('eventsData');
 	if (Id) {  // if existing id then update
      collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
        if (err) {
@@ -43,6 +44,40 @@ exports.saveEvent = function(req, res) {
 			res.send(err);
 			console.log(err);
 		} else {
+			// create matching data collection for this new event if not exist	
+			var partialId = new RegExp('^'+eventData.eventInstanceId.split('-')[0]);		
+	 			eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
+				  	if(err){
+			 	 		console.log(err);
+			 	 	} else if (result.length < 1) {
+			 	 	// not exist, add 
+			 	 	  var creationDate =  new Date(eventData.dateCreated).toISOString().split('T')[0].split('-').join('');
+			 	 	  var newRecord = {
+			 	 	  			"eventName": eventData.eventName,
+			 	 	  		 	"eventInstanceId": eventData.eventInstanceId,
+			 	 	  		 	"dailyData":
+			 	 	  		 		[{
+			 	 	  		 			"subTopic":""
+			 	 	  		 		 }
+			 	 	  		 		]
+			 	 	  		 	};
+			 	 	  	newRecord.dailyData[0][creationDate] = null;
+			 	 	  	eventDataCollection.insert(newRecord, function(err, result) {
+							if(err) {
+							res.send(err);
+							console.log(err);
+							} else {
+								
+							}
+			 			});
+	 	 	  		}
+	 	 	  		else {  // event data already exists,  do something here 
+
+	 	 	  		}
+	 	 	  	});		
+	
+	// end of new block
+
 			res.send({success:true});
 		}
  	});
@@ -102,6 +137,24 @@ exports.deleteDraft = function(req,res) {
    	});
 	}
 };
+
+exports.saveCollectedData = function(req,res) {
+	var eventData = req.body;
+	var Id = eventData._id;
+  	delete eventData._id;
+	var collection = mongo.mongodb.collection('eventsData');
+	if (Id) {  // if existing id then update
+     	collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
+       		if (err) {
+				res.send(err);
+				console.log(err);
+			} else {
+  		   		res.send({success:true});
+			}
+   		});
+	}
+
+}
 
 exports.getEventsByAnalyst = function (req,res) {
 	var analystId = req.params.analystId;
@@ -259,6 +312,15 @@ exports.getDataById = function(req,res){
 	var collection = mongo.mongodb.collection('eventData');
 	var partialId = new RegExp('^'+req.params.id.split('-')[0]);
 	collection.find({'eventInstanceId': {$regex: partialId}}).sort({'dateCollected':-1}).toArray(function(err,docs){
+         res.send(docs);
+
+	})
+}
+
+exports.getDataById2 = function(req,res){
+	var collection = mongo.mongodb.collection('eventsData');
+	var partialId = new RegExp('^'+req.params.id.split('-')[0]);
+	collection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,docs){
          res.send(docs);
 
 	})

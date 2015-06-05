@@ -120,14 +120,53 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                 li.angular-ui-tree-node.bullet-disc-node(ng-show="hideFromCoordinator(category)")
                                                                     textarea.bulletPlaceHoder(type='text', ng-model='subTopic.newBulletName', placeholder='Add bullet. (Hit enter to add next bullet)' ng-keydown='$event.keyCode==13 ? addBullet(subTopic,$event) : null' ng-blur='addBullet(subTopic,$event)')
                                                                         
-                                //.row
+                                //- .row
+                                //-     .col-lg-6
+                                //-             h3 Data binding
+                                //-             .info
+                                //-                 | {{  }}
+                                //-             pre.code.
+                                //-                 {{ eventdoc | json }}   
+                             tab(heading="Data" select="setActiveCategory('Data')")
+                                .row
+                                    .col-lg-12.col-md-12.col-sm-12
+                                        br
+                                        .row
+                                            .col-lg-9.col-md-9.col-sm-9
+                                                .tab-title-heading
+                                                    img(src='img/web-icon.png', width='37', height='32')
+                                        .row
+                                            button#button_add.btn(ng-click='addColumn()') Add Column to the End
+                                            button#button_remove.btn(ng-click='remove()') Remove Last Column
+                                            button#addData.btn.btn-success(type='button', ng-click='addRow()') Add Row
+                                            .grid(ui-grid="gridOptions", ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit)  
+                             //tab(heading="Data2" select="setActiveCategory('Data2')")
+                                 .row
+                                    .col-lg-12.col-md-12.col-sm-12
+                                        br
+                                        .row
+                                            .col-lg-9.col-md-9.col-sm-9
+                                                 .tab-title-heading
+                                                    img(src='img/web-icon.png', width='37', height='32')
+                                        .row
+                                            .col-lg-3.col-md-3.col-sm-3
+                                                ul.nav.nav-pills.nav-stacked(style="background-color:#f2f2f2;")
+                                                    li(ng-repeat="topic in eventData.topics" ng-class="{active:activeTab=='tab_'+$index}")
+                                                        a(data-target="{{'#tab_'+$index}}" data-toggle="pill"  ng-click="gotoElement('tab_'+$index)" style="cursor:pointer")
+                                                            | {{topic.name}}
+                                            .col-lg-9.col-md-9.col-sm-9
+                                                //div.tab-content
+                                                div(ng-repeat="topic in eventData.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
+                                                        |{{topic.name}}
+                                                        .grid(ui-grid="{data: topic.subTopics, enableCellEditOnFocus: true , columnDefs: columnsLayout} ", ui-grid-edit,ui-grid-cellNav)  
+                          // .row
                                     .col-lg-6
                                             h3 Data binding
                                             .info
                                                 | {{  }}
                                             pre.code.
-                                                {{ eventdoc | json }}   
-
+                                                {{ eventData2 | json }}   
+                                                      
             .clear-divs
 
 

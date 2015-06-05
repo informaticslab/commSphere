@@ -1,7 +1,12 @@
-angular.module('app').controller('dashEventCtrl', function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,anchorSmoothScroll) {
+angular.module('app').controller('dashEventCtrl',function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,anchorSmoothScroll) {
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $scope.continueNav = true;
+
+// grid setup
+
+$scope.eventData2 = {};
+$scope.gridOptions={};
 
 //Prevent accidental leaving of dashboard event screen
 $scope.$on('$locationChangeStart', function( event ) {
@@ -19,10 +24,43 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      $log.debug(res.data[0]);
      $scope.eventdoc=res.data[0];
      $scope.contentloaded = true;
+
+   
+
+     // $http.get('api/events/data/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
+     //    if (dataResult){
+       
+     //        $scope.eventData = dataResult.data[0];
+     //   //     $scope.addDataColumn('20150604');
+     //        $scope.columnsLayout = $scope.generateColumnDefs();
+     //   //     console.log($scope.columnsLayout);
+
+     //    }
+     //  });
+     // set second set of test data
+     $http.get('api/events/data2/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
+        if (dataResult){
+       
+            $scope.eventData2 = dataResult.data[0];
+            // try to add the column for the current instance
+            $scope.addDataColumn2($scope.eventdoc.dateCreated);
+            $scope.columns = $scope.generateColumnDefs2();
+       //     console.log($scope.columnsLayout);
+            $scope.gridOptions = {
+              data : $scope.eventData2.dailyData,
+              enableSorting: false,
+              columnDefs: $scope.columns,
+              onRegisterApi: function(gridApi) {
+              $scope.gridApi = gridApi;
+              }
+            }
+        }
+      });
      } else {
          alert('no data received, assign new id');
      }
 });
+
 
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
@@ -315,6 +353,15 @@ $scope.saveCategory = function (status) {  // save data for the current tab
             }
           });
  }
+ // data collected data here
+
+ $http.post('/api/events/saveCollectedData',$scope.eventData2).then(function(res){
+        if(res.data.success){
+        } else {
+             alert('there was an error');
+        }
+
+ });
  $scope.continueNav=true;
  var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
      $log.debug("watching");
@@ -476,5 +523,124 @@ $scope.setActiveCategory = function(category)
       }
      
     }, true);
+
+$scope.addDataColumn = function(columnName){
+
+  for(var i=0; i < $scope.eventData.topics.length; i++){
+      oneTopic = $scope.eventData.topics[i];
+      for(var j=0; j < oneTopic.subTopics.length; j++) {
+        // subtopic level
+          oneSubTopic = oneTopic.subTopics[j];
+          oneSubTopic[columnName] = null;
+      }
+
+  }
+};
+
+$scope.addDataColumn2= function(dateCreated){
+
+  var columnName =  $filter('date')(dateCreated,'yyyyMMdd');
+  for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
+           if ($scope.eventData2.dailyData[i].hasOwnProperty(columnName)) {
+              // column alread there
+           } else {  // column not exists, add
+              $scope.eventData2.dailyData[i][columnName] = null;
+           }
+      }
+
+  
+};
+
+$scope.generateColumnDefs = function() {
+   var columnArry = [];
+   var columnLayout = [];
+   // pick subtopic to iterate
+   var oneSubTopic =  $scope.eventData.topics[0].subTopics[0];
+       for (var columnName in oneSubTopic) {
+          if (oneSubTopic.hasOwnProperty(columnName)) {
+            if (columnName != 'sortOrder' && columnName != 'type' && columnName != 'name') {
+                columnArry.push(columnName);
+            } 
+          }
+       }
+       columnArry.sort();
+       columnArry.unshift('name');
+       for(i=0; i< columnArry.length; i++) {
+      // build columns defition object
+         if (columnArry[i] === 'name') {
+            oneColumnDef = {'field': columnArry[i], enableCellEdit: false,enableSorting: false};
+          }
+         else {
+            oneColumnDef = {'field': columnArry[i], enableCellEdit: true, enableSorting: false};
+         }
+            columnLayout.push(oneColumnDef);
+       }
+
+       return columnLayout;
+     
+};
+
+
+$scope.generateColumnDefs2= function() {
+   var columnArry = [];
+   var columnLayout = [];
+   // pick subtopic to iterate
+   var oneSubTopic =  $scope.eventData2.dailyData[0];
+       for (var columnName in oneSubTopic) {
+          if (oneSubTopic.hasOwnProperty(columnName)) {
+            if (columnName != 'subTopic') {
+                columnArry.push(columnName);
+            } 
+          }
+       }
+       columnArry.sort();
+       columnArry.unshift('subTopic');
+       for(i=0; i< columnArry.length; i++) {
+      // build columns defition object
+         if (columnArry[i] === 'subTopic') {
+            oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false};
+          }
+         else {
+            oneColumnDef = {'field': columnArry[i], enableCellEdit: true, enableSorting: false};
+         }
+            columnLayout.push(oneColumnDef);
+       }
+
+       return columnLayout;
+     
+};
+$scope.remove = function() {
+     var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
+     $scope.columns.splice($scope.columns.length-1, 1);
+     for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
+           if ($scope.eventData2.dailyData[i].hasOwnProperty(lastColumnName)) {
+              delete $scope.eventData2.dailyData[i][lastColumnName];
+           } else {  // column not exists, add
+           }
+      }
+
+  }
+  
+  $scope.addColumn = function() {
+    var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
+    var newNum = Number(lastColumnName) + 1;
+    lastColumnName = ''+newNum;
+    $scope.columns.push({ field: lastColumnName, enableSorting: false });
+  }
+ 
+  $scope.splice = function() {
+    $scope.columns.splice(1, 0, { field: 'company', enableSorting: false });
+  }
+ 
+  $scope.unsplice = function() {
+    $scope.columns.splice(1, 1);
+  }
+
+  $scope.addRow = function() {
+    var n = $scope.gridOptions.data.length + 1;
+    $scope.gridOptions.data.push({
+                
+              });
+  };
 
 });
