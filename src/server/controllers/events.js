@@ -51,7 +51,7 @@ exports.saveEvent = function(req, res) {
 			 	 		console.log(err);
 			 	 	} else if (result.length < 1) {
 			 	 	// not exist, add 
-			 	 	  var creationDate =  new Date(eventData.dateCreated).toISOString().split('T')[0].split('-').join('');
+			// 	 	  var creationDate =  new Date(eventData.dateCreated).toISOString().split('T')[0].split('-').join('');
 			 	 	  var newRecord = {
 			 	 	  			"eventName": eventData.eventName,
 			 	 	  		 	"eventInstanceId": eventData.eventInstanceId,
@@ -61,8 +61,9 @@ exports.saveEvent = function(req, res) {
 			 	 	  		 		 }
 			 	 	  		 		]
 			 	 	  		 	};
-			 	 	  	newRecord.dailyData[0][creationDate] = null;
-			 	 	  	eventDataCollection.insert(newRecord, function(err, result) {
+			 	 	 // 	newRecord.dailyData[0][creationDate] = null;
+			 	 	  	newRecord.dailyData[0][eventData.eventInstanceId] = null;
+			 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
 							if(err) {
 							res.send(err);
 							console.log(err);
@@ -71,8 +72,29 @@ exports.saveEvent = function(req, res) {
 							}
 			 			});
 	 	 	  		}
-	 	 	  		else {  // event data already exists,  do something here 
-
+	 	 	  		else {  // event data already exists,  add the next column the for new instance
+	 	 	  				// add column to all rowss
+						  for(var i=0; i < result[0].dailyData.length; i++) {
+						           if (result[0].dailyData[i].hasOwnProperty(eventData.eventInstanceId)) {
+						              // column alread there
+						           } else {  // column not exists, add
+						               result[0].dailyData[i][eventData.eventInstanceId] = null;
+						           }
+						      }
+						  console.log(result[0]);
+						  var Id = result[0]._id;
+						  delete result[0]._id;   
+						  eventDataCollection.update({"_id":ObjectID(Id)},result[0],function(err, affectedDocCount) {
+						       if (err) {
+									res.send(err);
+									console.log(err);
+								}
+								else {
+						       console.log("event data document changed ", affectedDocCount);
+							   res.send({success:true});
+								}
+						   		});
+  // end of eventdata exist
 	 	 	  		}
 	 	 	  	});		
 	

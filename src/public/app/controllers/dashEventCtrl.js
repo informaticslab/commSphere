@@ -43,9 +43,9 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
        
             $scope.eventData2 = dataResult.data[0];
             // try to add the column for the current instance
-            $scope.addDataColumn2($scope.eventdoc.dateCreated);
+            $scope.addDataColumn2($scope.eventdoc.eventInstanceId);
             $scope.columns = $scope.generateColumnDefs2();
-       //     console.log($scope.columnsLayout);
+            console.log($scope.columns);
             $scope.gridOptions = {
               data : $scope.eventData2.dailyData,
               enableSorting: false,
@@ -537,14 +537,14 @@ $scope.addDataColumn = function(columnName){
   }
 };
 
-$scope.addDataColumn2= function(dateCreated){
+$scope.addDataColumn2= function(instanceId){
 
-  var columnName =  $filter('date')(dateCreated,'yyyyMMdd');
+  //var columnName =  $filter('date')(dateCreated,'yyyyMMdd');
   for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
-           if ($scope.eventData2.dailyData[i].hasOwnProperty(columnName)) {
+           if ($scope.eventData2.dailyData[i].hasOwnProperty(instanceId)) {
               // column alread there
            } else {  // column not exists, add
-              $scope.eventData2.dailyData[i][columnName] = null;
+              $scope.eventData2.dailyData[i][instanceId] = null;
            }
       }
 
@@ -622,10 +622,13 @@ $scope.remove = function() {
   }
   
   $scope.addColumn = function() {
+    // assuming using eventInstanceId as column name
     var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
-    var newNum = Number(lastColumnName) + 1;
-    lastColumnName = ''+newNum;
-    $scope.columns.push({ field: lastColumnName, enableSorting: false });
+    var columnNameParts = lastColumnName.split("-");
+    var newColumnName = columnNameParts[0] + '-'+ Number(columnNameParts[1])+1;
+   // var newNum = Number(lastColumnName) + 1;
+   // lastColumnName = ''+newNum;
+    $scope.columns.push({ field: newColumnName, enableSorting: false });
   }
  
   $scope.splice = function() {
