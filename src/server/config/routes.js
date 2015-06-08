@@ -12,10 +12,12 @@ var mongoose = require('mongoose'),
 
 module.exports = function(app) {
 
-  app.get('/api/users', auth.requiresRole(), users.getUsers);
+  app.get('/api/users', users.getUsers);
   app.post('/api/users', users.createUser);
-  app.put('/api/users', users.updateUser);
+  app.put('/api/users', users.updateRole);
   app.get('/api/users/analysts', users.getAnalysts);
+  app.post('/api/users/remove', users.removeUser);
+
 
   app.post('/api/events', events.saveEvent);
   app.post('/api/events/drafts',events.saveDraft);

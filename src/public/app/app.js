@@ -6,6 +6,7 @@ var commSphereApp = angular.module('app', [
   ,'LocalStorageModule'
   ,'ui.bootstrap'
   , 'ui.tree'
+  , 'isteven-multi-select'
   // ,'chieffancypants.loadingBar'
   // ,'angulartics'
   // ,'angulartics.google.analytics'

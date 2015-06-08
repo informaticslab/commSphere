@@ -11,16 +11,16 @@ angular.module('app').factory('ngIdentity', function($window, ngUser) {
     },
     isAuthorized: function(role) {
       if (role == 'levelThree') {
-        return !!this.currentUser && this.currentUser.roles.levelThree;
+        return !!this.currentUser && this.currentUser.roles[2].enabled;
       }
       if (role == 'levelTwo') {
-        return !!this.currentUser && this.currentUser.roles.levelTwo;
+        return !!this.currentUser && this.currentUser.roles[1].enabled;
       }
       if (role == 'levelOne') {
-        return !!this.currentUser && this.currentUser.roles.levelOne;
+        return !!this.currentUser && this.currentUser.roles[0].enabled;
       }
       if (role == 'levelTwoOrThree') {
-        return !!this.currentUser && (this.currentUser.roles.levelThree || this.currentUser.roles.levelTwo);
+        return !!this.currentUser && (this.currentUser.roles[2].enabled || this.currentUser.roles[1].enabled);
       }
     }
   }

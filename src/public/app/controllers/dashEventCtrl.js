@@ -36,7 +36,7 @@ $scope.hideFromCoordinator = function(category) {
 $scope.filterTabForAnalyst = function(category) {
   if($scope.identity.currentUser)
   {
-    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo); 
+    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.isAuthorized('levelTwo')); 
   }
 };
 

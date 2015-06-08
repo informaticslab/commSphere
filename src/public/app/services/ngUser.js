@@ -4,16 +4,16 @@ angular.module('app').factory('ngUser', function($resource) {
   });
 
   	UserResource.prototype.isLevelThree = function() {
-		return this.roles && this.roles.levelThree;
+		return this.roles && this.roles[2].enabled;
 
 	};
 
 	UserResource.prototype.isLevelTwo = function() {
-		return this.roles && this.roles.levelTwo;
+		return this.roles && this.roles[1].enabled;
 	};
 
 	UserResource.prototype.isLevelOne = function() {
-		return this.roles && this.roles.levelOne;
+		return this.roles && this.roles[0].enabled;
 	};
 
   return UserResource;
