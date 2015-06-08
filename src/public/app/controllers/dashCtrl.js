@@ -10,7 +10,7 @@ $scope.totalInstances = 0;
 $scope.itemsPerPage = 15;
 $scope.currentPage = 1;
 //Filtering events for analysts
-if($scope.identity.currentUser.roles.levelThree) {  //Filtering events for analysts
+if($scope.identity.isAuthorized('levelThree')) {  //Filtering events for analysts
 
   $http.get('/api/events/analyst/'+$scope.identity.currentUser._id).then(function(res){
        if(res.data) {
