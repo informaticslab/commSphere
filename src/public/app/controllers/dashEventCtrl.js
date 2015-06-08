@@ -45,7 +45,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             // try to add the column for the current instance
             $scope.addDataColumn2($scope.eventdoc.eventInstanceId);
             $scope.columns = $scope.generateColumnDefs2();
-            console.log($scope.columns);
+     //       console.log($scope.columns);
             $scope.gridOptions = {
               data : $scope.eventData2.dailyData,
               enableSorting: false,
@@ -74,7 +74,7 @@ $scope.hideFromCoordinator = function(category) {
 $scope.filterTabForAnalyst = function(category) {
   if($scope.identity.currentUser)
   {
-    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.currentUser.roles.levelTwo); 
+    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.isAuthorized('levelTwo')); 
   }
 };
 

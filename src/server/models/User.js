@@ -4,15 +4,11 @@ var mongoose = require('mongoose'),
 var userSchema = mongoose.Schema({
   firstName: String,
   lastName: String,
-  email: String,
+  email: {type: String, unique:true},
   provider: String,
   salt: String,
   hashed_pwd: String,
-  roles: {
-          levelOne: Boolean,
-          levelTwo: Boolean,
-          levelThree: Boolean
-          },
+  roles: [],
   displayName: String
 });
 
@@ -33,7 +29,9 @@ function createDefaultUsers() {
       var salt, hash;
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'tsavel');
-      User.create({firstName:'Tom',lastName:'Savel',email:'tsavel@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Tom Savel',provider:'local'},function(err, docs) {
+      User.create({firstName:'Tom',lastName:'Savel',email:'tsavel@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: true},
+    {id:'levelThree', name: 'Analyst', enabled: false}],displayName:'Tom Savel',provider:'local'},function(err, docs) {
 			  if (err){ console.log(err);} 
 			  else
 			  {//console.log(docs);	
@@ -41,7 +39,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'kta');
-      User.create({firstName:'Michael',lastName:'Ta',email:'kta@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Michael Ta',provider:'local'},function(err, docs) {
+      User.create({firstName:'Michael',lastName:'Ta',email:'kta@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: true},
+    {id:'levelThree', name: 'Analyst', enabled: false}],displayName:'Michael Ta',provider:'local'},function(err, docs) {
 			  if (err){ console.log(err);} 
 			  else
 			  {//console.log(docs);	
@@ -49,7 +49,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'tnguyen');
-      User.create({firstName:'Trung',lastName:'Nguyen',email:'tnguyen@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Trung Nguyen',provider:'local'},function(err, docs) {
+      User.create({firstName:'Trung',lastName:'Nguyen',email:'tnguyen@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: true},
+    {id:'levelThree', name: 'Analyst', enabled: false}],displayName:'Trung Nguyen',provider:'local'},function(err, docs) {
 			  if (err){ console.log(err);} 
 			  else
 			  {//console.log(docs);	
@@ -57,7 +59,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'sdavid');
-      User.create({firstName:'Sanjith',lastName:'David',email:'sdavid@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Sanjith David',provider:'local'},function(err, docs) {
+      User.create({firstName:'Sanjith',lastName:'David',email:'sdavid@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: true},
+    {id:'levelThree', name: 'Analyst', enabled: false}],displayName:'Sanjith David',provider:'local'},function(err, docs) {
 			  if (err){ console.log(err);} 
 			  else
 			  {//console.log(docs);	
@@ -65,7 +69,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'kxiong');
-      User.create({firstName:'KB',lastName:'Xiong',email:'kxiong@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'KB Xiong',provider:'local'},function(err, docs) {
+      User.create({firstName:'KB',lastName:'Xiong',email:'kxiong@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: true},
+    {id:'levelThree', name: 'Analyst', enabled: false}],displayName:'KB Xiong',provider:'local'},function(err, docs) {
 			  if (err){ console.log(err);}
 			  else
 			  {//console.log(docs);	
@@ -73,7 +79,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'sanalyst');
-      User.create({firstName:'Scott',lastName:'Analyst',email:'sanalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Scott Analyst',provider:'local'},function(err, docs) {
+      User.create({firstName:'Scott',lastName:'Analyst',email:'sanalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: false},
+    {id:'levelThree', name: 'Analyst', enabled: true}],displayName:'Scott Analyst',provider:'local'},function(err, docs) {
         if (err){ console.log(err);}
         else
         {//console.log(docs); 
@@ -81,7 +89,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'janalyst');
-      User.create({firstName:'Joe',lastName:'Analyst',email:'janalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Joe Analyst',provider:'local'},function(err, docs) {
+      User.create({firstName:'Joe',lastName:'Analyst',email:'janalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: false},
+    {id:'levelThree', name: 'Analyst', enabled: true}],displayName:'Joe Analyst',provider:'local'},function(err, docs) {
         if (err){ console.log(err);}
         else
         {//console.log(docs); 
@@ -89,7 +99,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'danalyst');
-      User.create({firstName:'Dan',lastName:'Analyst',email:'danalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Dan Analyst',provider:'local'},function(err, docs) {
+      User.create({firstName:'Dan',lastName:'Analyst',email:'danalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: false},
+    {id:'levelThree', name: 'Analyst', enabled: true}],displayName:'Dan Analyst',provider:'local'},function(err, docs) {
         if (err){ console.log(err);}
         else
         {//console.log(docs); 
@@ -97,7 +109,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'ranalyst');
-      User.create({firstName:'Rob',lastName:'Analyst',email:'ranalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Rob Analyst',provider:'local'},function(err, docs) {
+      User.create({firstName:'Rob',lastName:'Analyst',email:'ranalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: false},
+    {id:'levelThree', name: 'Analyst', enabled: true}],displayName:'Rob Analyst',provider:'local'},function(err, docs) {
         if (err){ console.log(err);}
         else
         {//console.log(docs); 
@@ -105,7 +119,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'lanalyst');
-      User.create({firstName:'Lisa',lastName:'Analyst',email:'lanalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:false,levelTwo: false, levelThree:true},displayName:'Lisa Analyst',provider:'local'},function(err, docs) {
+      User.create({firstName:'Lisa',lastName:'Analyst',email:'lanalyst@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: false},
+    {id:'levelThree', name: 'Analyst', enabled: true}],displayName:'Lisa Analyst',provider:'local'},function(err, docs) {
         if (err){ console.log(err);}
         else
         {//console.log(docs); 
@@ -113,7 +129,9 @@ function createDefaultUsers() {
       });
       salt = encrypt.createSalt();
       hash = encrypt.hashPwd(salt, 'klubell');
-      User.create({firstName:'Keri',lastName:'Lubell',email:'klubell@cdc.gov',salt:salt, hashed_pwd: hash, roles:{levelOne:true,levelTwo: true, levelThree:false},displayName:'Keri Lubell',provider:'local'},function(err, docs) {
+      User.create({firstName:'Keri',lastName:'Lubell',email:'klubell@cdc.gov',salt:salt, hashed_pwd: hash, roles: [{id:'levelOne', name:'Admin', enabled: false},
+    {id:'levelTwo', name:'Coordinator', enabled: true},
+    {id:'levelThree', name: 'Analyst', enabled: false}],displayName:'Keri Lubell',provider:'local'},function(err, docs) {
         if (err){ console.log(err);} 
         else
         {//console.log(docs); 

@@ -10,6 +10,7 @@ var commSphereApp = angular.module('app', [
   ,'ui.grid.edit'
   ,'ui.grid.cellNav'
   ,'ui.grid.moveColumns'
+  , 'isteven-multi-select'
   // ,'chieffancypants.loadingBar'
   // ,'angulartics'
   // ,'angulartics.google.analytics'

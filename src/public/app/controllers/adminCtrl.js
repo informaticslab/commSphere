@@ -1,11 +1,11 @@
-angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier, $http) {
- 	// $scope.eventTypes = {};
+angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier, $http, ngUser,$route,$modal) {
 	$scope.eventTypeValue = {};
 	$scope.categoryValue = {};
 
+	$scope.users = ngUser.query();
+
 	$http.get('/api/eventTypes').then(function(res) {
 		$scope.eventListDoc = res.data[0];
-		// $scope.eventTypes = eventTypes[0];
 		if ($scope.eventListDoc == undefined) {  //default
 			$scope.eventListDoc = {
 				eventTypeList: [{
@@ -28,23 +28,39 @@ angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier,
 			};
 		}
 	});
-	
-	// $scope.inputRoles = [
-	// 	{id:'levelOne', name:'Admin', selected: false},
-	// 	{id:'levelTwo', name:'Coordinator', selected: false},
-	// 	{id:'levelThree', name: 'Analyst', selected: false}
-	// ];
 
-	// $scope.outputRoles = [];
+	$scope.outputRoles = [];
+
+	$scope.removeUser =  function(user) {
+		var answer = confirm('Are you sure you want to delete this user?');
+	    if (answer) {
+	    	$http.post('/api/users/remove', user).then(function(res) {
+	    		//console.log(user);
+	    		if (res.data.success) {
+	    			ngNotifier.notify('You have deleted a user');
+	    		} else {
+	    			ngNotifier.notifyError('Error deleteing user');
+	    		}
+	    	});
+	    	$route.reload();
+	    } 
+	}
+
+	$scope.updateRole = function(user) {
+		$http.put('/api/users', user).then(function(res) {
+			ngNotifier.notify('User\'s role has been updated!');
+		});
+		//console.log(user);
+	};
 
 	$scope.saveEventTypes = function() {
 		$http.post('/api/eventTypes', $scope.eventListDoc).then(function(res) {
 			console.log(res.data.success);
-			if (res.data.success) {
-                $log.debug(res.data);
-              } else {
-                alert('there was an error');
-              }
+			// if (res.data.success) {
+   //              console.log(res.data);
+   //            } else {
+   //              alert('there was an error');
+   //            }
 		});
 	};
 
@@ -140,6 +156,24 @@ angular.module('app').controller('adminCtrl', function($scope, $log, ngNotifier,
 		}
 	};
 
+	$scope.addUser = function() {
+		var modalInstance = $modal.open({
+			scope: $scope,
+			templateUrl: '/partials/addUserModal',
+			controller: createUserModalInstanceCtrl,
+			windowClass: 'center-modal',
+			size: 'md'
+		});
+	};
 
+	var createUserModalInstanceCtrl = function($scope, $modalInstance) {
+		$scope.ok = function() {
+			$modalInstance.close();
+		};
+
+		$scope.cancel = function() {
+			$modalInstance.dismiss('cancel');
+		};
+	};
 
 });

@@ -16,19 +16,18 @@ angular.module('app').factory('ngAuth', function($http, ngIdentity, $q, ngUser) 
       return dfd.promise;
     },
 
-    createUser: function(newUserData) {
-      var newUser = new ngUser(newUserData);
-      var dfd = $q.defer();
+    // createUser: function(newUserData) {
+    //   var newUser = new ngUser(newUserData);
+    //   var dfd = $q.defer();
 
-      newUser.$save().then(function() {
-        ngIdentity.currentUser = newUser;
-        dfd.resolve();
-      }, function(response) {
-        dfd.reject(response.data.reason);
-      });
+    //   newUser.$save().then(function() {
+    //     dfd.resolve();
+    //   }, function(response) {
+    //     dfd.reject(response.data.reason);
+    //   });
 
-      return dfd.promise;
-    },
+    //   return dfd.promise;
+    // },
 // Not needed now
 //    updateCurrentUser: function(newUserData) {
 //      var dfd = $q.defer();
