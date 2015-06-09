@@ -119,7 +119,8 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                         | Awaiting information from analyst
                                                                 li.angular-ui-tree-node.bullet-disc-node(ng-show="hideFromCoordinator(category)")
                                                                     textarea.bulletPlaceHoder(type='text', ng-model='subTopic.newBulletName', placeholder='Add bullet. (Hit enter to add next bullet)' ng-keydown='$event.keyCode==13 ? addBullet(subTopic,$event) : null' ng-blur='addBullet(subTopic,$event)')
-                                                                        
+                                                    br
+                                                    br                        
                                 //- .row
                                 //-     .col-lg-6
                                 //-             h3 Data binding
