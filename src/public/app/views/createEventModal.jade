@@ -21,7 +21,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 				.col-lg-12
 					.form-comp-cont
 						label Event Name
-						input#exampleInputName2.form-control(placeholder="Enter event name" ng-model="eventdoc.eventName" ng-readonly="eventNameReadonly")
+						input#exampleInputName2.form-control(placeholder="Enter event name" ng-model="eventdoc.eventName" ng-disabled="eventNameReadonly")
 						br
 						input(type='checkbox', ng-model='eventNameOverride' ng-change="setOverrideFlags()" ng-show="showOverrideCheckbox")
 						label.small(ng-show="showOverrideCheckbox")
