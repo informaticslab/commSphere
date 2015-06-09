@@ -11,7 +11,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                         br
                         p.p-create-new {{eventdoc.dateCreated | date:'medium'}}
                     .save-draft-cont-evt 
-                        button.btn.btn-default(style='color:#337ab7;', type="button" ng-click="saveCategory('draft')" ng-if='continueNav')
+                        button.btn.btn-success(type="button" ng-click="saveCategory('draft')" ng-if='continueNav')
                             | Save Edits
                         button.btn.btn-success(type="button" ng-click="saveCategory('draft')" ng-if='!continueNav')    
                             | Save Edits
@@ -130,17 +130,24 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                 //-                 {{ eventdoc | json }}   
                              tab(heading="Data" select="setActiveCategory('Data')")
                                 .row
-                                    .col-lg-12.col-md-12.col-sm-12
+                                    .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;')
                                         br
                                         .row
                                             .col-lg-9.col-md-9.col-sm-9
                                                 .tab-title-heading
                                                     img(src='img/web-icon.png', width='37', height='32')
+                                                    |   Data
+                                        br
+                                        hr
+                                        br
                                         .row
-                                            button#button_add.btn(ng-click='addColumn()') Add Column to the End
-                                            button#button_remove.btn(ng-click='remove()') Remove Last Column
-                                            button#addData.btn.btn-success(type='button', ng-click='addRow()') Add Row
-                                            .grid(ui-grid="gridOptions", ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit)  
+                                            button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7;') Add Column to the End
+                                            button#button_remove.btn.btn-default(ng-click='remove()', style='color:#337ab7;') Remove Last Column
+                                            button#addData.btn.btn-default(type='button', ng-click='addRow()', style='color:#337ab7;') Add Row
+                                            br
+                                            br
+                                            br
+                                            .grid(ui-grid="gridOptions", ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit) 
                              //tab(heading="Data2" select="setActiveCategory('Data2')")
                                  .row
                                     .col-lg-12.col-md-12.col-sm-12
