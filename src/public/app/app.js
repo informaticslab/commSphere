@@ -11,6 +11,7 @@ var commSphereApp = angular.module('app', [
   ,'ui.grid.cellNav'
   ,'ui.grid.moveColumns'
   , 'isteven-multi-select'
+  ,'highcharts-ng'
   // ,'chieffancypants.loadingBar'
   // ,'angulartics'
   // ,'angulartics.google.analytics'

@@ -10,6 +10,7 @@ $scope.tabCategory=[
 
 $scope.eventData2 = {};
 $scope.gridOptions={};
+$scope.chartData ={};
 
 //Prevent accidental leaving of dashboard event screen
 $scope.$on('$locationChangeStart', function( event ) {
@@ -57,6 +58,23 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               $scope.gridApi = gridApi;
               }
             }
+            $scope.chartData = $scope.getChartData();
+            $scope.chartConfig = {
+            options: {
+              chart: {
+                  type: 'line'
+              }
+            },
+            series: $scope.chartData.series,
+            title: {
+            text: 'Communication surveillance'
+            },
+             xAxis: {
+            categories: $scope.chartData.xAxis
+             },
+
+                loading: false
+            }
         }
         
       });
@@ -69,6 +87,25 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
 $scope.tabCategory[0].active = true;
+
+
+$scope.chartConfig = {
+        options: {
+            chart: {
+                type: 'line'
+            }
+        },
+        series: $scope.chartData.series,
+        title: {
+            text: 'Communication surveillance'
+        },
+        xAxis: {
+            categories: $scope.chartData.xAxis
+        },
+
+        loading: false
+    }
+
 
 //hide categories from coordinator if incomplete
 $scope.hideFromCoordinator = function(category) {
@@ -614,6 +651,42 @@ $scope.generateColumnDefs2= function() {
        return columnLayout;
      
 };
+
+$scope.getChartData = function() {
+  var chartCategories= [];
+  var serieData = [];
+  var series = [];
+  var chartData = {};
+ 
+  for (i = 0; i < $scope.eventData2.dailyData.length; i ++) {
+  var oneSubTopic =  $scope.eventData2.dailyData[i];
+       for (var columnName in oneSubTopic) {
+          if (oneSubTopic.hasOwnProperty(columnName)) {
+            if (columnName != 'subTopic') {
+                serieData.push(Number(oneSubTopic[columnName]));
+                if (!chartCategories.indexOf(columnName)){
+                       console.log(columnName);
+                       chartCategories.push(columnName);
+                     }
+            } else {
+                serieName = oneSubTopic[columnName];
+            }
+
+          }
+        
+       }
+       var newSerie = {name: serieName, data: serieData}
+       series.push(newSerie);
+       serieData = [];
+   //    console.log(series);
+  }
+  chartData.xAxis = chartCategories;
+  chartData.series = series;
+  console.log(chartData);
+  return  chartData;
+     
+}
+
 $scope.remove = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
      $scope.columns.splice($scope.columns.length-1, 1);
