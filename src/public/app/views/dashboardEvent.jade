@@ -23,7 +23,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                 .col-lg-12.col-md-12.col-sm-12
                     .tab-container
                         tabset
-                            tab(ng-repeat="category in eventdoc.categories | filter: filterTabForAnalyst" heading="{{category.name}}" select="setActiveCategory(category.name)")
+                            tab(ng-repeat="category in eventdoc.categories | filter: filterTabForAnalyst" heading="{{category.name}}" select="setActiveCategory(category.name)" active="tabCategory[$index].active")
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12
                                         br

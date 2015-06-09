@@ -2,6 +2,9 @@ angular.module('app').controller('dashEventCtrl',function($scope, $http, $filter
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $scope.continueNav = true;
+$scope.tabCategory=[
+                    {active:true}
+                   ];
 
 // grid setup
 
@@ -55,6 +58,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               }
             }
         }
+        
       });
      } else {
          alert('no data received, assign new id');
@@ -64,6 +68,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
+$scope.tabCategory[0].active = true;
 
 //hide categories from coordinator if incomplete
 $scope.hideFromCoordinator = function(category) {
