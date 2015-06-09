@@ -220,3 +220,10 @@ input[type="text"].eventTemplateTopic {
 background-color: #f7f7f7;
 border-top: thick double #ff0000;
  }
+.titleH2
+{
+  color: #498CD0;
+font-size: 24px;
+font-weight: normal;
+margin-bottom: 25px;
+}

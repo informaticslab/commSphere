@@ -50,7 +50,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             .col-lg-9.col-md-9.col-sm-9
                                                 //div.tab-content
                                                 div(ng-repeat="topic in category.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
-                                                    h2
+                                                    h2.titleH2
                                                         | {{topic.name}}
                                                     div(ui-tree='options')
                                                         ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='topic.bullets', data-type='bullet' )
