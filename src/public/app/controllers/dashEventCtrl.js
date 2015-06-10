@@ -42,22 +42,20 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      //  });
      // set second set of test data
      $http.get('api/events/data2/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
-        if (dataResult){
+        if (dataResult.data.length > 0 ){
        
             $scope.eventData2 = dataResult.data[0];
-            // try to add the column for the current instance
             $scope.addDataColumn2($scope.eventdoc.eventInstanceId);
             $scope.columns = $scope.generateColumnDefs2();
-     //       console.log($scope.columns);
             $scope.gridOptions = {
-              data : $scope.eventData2.dailyData,
-              enableSorting: false,
-              columnDefs: $scope.columns,
               onRegisterApi: function(gridApi) {
               $scope.gridApi = gridApi;
-              }
+             }
             }
+        } else {
+          console.log ('data not loaded');
         }
+
         
       });
      } else {
@@ -339,7 +337,6 @@ $scope.saveCategory = function (status) {  // save data for the current tab
      {
        $log.debug($scope.eventdoc.categories[i]);
        if ($scope.eventdoc.categories[i].statusCompleted) {
-            console.log
             oneCategoryData = $scope.eventdoc.categories[i];
             var data = { docId : $scope.eventdoc._id , categoryData : oneCategoryData };
             saveOneCategory(data);
@@ -568,7 +565,6 @@ $scope.addDataColumn2= function(instanceId){
   //var columnName =  $filter('date')(dateCreated,'yyyyMMdd');
   for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
            if ($scope.eventData2.dailyData[i].hasOwnProperty(instanceId)) {
-              // column alread there
            } else {  // column not exists, add
               $scope.eventData2.dailyData[i][instanceId] = null;
            }
@@ -624,14 +620,13 @@ $scope.generateColumnDefs2= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'subTopic') {
-            oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false};
+            oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true};
           }
          else {
-            oneColumnDef = {'field': columnArry[i], enableCellEdit: true, enableSorting: false};
+            oneColumnDef = {'field': columnArry[i], enableCellEdit: true, enableSorting: false, enableCellEditOnFocus : true};
          }
             columnLayout.push(oneColumnDef);
        }
-
        return columnLayout;
      
 };
