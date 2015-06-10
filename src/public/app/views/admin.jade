@@ -3,43 +3,43 @@
 		.row
 			.header.col-lg-12
 				h2.page-header Admin Settings
-		.row
+		.row(style='margin-top:30px;')
 			.col-lg-12.col-md-12.col-sm-12
 				// Event Type Section
 				.row
-					.col-lg-4.col-md-4.col-sm-4
+					.col-lg-3.col-md-4.col-sm-4(style='border-right:1px solid #eeeeee;')
 						div.ng-cloak(ng-repeat='eventTypeList in eventListDoc.eventTypeList')
 							h4 Edit Event Types
 							br
 							div(ui-tree='options')
-								ol(ui-tree-nodes='', ng-model='eventTypeList.eventTypes', data-type='eventType')
-									li(ng-repeat='eventType in eventTypeList.eventTypes', ui-tree-node='',data-nodrag='')
-										.event-type-title(ng-show='!eventType.editing' ng-mouseenter="hoverEvent = true" ng-mouseleave="hoverEvent = false")
+								ol.bullet-disc-nodes(ui-tree-nodes='', ng-model='eventTypeList.eventTypes', data-type='eventType')
+									li.bullet-disc-node(ng-repeat='eventType in eventTypeList.eventTypes', ui-tree-node='',data-nodrag='', style='margin-bottom:20px;')
+										div(ng-show='!eventType.editing' ng-mouseenter="hoverEvent = true" ng-mouseleave="hoverEvent = false")
 											a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverEvent" href='', data-nodrag='', ng-click='removeEvent(eventTypeList,eventType);saveEventTypes()')
 												i.glyphicon.glyphicon-trash
 											a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverEvent" href='', data-nodrag='', ng-click='editEvent(eventType)')
 												i.glyphicon.glyphicon-pencil
 											div  {{eventType.name}}
-										.event-type-title(data-nodrag='', ng-show='eventType.editing')
+										div(data-nodrag='', ng-show='eventType.editing')
 											form.form-inline(role='form')
 												.form-topic
 													label.sr-only(for='eventTypeName') Event Type
 													input.form-control(type='text', placeholder='Event Type', ng-model='eventType.name' ng-keyup='$event.keyCode==13 ? saveEvent(eventType,$event) : null; $event.keyCode==13 ? saveEventTypes(): null')
 							ol.angular-ui-tree-nodes
 								li.angular-ui-tree-node
-									.event-type-title
+									div(style='margin-left:27px;')
 										form.form-inline(role='form')
 											.form-topic
 												label.sr-only(for='eventTypeName') Event Type
-												input#eventTypeName.form-control(type='text', placeholder='Event Type' ng-model="eventTypeValue[eventTypeList.name]", ng-keyup='$event.keyCode==13 ? addEvent(eventTypeList,$event) : null; $event.keyCode==13 ? saveEventTypes(): null')
-					.col-lg-4.col-md-4.col-sm-4
+												input#eventTypeName.form-control(type='text', placeholder='Add Event Type' ng-model="eventTypeValue[eventTypeList.name]", ng-keyup='$event.keyCode==13 ? addEvent(eventTypeList,$event) : null; $event.keyCode==13 ? saveEventTypes(): null')
+					.col-lg-3.col-md-4.col-sm-4
 						div.ng-cloak(ng-repeat='categoryList in categoryListDoc.categoryList')
 							h4 Edit Categories
 							br
 							div(ui-tree='options')
-								ol(ui-tree-nodes='', ng-model='categoryList.categories', data-type='category')
-									li(ng-repeat='category in categoryList.categories', ui-tree-node='', data-nodrag='')
-										.event-type-title(ng-show='!category.editing' ng-mouseenter="hoverEvent = true" ng-mouseleave="hoverEvent = false")
+								ol.bullet-disc-nodes(ui-tree-nodes='', ng-model='categoryList.categories', data-type='category')
+									li.bullet-disc-node(ng-repeat='category in categoryList.categories', ui-tree-node='', data-nodrag='', style='margin-bottom:20px;')
+										div(ng-show='!category.editing' ng-mouseenter="hoverEvent = true" ng-mouseleave="hoverEvent = false")
 											a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverEvent" href='', data-nodrag='', ng-click='removeCategory(categoryList,category);saveCategoryList()')
 												i.glyphicon.glyphicon-trash
 											a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverEvent" href='', data-nodrag='', ng-click='editCategory(category)')
@@ -52,11 +52,11 @@
 													input.form-control(type='text', placeholder='Category', ng-model='category.name' ng-keyup='$event.keyCode==13 ? saveCategory(category,$event) : null; $event.keyCode==13 ? saveCategoryList(): null')
 							ol.angular-ui-tree-nodes
 								li.angular-ui-tree-node
-									.event-type-title
+									div(style='margin-left:20px;')
 										form.form-inline(role='form')
 											.form-topic
 												label.sr-only(for='categoryName') Event Type
-												input#categoryName.form-control(type='text', placeholder='Category' ng-model="categoryValue[categoryList.name]",  ng-keyup='$event.keyCode==13 ? addCategory(categoryList,$event) : null; $event.keyCode==13 ? saveCategoryList(): null')
+												input#categoryName.form-control(type='text', placeholder='Add Category' ng-model="categoryValue[categoryList.name]",  ng-keyup='$event.keyCode==13 ? addCategory(categoryList,$event) : null; $event.keyCode==13 ? saveCategoryList(): null')
 				br
 				hr(style='display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0;')
 				br
@@ -89,3 +89,6 @@
 										//- td 
 										//- 	button.btn.btn-danger(type='button', disabled='disabled') Remove
 						button.btn.btn-success(type='button' ng-click='addUser()') Add New User
+						br
+						br
+						br
