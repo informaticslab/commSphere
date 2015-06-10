@@ -72,7 +72,9 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
              xAxis: {
             categories: $scope.chartData.xAxis
              },
-
+            yAxis : [{
+                  type: "logarithmic"
+            }],           
                 loading: false
             }
         }
@@ -87,25 +89,6 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
 $scope.tabCategory[0].active = true;
-
-
-$scope.chartConfig = {
-        options: {
-            chart: {
-                type: 'line'
-            }
-        },
-        series: $scope.chartData.series,
-        title: {
-            text: 'Communication surveillance'
-        },
-        xAxis: {
-            categories: $scope.chartData.xAxis
-        },
-
-        loading: false
-    }
-
 
 //hide categories from coordinator if incomplete
 $scope.hideFromCoordinator = function(category) {
@@ -659,33 +642,38 @@ $scope.getChartData = function() {
   var chartData = {};
  
   for (i = 0; i < $scope.eventData2.dailyData.length; i ++) {
-  var oneSubTopic =  $scope.eventData2.dailyData[i];
-       for (var columnName in oneSubTopic) {
-          if (oneSubTopic.hasOwnProperty(columnName)) {
-            if (columnName != 'subTopic') {
-                serieData.push(Number(oneSubTopic[columnName]));
-                if (!chartCategories.indexOf(columnName)){
-                       console.log(columnName);
-                       chartCategories.push(columnName);
-                     }
-            } else {
-                serieName = oneSubTopic[columnName];
-            }
-
-          }
-        
+  var oneRow =  $scope.eventData2.dailyData[i];
+  if (i == 0) { // pick first row and generate the chart categories
+      for (var oneCol in oneRow) {
+         if (oneCol !== '$$hashKey') {
+         chartCategories.push(oneCol);
        }
-       var newSerie = {name: serieName, data: serieData}
-       series.push(newSerie);
-       serieData = [];
+      }
+      chartCategories.shift();  // remove the first column which is the topic value
+      chartCategories.sort();   // sort the remaining columns heading
+  }
+  serieName = oneRow['subTopic'];
+     for (var j=0 ; j < chartCategories.length; j++) { 
+           serieData.push(Number(oneRow[chartCategories[j]]));
+         }
+  var newSerie = {name: serieName, data: serieData}
+      series.push(newSerie);
+      serieData = [];
    //    console.log(series);
   }
-  chartData.xAxis = chartCategories;
-  chartData.series = series;
-  console.log(chartData);
+  chartData['xAxis'] = chartCategories;
+  chartData['series'] = series;
+//  console.log(chartData);
   return  chartData;
      
 }
+
+
+$scope.$on('uiGridEventEndCellEdit', function () {
+     $scope.chartData = $scope.getChartData();
+     $scope.chartConfig.series = $scope.chartData.series;
+    
+})
 
 $scope.remove = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
