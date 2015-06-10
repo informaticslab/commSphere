@@ -30,9 +30,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             .col-lg-9.col-md-9.col-sm-9
                                                 .tab-title-heading
-                                                    img(ng-if='category.name=="Web"' src='img/web-icon.png', width='37', height='32')
-                                                    img(ng-if='category.name=="TV"' src='img/tv-icon.png', width='37', height='32')
-                                                    img(ng-if='category.name=="Print"' src='img/news-icon.png', width='37', height='32')
+                                                    img(src='img/notepad-icon.png', width='37', height='32')
                                                     |   {{category.name}}: by {{category.userAssigned.displayName}}
                                             .col-lg-3.col-md-3.col-sm-3
                                                 .return-event-cont
@@ -49,8 +47,8 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             | {{topic.name}}
                                             .col-lg-9.col-md-9.col-sm-9
                                                 //div.tab-content
-                                                div(ng-repeat="topic in category.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
-                                                    h2.titleH2
+                                                div.tab-pane2(ng-repeat="topic in category.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
+                                                    h3
                                                         | {{topic.name}}
                                                     div(ui-tree='options')
                                                         ul.bullet-disc-nodes(ui-tree-nodes='', ng-model='topic.bullets', data-type='bullet' )
@@ -128,7 +126,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                 //-                 | {{  }}
                                 //-             pre.code.
                                 //-                 {{ eventdoc | json }}   
-                             tab(heading="Data" select="setActiveCategory('Data')")
+                            tab(heading="Data" select="setActiveCategory('Data')")
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;')
                                         br
@@ -169,15 +167,14 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                 //div.tab-content
                                                 div(ng-repeat="topic in eventData.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
                                                         |{{topic.name}}
-                                                        .grid(ui-grid="{data: topic.subTopics, enableCellEditOnFocus: true , columnDefs: columnsLayout} ", ui-grid-edit,ui-grid-cellNav)  
-                          .row
-                                    .col-lg-6
-                                            h3 Data binding
-                                            .info
-                                                | {{  }}
-                                            pre.code.
-                                                {{ eventData2 | json }}   
-                                                      
+                                                        .grid(ui-grid="{data: topic.subTopics, enableCellEditOnFocus: true , columnDefs: columnsLayout} ", ui-grid-edit,ui-grid-cellNav)                                                        
+            //.row
+                .col-lg-6
+                        h3 Data binding
+                        .info
+                            | {{  }}
+                        pre.code.
+                            {{ eventdoc | json }}   
             .clear-divs
 
 

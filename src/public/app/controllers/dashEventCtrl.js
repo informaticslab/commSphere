@@ -307,15 +307,36 @@ $scope.setActiveTab = function(tabId)
         return true;//(data.type == destType); // only accept the same type
       },
       dropped: function(event) {
-        $log.debug(event);
+        
         var sourceNode = event.source.nodeScope;
         var destNodes = event.dest.nodesScope;
+        console.log(event);
+        if(destNodes.$element.attr('data-type')=="bullet")
+        {
+          console.log("OK!!",sourceNode.subBullet.type)
+          sourceNode.subBullet.type="bullet";
+          sourceNode.subBullet.subBullets=[];
+        }
+        if(destNodes.$element.attr('data-type')=="subBullet")
+        {
+
+          console.log("WARNING!!",sourceNode.bullet.type)
+          sourceNode.bullet.type="subBullet";
+          delete sourceNode.bullet.bullets;
+          //sourceNode.bullet.subBullets=[];
+          delete sourceNode.bullet.newSubBulletName;
+        }
+        //delete sourceNode.subBullet.newSubBulletName;
+        //sourceNode.subBullet.newBulletName="";
+        console.log(sourceNode.subBullet);
         // update changes to server
         if (destNodes.isParent(sourceNode)
           && destNodes.$element.attr('data-type') == 'subTopic') { // If it moves in the same topic, then only update topic
+                    console.log("252");
           var topic = destNodes.$nodeScope.$modelValue;
           // topic.save();
         } else { // save all
+          console.log("257");
           $scope.saveTopics();
         }
       },
