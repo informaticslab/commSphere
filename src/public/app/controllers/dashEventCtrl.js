@@ -672,4 +672,31 @@ $scope.remove = function() {
               });
   };
 
+  var previewReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc) {
+    $scope.eventdoc = eventdoc;
+
+    $scope.ok = function() {
+      $modalInstance.close();
+    };
+
+    $scope.cancel = function() {
+      $modalInstance.dismiss();
+    };
+  };
+
+  $scope.openPreview = function(size,eventdoc) {
+    var modalInstance = $modal.open({
+      scope: $scope,
+      templateUrl: '/partials/previewReportModal',
+      controller: previewReportModalInstanceCtrl,
+      size: size,
+      resolve: {
+         eventdoc: function () {
+           return eventdoc;
+         }
+       }
+    });
+  };
+
+
 });

@@ -1,0 +1,38 @@
+div(ng-controller="previewReportCtrl" style="background-color:#f2f2f2;")
+	.modal-content
+		.modal-header.header_dark
+			.row(style='background-color:#ffffff;')
+				.col-lg-12
+					.create-new-event-cont
+						h2.h2-create-new(id='myModalLabel') {{eventdoc.eventName}}	
+						h3 {{eventdoc.dateCreated | date:'medium'}}		
+						h3 Report Preview		
+					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
+						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
+		.modal-body
+			.row(style='background-color:#f2f2f2;')
+				.col-lg-12.col-md-12.col-sm-12
+					h3(ng-repeat="category in eventdoc.categories") 
+						div {{category.name}}
+							ul(style="list-style:none;")
+								li(ng-repeat="topic in category.topics") 
+									h4 {{topic.name}}
+										ul
+											li.bullet-disc-node(ng-repeat="topicBullets in topic.bullets") {{topicBullets.name}}
+												ul
+													li.bullet-disc-node(ng-repeat="topicSubBullets in topicBullets.subBullets") {{topicSubBullets.name}}
+										ul(style="list-style:none;")
+											li(ng-repeat="subtopic in topic.subTopics")
+												h5 {{subtopic.name}}
+													ul
+														li.bullet-disc-node(ng-repeat="bullet in subtopic.bullets") {{bullet.name}}
+															ul
+																li.bullet-disc-node(ng-repeat="subBullet in bullet.subBullets") {{subBullet.name}}
+
+
+
+			//- .row(style='background-color:#ffffff; margin-top:-15px;')
+			//- 	.col-lg-12
+			//- 		.form-comp-cont
+			//- 			label Report Title
+			//- 			input#exampleInputName2.form-control(placeholder="Enter report title" ng-model="reportTitle")
