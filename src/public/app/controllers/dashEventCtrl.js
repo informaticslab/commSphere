@@ -45,18 +45,38 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
         if (dataResult.data.length > 0 ){
        
             $scope.eventData2 = dataResult.data[0];
-            $scope.addDataColumn2($scope.eventdoc.eventInstanceId);
+      //      $scope.addDataColumn2($scope.eventdoc.dateCreated);
             $scope.columns = $scope.generateColumnDefs2();
             $scope.gridOptions = {
-              data: $scope.eventsData.dailyData,
-              columnDefs : $scope.columns,
-              onRegisterApi: function(gridApi) {
-              $scope.gridApi = gridApi;
-             }
+              data: $scope.eventData2.dailyData,
+              columnDefs : $scope.columns
+              // onRegisterApi: function(gridApi) {
+              // $scope.gridApi = gridApi;
+             //}
 
             }
         } else {
-          console.log ('data not available');
+          console.log ('data not available');  // add default record
+          $scope.eventData2 = {
+                  "eventName":  $scope.eventdoc.eventName,
+                  "eventInstanceId": $scope.eventdoc.eventInstanceId,
+                  "dailyData":
+                    [{
+                      "subTopic":""
+                     }
+                    ]
+                  };
+          var creationDate = $scope.getFormattedDate($scope.eventdoc.dateCreated);
+          $scope.eventData2.dailyData[0][creationDate] = '*'; 
+          $scope.columns = $scope.generateColumnDefs2();
+          $scope.gridOptions = {
+              data: $scope.eventData2.dailyData,
+              columnDefs : $scope.columns
+              // onRegisterApi: function(gridApi) {
+              // $scope.gridApi = gridApi;
+             //}
+
+            }
         }
 
         $scope.tabCategory[0].active = true;
@@ -563,13 +583,27 @@ $scope.addDataColumn = function(columnName){
   }
 };
 
-$scope.addDataColumn2= function(instanceId){
+// $scope.addDataColumn2= function(instanceId){
 
-  //var columnName =  $filter('date')(dateCreated,'yyyyMMdd');
+//   //var columnName =  $filter('date')(dateCreated,'yyyyMMdd');
+//   for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
+//            if ($scope.eventData2.dailyData[i].hasOwnProperty(instanceId)) {
+//            } else {  // column not exists, add
+//               $scope.eventData2.dailyData[i][instanceId] = null;
+//            }
+//       }
+
+  
+// };
+
+$scope.addDataColumn2= function(dateCreated){
+
+  var columnName =  $filter('date')(dateCreated,'yyyy-MM-ddThh:mm:sss');
   for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
-           if ($scope.eventData2.dailyData[i].hasOwnProperty(instanceId)) {
+           if ($scope.eventData2.dailyData[i].hasOwnProperty(columnName)) {
            } else {  // column not exists, add
-              $scope.eventData2.dailyData[i][instanceId] = null;
+              var columnName =  $scope.getFormattedDate(Date());
+              $scope.eventData2.dailyData[i][columnName] = '*';
            }
       }
 
@@ -626,7 +660,8 @@ $scope.generateColumnDefs2= function() {
             oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true};
           }
          else {
-            oneColumnDef = {'field': columnArry[i], enableCellEdit: true, enableSorting: false, enableCellEditOnFocus : true};
+            var formattedDate = $filter('date')(columnArry[i].split('T')[0],'mediumDate');
+            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate,  enableCellEdit: true, enableSorting: false, enableCellEditOnFocus : true};
          }
             columnLayout.push(oneColumnDef);
        }
@@ -647,13 +682,20 @@ $scope.remove = function() {
   
   $scope.addColumn = function() {
     // assuming using eventInstanceId as column name
-    var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
-    var columnNameParts = lastColumnName.split("-");
-    var newColumnName = columnNameParts[0] + '-'+ Number(columnNameParts[1])+1;
-   // var newNum = Number(lastColumnName) + 1;
-   // lastColumnName = ''+newNum;
-    $scope.columns.push({ field: newColumnName, enableSorting: false });
+    var newColumnName =  $scope.getFormattedDate(Date());
+    var formattedDate = $filter('date')(newColumnName.split('T')[0],'mediumDate');
+    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false });
   }
+
+  //  $scope.addColumn = function() {
+  //   // assuming using eventInstanceId as column name
+  //   var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
+  //   var columnNameParts = lastColumnName.split("-");
+  //   var newColumnName = columnNameParts[0] + '-'+ Number(columnNameParts[1])+1;
+  //  // var newNum = Number(lastColumnName) + 1;
+  //  // lastColumnName = ''+newNum;
+  //   $scope.columns.push({ field: newColumnName, enableSorting: false });
+  // }
  
   $scope.splice = function() {
     $scope.columns.splice(1, 0, { field: 'company', enableSorting: false });
@@ -696,5 +738,10 @@ $scope.remove = function() {
     });
   };
 
+  $scope.getFormattedDate = function(timeStamp) {
+     var isoDate = new Date(timeStamp).toISOString().split('.')[0] ;
+     return isoDate;
+
+  }
 
 });

@@ -50,8 +50,10 @@ exports.saveEvent = function(req, res) {
 				  	if(err){
 			 	 		console.log(err);
 			 	 	} else if (result.length < 1) {
-			 	 	// not exist, add 
-			// 	 	  var creationDate =  new Date(eventData.dateCreated).toISOString().split('T')[0].split('-').join('');
+			 	 	// not exist, add
+
+			 	 	  var creationDate =  new Date(eventData.dateCreated).toISOString().split('.')[0] ;
+			 	// 	  var creationTime =  new Date().toISOString().split('T')[1].replace('Z','').split(':').join('').split('.')[0];
 			 	 	  var newRecord = {
 			 	 	  			"eventName": eventData.eventName,
 			 	 	  		 	"eventInstanceId": eventData.eventInstanceId,
@@ -62,7 +64,7 @@ exports.saveEvent = function(req, res) {
 			 	 	  		 		]
 			 	 	  		 	};
 			 	 	 // 	newRecord.dailyData[0][creationDate] = null;
-			 	 	  	newRecord.dailyData[0][eventData.eventInstanceId] = null;
+			 	 	  	newRecord.dailyData[0][creationDate] = '*';
 			 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
 							if(err) {
 							res.send(err);
