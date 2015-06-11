@@ -28,7 +28,7 @@ div(ng-controller="copyOptionCtrl" style="background-color:#f2f2f2;")
         .col-sm-12
             .h4|Please selection an option
             div(ng-repeat="option in copyOptions")
-              input(type='checkbox', ng-model='option.checked', ng-click='copyOptionSelected(option)')
+              input(type='radio' name="copyChoice" ng-model = "$parent.selectedOption"  ng-value="option.optionValue")
               label(style='color:#337AB7')
                 |&nbsp; {{option.displayText}}
             br

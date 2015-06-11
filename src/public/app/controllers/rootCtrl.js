@@ -85,9 +85,8 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
    {
        selectedInstance.categories[i].statusCompleted = false;
        selectedInstance.categories[i].dateCompleted = "";
-      
-       if (copyOption.optionValue == 2) {
-        // clear data here
+       if (copyOption === 2) {
+        // clear bullets under sub topics here
           topics = selectedInstance.categories[i].topics;
           if (topics) {
             for (var j=0; j < topics.length; j++){  
@@ -99,8 +98,18 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
                    }
                 }
               }
+              // clear sub bullet under bullets under topics
+              bullets = topics[j].bullets;
+              if (bullets) {
+                delete bullets;
+                // for (var k=0; k < bullets.length; k++ ) { // loop through subtopics and remove the bullets
+                //    if (bullets[k].subBullets) {
+                //     delete bullets[k].subBullets;
+                //    }
+                // }
+              }
+            }
           }
-        }
      }
    }
    
@@ -286,23 +295,23 @@ $scope.showCopyOption = function (size,selectedInstance) {
 var copyOptionModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,selectedInstance) {
   $scope.selectedInstance = selectedInstance;
    $scope.copyOptions = [{
-        displayText: "Copy All Data",
+        displayText: "Copy header information with bullets and sub-bullets",
         optionValue : 1,
         checked: true
     }, {
-        displayText: "Copy Only Meta Data",
+        displayText: "Copy header information only (topic and sub topic headings)",
         optionValue : 2,
         checked: false
     }];
-    $scope.selectedOption = $scope.copyOptions[0];
+    $scope.selectedOption = $scope.copyOptions[0].optionValue;
 
-    $scope.copyOptionSelected = function(option) {
-        angular.forEach($scope.copyOptions, function(oneOption) {
-            oneOption.checked = false;
-        });
-        option.checked = true;
-        $scope.selectedOption = option; 
-    };
+    // $scope.copyOptionSelected = function(option) {
+    //     angular.forEach($scope.copyOptions, function(oneOption) {
+    //         oneOption.checked = false;
+    //     });
+    //     option.checked = true;
+    //     $scope.selectedOption = option; 
+    // };
  
   $scope.accept = function (selectedOption) {
     $modalInstance.close(selectedOption);
