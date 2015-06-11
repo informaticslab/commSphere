@@ -129,7 +129,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                 //-                 | {{  }}
                                 //-             pre.code.
                                 //-                 {{ eventdoc | json }}   
-                            tab(heading="Data")
+                            tab(heading="Data" select="tabShown = !tabShown" deselect="tabShown = !tabShown")
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;')
                                         br
@@ -148,7 +148,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             br
                                             br
                                             br
-                                            .grid(ui-grid="{data: eventData2.dailyData, columnDefs : columns}", ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit) 
+                                            .grid(ng-if="tabShown" ui-grid="{data: eventData2.dailyData, columnDefs : columns}", ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit) 
                              //tab(heading="Data2" select="setActiveCategory('Data2')")
                                  .row
                                     .col-lg-12.col-md-12.col-sm-12
