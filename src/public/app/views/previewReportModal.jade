@@ -10,11 +10,22 @@ div(ng-controller="previewReportCtrl" style="background-color:#f2f2f2;")
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
 						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
 		.modal-body
-			.row(style='background-color:#f2f2f2;')
+			.row
 				.col-lg-12.col-md-12.col-sm-12
-					h3(ng-repeat="category in eventdoc.categories") 
-						div {{category.name}}
-							ul(style="list-style:none;")
+					.report-wrapper
+						h3.report-cat-title Media Summaries
+						h4.report-category Traditional News Media
+						h4.report-topic Major Public Health Themes
+						ul
+							li bullet
+						h4.report-sub-topic Liberia
+						ul
+							li bullet
+								ul
+									li sub-bullet
+									li sub-bullet
+					h3(ng-repeat="category in eventdoc.categories") {{category.name}}
+							ul(style="list-style:none; text-transform:none;")
 								li(ng-repeat="topic in category.topics") 
 									h4 {{topic.name}}
 										ul
@@ -29,6 +40,7 @@ div(ng-controller="previewReportCtrl" style="background-color:#f2f2f2;")
 															ul
 																li.bullet-disc-node(ng-repeat="subBullet in bullet.subBullets") {{subBullet.name}}
 
+						clear-divs
 
 
 			//- .row(style='background-color:#ffffff; margin-top:-15px;')
