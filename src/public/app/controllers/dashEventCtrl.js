@@ -57,9 +57,10 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             }
         } else {
           console.log ('data not available');  // add default record
+          var  newId = $scope.eventdoc.eventInstanceId.split('-')[0]+'-001';
           $scope.eventData2 = {
                   "eventName":  $scope.eventdoc.eventName,
-                  "eventInstanceId": $scope.eventdoc.eventInstanceId,
+                  "eventInstanceId": newId,
                   "dailyData":
                     [{
                       "subTopic":""
