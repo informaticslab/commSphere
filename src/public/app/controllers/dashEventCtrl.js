@@ -5,7 +5,7 @@ $scope.continueNav = true;
 $scope.tabCategory=[
                     {active:true}
                    ];
-
+$scope.currentLocation = $location.url();
 // grid setup
 
 $scope.eventData2 = {};
@@ -13,8 +13,12 @@ $scope.gridOptions={};
 $scope.readyForPreview = false;
 
 //Prevent accidental leaving of dashboard event screen
-$scope.$on('$locationChangeStart', function( event ) {
-  if (!$scope.continueNav){
+$scope.$on('$locationChangeStart', function(event) {
+  var nextLocation = $location.url();
+  nextLocation = nextLocation.substring(0, nextLocation.indexOf("#"));
+  if(nextLocation === $scope.currentLocation) {
+    event.preventDefault();
+  } else if (!$scope.continueNav){
       var answer = confirm("You have unsaved changes.  Do you want to leave this page?")
       if (!answer) {
           event.preventDefault();
