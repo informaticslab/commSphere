@@ -24,23 +24,27 @@ div(ng-controller="previewReportCtrl" style="background-color:#f2f2f2;")
 								ul
 									li sub-bullet
 									li sub-bullet
-					h3(ng-repeat="category in eventdoc.categories") {{category.name}}
-							ul(style="list-style:none; text-transform:none;")
-								li(ng-repeat="topic in category.topics") 
-									h4 {{topic.name}}
+					.report-wrapper
+						h3.report-cat-title Media Summaries
+						div(ng-repeat="category in eventdoc.categories")
+							.report-category
+								| {{category.name}}
+							div(ng-repeat="topic in category.topics") 
+								.report-topic
+									| {{topic.name}}
+									ul
+										li(ng-repeat="topicBullets in topic.bullets") 
+											| {{topicBullets.name}}
+											ul
+												li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
+													| {{topicSubBullets.name}}
+									.report-sub-topic(ng-repeat="subtopic in topic.subTopics"){{subtopic.name}}
 										ul
-											li.bullet-disc-node(ng-repeat="topicBullets in topic.bullets") {{topicBullets.name}}
+											li(ng-repeat="bullet in subtopic.bullets") {{bullet.name}}
 												ul
-													li.bullet-disc-node(ng-repeat="topicSubBullets in topicBullets.subBullets") {{topicSubBullets.name}}
-										ul(style="list-style:none;")
-											li(ng-repeat="subtopic in topic.subTopics")
-												h5 {{subtopic.name}}
-													ul
-														li.bullet-disc-node(ng-repeat="bullet in subtopic.bullets") {{bullet.name}}
-															ul
-																li.bullet-disc-node(ng-repeat="subBullet in bullet.subBullets") {{subBullet.name}}
+													li(ng-repeat="subBullet in bullet.subBullets") {{subBullet.name}}
 
-						clear-divs
+						
 
 
 			//- .row(style='background-color:#ffffff; margin-top:-15px;')
