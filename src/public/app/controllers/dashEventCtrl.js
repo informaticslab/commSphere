@@ -10,6 +10,7 @@ $scope.tabCategory=[
 
 $scope.eventData2 = {};
 $scope.gridOptions={};
+$scope.readyForPreview = false;
 
 //Prevent accidental leaving of dashboard event screen
 $scope.$on('$locationChangeStart', function( event ) {
@@ -28,7 +29,18 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      $scope.eventdoc=res.data[0];
      $scope.contentloaded = true;
 
-   
+    //checking comepletion status for preview button display.
+    var completedCount = 0;
+    for (var i = 0; i < $scope.eventdoc.categories.length; i++) {
+      if ($scope.eventdoc.categories[i].statusCompleted == true) {
+        completedCount++;
+      }
+    }
+    if (completedCount === $scope.eventdoc.categories.length) {
+      $scope.readyForPreview = true;
+    } else {
+      $scope.readyForPreview = false;
+    }
 
      // $http.get('api/events/data/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
      //    if (dataResult){
@@ -120,6 +132,22 @@ $scope.returnToAnalyst = function(category) {
   });
   
 };
+
+// $scope.readyForPreview =  function() {
+//   var completedCount = 0;
+//   console.log($scope.eventdoc);
+//   // for (var i = 0; i < $scope.eventdoc.categories.length; i++) {
+//   //   if ($scope.eventdoc.categories[i].statusCompleted == true) {
+//   //     completedCount++;
+//   //   }
+//   // }
+//   // if (completedCount === $scope.eventdoc.categories.length) {
+//   //   return true;
+//   // } else {
+//   //   return false;
+//   // }
+//   return true;
+// };
 
 $scope.gotoElement = function (eID){
       // set the location.hash to the id of
