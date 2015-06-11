@@ -14,35 +14,28 @@ div(ng-controller="previewReportCtrl" style="background-color:#f2f2f2;")
 				.col-lg-12.col-md-12.col-sm-12
 					.report-wrapper
 						h3.report-cat-title Media Summaries
-						h4.report-category Traditional News Media
-						h4.report-topic Major Public Health Themes
-						ul
-							li bullet
-						h4.report-sub-topic Liberia
-						ul
-							li bullet
-								ul
-									li sub-bullet
-									li sub-bullet
-					.report-wrapper
-						h3.report-cat-title Media Summaries
 						div(ng-repeat="category in eventdoc.categories")
-							.report-category
+							h4.report-category
 								| {{category.name}}
 							div(ng-repeat="topic in category.topics") 
-								.report-topic
+								h4.report-topic
 									| {{topic.name}}
-									ul
-										li(ng-repeat="topicBullets in topic.bullets") 
-											| {{topicBullets.name}}
-											ul
-												li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
-													| {{topicSubBullets.name}}
-									.report-sub-topic(ng-repeat="subtopic in topic.subTopics"){{subtopic.name}}
+								ul
+									li(ng-repeat="topicBullets in topic.bullets") 
+										| {{topicBullets.name}}
 										ul
-											li(ng-repeat="bullet in subtopic.bullets") {{bullet.name}}
-												ul
-													li(ng-repeat="subBullet in bullet.subBullets") {{subBullet.name}}
+											li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
+												| {{topicSubBullets.name}}
+								div(ng-repeat="subtopic in topic.subTopics")
+									h4.report-sub-topic
+										| {{subtopic.name}}
+									ul
+										li(ng-repeat="bullet in subtopic.bullets") 
+											| {{bullet.name}}
+											ul
+												li(ng-repeat="subBullet in bullet.subBullets") 
+													| {{subBullet.name}}
+							br
 
 						
 
