@@ -54,7 +54,12 @@
 .submit-btn-cont {
 	float:left; 
 	position:relative; 
-	margin:45px 30px 10px 0;
+	margin:45px 10px 10px 0;
+}
+.preview-report-btn {
+	float:left; 
+	position:relative; 
+	margin:45px 10px 10px 0;
 }
 .save-draft-cont-evt {
 	float:left; 
