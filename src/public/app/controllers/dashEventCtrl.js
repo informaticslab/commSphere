@@ -48,15 +48,18 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             $scope.addDataColumn2($scope.eventdoc.eventInstanceId);
             $scope.columns = $scope.generateColumnDefs2();
             $scope.gridOptions = {
+              data: $scope.eventsData.dailyData,
+              columnDefs : $scope.columns,
               onRegisterApi: function(gridApi) {
               $scope.gridApi = gridApi;
              }
+
             }
         } else {
-          console.log ('data not loaded');
+          console.log ('data not available');
         }
 
-        
+        $scope.tabCategory[0].active = true;
       });
      } else {
          alert('no data received, assign new id');
@@ -66,7 +69,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
-$scope.tabCategory[0].active = true;
+
 
 //hide categories from coordinator if incomplete
 $scope.hideFromCoordinator = function(category) {
