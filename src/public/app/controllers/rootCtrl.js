@@ -295,11 +295,11 @@ $scope.showCopyOption = function (size,selectedInstance) {
 var copyOptionModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,selectedInstance) {
   $scope.selectedInstance = selectedInstance;
    $scope.copyOptions = [{
-        displayText: "Copy header information with bullets and sub-bullets",
+        displayText: "Copy template with data",
         optionValue : 1,
         checked: true
     }, {
-        displayText: "Copy header information only (topic and sub topic headings)",
+        displayText: "Copy template only",
         optionValue : 2,
         checked: false
     }];
