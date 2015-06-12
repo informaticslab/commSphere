@@ -11,7 +11,8 @@ $scope.currentLocation = $location.url();
 $scope.eventData2 = {};
 $scope.gridOptions={};
 $scope.readyForPreview = false;
-
+$scope.minColWidth = 110;
+$scope.minTopicWidth = 130;
 //Prevent accidental leaving of dashboard event screen
 $scope.$on('$locationChangeStart', function(event) {
   var nextLocation = $location.url();
@@ -83,7 +84,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
                      }
                     ]
                   };
-          var creationDate = $scope.getFormattedDate($scope.eventdoc.dateCreated);
+          var creationDate = $scope.eventdoc.dateCreated;
           $scope.eventData2.dailyData[0][creationDate] = '*'; 
           $scope.columns = $scope.generateColumnDefs2();
           $scope.gridOptions = {
@@ -629,13 +630,11 @@ $scope.addDataColumn = function(columnName){
   
 // };
 
-$scope.addDataColumn2= function(dateCreated){
+$scope.addDataColumn2= function(columnName){
 
-  var columnName =  $filter('date')(dateCreated,'yyyy-MM-ddThh:mm:sss');
-  for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
+ for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
            if ($scope.eventData2.dailyData[i].hasOwnProperty(columnName)) {
            } else {  // column not exists, add
-              var columnName =  $scope.getFormattedDate(Date());
               $scope.eventData2.dailyData[i][columnName] = '*';
            }
       }
@@ -690,11 +689,11 @@ $scope.generateColumnDefs2= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'subTopic') {
-            oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true};
+            oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true,minWidth: $scope.minTopicWidth};
           }
          else {
             var formattedDate = $filter('date')(columnArry[i].split('T')[0],'mediumDate');
-            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate,  enableCellEdit: true, enableSorting: false, enableCellEditOnFocus : true};
+            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate,  enableCellEdit: true, enableSorting: false, enableCellEditOnFocus : true, minWidth:$scope.minColWidth};
          }
             columnLayout.push(oneColumnDef);
        }
@@ -715,9 +714,10 @@ $scope.remove = function() {
   
   $scope.addColumn = function() {
     // assuming using eventInstanceId as column name
-    var newColumnName =  $scope.getFormattedDate(Date());
-    var formattedDate = $filter('date')(newColumnName.split('T')[0],'mediumDate');
-    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false });
+    var newColumnName =  ''+new Date().getTime();
+    var formattedDate = $filter('date')(newColumnName,'mediumDate');
+    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth});
+    $scope.addDataColumn2(newColumnName);
   }
 
   //  $scope.addColumn = function() {
@@ -772,9 +772,9 @@ $scope.remove = function() {
   };
 
   $scope.getFormattedDate = function(timeStamp) {
-     var isoDate = new Date(timeStamp).toISOString().split('.')[0] ;
-     return isoDate;
-
+     //////var isoDate = $filter('date')(timeStamp,'yyyy-MM-ddTHH:mm:ss.sss') ;
+     //return isoDate;
+     return timeStamp;
   }
 
 });

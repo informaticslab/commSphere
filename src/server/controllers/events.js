@@ -52,7 +52,7 @@ exports.saveEvent = function(req, res) {
 			 	 	} else if (result.length < 1) {
 			 	 	// not exist, add
 
-			 	 	  var creationDate =  new Date(eventData.dateCreated).toISOString().split('.')[0] ;
+			 	 	  var creationDate =  eventData.dateCreated;
 			 	// 	  var creationTime =  new Date().toISOString().split('T')[1].replace('Z','').split(':').join('').split('.')[0];
 			 	 	  var newRecord = {
 			 	 	  			"eventName": eventData.eventName,
@@ -75,12 +75,11 @@ exports.saveEvent = function(req, res) {
 			 			});
 	 	 	  		}
 	 	 	  		else {  // event data already exists,  add the next column the for new instance
-	 	 	  				// add column to all rowss
-						  for(var i=0; i < result[0].dailyData.length; i++) {
-						           if (result[0].dailyData[i].hasOwnProperty(eventData.eventInstanceId)) {
+	 					  for(var i=0; i < result[0].dailyData.length; i++) {
+						           if (result[0].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
 						              // column alread there
 						           } else {  // column not exists, add
-						               result[0].dailyData[i][eventData.eventInstanceId] = null;
+						               result[0].dailyData[i][eventData.dateCreated] = '*';
 						           }
 						      }
 						  console.log(result[0]);
