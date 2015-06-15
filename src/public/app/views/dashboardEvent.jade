@@ -175,7 +175,9 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     ol(ui-tree-nodes='', ng-model='grid.dailyData', data-type='subTopic')
                                                             .grid(ng-if="tabShown" ui-grid="{data: grid.dailyData, columnDefs : columns}", ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit,ui-grid-pinning) 
                                                             br
-                                                            button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add Row
+                                                            button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add Row to {{grid.gridName}}
+                                                            br
+                                                            br
                                             ol.angular-ui-tree-nodes
                                                 li.angular-ui-tree-node
                                                     .topic-title.angular-ui-tree-handle

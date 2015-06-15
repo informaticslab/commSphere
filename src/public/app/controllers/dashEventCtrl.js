@@ -410,7 +410,7 @@ $scope.saveTableName = function(grid,e) {
           // topic.save();
         } else { // save all
           console.log("257");
-          $scope.saveTopics();
+       //   $scope.saveTopics();
         }
       },
       beforeDrop: function(event) {
