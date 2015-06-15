@@ -32,10 +32,26 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 							option(value="") - Select event type -
 					.form-comp-cont
 						label Due Date
-						input.form-control(id="dueDate" placeholder="Enter due date" ng-model="eventdoc.eventDueDate")
+						//input.form-control(id="dueDate" placeholder="Enter due date" ng-model="eventdoc.eventDueDate")
+						.dropdown
+							a#dropdown1.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
+								.input-group
+									input.form-control(type='text', data-ng-model='eventdoc.eventDueDate')
+									span.input-group-addon
+										i.glyphicon.glyphicon-calendar
+							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
+								datetimepicker(data-ng-model='eventdoc.eventDueDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }")
 					.form-comp-cont
 						label Publish Date
-						input.form-control(id="publishDate" placeholder="Enter publish date" ng-model="eventdoc.eventPublishDate")
+						//input.form-control(id="publishDate" placeholder="Enter publish date" ng-model="eventdoc.eventPublishDate")
+						.dropdown
+							a#dropdown2.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
+								.input-group
+									input.form-control(type='text', data-ng-model='eventdoc.eventPublishDate')
+									span.input-group-addon
+										i.glyphicon.glyphicon-calendar
+							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
+								datetimepicker(data-ng-model='eventdoc.eventPublishDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }")
 			.row(style='background-color:#f2f2f2; height:100vh;')
 				.col-lg-12.col-md-12.col-sm-12
 					.tab-container
