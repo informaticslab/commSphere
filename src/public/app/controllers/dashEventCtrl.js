@@ -8,11 +8,20 @@ $scope.tabCategory=[
 $scope.currentLocation = $location.url();
 // grid setup
 
-$scope.eventData2 = {};
 $scope.gridOptions={};
 $scope.readyForPreview = false;
 $scope.minColWidth = 110;
 $scope.minTopicWidth = 130;
+$scope.chartData ={};
+$scope.highChartConfig = {};
+$scope.eventData = {
+    "eventName": "",
+    "eventType": "",
+    "eventInstanceId": "",
+    gridData: []
+  };
+
+
 //Prevent accidental leaving of dashboard event screen
 $scope.$on('$locationChangeStart', function(event) {
   var nextLocation = $location.url();
@@ -61,41 +70,66 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      $http.get('api/events/data2/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
         if (dataResult.data.length > 0 ){
        
-            $scope.eventData2 = dataResult.data[0];
+            $scope.eventData = dataResult.data[0];
       //      $scope.addDataColumn2($scope.eventdoc.dateCreated);
-            $scope.columns = $scope.generateColumnDefs2();
+            $scope.columns = $scope.generateColumnDefs();
             $scope.gridOptions = {
-              data: $scope.eventData2.dailyData,
-              columnDefs : $scope.columns
-              // onRegisterApi: function(gridApi) {
-              // $scope.gridApi = gridApi;
-             //}
+              columnDefs : $scope.columns,
+              onRegisterApi: function(gridApi) {
+              $scope.gridApi = gridApi;
+             }
 
             }
         } else {
           console.log ('data not available');  // add default record
           var  newId = $scope.eventdoc.eventInstanceId.split('-')[0]+'-001';
-          $scope.eventData2 = {
+          $scope.eventData = {
                   "eventName":  $scope.eventdoc.eventName,
                   "eventInstanceId": newId,
-                  "dailyData":
-                    [{
-                      "subTopic":""
-                     }
-                    ]
+                  gridData : [ { 'gridName': 'table 1',
+                                 "dailyData": [{
+                                                "subTopic":""
+                                                }
+                                              ]
+                               }
+                              ]
                   };
           var creationDate = $scope.eventdoc.dateCreated;
-          $scope.eventData2.dailyData[0][creationDate] = '*'; 
-          $scope.columns = $scope.generateColumnDefs2();
+          $scope.eventData.gridData[0].dailyData[0][creationDate] = '*'; 
+          $scope.columns = $scope.generateColumnDefs();
           $scope.gridOptions = {
-              data: $scope.eventData2.dailyData,
-              columnDefs : $scope.columns
-              // onRegisterApi: function(gridApi) {
-              // $scope.gridApi = gridApi;
-             //}
+              data: $scope.eventData.gridData[0].dailyData[0],
+              columnDefs : $scope.columns,
+              onRegisterApi: function(gridApi) {
+              $scope.gridApi = gridApi;
+             }
 
-            }
+          }
+            
         }
+
+        // $scope.chartData = $scope.getChartData();
+        //     $scope.highChartConfig = {
+        //     options: {
+        //       chart: {
+        //           type: 'line',
+        //       }
+        //     },
+        //     series: $scope.chartData.series,
+        //     title: {
+        //     text: 'Communication surveillance'
+        //     },
+        //      xAxis: {
+        //     categories: $scope.chartData.xAxis
+        //      },
+        //     yAxis : [{
+        //           type: "logarithmic"
+        //     }],           
+        //         loading: false
+        //     }
+        // $scope.showChartJs('chartJS1');
+            
+
 
         $scope.tabCategory[0].active = true;
       });
@@ -172,34 +206,36 @@ $scope.setActiveTab = function(tabId)
 
 };
 
-    // $scope.addTopic = function(category) {
-    //   $log.debug(category);
-    //   // if ($scope.eventdoc.categories.indexOf(category).topics.length > 10) {
-    //   //   window.alert('You can\'t add more than 10 topics!');
-    //   //   return;
-    //   // }
-    //   //var topicName = document.getElementById('topicName').value;
-    //   var topicName = $scope.topicValue[category.name];
-    //   if (topicName.length > 0) {
-    //     category.topics.push({
-    //       name: topicName,
-    //       type: 'topic',
-    //       subTopics: [],
-    //       sortOrder: category.topics.length
-    //     });
-        
-    //   }
-    //   $scope.topicValue={};
-    // };
+$scope.addTable = function(grid) {
+  
+  if (grid.newGridName.length > 0) {
+    var initialRow = {
+      'subTopic' : ''
+    }
+    initialRow[$scope.eventdoc.dateCreated] = '*'; 
 
-    // $scope.editTopic = function(topic) {
-    //   topic.editing = true;
-    // };
+    $scope.eventData.gridData.push({
+      gridName: grid.newGridName,
+      dailyData: [initialRow]
+    });
+  grid.newGridName="";
+}
+};
 
-    // $scope.cancelEditingTopic = function(topic) {
-    //   topic.editing = false;
-    // };
+    $scope.editTableName = function(grid) {
+      grid.editing = true;
+    };
 
+    $scope.cancelEditingTable = function(grid) {
+      grid.editing = false;
+    };
+
+
+$scope.saveTableName = function(grid,e) {
+    // topic.save();
+    grid.editing = false;
+    e.preventDefault();
+  };
     // $scope.saveTopic = function(topic) {
     //   // topic.save();
     //   topic.editing = false;
@@ -217,13 +253,15 @@ $scope.setActiveTab = function(tabId)
     //    }
     // };
 
-    $scope.saveTopics = function() {
-      for (var i = $scope.eventdoc.categories[0].topics.length - 1; i >= 0; i--) {
-        var topic = $scope.eventdoc.categories[0].topics[i];
-        topic.sortOrder = i + 1;
-         // topic.save();
-      }
-    };
+    // $scope.saveTopics = function() {
+    //   for (var i = $scope.eventdoc.categories[0].topics.length - 1; i >= 0; i--) {
+    //     var topic = $scope.eventdoc.categories[0].topics[i];
+    //     topic.sortOrder = i + 1;
+    //      // topic.save();
+    //   }
+    // };
+
+  
 
     // $scope.addSubTopic = function(topic) {
     //   $log.debug(topic);
@@ -435,7 +473,7 @@ $scope.saveCategory = function (status) {  // save data for the current tab
  }
  // data collected data here
 
- $http.post('/api/events/saveCollectedData',$scope.eventData2).then(function(res){
+ $http.post('/api/events/saveCollectedData',$scope.eventData).then(function(res){
         if(res.data.success){
         } else {
              alert('there was an error');
@@ -604,18 +642,18 @@ $scope.setActiveCategory = function(category)
      
     }, true);
 
-$scope.addDataColumn = function(columnName){
+// $scope.addDataColumn = function(columnName){
 
-  for(var i=0; i < $scope.eventData.topics.length; i++){
-      oneTopic = $scope.eventData.topics[i];
-      for(var j=0; j < oneTopic.subTopics.length; j++) {
-        // subtopic level
-          oneSubTopic = oneTopic.subTopics[j];
-          oneSubTopic[columnName] = null;
-      }
+//   for(var i=0; i < $scope.eventData.topics.length; i++){
+//       oneTopic = $scope.eventData.topics[i];
+//       for(var j=0; j < oneTopic.subTopics.length; j++) {
+//         // subtopic level
+//           oneSubTopic = oneTopic.subTopics[j];
+//           oneSubTopic[columnName] = null;
+//       }
 
-  }
-};
+//   }
+// };
 
 // $scope.addDataColumn2= function(instanceId){
 
@@ -630,56 +668,58 @@ $scope.addDataColumn = function(columnName){
   
 // };
 
-$scope.addDataColumn2= function(columnName){
+$scope.addDataColumn= function(columnName){
 
- for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
-           if ($scope.eventData2.dailyData[i].hasOwnProperty(columnName)) {
+ for(var i=0; i < $scope.eventData.gridData.length; i++) {
+        var oneGrid = $scope.eventData.gridData[i];
+        for (var j=0; j < oneGrid.dailyData.length; j++) {
+           if (oneGrid.dailyData[j].hasOwnProperty(columnName)) {
            } else {  // column not exists, add
-              $scope.eventData2.dailyData[i][columnName] = '*';
+               oneGrid.dailyData[j][columnName] = '*';
            }
-      }
-
+        }
+  }
   
 };
 
-$scope.generateColumnDefs = function() {
-   var columnArry = [];
-   var columnLayout = [];
-   // pick subtopic to iterate
-   var oneSubTopic =  $scope.eventData.topics[0].subTopics[0];
-       for (var columnName in oneSubTopic) {
-          if (oneSubTopic.hasOwnProperty(columnName)) {
-            if (columnName != 'sortOrder' && columnName != 'type' && columnName != 'name') {
-                columnArry.push(columnName);
-            } 
-          }
-       }
-       columnArry.sort();
-       columnArry.unshift('name');
-       for(i=0; i< columnArry.length; i++) {
-      // build columns defition object
-         if (columnArry[i] === 'name') {
-            oneColumnDef = {'field': columnArry[i], enableCellEdit: false,enableSorting: false};
-          }
-         else {
-            oneColumnDef = {'field': columnArry[i], enableCellEdit: true, enableSorting: false};
-         }
-            columnLayout.push(oneColumnDef);
-       }
+// $scope.generateColumnDefs = function() {
+//    var columnArry = [];
+//    var columnLayout = [];
+//    // pick subtopic to iterate
+//    var oneSubTopic =  $scope.eventData.topics[0].subTopics[0];
+//        for (var columnName in oneSubTopic) {
+//           if (oneSubTopic.hasOwnProperty(columnName)) {
+//             if (columnName != 'sortOrder' && columnName != 'type' && columnName != 'name') {
+//                 columnArry.push(columnName);
+//             } 
+//           }
+//        }
+//        columnArry.sort();
+//        columnArry.unshift('name');
+//        for(i=0; i< columnArry.length; i++) {
+//       // build columns defition object
+//          if (columnArry[i] === 'name') {
+//             oneColumnDef = {'field': columnArry[i], enableCellEdit: false,enableSorting: false};
+//           }
+//          else {
+//             oneColumnDef = {'field': columnArry[i], enableCellEdit: true, enableSorting: false};
+//          }
+//             columnLayout.push(oneColumnDef);
+//        }
 
-       return columnLayout;
+//        return columnLayout;
      
-};
+// };
 
 
-$scope.generateColumnDefs2= function() {
+$scope.generateColumnDefs= function() {
    var columnArry = [];
    var columnLayout = [];
-   // pick subtopic to iterate
-   var oneSubTopic =  $scope.eventData2.dailyData[0];
-       for (var columnName in oneSubTopic) {
-          if (oneSubTopic.hasOwnProperty(columnName)) {
-            if (columnName != 'subTopic') {
+   // pick a grid to iterate
+   var oneGrid =  $scope.eventData.gridData[0];
+       for (var columnName in oneGrid.dailyData[0]) {
+          if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
+            if (columnName !== '$$hashKey' && columnName != 'subTopic')  {
                 columnArry.push(columnName);
             } 
           }
@@ -692,7 +732,7 @@ $scope.generateColumnDefs2= function() {
             oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true,minWidth: $scope.minTopicWidth, pinnedLeft:true};
           }
          else {
-            var formattedDate = $filter('date')(columnArry[i].split('T')[0],'mediumDate');
+            var formattedDate = $filter('date')(columnArry[i],'mediumDate');
             oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate,  enableCellEdit: true, enableSorting: false, enableCellEditOnFocus : true, minWidth:$scope.minColWidth, enablePinning:false};
          }
             columnLayout.push(oneColumnDef);
@@ -700,12 +740,56 @@ $scope.generateColumnDefs2= function() {
        return columnLayout;
      
 };
+
+// $scope.getChartData = function() {
+//   var chartCategories= [];
+//   var chartCategoriesHeading= [];
+//   var serieData = [];
+//   var series = [];
+//   var chartData = {};
+ 
+//   for (i = 0; i < $scope.eventData.dailyData.length; i ++) {
+//   var oneRow =  $scope.eventData.dailyData[i];
+//   if (i == 0) { // pick first row and generate the chart categories
+//       for (var oneCol in oneRow) {
+//          if (oneCol !== '$$hashKey' && oneCol !=='subTopic') {
+//           // reformat to display on chart
+//             chartCategories.push(oneCol);
+//             chartCategoriesHeading.push($filter('date')(oneCol,'d-MMM'));
+//        }
+//       }
+//       chartCategories.sort();   // sort the remaining columns heading
+//   }
+//   serieName = oneRow['subTopic'];
+//      for (var j=0 ; j < chartCategories.length; j++) { 
+//            serieData.push(Number(oneRow[chartCategories[j]]));
+//          }
+//   var newSerie = {name: serieName, data: serieData}
+//       series.push(newSerie);
+//       serieData = [];
+//        console.log(series);
+//   }
+//   chartData['xAxis'] = chartCategoriesHeading;
+//   chartData['series'] = series;
+//   console.log(chartData);
+//   return  chartData;
+     
+// }
+
+
+$scope.$on('uiGridEventEndCellEdit', function () {
+  //   $scope.chartData = $scope.getChartData();
+  //   console.log('chart data inside grid update ', $scope.chartData );
+  //   $scope.highChartConfig.series = $scope.chartData.series;
+    
+})
+
 $scope.remove = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
      $scope.columns.splice($scope.columns.length-1, 1);
-     for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
-           if ($scope.eventData2.dailyData[i].hasOwnProperty(lastColumnName)) {
-              delete $scope.eventData2.dailyData[i][lastColumnName];
+     for(var i=0; i < $scope.eventData.dailyData.length; i++) {
+           if ($scope.eventData.dailyData[i].hasOwnProperty(lastColumnName)) {
+              delete $scope.eventData.dailyData[i][lastColumnName];
            } else {  // column not exists, add
            }
       }
@@ -717,7 +801,7 @@ $scope.remove = function() {
     var newColumnName =  ''+new Date().getTime();
     var formattedDate = $filter('date')(newColumnName,'mediumDate');
     $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth});
-    $scope.addDataColumn2(newColumnName);
+    $scope.addDataColumn(newColumnName);
   }
 
   //  $scope.addColumn = function() {
@@ -738,9 +822,9 @@ $scope.remove = function() {
     $scope.columns.splice(1, 1);
   }
 
-  $scope.addRow = function() {
-    var n = $scope.gridOptions.data.length + 1;
-    $scope.gridOptions.data.push({
+  $scope.addRow = function(grid) {
+    var n = grid.dailyData.length + 1;
+    grid.dailyData.push({
                 
               });
   };
@@ -775,6 +859,38 @@ $scope.remove = function() {
      //////var isoDate = $filter('date')(timeStamp,'yyyy-MM-ddTHH:mm:ss.sss') ;
      //return isoDate;
      return timeStamp;
+  }
+
+  $scope.showChartJs = function(chartId) {
+    var ctx = document.getElementById(chartId).getContext("2d");
+    
+    var chartJsConfig = {
+            bezierCurve : true,
+    //Number - Tension of the bezier curve between points
+            bezierCurveTension : 0.4,
+            }
+  var chartData = $scope.getChartData();
+  var datasets = [];
+  for (serie in chartData.series){
+      dataset =  {
+                    label: serie.name,
+                    fillColor: "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: serie.data
+                  }
+      datasets.push(dataset);
+  }
+  var chartJsData = {
+    labels: chartData.xAxis,
+    datasets: datasets
+  }
+
+  var myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
+  
   }
 
 });

@@ -57,14 +57,19 @@ exports.saveEvent = function(req, res) {
 			 	 	  var newRecord = {
 			 	 	  			"eventName": eventData.eventName,
 			 	 	  		 	"eventInstanceId": eventData.eventInstanceId,
-			 	 	  		 	"dailyData":
-			 	 	  		 		[{
-			 	 	  		 			"subTopic":""
-			 	 	  		 		 }
-			 	 	  		 		]
+			 	 	  		 	"gridData" : [ {
+			 	 	  		 					'gridName': 'table 1',
+							 	 	  		 	"dailyData":
+							 	 	  		 		[
+							 	 	  		 			{
+							 	 	  		 				"subTopic":""
+							 	 	  		 		 	}
+							 	 	  		 		]
+							 	 	  		 	}
+			 	 	  		 				]
 			 	 	  		 	};
 			 	 	 // 	newRecord.dailyData[0][creationDate] = null;
-			 	 	  	newRecord.dailyData[0][creationDate] = '*';
+			 	 	  	newRecord.gridData[0].dailyData[0][creationDate] = '*';
 			 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
 							if(err) {
 							res.send(err);
