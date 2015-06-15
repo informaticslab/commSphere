@@ -11,7 +11,19 @@ if($scope.identity.currentUser === undefined){  //changed background color based
 else
 {
   $("body").css("background-color", "#f7f7f7;");
+  $scope.roleTypes="";
+  for(role in $scope.identity.currentUser.roles)
+  {
+    if($scope.identity.currentUser.roles[role].enabled)
+    {
+      $scope.roleTypes=$scope.roleTypes+", "+$scope.identity.currentUser.roles[role].name;
+    }
+  }
+  $scope.roleTypes=$scope.roleTypes.substring(2);
+  console.log($scope.roleTypes);
 }
+
+
 
 $scope.createEvent = function (size,draftInstance,isNew,showOverrideCheckbox) {
 
@@ -295,11 +307,11 @@ $scope.showCopyOption = function (size,selectedInstance) {
 var copyOptionModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,selectedInstance) {
   $scope.selectedInstance = selectedInstance;
    $scope.copyOptions = [{
-        displayText: "Copy header information with bullets and sub-bullets",
+        displayText: "Copy template with data",
         optionValue : 1,
         checked: true
     }, {
-        displayText: "Copy header information only (topic and sub topic headings)",
+        displayText: "Copy template only",
         optionValue : 2,
         checked: false
     }];

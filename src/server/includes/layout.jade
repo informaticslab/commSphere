@@ -14,6 +14,7 @@ html(lang="en" ng-app="app")
     link(rel="stylesheet" href="/css/sb-admin.css")
     link(rel="stylesheet" href="/css/create-new-event.css")
     link(rel="stylesheet" href="/css/login.css")
+    link(rel="stylesheet" href="/css/datetimepicker.css")
     link(rel="stylesheet" href="/vendor/bootstrap-sweetalert/lib/sweet-alert.css")
     link(rel="stylesheet" href="/vendor/angular-multi-select/isteven-multi-select.css")
     link(rel="P3Pv1" href="http://www.cdc.gov/w3c/p3p.xml")
@@ -35,7 +36,7 @@ html(lang="en" ng-app="app")
                     ul.nav.navbar-nav.side-nav.ng-cloak
                         li.side-nav-welcome( ng-show="identity.isAuthenticated()")
                             i.fa.fa-fw.fa-user.ng-cloak
-                            |   Hello, {{identity.currentUser.displayName}}
+                            | Hello, {{identity.currentUser.displayName}} ({{roleTypes}})
                         li.side-nav-search
                             .col-md-12
                                 .right-inner-addon

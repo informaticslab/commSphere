@@ -27,7 +27,8 @@
     "passport-google": "*",
     "passport-local": "*",
     "toastr": "*",
-    "underscore": "1.6.0"
+    "underscore": "1.6.0",
+    "moment": "*"
   },
   "devDependencies": {
     "supertest": "~0.8.1",
