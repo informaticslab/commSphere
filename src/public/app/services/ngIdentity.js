@@ -22,6 +22,13 @@ angular.module('app').factory('ngIdentity', function($window, ngUser) {
       if (role == 'levelTwoOrThree') {
         return !!this.currentUser && (this.currentUser.roles[2].enabled || this.currentUser.roles[1].enabled);
       }
+    },
+    getRoleName: function() {
+      for(role in this.currentUser.roles) {
+        if(this.currentUser.roles[role].enabled) {
+          return this.currentUser.roles[role].name;
+        }
+      }
     }
   }
 })
