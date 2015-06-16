@@ -212,22 +212,27 @@ $scope.addTable = function(grid) {
     var initialRow = {
       'subTopic' : ''
     }
-    if ($scope.columns.length >0) {
+    if ($scope.columns) {
+      if ($scope.columns.length >0) {
       for(i = 0; i < $scope.columns.length; i++) {
          if ($scope.columns[i].field !== 'subTopic') {
            initialRow[$scope.columns[i].field] = '*';  
         }
       }
     }
-    else {
-            initialRow[$scope.eventdoc.dateCreated] = '*'; 
-            
-         } 
+  }
+  else {
+           var newColumn = ''+$scope.eventdoc.dateCreated
+           initialRow[newColumn] = '*'; 
+       }
+   
   $scope.eventData.gridData.push({
             gridName: grid.newGridName,
             dailyData: [initialRow]
             });
-//  $scope.columns = $scope.generateColumnDefs();
+  if (!$scope.columns) {
+    $scope.columns = $scope.generateColumnDefs();
+  }
   grid.newGridName="";
 }
 };
@@ -727,6 +732,7 @@ $scope.generateColumnDefs= function() {
    var columnLayout = [];
    // pick a grid to iterate
    var oneGrid =  $scope.eventData.gridData[0];
+   if (oneGrid) {  // at least one grid exist
        for (var columnName in oneGrid.dailyData[0]) {
           if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
             if (columnName !== '$$hashKey' && columnName != 'subTopic')  {
@@ -734,12 +740,20 @@ $scope.generateColumnDefs= function() {
             } 
           }
        }
+
+    }
+    else {
+        $scope.addDataColumn('subTopic');
+       // columnArry.push('subTopic');
+        $scope.addDataColumn(''+$scope.eventdoc.dateCreated)
+        columnArry.push(''+$scope.eventdoc.dateCreated);
+    }
        columnArry.sort();
        columnArry.unshift('subTopic');
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'subTopic') {
-            oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true,minWidth: $scope.minTopicWidth, pinnedLeft:true};
+            oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true,minWidth: $scope.minTopicWidth,pinnedLeft:true};
           }
          else {
             var formattedDate = $filter('date')(columnArry[i],'mediumDate');
@@ -747,6 +761,7 @@ $scope.generateColumnDefs= function() {
          }
             columnLayout.push(oneColumnDef);
        }
+
        return columnLayout;
      
 };
