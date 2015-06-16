@@ -72,10 +72,15 @@
 	float:left; 
 	position:relative;
 }
-.form-comp-cont {
+.form-comp-cont-toprow {
 	float:left; 
 	position:relative; 
-	margin:15px 0px 20px 30px;
+	margin:15px 0px 25px 30px;
+}
+.form-comp-cont-bottomrow {
+	float:left; 
+	position:relative; 
+	margin:15px 0px 25px 30px;
 }
 .tab-container {
 	width:100%; 

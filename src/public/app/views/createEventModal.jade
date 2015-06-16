@@ -19,18 +19,18 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 		.modal-body(style='background-color:#f2f2f2;')
 			.row(style='background-color:#ffffff; margin-top:-15px;')
 				.col-lg-12
-					.form-comp-cont
+					.form-comp-cont-toprow
 						label Event Name
 						input#exampleInputName2.form-control(placeholder="Enter event name" ng-model="eventdoc.eventName" ng-disabled="eventNameReadonly")
 						br
 						input(type='checkbox', ng-model='eventNameOverride' ng-change="setOverrideFlags()" ng-show="showOverrideCheckbox")
 						label.small(ng-show="showOverrideCheckbox")
 							| &nbsp;Edit Event Name
-					.form-comp-cont
+					.form-comp-cont-toprow
 						label Type
 						select.form-control(placeholder="Select event type" ng-model="eventdoc.eventType" ng-options="event as event for event in eventTypes | orderBy: event")
 							option(value="") - Select event type -
-					.form-comp-cont(width="20px")
+					.form-comp-cont-toprow(width="20px")
 						label Due Date
 						//input.form-control(id="dueDate" placeholder="Enter due date" ng-model="eventdoc.eventDueDate")
 						.dropdown
@@ -42,7 +42,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 										i.glyphicon.glyphicon-calendar
 							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
 								datetimepicker(data-on-set-time="onTimeSet(newDate, oldDate)" data-ng-model='eventdoc.eventDueDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }")
-					.form-comp-cont
+					.form-comp-cont-toprow
 						label Publish Date
 						//input.form-control(id="publishDate" placeholder="Enter publish date" ng-model="eventdoc.eventPublishDate")
 						.dropdown

@@ -87,10 +87,9 @@ input[type="text"].eventTemplateTopic {
 
 @media (min-width: 992px) {
   .modal-lg {
-    width: 950px;
+    width: 80%;
   }
 }
-
 
 .btn {
     margin-right: 8px;
