@@ -19,7 +19,7 @@ require('./server/config/passport')();
 
 require('./server/config/routes.js')(app);
 
-
+var moment = require('moment');
 
 app.listen(9000);
 console.log('Express server listening on port 9000'); 

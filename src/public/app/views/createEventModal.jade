@@ -30,24 +30,26 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 						label Type
 						select.form-control(placeholder="Select event type" ng-model="eventdoc.eventType" ng-options="event as event for event in eventTypes | orderBy: event")
 							option(value="") - Select event type -
-					.form-comp-cont
+					.form-comp-cont(width="20px")
 						label Due Date
 						//input.form-control(id="dueDate" placeholder="Enter due date" ng-model="eventdoc.eventDueDate")
 						.dropdown
 							a#dropdown1.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
 								.input-group
-									input.form-control(type='text', data-ng-model='eventdoc.eventDueDate')
+									div.form-control(type='text')
+										| {{eventdoc.eventDueDate | date:'MMM d, yyyy h:m a (EEEE)'}}
 									span.input-group-addon
 										i.glyphicon.glyphicon-calendar
 							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
-								datetimepicker(data-ng-model='eventdoc.eventDueDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }")
+								datetimepicker(data-on-set-time="onTimeSet(newDate, oldDate)" data-ng-model='eventdoc.eventDueDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }")
 					.form-comp-cont
 						label Publish Date
 						//input.form-control(id="publishDate" placeholder="Enter publish date" ng-model="eventdoc.eventPublishDate")
 						.dropdown
 							a#dropdown2.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
 								.input-group
-									input.form-control(type='text', data-ng-model='eventdoc.eventPublishDate')
+									div.form-control(type='text')
+										| {{eventdoc.eventPublishDate | date:'MMM d, yyyy h:m a (EEEE)'}}
 									span.input-group-addon
 										i.glyphicon.glyphicon-calendar
 							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')

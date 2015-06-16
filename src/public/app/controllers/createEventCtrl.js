@@ -61,6 +61,18 @@ $scope.allowSaveDrafts=false;
     categories: []
   };
 
+   $scope.eventdoc.eventDueDate=moment().format();
+   $scope.eventdoc.eventPublishDate=moment().format();
+
+  // $scope.eventdoc.eventPublishDate=moment();
+
+
+$scope.onTimeSet = function (newDate, oldDate) {
+    console.log(newDate);
+    console.log(oldDate);
+}
+
+
   if ($scope.draftInstance) {
     $scope.eventdoc = $scope.draftInstance;
   }
