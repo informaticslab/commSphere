@@ -52,24 +52,25 @@ exports.saveEvent = function(req, res) {
 			 	 	} else if (result.length < 1) {
 			 	 	// not exist, add
 
-			 	 	  var creationDate =  eventData.dateCreated;
+			 	 	  //var creationDate =  eventData.dateCreated;
 			 	// 	  var creationTime =  new Date().toISOString().split('T')[1].replace('Z','').split(':').join('').split('.')[0];
 			 	 	  var newRecord = {
-			 	 	  			"eventName": eventData.eventName,
-			 	 	  		 	"eventInstanceId": eventData.eventInstanceId,
-			 	 	  		 	"gridData" : [ {
-			 	 	  		 					'gridName': 'table 1',
-							 	 	  		 	"dailyData":
-							 	 	  		 		[
-							 	 	  		 			{
-							 	 	  		 				"subTopic":""
-							 	 	  		 		 	}
-							 	 	  		 		]
-							 	 	  		 	}
-			 	 	  		 				]
-			 	 	  		 	};
+			 	 	  			 "eventName": eventData.eventName,
+			 	 	  		  	"eventInstanceId": eventData.eventInstanceId,
+			 	 	  		  	"gridData" : []
+			 	 	  		 // 	"gridData" : [ {
+			 	 	  		 // 					'gridName': 'table 1',
+							 	 	 //  		 	"dailyData":
+							 	 	 //  		 		[
+							 	 	 //  		 			{
+							 	 	 //  		 				"subTopic":""
+							 	 	 //  		 		 	}
+							 	 	 //  		 		]
+							 	 	 //  		 	}
+			 	 	  		 // 				]
+			 	 	  		  	};
 			 	 	 // 	newRecord.dailyData[0][creationDate] = null;
-			 	 	  	newRecord.gridData[0].dailyData[0][creationDate] = '*';
+			 	 	  	//newRecord.gridData[0].dailyData[0][creationDate] = '*';
 			 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
 							if(err) {
 							res.send(err);

@@ -82,29 +82,29 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             }
         } else {
           console.log ('data not available');  // add default record
-          var  newId = $scope.eventdoc.eventInstanceId.split('-')[0]+'-001';
-          $scope.eventData = {
-                  "eventName":  $scope.eventdoc.eventName,
-                  "eventInstanceId": newId,
-                  gridData : [ { 'gridName': 'table 1',
-                                 "dailyData": [{
-                                                "subTopic":""
-                                                }
-                                              ]
-                               }
-                              ]
-                  };
-          var creationDate = $scope.eventdoc.dateCreated;
-          $scope.eventData.gridData[0].dailyData[0][creationDate] = '*'; 
-          $scope.columns = $scope.generateColumnDefs();
-          $scope.gridOptions = {
-              data: $scope.eventData.gridData[0].dailyData[0],
-              columnDefs : $scope.columns,
-              onRegisterApi: function(gridApi) {
-              $scope.gridApi = gridApi;
-             }
+           //var  newId = $scope.eventdoc.eventInstanceId.split('-')[0]+'-001';
+           //$scope.eventData = {
+           //       "eventName":  $scope.eventdoc.eventName,
+           //        "eventInstanceId": newId,
+          //         gridData : [ { 'gridName': 'table 1',
+          //                        "dailyData": [{
+          //                                       "subTopic":""
+          //                                       }
+          //                                     ]
+          //                      }
+          //                     ]
+          //         };
+          // var creationDate = $scope.eventdoc.dateCreated;
+          // $scope.eventData.gridData[0].dailyData[0][creationDate] = '*'; 
+          // $scope.columns = $scope.generateColumnDefs();
+          // $scope.gridOptions = {
+          //     data: $scope.eventData.gridData[0].dailyData[0],
+          //     columnDefs : $scope.columns,
+          //     onRegisterApi: function(gridApi) {
+          //     $scope.gridApi = gridApi;
+          //    }
 
-          }
+          // }
             
         }
 
@@ -212,12 +212,22 @@ $scope.addTable = function(grid) {
     var initialRow = {
       'subTopic' : ''
     }
-    initialRow[$scope.eventdoc.dateCreated] = '*'; 
-
-    $scope.eventData.gridData.push({
-      gridName: grid.newGridName,
-      dailyData: [initialRow]
-    });
+    if ($scope.columns.length >0) {
+      for(i = 0; i < $scope.columns.length; i++) {
+         if ($scope.columns[i].field !== 'subTopic') {
+           initialRow[$scope.columns[i].field] = '*';  
+        }
+      }
+    }
+    else {
+            initialRow[$scope.eventdoc.dateCreated] = '*'; 
+            
+         } 
+  $scope.eventData.gridData.push({
+            gridName: grid.newGridName,
+            dailyData: [initialRow]
+            });
+//  $scope.columns = $scope.generateColumnDefs();
   grid.newGridName="";
 }
 };
