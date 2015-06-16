@@ -36,7 +36,10 @@ html(lang="en" ng-app="app")
                     ul.nav.navbar-nav.side-nav.ng-cloak
                         li.side-nav-welcome( ng-show="identity.isAuthenticated()")
                             i.fa.fa-fw.fa-user.ng-cloak
-                            | Hello, {{identity.currentUser.displayName}} ({{identity.isAuthenticated() ? identity.getRoleName(): null}})
+                            |  Hello, {{identity.currentUser.displayName}}
+                            br
+                            .role-style 
+                                | ({{identity.isAuthenticated() ? identity.getRoleName(): null}})
                         li.side-nav-search
                             .col-md-12
                                 .right-inner-addon

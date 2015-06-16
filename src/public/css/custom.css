@@ -272,3 +272,9 @@ margin-top: 0px;
 .grid {
    height: 200px;
 }
+.role-style {
+	color:#8B867B;
+	font-style:italic;
+	font-size:13px;
+	margin-left:22px;
+}
