@@ -251,57 +251,6 @@ $scope.saveTableName = function(grid,e) {
     grid.editing = false;
     e.preventDefault();
   };
-    // $scope.saveTopic = function(topic) {
-    //   // topic.save();
-    //   topic.editing = false;
-    // };
-
-    // $scope.removeTopic = function(category, topic) {
-    //   // if (window.confirm('Are you sure to remove this topic?')) {
-    //   //   //topic.destroy();  //TODO
-    //   // }
-    //   $log.debug(category);
-    //   $log.debug(topic);
-    //   var index = category.topics.indexOf(topic);
-    //    if (index > -1) {
-    //      category.topics.splice(index, 1)[0];
-    //    }
-    // };
-
-    // $scope.saveTopics = function() {
-    //   for (var i = $scope.eventdoc.categories[0].topics.length - 1; i >= 0; i--) {
-    //     var topic = $scope.eventdoc.categories[0].topics[i];
-    //     topic.sortOrder = i + 1;
-    //      // topic.save();
-    //   }
-    // };
-
-  
-
-    // $scope.addSubTopic = function(topic) {
-    //   $log.debug(topic);
-    //   if (!topic.newSubTopicName || topic.newSubTopicName.length === 0) {
-    //     return;
-    //   }
-    //   topic.subTopics.push({
-    //     name: topic.newSubTopicName,
-    //     sortOrder: topic.subTopics.length,
-    //     type: 'subTopic',
-    //     bullets:[]
-    //   });
-    //   topic.newSubTopicName = '';
-    //   // topic.save();
-    // };
-
-    // $scope.removeSubTopic = function(topic, subTopic) {
-    //   //if (window.confirm('Are you sure to remove this subTopic?')) {
-    //     var index = topic.subTopics.indexOf(subTopic);
-    //     if (index > -1) {
-    //       topic.subTopics.splice(index, 1)[0];
-    //     }
-    //     // topic.save();
-    //   //}
-    // };
 
     $scope.addBullet = function(subTopic,e) {
       $log.debug(subTopic);
