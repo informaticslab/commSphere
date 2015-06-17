@@ -1,5 +1,5 @@
-commSphereApp.controller('rootCtrl', ['$scope', '$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route','$log', function($scope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route,$log) {
-
+commSphereApp.controller('rootCtrl', ['$scope', '$rootScope','$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route','$log', function($scope, $rootScope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route,$log) {
+$rootScope.continueNav = true;
 $("#wrapper").show();
 $scope.activeMenu='';
 $scope.searchText='';
@@ -43,6 +43,7 @@ $scope.logout = function(){
 			$scope.email = "";
 			$scope.password = "";
 			//This is for PIV
+  
 //			if($location.protocol()=='https'){
 //				$window.location = $location.absUrl().replace('https','http').replace('4400','8089');
 //			}
@@ -52,7 +53,7 @@ $scope.logout = function(){
       $location.path('/login')
       $("body").css("background-color", "#2a2d33;");
 		});
-	};
+};
 
   $scope.showAvailEvents = function (size) {
   // retrieve all events with active and archived status pending users requirements

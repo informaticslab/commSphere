@@ -18,12 +18,10 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                 strong| Publish Date: 
                                 i{{eventdoc.eventPublishDate | date:'medium'}}
                     .save-draft-cont-evt 
-                        button.btn.btn-success(type="button" ng-click="saveCategory('draft')" ng-if='continueNav')
-                            | Save Edits
-                        button.btn.btn-success(type="button" ng-click="saveCategory('draft')" ng-if='!continueNav')    
+                        button.btn.btn-success(type="button" ng-click="saveCategory('draft')" ng-disabled='continueNav')    
                             | Save Edits
                     .submit-btn-cont
-                        button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
+                        button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')" ng-disabled='canSubmit')
                             | Submit
                     .submit-btn-cont
                         button.btn.btn-success.pull-right(type="button" ng-click="openPreview('lg',eventdoc)" ng-if="identity.isAuthorized('levelTwo') && readyForPreview")

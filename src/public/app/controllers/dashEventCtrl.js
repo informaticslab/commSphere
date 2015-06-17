@@ -1,7 +1,9 @@
-angular.module('app').controller('dashEventCtrl',function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document) {
+angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document) {
+
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
-$scope.continueNav = true;
+$rootScope.continueNav = true;
+$scope.canSubmit = true;
 $scope.tabCategory=[
                     {active:true}
                    ];
@@ -28,8 +30,8 @@ $scope.$on('$locationChangeStart', function(event) {
   nextLocation = nextLocation.substring(0, nextLocation.indexOf("#"));
   if(nextLocation === $scope.currentLocation) {
     event.preventDefault();
-  } else if (!$scope.continueNav){
-      var answer = confirm("You have unsaved changes.  Do you want to leave this page?")
+  } else if (!$rootScope.continueNav){
+      var answer = confirm("You have unsaved changes, do you want to continue?")
       if (!answer) {
           event.preventDefault();
       }
@@ -402,7 +404,9 @@ $scope.saveCategory = function (status) {  // save data for the current tab
         }
 
  });
- $scope.continueNav=true;
+
+ $rootScope.continueNav=true;
+ $rootScope.preventNavigation = false;
  var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
      $log.debug("watching");
       if(newVal!=oldVal)
@@ -411,7 +415,8 @@ $scope.saveCategory = function (status) {  // save data for the current tab
         if(oldVal == undefined){
             //do nothing
         } else {
-          $scope.continueNav=false;
+          $rootScope.continueNav=false;
+          $rootScope.preventNavigation =true;
           unregister();
         }
         
@@ -548,21 +553,23 @@ $scope.setActiveCategory = function(category)
   $scope.activeTab="tab_0";
 };
 
-   var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
-     $log.debug("watching");
-      if(newVal!=oldVal)
-      {
-        $log.debug('changed');
-        if(oldVal == undefined){
-            //do nothing
-        } else {
-          $scope.continueNav=false;
-          unregister();
-        }
-        
+ var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
+   $log.debug("watching");
+    if(newVal!=oldVal)
+    {
+      $log.debug('changed');
+      if(oldVal == undefined){
+          //do nothing
+      } else {
+        $rootScope.continueNav=false;
+        $scope.canSubmit = false;
+        $rootScope.preventNavigation=true;
+        unregister();
       }
-     
-    }, true);
+      
+    }
+   
+  }, true);
 
 $scope.addDataColumn= function(columnName){
 
