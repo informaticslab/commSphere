@@ -30,7 +30,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 						label Type
 						select.form-control(placeholder="Select event type" ng-model="eventdoc.eventType" ng-options="event as event for event in eventTypes | orderBy: event")
 							option(value="") - Select event type -
-					.form-comp-cont-toprow(width="20px")
+					.form-comp-cont-toprow.dateTimePicker
 						label Due Date
 						//input.form-control(id="dueDate" placeholder="Enter due date" ng-model="eventdoc.eventDueDate")
 						.dropdown
@@ -42,7 +42,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 										i.glyphicon.glyphicon-calendar
 							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
 								datetimepicker(data-on-set-time="onTimeSet(newDate, oldDate)" data-ng-model='eventdoc.eventDueDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }")
-					.form-comp-cont-toprow
+					.form-comp-cont-toprow.dateTimePicker
 						label Publish Date
 						//input.form-control(id="publishDate" placeholder="Enter publish date" ng-model="eventdoc.eventPublishDate")
 						.dropdown

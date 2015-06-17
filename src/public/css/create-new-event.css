@@ -229,3 +229,7 @@ color:#ffffff;
 	margin-top:-15px;
 	margin-bottom:-10px;
 }
+
+.dateTimePicker{
+	max-width:300px;
+}
