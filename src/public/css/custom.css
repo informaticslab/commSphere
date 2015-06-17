@@ -275,3 +275,11 @@ margin-top: 0px;
 	font-size:13px;
 	margin-left:22px;
 }
+
+.fix-to-top {
+    position: fixed;
+}
+
+.fixedWidthMenu{
+  width:200px;
+}
