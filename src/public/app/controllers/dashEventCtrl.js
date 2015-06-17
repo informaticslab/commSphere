@@ -1,4 +1,4 @@
-angular.module('app').controller('dashEventCtrl',function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,anchorSmoothScroll) {
+angular.module('app').controller('dashEventCtrl',function($scope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document) {
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $scope.continueNav = true;
@@ -189,13 +189,16 @@ $scope.returnToAnalyst = function(category) {
 // };
 
 $scope.gotoElement = function (eID){
-      // set the location.hash to the id of
-      // the element you wish to scroll to.
-      $location.hash(eID);
+      // // set the location.hash to the id of
+      // // the element you wish to scroll to.
+      // $location.hash(eID);
  
-      // call $anchorScroll()
-      anchorSmoothScroll.scrollTo(eID);
-      
+      // // call $anchorScroll()
+      // anchorSmoothScroll.scrollTo(eID);
+    var offset = 100; 
+    var duration = 500;
+    var someElement = angular.element(document.getElementById(eID));
+    $document.scrollToElement(someElement, offset, duration);
       
     };
 

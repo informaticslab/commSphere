@@ -13,6 +13,7 @@ var commSphereApp = angular.module('app', [
   ,'ui.grid.moveColumns'
   ,'isteven-multi-select'
   ,'ui.bootstrap.datetimepicker'
+  ,'duScroll'
   // ,'chieffancypants.loadingBar'
   // ,'angulartics'
   // ,'angulartics.google.analytics'

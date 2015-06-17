@@ -28,7 +28,8 @@
     "passport-local": "*",
     "toastr": "*",
     "underscore": "1.6.0",
-    "moment": "*"
+    "moment": "*",
+    "angular-scroll":"*"
   },
   "devDependencies": {
     "supertest": "~0.8.1",
