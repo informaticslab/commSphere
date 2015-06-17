@@ -155,27 +155,27 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             //-br
                                             //-br
                                             button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7;') Add Column to the End
-                                            //-button#button_remove.btn.btn-default(ng-click='remove()', style='color:#337ab7;') Remove Last Column
+                                            button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7;') Remove Last Column
                                             //-button#addData.btn.btn-default(type='button', ng-click='addRow()', style='color:#337ab7;') Add Row
                                             //-br
                                             br
                                             br
                                         .row
                                             ol(ui-tree-nodes='', ng-model='eventData.gridData')
-                                                li(ng-repeat='grid in eventData.gridData', ui-tree-node='' id="{{'grid_'+$index}}" )
+                                                li(ng-repeat='grid in eventData.gridData', ui-tree-node=''  )
                                                     .topic-title.angular-ui-tree-handle(ng-show='!grid.editing' ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false")
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='removeTable(gridData,grid)')
                                                             i.glyphicon.glyphicon-trash
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='editTableName(grid)')
                                                             i.glyphicon.glyphicon-pencil
-                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='addRow(grid)')
+                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click="addRow(grid,'grid_'+$index)")
                                                             i.glyphicon.glyphicon-tasks
                                                         div  {{grid.gridName}}
                                                     .topic-title.angular-ui-tree-handle(data-nodrag='', ng-show='grid.editing')
                                                         label.sr-only(for='gridName') Table name
                                                         input.form-control(type='text', placeholder='Table name', ng-model='grid.gridName' ng-keyup='$event.keyCode==13 ? saveTableName(grid,$event) : null' ng-blur='saveTableName(grid,$event)')
                                                     ol(ui-tree-nodes='', ng-model='grid.dailyData', data-type='subTopic')
-                                                            .grid(ng-if="tabShown" ui-grid="{data: grid.dailyData, columnDefs : columns, showHeader:$index == 0}",  ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit,ui-grid-pinning) 
+                                                            .grid(id="{{'grid_'+$index}}", ng-if="tabShown" ui-grid="{data: grid.dailyData, columnDefs : columns, showHeader:$index == 0,  showFooter: false, enableHorizontalScrollbar:1, enableVerticalScrollbar:0}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit,ui-grid-pinning) 
                                                             //- br
                                                             //- button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add New Row to {{grid.gridName}}
                                                             //- br

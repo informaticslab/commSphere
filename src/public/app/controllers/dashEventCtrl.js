@@ -11,7 +11,7 @@ $scope.currentLocation = $location.url();
 $scope.gridOptions={};
 $scope.readyForPreview = false;
 $scope.minColWidth = 110;
-$scope.minTopicWidth = 130;
+$scope.minTopicWidth = 200;
 $scope.chartData ={};
 $scope.highChartConfig = {};
 $scope.eventData = {
@@ -209,51 +209,6 @@ $scope.setActiveTab = function(tabId)
 
 };
 
-$scope.addTable = function(grid) {
-  
-  if (grid.newGridName.length > 0) {
-    var initialRow = {
-      'subTopic' : ''
-    }
-    if ($scope.columns) {
-      if ($scope.columns.length >0) {
-      for(i = 0; i < $scope.columns.length; i++) {
-         if ($scope.columns[i].field !== 'subTopic') {
-           initialRow[$scope.columns[i].field] = '*';  
-        }
-      }
-    }
-  }
-  else {
-           var newColumn = ''+$scope.eventdoc.dateCreated
-           initialRow[newColumn] = '*'; 
-       }
-   
-  $scope.eventData.gridData.push({
-            gridName: grid.newGridName,
-            dailyData: [initialRow]
-            });
-  if (!$scope.columns) {
-    $scope.columns = $scope.generateColumnDefs();
-  }
-  grid.newGridName="";
-}
-};
-
-    $scope.editTableName = function(grid) {
-      grid.editing = true;
-    };
-
-    $scope.cancelEditingTable = function(grid) {
-      grid.editing = false;
-    };
-
-
-$scope.saveTableName = function(grid,e) {
-    // topic.save();
-    grid.editing = false;
-    e.preventDefault();
-  };
 
     $scope.addBullet = function(subTopic,e) {
       $log.debug(subTopic);
@@ -609,32 +564,6 @@ $scope.setActiveCategory = function(category)
      
     }, true);
 
-// $scope.addDataColumn = function(columnName){
-
-//   for(var i=0; i < $scope.eventData.topics.length; i++){
-//       oneTopic = $scope.eventData.topics[i];
-//       for(var j=0; j < oneTopic.subTopics.length; j++) {
-//         // subtopic level
-//           oneSubTopic = oneTopic.subTopics[j];
-//           oneSubTopic[columnName] = null;
-//       }
-
-//   }
-// };
-
-// $scope.addDataColumn2= function(instanceId){
-
-//   //var columnName =  $filter('date')(dateCreated,'yyyyMMdd');
-//   for(var i=0; i < $scope.eventData2.dailyData.length; i++) {
-//            if ($scope.eventData2.dailyData[i].hasOwnProperty(instanceId)) {
-//            } else {  // column not exists, add
-//               $scope.eventData2.dailyData[i][instanceId] = null;
-//            }
-//       }
-
-  
-// };
-
 $scope.addDataColumn= function(columnName){
 
  for(var i=0; i < $scope.eventData.gridData.length; i++) {
@@ -649,34 +578,52 @@ $scope.addDataColumn= function(columnName){
   
 };
 
-// $scope.generateColumnDefs = function() {
-//    var columnArry = [];
-//    var columnLayout = [];
-//    // pick subtopic to iterate
-//    var oneSubTopic =  $scope.eventData.topics[0].subTopics[0];
-//        for (var columnName in oneSubTopic) {
-//           if (oneSubTopic.hasOwnProperty(columnName)) {
-//             if (columnName != 'sortOrder' && columnName != 'type' && columnName != 'name') {
-//                 columnArry.push(columnName);
-//             } 
-//           }
-//        }
-//        columnArry.sort();
-//        columnArry.unshift('name');
-//        for(i=0; i< columnArry.length; i++) {
-//       // build columns defition object
-//          if (columnArry[i] === 'name') {
-//             oneColumnDef = {'field': columnArry[i], enableCellEdit: false,enableSorting: false};
-//           }
-//          else {
-//             oneColumnDef = {'field': columnArry[i], enableCellEdit: true, enableSorting: false};
-//          }
-//             columnLayout.push(oneColumnDef);
-//        }
 
-//        return columnLayout;
-     
-// };
+$scope.addTable = function(grid) {
+  
+  if (grid.newGridName.length > 0) {
+    var initialRow = {
+     'label' : ''
+    }
+    if ($scope.columns) {
+      if ($scope.columns.length >0) {
+      for(i = 0; i < $scope.columns.length; i++) {
+         if ($scope.columns[i].field !== 'label') {
+           initialRow[$scope.columns[i].field] = '*';  
+        }
+      }
+    }
+  }
+  else {
+           var newColumn = ''+$scope.eventdoc.dateCreated
+           initialRow[newColumn] = '*'; 
+       }
+   
+  $scope.eventData.gridData.push({
+            gridName: grid.newGridName,
+            dailyData: [initialRow]
+            });
+  if (!$scope.columns) {
+    $scope.columns = $scope.generateColumnDefs();
+  }
+  grid.newGridName="";
+  }
+};
+
+$scope.editTableName = function(grid) {
+  grid.editing = true;
+};
+
+$scope.cancelEditingTable = function(grid) {
+  grid.editing = false;
+};
+
+
+$scope.saveTableName = function(grid,e) {
+    // topic.save();
+    grid.editing = false;
+    e.preventDefault();
+  };
 
 
 $scope.generateColumnDefs= function() {
@@ -687,7 +634,7 @@ $scope.generateColumnDefs= function() {
    if (oneGrid) {  // at least one grid exist
        for (var columnName in oneGrid.dailyData[0]) {
           if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
-            if (columnName !== '$$hashKey' && columnName != 'subTopic')  {
+            if (columnName !== '$$hashKey' && columnName != 'label')  {
                 columnArry.push(columnName);
             } 
           }
@@ -695,16 +642,16 @@ $scope.generateColumnDefs= function() {
 
     }
     else {
-        $scope.addDataColumn('subTopic');
-       // columnArry.push('subTopic');
+        $scope.addDataColumn('label');
+       // columnArry.push('label');
         $scope.addDataColumn(''+$scope.eventdoc.dateCreated)
         columnArry.push(''+$scope.eventdoc.dateCreated);
     }
        columnArry.sort();
-       columnArry.unshift('subTopic');
+       columnArry.unshift('label');
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
-         if (columnArry[i] === 'subTopic') {
+         if (columnArry[i] === 'label') {
             oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true,minWidth: $scope.minTopicWidth,pinnedLeft:true};
           }
          else {
@@ -761,14 +708,16 @@ $scope.$on('uiGridEventEndCellEdit', function () {
     
 })
 
-$scope.remove = function() {
+$scope.removeColumn = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
      $scope.columns.splice($scope.columns.length-1, 1);
-     for(var i=0; i < $scope.eventData.dailyData.length; i++) {
-           if ($scope.eventData.dailyData[i].hasOwnProperty(lastColumnName)) {
-              delete $scope.eventData.dailyData[i][lastColumnName];
-           } else {  // column not exists, add
-           }
+     for(var i=0; i < $scope.eventData.gridData.length; i++) {
+          for(var j=0; j<$scope.eventData.gridData[i].dailyData.length; j++){
+             if ($scope.eventData.gridData[i].dailyData[j].hasOwnProperty(lastColumnName)) {
+                delete $scope.eventData.gridData[i].dailyData[j][lastColumnName];
+             } else {  // column not exists, add
+             }
+          }
       }
 
   }
@@ -781,15 +730,6 @@ $scope.remove = function() {
     $scope.addDataColumn(newColumnName);
   }
 
-  //  $scope.addColumn = function() {
-  //   // assuming using eventInstanceId as column name
-  //   var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
-  //   var columnNameParts = lastColumnName.split("-");
-  //   var newColumnName = columnNameParts[0] + '-'+ Number(columnNameParts[1])+1;
-  //  // var newNum = Number(lastColumnName) + 1;
-  //  // lastColumnName = ''+newNum;
-  //   $scope.columns.push({ field: newColumnName, enableSorting: false });
-  // }
  
   $scope.splice = function() {
     $scope.columns.splice(1, 0, { field: 'company', enableSorting: false });
@@ -799,12 +739,27 @@ $scope.remove = function() {
     $scope.columns.splice(1, 1);
   }
 
-  $scope.addRow = function(grid) {
+  $scope.addRow = function(grid,id) {
     var n = grid.dailyData.length + 1;
     grid.dailyData.push({
                 
               });
+    // var myGrid = angular.element( document.querySelector( '#'+id ) );
+    // myGrid.css('height',(n+2)*30);
   };
+
+  $scope.getTableHeight = function(grid,id) {
+       var rowHeight = 30; // your row height
+       var headerHeight = 30; // your header height
+       if (id.split('_')[1] ==='0') {
+          return {
+              height: ((grid.dailyData.length+1) * rowHeight + headerHeight) + "px" };
+       }
+       else {
+       return {
+          height: (grid.dailyData.length * rowHeight + headerHeight) + "px" };
+       }
+    };
 
   var previewReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc) {
     $scope.eventdoc = eventdoc;
