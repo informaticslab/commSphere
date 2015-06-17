@@ -755,6 +755,12 @@ $scope.removeColumn = function() {
     // myGrid.css('height',(n+2)*30);
   };
 
+  $scope.removeLastRow = function(grid,id) {
+
+    var n = grid.dailyData.length;
+    grid.dailyData.pop();
+
+  }
   $scope.getTableHeight = function(grid,id) {
        var rowHeight = 30; // your row height
        var headerHeight = 30; // your header height
