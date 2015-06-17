@@ -1,0 +1,12 @@
+div(ng-controller="customizeReportCtrl" style="background-color:#f2f2f2;")
+	.modal-content
+		.modal-header.header_dark
+			.row(style='background-color:#ffffff;')
+				.col-lg-12
+					.create-new-event-cont
+						h2.h2-create-new(id='myModalLabel') {{eventdoc.eventName}}	
+						h3 {{eventdoc.dateCreated | date:'medium'}}		
+						h3 Report Preview		
+					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
+						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
+		.modal-body

@@ -768,7 +768,7 @@ $scope.removeColumn = function() {
        }
     };
 
-  var previewReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc) {
+  var customizeReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc) {
     $scope.eventdoc = eventdoc;
 
     $scope.ok = function() {
@@ -780,11 +780,11 @@ $scope.removeColumn = function() {
     };
   };
 
-  $scope.openPreview = function(size,eventdoc) {
+  $scope.customize = function(size,eventdoc) {
     var modalInstance = $modal.open({
       scope: $scope,
-      templateUrl: '/partials/previewReportModal',
-      controller: previewReportModalInstanceCtrl,
+      templateUrl: '/partials/customizeReportModal',
+      controller: customizeReportModalInstanceCtrl ,
       size: size,
       resolve: {
          eventdoc: function () {
