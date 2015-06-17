@@ -1,3 +1,6 @@
 angular.module('app').controller('customizeReportCtrl', function($scope) {
-	// console.log($scope.eventdoc);
+	$scope.customizedDoc = [];
+	console.log($scope.eventdoc);
+	$scope.customizedDoc.push($scope.eventdoc);
+	console.log($scope.customizedDoc);
 });
