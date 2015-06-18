@@ -73,14 +73,34 @@
 	position:relative;
 }
 .form-comp-cont-toprow {
-	float:left; 
+	
 	position:relative; 
-	margin:15px 0px 25px 30px;
+	margin:15px 0px 0px 0px;
+}
+.form-comp-cont-toprow2 {
+	
+	position:relative; 
+	margin:15px 0px 0px 0px;
 }
 .form-comp-cont-bottomrow {
-	float:left; 
+	
 	position:relative; 
-	margin:15px 0px 25px 30px;
+	margin:0px 0px 25px 0px;
+	max-width: 
+}
+.form-comp-cont-bottomrow2 {
+	
+	position:relative; 
+	margin:0px 0px 25px 0px;
+}
+.row-margin {
+	background-color:#ffffff;
+	padding-left:30px;
+}
+.row-margin-top {
+	background-color:#ffffff;
+	padding-left:30px;
+	margin-top:-15px;
 }
 .tab-container {
 	width:100%; 
