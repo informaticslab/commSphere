@@ -13,7 +13,7 @@ directive('setClassWhenAtTop', function ($window) {
             $win.on('scroll', function (e) {
                 //console.log(element,element.offset().top);
                 //console.log($win.scrollTop(),offsetTop)
-                if ($win.scrollTop() >= 458-71 ) {
+                if ($win.scrollTop() >= 458-101 ) {
                     element.addClass(topClass);
                 } else {
                     element.removeClass(topClass);
