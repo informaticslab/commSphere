@@ -5,18 +5,18 @@ directive('setClassWhenAtTop', function ($window) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-            console.log(element.offset().top);
-            //console.log(element[0].getBoundingClientRect());
+            // console.log(element.offset().top);
+            // //console.log(element[0].getBoundingClientRect());
             var topClass = attrs.setClassWhenAtTop, // get CSS class from directive's attribute value
                 offsetTop = element.offset().top; // get element's top relative to the document
 
             $win.on('scroll', function (e) {
-                console.log(element,element.offset().top);
+                //console.log(element,element.offset().top);
                 //console.log($win.scrollTop(),offsetTop)
-                if ($win.scrollTop() >= offsetTop ) {
-                    //element.addClass(topClass);
+                if ($win.scrollTop() >= 458-71 ) {
+                    element.addClass(topClass);
                 } else {
-                    //element.removeClass(topClass);
+                    element.removeClass(topClass);
                 }
             });
         }
