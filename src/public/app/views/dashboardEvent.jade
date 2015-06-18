@@ -153,8 +153,8 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             //-button.btn.btn-default(type='button' ng-click='addTable(grid,$event)',style='color:#337ab7;') Add Table  
                                             //-br
                                             //-br
-                                            button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7;') Add Column to the End
-                                            button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7;') Remove Last Column
+                                            button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7;', ng-show="eventData.gridData.length > 0") Add Column to the End
+                                            button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7;', ng-show="eventData.gridData.length > 0") Remove Last Column
                                             //-button#addData.btn.btn-default(type='button', ng-click='addRow()', style='color:#337ab7;') Add Row
                                             //-br
                                             br
