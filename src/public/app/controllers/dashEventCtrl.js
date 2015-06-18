@@ -717,6 +717,7 @@ $scope.$on('uiGridEventEndCellEdit', function () {
 
 $scope.removeColumn = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
+     if (lastColumnName !=='label') {
      $scope.columns.splice($scope.columns.length-1, 1);
      for(var i=0; i < $scope.eventData.gridData.length; i++) {
           for(var j=0; j<$scope.eventData.gridData[i].dailyData.length; j++){
@@ -726,7 +727,7 @@ $scope.removeColumn = function() {
              }
           }
       }
-
+    }
   }
   
   $scope.addColumn = function() {
@@ -764,14 +765,14 @@ $scope.removeColumn = function() {
   $scope.getTableHeight = function(grid,id) {
        var rowHeight = 30; // your row height
        var headerHeight = 30; // your header height
-       if (id.split('_')[1] ==='0') {
+       //if (id.split('_')[1] ==='0') {
           return {
               height: ((grid.dailyData.length+1) * rowHeight + headerHeight) + "px" };
-       }
-       else {
-       return {
-          height: (grid.dailyData.length * rowHeight + headerHeight) + "px" };
-       }
+       //}
+       // else {
+       // return {
+       //    height: (grid.dailyData.length * rowHeight + headerHeight) + "px" };
+       // }
     };
 
   var previewReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc) {
