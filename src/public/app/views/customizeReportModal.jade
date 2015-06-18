@@ -1,4 +1,4 @@
-div(ng-controller="customizeReportCtrl" style="background-color:#f2f2f2;")
+div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 	.modal-content
 		.modal-header.header_dark
 			.row(style='background-color:#ffffff;')
@@ -8,12 +8,20 @@ div(ng-controller="customizeReportCtrl" style="background-color:#f2f2f2;")
 						i Due Date: {{eventdoc.eventDueDate | date:'medium'}}		
 						h3 Cutomize Report		
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
-						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
+						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel()')
 		.modal-body
 			.row
 				.col-lg-8.col-md-8.col-sm-8
 					label Report Title
-					input.form-control(placeholder="Enter report title" ng-model="customizedDoc.title")
+					input.form-control(placeholder='Enter report title' ng-model='customizedDoc.title')
 			.row
-				.col-lg-12.col-md-12.col-sm-12
-					ng-repeat
+				.col-lg-12(ui-tree='options')
+					ol(ui-tree-nodes='' ng-model='customizedDoc' data-type='topic')
+						.col-lg-6.col-md-6.col-sm-6
+							label Section Header
+							input.form-control(placeholder='Enter section header' ng-model='customizedDoc.sectionHeader')
+						li(ng-repeat='section in customizedDoc')
+							| {{sectionName.sectionName}}
+							ol(ui-tree-nodes='' ng-model='cutomizedDoc.sectionName')
+								li(ng-repeat='sectionName in section')
+
