@@ -407,24 +407,38 @@ $scope.saveCategory = function (status) {  // save data for the current tab
 
  $rootScope.continueNav=true;
  $rootScope.preventNavigation = false;
- // var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
- //     $log.debug("watching");
- //      if(newVal!=oldVal)
- //      {
- //        $log.debug('changed');
- //        if(oldVal == undefined){
- //            //do nothing
- //        } else {
- //          $rootScope.continueNav=false;
- //          $rootScope.preventNavigation =true;
- //          unregister();
- //        }
+ var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
+     $log.debug("watching");
+      if(newVal!=oldVal)
+      {
+        $log.debug('changed');
+        if(oldVal == undefined){
+            //do nothing
+        } else {
+          $rootScope.continueNav=false;
+          $rootScope.preventNavigation =true;
+          unregister();
+        }
         
- //        $log.debug('oldVal: ', oldVal);
- //        $log.debug('newVal: ', newVal);
- //      }
+        $log.debug('oldVal: ', oldVal);
+        $log.debug('newVal: ', newVal);
+      }
      
- //    }, true);
+    }, true);
+ var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
+      if(newVal!=oldVal)
+      {
+        $log.debug('changed');
+        if(oldVal == undefined){
+            //do nothing
+        } else {
+          $rootScope.continueNav=false;
+          $rootScope.preventNavigation =true;
+          unregister2();
+        }
+      }
+     
+    }, true);
 };
 
 function saveOneCategory(data) {
@@ -553,6 +567,9 @@ $scope.setActiveCategory = function(category)
   $scope.activeTab="tab_0";
 };
 
+
+
+ 
  var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
    $log.debug("watching");
     if(newVal!=oldVal)
@@ -572,9 +589,7 @@ $scope.setActiveCategory = function(category)
   }, true);
 
   var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
-   console.log("watching fired");
-   console.log('new val ', newVal, 'old val ', oldVal);
-
+  
     if(newVal!=oldVal)
     {
       $log.debug('changed');
