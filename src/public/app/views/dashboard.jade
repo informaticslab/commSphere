@@ -33,10 +33,10 @@
                                         span(ng-show="sortType == 'coordinatorAssign' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'coordinatorAssign' &&  sortReverse" class="fa fa-caret-up") 
                                 th
-                                    a(href="" ng-click="sortType = 'dateCreated'; sortReverse = !sortReverse; sortInstances('dateCreated')")
-                                        | Date 
-                                        span(ng-show="sortType == 'dateCreated' && !sortReverse" class="fa fa-caret-down")
-                                        span(ng-show="sortType == 'dateCreated' &&  sortReverse" class="fa fa-caret-up") 
+                                    a(href="" ng-click="sortType = 'eventDueDate'; sortReverse = !sortReverse; sortInstances('eventDueDate')")
+                                        | Due Date 
+                                        span(ng-show="sortType == 'eventDueDate' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'eventDueDate' &&  sortReverse" class="fa fa-caret-up") 
                                 th(ng-show="identity.isAuthorized('levelTwo')")
                                     a(href="" ng-click="sortType = 'eventInstanceStatus'; sortReverse = !sortReverse; sortInstances('randomNumber')")
                                         | Status 
@@ -53,7 +53,7 @@
                                 td(ng-class-odd="'tableStripe'")
                                     | {{instance.userCreated.displayName}}
                                 td(ng-class-odd="'tableStripe'")
-                                    | {{instance.dateCreated | date:'MM/dd/yyyy' }}
+                                    | {{instance.eventDueDate | date:'MM/dd/yyyy' }}
                                 td(ng-show="identity.isAuthorized('levelTwo')" ng-class-odd="'tableStripe'")
                                     progressbar(animate='false', value='instance.eventInstanceStatus' type ="success" ng-if="instance.eventInstanceStatus==100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
