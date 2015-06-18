@@ -788,7 +788,7 @@ $scope.removeColumn = function() {
     // assuming using eventInstanceId as column name
     var newColumnName =  ''+new Date().getTime();
     var formattedDate = $filter('date')(newColumnName,'mediumDate');
-    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth});
+    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false});
     $scope.addDataColumn(newColumnName);
   }
 
