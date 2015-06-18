@@ -81,13 +81,15 @@ exports.saveEvent = function(req, res) {
 			 			});
 	 	 	  		}
 	 	 	  		else {  // event data already exists,  add the next column the for new instance
-	 					  for(var i=0; i < result[0].dailyData.length; i++) {
-						           if (result[0].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
+	 					  for (var j=0; j < result[0].gridData.length; j++){
+	 					     for(var i=0; i < result[0].gridData[j].dailyData.length; i++) {
+						           if (result[0].gridData[j].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
 						              // column alread there
 						           } else {  // column not exists, add
-						               result[0].dailyData[i][eventData.dateCreated] = '*';
+						               result[0].gridData[j].dailyData[i][eventData.dateCreated] = '*';
 						           }
 						      }
+						   }   
 						  console.log(result[0]);
 						  var Id = result[0]._id;
 						  delete result[0]._id;   
