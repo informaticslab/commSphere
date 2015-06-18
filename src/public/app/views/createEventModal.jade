@@ -17,8 +17,8 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
 						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
 		.modal-body(style='background-color:#f2f2f2;')
-			.row(style='background-color:#ffffff; margin-top:-15px;')
-				.col-lg-12
+			.row.row-margin-top
+				.col-lg-3.col-md-4.col-sm-6
 					.form-comp-cont-toprow
 						label Event Name
 						input#exampleInputName2.form-control(placeholder="Enter event name" ng-model="eventdoc.eventName" ng-disabled="eventNameReadonly")
@@ -26,11 +26,15 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 						input(type='checkbox', ng-model='eventNameOverride' ng-change="setOverrideFlags()" ng-show="showOverrideCheckbox")
 						label.small(ng-show="showOverrideCheckbox")
 							| &nbsp;Edit Event Name
-					.form-comp-cont-toprow
+				.col-lg-3.col-md-4.col-sm-6
+					.form-comp-cont-toprow2
 						label Type
 						select.form-control(placeholder="Select event type" ng-model="eventdoc.eventType" ng-options="event as event for event in eventTypes | orderBy: event")
 							option(value="") - Select event type -
-					.form-comp-cont-toprow.dateTimePicker
+				.col-lg-6.col-md-4.col-sm-0
+			.row.row-margin
+				.col-lg-3.col-md-4.col-sm-6
+					.form-comp-cont-bottomrow
 						label Due Date
 						//input.form-control(id="dueDate" placeholder="Enter due date" ng-model="eventdoc.eventDueDate")
 						.dropdown
@@ -42,7 +46,8 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 										i.glyphicon.glyphicon-calendar
 							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
 								datetimepicker(data-on-set-time="onTimeSet(newDate, oldDate)" data-ng-model='eventdoc.eventDueDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }")
-					.form-comp-cont-toprow.dateTimePicker
+				.col-lg-3.col-md-4.col-sm-6
+					.form-comp-cont-bottomrow2
 						label Publish Date
 						//input.form-control(id="publishDate" placeholder="Enter publish date" ng-model="eventdoc.eventPublishDate")
 						.dropdown
@@ -54,6 +59,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 										i.glyphicon.glyphicon-calendar
 							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
 								datetimepicker(data-ng-model='eventdoc.eventPublishDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }")
+				.col-lg-6.col-md-4.col-sm-0
 			.row(style='background-color:#f2f2f2; height:100vh;')
 				.col-lg-12.col-md-12.col-sm-12
 					.tab-container

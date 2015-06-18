@@ -16,12 +16,12 @@ $scope.minColWidth = 110;
 $scope.minTopicWidth = 200;
 $scope.chartData ={};
 $scope.highChartConfig = {};
-$scope.eventData = {
-    "eventName": "",
-    "eventType": "",
-    "eventInstanceId": "",
-    gridData: []
-  };
+// $scope.eventData = {
+//     "eventName": "",
+//     "eventType": "",
+//     "eventInstanceId": "",
+//     gridData: []
+//   };
 
 
 //Prevent accidental leaving of dashboard event screen
@@ -407,24 +407,38 @@ $scope.saveCategory = function (status) {  // save data for the current tab
 
  $rootScope.continueNav=true;
  $rootScope.preventNavigation = false;
- // var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
- //     $log.debug("watching");
- //      if(newVal!=oldVal)
- //      {
- //        $log.debug('changed');
- //        if(oldVal == undefined){
- //            //do nothing
- //        } else {
- //          $rootScope.continueNav=false;
- //          $rootScope.preventNavigation =true;
- //          unregister();
- //        }
+ var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
+     $log.debug("watching");
+      if(newVal!=oldVal)
+      {
+        $log.debug('changed');
+        if(oldVal == undefined){
+            //do nothing
+        } else {
+          $rootScope.continueNav=false;
+          $rootScope.preventNavigation =true;
+          unregister();
+        }
         
- //        $log.debug('oldVal: ', oldVal);
- //        $log.debug('newVal: ', newVal);
- //      }
+        $log.debug('oldVal: ', oldVal);
+        $log.debug('newVal: ', newVal);
+      }
      
- //    }, true);
+    }, true);
+ var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
+      if(newVal!=oldVal)
+      {
+        $log.debug('changed');
+        if(oldVal == undefined){
+            //do nothing
+        } else {
+          $rootScope.continueNav=false;
+          $rootScope.preventNavigation =true;
+          unregister2();
+        }
+      }
+     
+    }, true);
 };
 
 function saveOneCategory(data) {
@@ -553,6 +567,9 @@ $scope.setActiveCategory = function(category)
   $scope.activeTab="tab_0";
 };
 
+
+
+ 
  var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
    $log.debug("watching");
     if(newVal!=oldVal)
@@ -570,6 +587,43 @@ $scope.setActiveCategory = function(category)
     }
    
   }, true);
+
+  var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
+  
+    if(newVal!=oldVal)
+    {
+      $log.debug('changed');
+      if(oldVal == undefined){
+          //do nothing
+      } else {
+        $rootScope.continueNav=false;
+        $scope.canSubmit = false;
+        $rootScope.preventNavigation=true;
+        unregister2();
+      }
+      
+    }
+   
+  }, true);
+
+ // var objectsToWatch = ['eventdoc', 'eventData'];
+ // var unregister=$scope.$watchGroup('objectsToWatch', function(newVal, oldVal){
+ //   console.log("watching fired");
+ //    if(newVal!=oldVal)
+ //    {
+ //      $log.debug('changed');
+ //      if(oldVal == undefined){
+ //          //do nothing
+ //      } else {
+ //        $rootScope.continueNav=false;
+ //        $scope.canSubmit = false;
+ //        $rootScope.preventNavigation=true;
+ //        unregister();
+ //      }
+      
+ //    }
+   
+ //  }, true);
 
 $scope.addDataColumn= function(columnName){
 
@@ -734,7 +788,7 @@ $scope.removeColumn = function() {
     // assuming using eventInstanceId as column name
     var newColumnName =  ''+new Date().getTime();
     var formattedDate = $filter('date')(newColumnName,'mediumDate');
-    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth});
+    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false});
     $scope.addDataColumn(newColumnName);
   }
 
@@ -767,7 +821,7 @@ $scope.removeColumn = function() {
        var headerHeight = 30; // your header height
        //if (id.split('_')[1] ==='0') {
           return {
-              height: ((grid.dailyData.length+1) * rowHeight + headerHeight) + "px" };
+              height: ((grid.dailyData.length+1) * rowHeight + headerHeight-12) + "px" };
        //}
        // else {
        // return {
