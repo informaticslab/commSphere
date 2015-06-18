@@ -659,11 +659,11 @@ $scope.generateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], enableCellEdit: true,enableSorting: false, enableCellEditOnFocus: true,minWidth: $scope.minTopicWidth,pinnedLeft:true};
+            oneColumnDef = {'field': columnArry[i], enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true};
           }
          else {
             var formattedDate = $filter('date')(columnArry[i],'mediumDate');
-            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate,  enableCellEdit: true, enableSorting: false, enableCellEditOnFocus : true, minWidth:$scope.minColWidth, enablePinning:false};
+            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false};
          }
             columnLayout.push(oneColumnDef);
        }
