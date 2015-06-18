@@ -298,12 +298,13 @@ $scope.showCopyOption = function (size,selectedInstance) {
 var copyOptionModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,selectedInstance) {
   $scope.selectedInstance = selectedInstance;
    $scope.copyOptions = [{
-        displayText: "Copy template with data",
-        optionValue : 1,
-        checked: true
-    }, {
         displayText: "Copy template only",
         optionValue : 2,
+        checked: true
+    },
+    {
+        displayText: "Copy template with data",
+        optionValue : 1,
         checked: false
     }];
     $scope.selectedOption = $scope.copyOptions[0].optionValue;
