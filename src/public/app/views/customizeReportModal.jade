@@ -14,14 +14,52 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 				.col-lg-8.col-md-8.col-sm-8
 					label Report Title
 					input.form-control(placeholder='Enter report title' ng-model='customizedDoc.title')
+			br
+			br
 			.row
 				.col-lg-12(ui-tree='options')
-					ol(ui-tree-nodes='' ng-model='customizedDoc' data-type='topic')
-						.col-lg-6.col-md-6.col-sm-6
-							label Section Header
-							input.form-control(placeholder='Enter section header' ng-model='customizedDoc.sectionHeader')
-						li(ng-repeat='section in customizedDoc')
-							| {{sectionName.sectionName}}
-							ol(ui-tree-nodes='' ng-model='cutomizedDoc.sectionName')
-								li(ng-repeat='sectionName in section')
+					ol(ui-tree-nodes='' ng-model='customizedDoc' data-type='section')
+						li(ng-repeat='section in customizedDoc', ui-tree-node='')
+							.topic-title.angular-ui-tree-handle(ng-show='!section.editing' ng-mouseenter="hoverSection = true" ng-mouseleave="hoverSection = false")
+								a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show='hoverSection' href='' data-nodrag='' ng-click='editSection(section)')
+									i.glyphicon.glyphicon-pencil
+								div  {{section.sectionName}}
+							.topic-title.angular-ui-tree-handle(data-nodrag='', ng-show='section.editing')
+								label.sr-only(for='SectionName') Section Name
+								input.form-control(type='text', placeholder='Section name', ng-model='section.sectionName' ng-keyup='$event.keyCode==13 ? saveTopic(topic,$event) : null' ng-blur='saveTopic(topic,$event)')
+							div(ng-repeat="category in section.sectionData.categories" ng-if='section.sectionName =="Document"')
+								h4.report-category
+									.checkbox
+										input(type='checkbox' ng-model='category.checked' ng-click='checkedValues(category)')
+										| {{category.name}}
+								div(ng-repeat="topic in category.topics") 
+									h4.report-topic
+										.checkbox
+											input(type='checkbox' ng-model='topic.checked')
+											| {{topic.name}}
+									ul
+										li(ng-repeat="topicBullets in topic.bullets") 
+											.checkbox
+												input(type='checkbox')
+												| {{topicBullets.name}}
+											ul
+												li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
+													.checkbox
+														input(type='checkbox')
+														| {{topicSubBullets.name}}
+									div(ng-repeat="subtopic in topic.subTopics")
+										h4.report-sub-topic
+											.checkbox
+												input(type='checkbox')
+												| {{subtopic.name}}
+										ul
+											li(ng-repeat="bullet in subtopic.bullets") 
+												.checkbox
+													input(type='checkbox')
+													| {{bullet.name}}	
+												ul
+													li(ng-repeat="subBullet in bullet.subBullets") 
+														.checkbox
+															input(type='checkbox')
+															| {{subBullet.name}}
 
