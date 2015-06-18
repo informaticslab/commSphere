@@ -407,24 +407,24 @@ $scope.saveCategory = function (status) {  // save data for the current tab
 
  $rootScope.continueNav=true;
  $rootScope.preventNavigation = false;
- var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
-     $log.debug("watching");
-      if(newVal!=oldVal)
-      {
-        $log.debug('changed');
-        if(oldVal == undefined){
-            //do nothing
-        } else {
-          $rootScope.continueNav=false;
-          $rootScope.preventNavigation =true;
-          unregister();
-        }
+ // var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
+ //     $log.debug("watching");
+ //      if(newVal!=oldVal)
+ //      {
+ //        $log.debug('changed');
+ //        if(oldVal == undefined){
+ //            //do nothing
+ //        } else {
+ //          $rootScope.continueNav=false;
+ //          $rootScope.preventNavigation =true;
+ //          unregister();
+ //        }
         
-        $log.debug('oldVal: ', oldVal);
-        $log.debug('newVal: ', newVal);
-      }
+ //        $log.debug('oldVal: ', oldVal);
+ //        $log.debug('newVal: ', newVal);
+ //      }
      
-    }, true);
+ //    }, true);
 };
 
 function saveOneCategory(data) {
