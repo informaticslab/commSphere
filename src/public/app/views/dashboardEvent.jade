@@ -176,7 +176,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         label.sr-only(for='gridName') Table name
                                                         input.form-control(type='text', placeholder='Table name', ng-model='grid.gridName' ng-keyup='$event.keyCode==13 ? saveTableName(grid,$event) : null' ng-blur='saveTableName(grid,$event)')
                                                     ol(ui-tree-nodes='', ng-model='grid.dailyData', data-type='subTopic')
-                                                            .grid(id="{{'grid_'+$index}}", ng-if="tabShown" ui-grid="{data: grid.dailyData, columnDefs : columns, showHeader:$index == 0,  showFooter: false, enableHorizontalScrollbar:1, enableVerticalScrollbar:0}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-row-edit,ui-grid-pinning) 
+                                                            .grid(id="{{'grid_'+$index}}", ng-if="tabShown" ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0, enableCellSelection: true, enableRowSelection: false, enableCellEdit: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
                                                             //- br
                                                             //- button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add New Row to {{grid.gridName}}
                                                             //- br
