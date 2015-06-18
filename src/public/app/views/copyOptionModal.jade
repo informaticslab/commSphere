@@ -12,28 +12,36 @@ div(ng-controller="copyOptionCtrl" style="background-color:#f2f2f2;")
         .col-sm-12
             table
               tr
-                th|Event Name:
-                td(style='padding-left: 5px;')|  {{selectedInstance.eventName}}
+                td.col-md-4
+                  | Event Name:
+                td
+                  | {{selectedInstance.eventName}}
               tr
-                th|Event ID:
-                td(style='padding-left: 5px;')|  {{selectedInstance.eventInstanceId}}
+                td.col-md-4
+                  | Event ID:
+                td
+                  | {{selectedInstance.eventInstanceId}}
               tr
-                th|Event Type:
-                td(style='padding-lef: 5px;')|  {{selectedInstance.eventType}}
+                td.col-md-4
+                  | Event Type:
+                td
+                  | {{selectedInstance.eventType}}
               tr
-                th|Created by:
-                td(style='padding-left: 5px;')|  {{selectedInstance.userCreated.displayName}}
+                td.col-md-4
+                  | Created by:
+                td
+                  | {{selectedInstance.userCreated.displayName}}
             hr
     .row
         .col-sm-12
-            .h4|Please selection an option
+            .h4|Please selection an option:
             div(ng-repeat="option in copyOptions")
               input(type='radio' name="copyChoice" ng-model = "$parent.selectedOption"  ng-value="option.optionValue")
               label(style='color:#337AB7')
                 |&nbsp; {{option.displayText}}
             br
             div
-              button.btn.btn-warning(type="button" ng-click="cancel()" style="float:left")
-               | Cancel
               button.btn.btn-success(type="button" ng-click="accept(selectedOption)" style="float:left; margin-left:5px;")
                | Accept
+              button.btn.btn-warning(type="button" ng-click="cancel()" style="float:left")
+               | Cancel
