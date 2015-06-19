@@ -136,7 +136,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                 //-             pre.code.
                                 //-                 {{ eventdoc | json }}   
                             //DATA TAB
-                            tab(heading="Data" select="tabShown = !tabShown" deselect="tabShown = !tabShown")
+                            tab(heading="Daily Metrics" select="tabShown = !tabShown" deselect="tabShown = !tabShown")
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;' ui-tree='options')
                                         br
@@ -144,7 +144,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             .col-lg-9.col-md-9.col-sm-9
                                                 .tab-title-heading
                                                     img(src='img/web-icon.png', width='37', height='32')
-                                                    |   Data
+                                                    |   Daily Metrics
                                         br
                                         hr
                                         br
@@ -164,7 +164,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             ol(ui-tree-nodes='', ng-model='eventData.gridData')
                                                 li(ng-repeat='grid in eventData.gridData', ui-tree-node=''  )
                                                     .topic-title.angular-ui-tree-handle(ng-show='!grid.editing' ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false")
-                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='removeTable(gridData,grid)')
+                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='removeTable(grid)')
                                                             i.glyphicon.glyphicon-trash
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='editTableName(grid)')
                                                             i.glyphicon.glyphicon-pencil
@@ -177,7 +177,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         label.sr-only(for='gridName') Table name
                                                         input.form-control(type='text', placeholder='Table name', ng-model='grid.gridName' ng-keyup='$event.keyCode==13 ? saveTableName(grid,$event) : null' ng-blur='saveTableName(grid,$event)')
                                                     ol(ui-tree-nodes='', ng-model='grid.dailyData', data-type='subTopic')
-                                                            .grid(id="{{'grid_'+$index}}", ng-if="tabShown" ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableCellSelection: true, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
+                                                            .grid(id="{{'grid_'+$index}}", ng-if="tabShown", ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableCellSelection: true, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
                                                             //- br
                                                             //- button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add New Row to {{grid.gridName}}
                                                             //- br
