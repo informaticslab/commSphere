@@ -15,12 +15,10 @@ angular.module('app').controller('customizeReportCtrl', function($scope) {
 			"editing": false
 		}]
 	};
-//For testing not useful
+
 	$scope.customizedDoc = [];
-	console.log($scope.eventdoc);
-	$scope.customizedDoc.push({sectionName: 'Document', sectionData:$scope.eventdoc});
-	$scope.customizedDoc.push({sectionName: 'Data', sectionData:$scope.eventData});
-	console.log($scope.customizedDoc);
+	$scope.customizedDoc.push({sectionName: 'Document', sectionType: 'Document', sectionData:$scope.eventdoc});
+	$scope.customizedDoc.push({sectionName: 'Metrics', sectionType: 'Metrics', sectionData:$scope.eventData});
 
 	for(var i = 0; i < $scope.customizedDoc.length; i++) {
 		console.log($scope.customizedDoc[i].sectionName);
@@ -33,32 +31,25 @@ angular.module('app').controller('customizeReportCtrl', function($scope) {
 		// 	console.log($scope.customizedDoc[i].sectionData[j]);
 		// }
 	}
-//
-	//Following two functions are for checking child boxes from parent
-	$scope.allNeedsClicked = function() {
-		var newValue = !$scope.allNeedsMet();
 
-		_.each($scope.todos, function(todo) {
-			todo.done = newValue;
-		});
+	$scope.checkOthers = function(category) {
+		category.checked = category.topics.checked;
+	}
+
+	$scope.checkCustomDoc = function() {
+		console.log($scope.customizedDoc);
+	}
+
+	$scope.checkedValues = function(isChecked) {
+		console.log(isChecked.checked);
 	};
 
-	// Returns true if and only if all todos are done.
-	$scope.allNeedsMet = function() {
-		var needsMet = _.reduce($scope.todos, function(memo, todo) {
-			return memo + (todo.done ? 1 : 0);
-		}, 0);
-
-		return (needsMet === $scope.todos.length);
-	};
-}
-
-	$scope.checkedValues = function(section) {
-		console.log(section.checked);
+	$scope.saveSection = function(section, e) {
+		// topic.save();
+		section.editing = false;
+		e.preventDefault();
 	};
 
-
-//Movable UI section
 	$scope.editSection = function(section) {
 		section.editing = true;
 	};

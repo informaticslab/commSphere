@@ -6,14 +6,21 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 					.create-new-event-cont
 						h2.h2-create-new(id='myModalLabel') {{eventdoc.eventName}}	
 						i Due Date: {{eventdoc.eventDueDate | date:'medium'}}		
-						h3 Cutomize Report		
+						h3 Customize Report		
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
 						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel()')
+					.submit-btn-cont
+						button.btn.btn-success.pull-right(type="button" ng-click="preview('lg','customizedDoc')")
+							| Preview Report
 		.modal-body
 			.row
 				.col-lg-8.col-md-8.col-sm-8
 					label Report Title
 					input.form-control(placeholder='Enter report title' ng-model='customizedDoc.title')
+					label Report type
+					input.form-control(placeholder='Enter report type' ng-model='customizedDoc.type')
+					button.btn-default(ng-click='checkCustomDoc()')
+						| Check Custom Doc
 			br
 			br
 			.row
@@ -26,40 +33,44 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 								div  {{section.sectionName}}
 							.topic-title.angular-ui-tree-handle(data-nodrag='', ng-show='section.editing')
 								label.sr-only(for='SectionName') Section Name
-								input.form-control(type='text', placeholder='Section name', ng-model='section.sectionName' ng-keyup='$event.keyCode==13 ? saveTopic(topic,$event) : null' ng-blur='saveTopic(topic,$event)')
-							div(ng-repeat="category in section.sectionData.categories" ng-if='section.sectionName =="Document"')
-								h4.report-category
-									.checkbox
-										input(type='checkbox' ng-model='category.checked' ng-click='checkedValues(category)')
-										| {{category.name}}
-								div(ng-repeat="topic in category.topics") 
-									h4.report-topic
+								input.form-control(type='text', placeholder='Section name', ng-model='section.sectionName' ng-keyup='$event.keyCode==13 ? saveSection(section,$event) : null' ng-blur='saveSection(section,$event)')
+							.report-wrapper
+								div(ng-repeat="category in section.sectionData.categories" ng-if='section.sectionType =="Document"')
+									h4.report-category
 										.checkbox
-											input(type='checkbox' ng-model='topic.checked')
-											| {{topic.name}}
-									ul
-										li(ng-repeat="topicBullets in topic.bullets") 
+											input(type='checkbox' ng-model='category.checked' ng-click='checkedValues(category)')
+											| {{category.name}}
+									div(ng-repeat="topic in category.topics") 
+										h4.report-topic
 											.checkbox
-												input(type='checkbox')
-												| {{topicBullets.name}}
-											ul
-												li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
-													.checkbox
-														input(type='checkbox')
-														| {{topicSubBullets.name}}
-									div(ng-repeat="subtopic in topic.subTopics")
-										h4.report-sub-topic
-											.checkbox
-												input(type='checkbox')
-												| {{subtopic.name}}
+												input(type='checkbox' ng-model='topic.checked' ng-click = 'checkedValues(topic)')
+												| {{topic.name}}
 										ul
-											li(ng-repeat="bullet in subtopic.bullets") 
+											li(ng-repeat="topicBullets in topic.bullets") 
 												.checkbox
-													input(type='checkbox')
-													| {{bullet.name}}	
+													input(type='checkbox' ng-model='topicBullets.checked')
+													| {{topicBullets.name}}
 												ul
-													li(ng-repeat="subBullet in bullet.subBullets") 
+													li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
 														.checkbox
-															input(type='checkbox')
-															| {{subBullet.name}}
+															input(type='checkbox' ng-model='topicSubBullets.checked')
+															| {{topicSubBullets.name}}
+										div(ng-repeat="subtopic in topic.subTopics")
+											h4.report-sub-topic
+												.checkbox
+													input(type='checkbox' ng-model='subtopic.checked')
+													| {{subtopic.name}}
+											ul
+												li(ng-repeat="bullet in subtopic.bullets") 
+													.checkbox
+														input(type='checkbox' ng-model = 'bullet.checked')
+														| {{bullet.name}}	
+													ul
+														li(ng-repeat="subBullet in bullet.subBullets") 
+															.checkbox
+																input(type='checkbox' ng-model='subBullet.checked')
+																| {{subBullet.name}}
+								div(ng-if='section.sectionType =="Metrics"')
+									| {{eventData}}
+
 
