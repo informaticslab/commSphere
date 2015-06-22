@@ -135,9 +135,9 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 										br
 										.row
 											ol(ui-tree-nodes='', ng-model='eventdoc.gridData')
-												li(ng-repeat='grid in eventdoc.gridData', ui-tree-node=''  )
+												li(ng-repeat='grid in eventdoc.gridData', ui-tree-node='' , on-finish-render="ngRepeatFinished")
 													.topic-title.angular-ui-tree-handle(ng-show='!grid.editing' ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false")
-														a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='removeTable(grid)')
+														a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='removeTable(grid.gridName)')
 															i.glyphicon.glyphicon-trash
 														a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href='', data-nodrag='', ng-click='editTableName(grid)')
 															i.glyphicon.glyphicon-pencil
@@ -150,7 +150,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 														label.sr-only(for='gridName') Table name
 														input.form-control(type='text', placeholder='Table name', ng-model='grid.gridName' ng-keyup='$event.keyCode==13 ? saveTableName(grid,$event) : null' ng-blur='saveTableName(grid,$event)')
 													ol(ui-tree-nodes='', ng-model='grid.dailyData', data-type='subTopic')
-															.grid(id="{{'grid_'+$index}}", ng-if="tabShown" ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableCellSelection: true, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
+															.grid(id="{{'grid_'+$index}}", ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableCellSelection: true, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
 															//- br
 															//- button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add New Row to {{grid.gridName}}
 															//- br
@@ -161,7 +161,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 														form.form-inline(role='form')
 															.form-topic
 																label.sr-only(for='gridName') Table name
-																input#gridName.form-control(type='text' ng-if="tabShow" placeholder='Enter Table name to add' ng-model="grid.newGridName" ng-keyup='$event.keyCode==13 ? addTable(grid,$event) : null' ng-blur='addTable(grid,$event)')
+																input#gridName.form-control(type='text' placeholder='Enter Table name to add' ng-model="grid.newGridName" ng-keyup='$event.keyCode==13 ? addTable(grid,$event) : null' ng-blur='addTable(grid,$event)')
 								.row
 									.col-lg-6
 											h3 Data binding

@@ -80,7 +80,6 @@ $scope.onTimeSet = function (newDate, oldDate) {
 
   if ($scope.draftInstance) {
     $scope.eventdoc = $scope.draftInstance;
-   
   }
 
   //created from existing event
@@ -456,19 +455,6 @@ $scope.addTable = function(grid) {
     var initialRow = {
      'label' : ''
     }
-  //   if ($scope.columns) {
-  //     if ($scope.columns.length >0) {
-  //     for(i = 0; i < $scope.columns.length; i++) {
-  //        if ($scope.columns[i].field !== 'label') {
-  //          initialRow[$scope.columns[i].field] = '*';  
-  //       }
-  //     }
-  //   }
-  // }
-  // else {
-  //          var newColumn = ''+$scope.eventdoc.dateCreated
-  //          initialRow[newColumn] = '*'; 
-  //      }
    
   $scope.eventdoc.gridData.push({
             gridName: grid.newGridName,
@@ -481,10 +467,9 @@ $scope.addTable = function(grid) {
   }
 };
 
-$scope.removeTable = function(grid) {
-    console.log(grid);
+$scope.removeTable = function(gridName) {
     for(var i=0; i < $scope.eventdoc.gridData.length ; i++){
-        if ($scope.eventdoc.gridData[i].gridName === grid.gridName) {
+        if ($scope.eventdoc.gridData[i].gridName === gridName) {
               $scope.eventdoc.gridData.splice(i,1);
         }
     }
@@ -547,12 +532,16 @@ $scope.generateColumnDefs= function() {
 }; 
 
 $scope.$on('uiGridEventEndCellEdit', function () {
-   $scope.tabCategory[0].active = true;
   //   $scope.chartData = $scope.getChartData();
   //   console.log('chart data inside grid update ', $scope.chartData );
   //   $scope.highChartConfig.series = $scope.chartData.series;
     
-})
+});
+
+$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+ //   $scope.tabCategory[0].active = true;
+});
+
 
 $scope.removeColumn = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();

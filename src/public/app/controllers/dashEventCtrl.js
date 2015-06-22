@@ -671,11 +671,10 @@ $scope.addTable = function(grid) {
   }
 };
 
-$scope.removeTable = function(grid) {
-    console.log(grid);
-    for(var i=0; i < $scope.eventdoc.gridData.length ; i++){
-        if ($scope.eventdoc.gridData[i].gridName === grid.gridName) {
-              $scope.eventdoc.gridData.splice(i,1);
+$scope.removeTable = function(gridName) {
+    for(var i=0; i < $scope.eventData.gridData.length ; i++){
+        if ($scope.eventData.gridData[i].gridName === gridName) {
+              $scope.eventData.gridData.splice(i,1);
         }
     }
     
