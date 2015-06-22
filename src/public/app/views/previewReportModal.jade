@@ -23,24 +23,24 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 							div(ng-repeat='category in section.sectionData.categories' ng-if='section.sectionType == "Document" && category.checked') 
 								h4.report-category
 									| {{category.name}}
-								ul
-									li(ng-repeat='topic in category.topics' ng-if='topic.checked') 
+								div(ng-repeat='topic in category.topics' ng-if='topic.checked')
+									h4.report-topic
 										| {{topic.name}}
-										ul
-											li(ng-repeat='topicBullets in topic.bullets' ng-if='topicBullets.checked') 
-												| {{topicBullets.name}}
-												ul
-													li(ng-repeat='topicSubBullets in topicBullets.subBullets' ng-if='topicSubBullets.checked')
-														| {{topicSubBullets.name}}
-										div(ng-repeat='subtopic in topic.subTopics' ng-if='subtopic.checked')
-											h4.report-sub-topic
-												| {{subtopic.name}}
+									ul
+										li(ng-repeat='topicBullets in topic.bullets' ng-if='topicBullets.checked') 
+											| {{topicBullets.name}}
 											ul
-												li(ng-repeat='bullet in subtopic.bullets' ng-if='bullet.checked') 
-													| {{bullet.name}}
-													ul
-														li(ng-repeat='subBullet in bullet.subBullets' ng-if='subBullet.checked') 
-															| {{subBullet.name}}
+												li(ng-repeat='topicSubBullets in topicBullets.subBullets' ng-if='topicSubBullets.checked')
+													| {{topicSubBullets.name}}
+									div(ng-repeat='subtopic in topic.subTopics' ng-if='subtopic.checked')
+										h4.report-sub-topic
+											| {{subtopic.name}}
+										ul
+											li(ng-repeat='bullet in subtopic.bullets' ng-if='bullet.checked') 
+												| {{bullet.name}}
+												ul
+													li(ng-repeat='subBullet in bullet.subBullets' ng-if='subBullet.checked') 
+														| {{subBullet.name}}
 							br
 
 						
