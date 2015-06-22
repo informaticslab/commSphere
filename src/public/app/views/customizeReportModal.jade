@@ -68,7 +68,14 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 															.checkbox
 																input(type='checkbox' ng-model='subBullet.checked')
 																| {{subBullet.name}}
-								div(ng-if='section.sectionType =="Metrics"')
-									| {{eventData}}
+								div(ng-if='section.sectionType == "Metrics"')
+									.row
+										ol(ui-tree-nodes='' ng-model='eventData.gridData')
+											li(ng-repeat='grid in eventData.gridData', ui-tree-node='')
+												.topic-title.angular-ui-tree-handle
+													div {{grid.gridName}}
+												ol(ui-tree-node='' ng-model='grid.dailyData' data-type='subTopic')
+													.grid(id="{{'grid_'+$index}}", ng-if="tabShown", ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableCellSelection: true, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
+													br
 
 
