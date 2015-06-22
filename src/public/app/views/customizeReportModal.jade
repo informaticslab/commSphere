@@ -9,18 +9,16 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 						h3 Customize Report		
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
 						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel()')
-					.submit-btn-cont
-						button.btn.btn-success.pull-right(type="button" ng-click="preview('lg','customizedDoc')")
-							| Preview Report
 		.modal-body
 			.row
 				.col-lg-8.col-md-8.col-sm-8
 					label Report Title
-					input.form-control(placeholder='Enter report title' ng-model='customizedDoc.title')
+					input.form-control(placeholder='Enter report title' ng-model='customizedDoc.title' )
 					label Report type
 					input.form-control(placeholder='Enter report type' ng-model='customizedDoc.type')
-					button.btn-default(ng-click='checkCustomDoc()')
-						| Check Custom Doc
+				.submit-btn-cont
+					button.btn.btn-success.pull-right(type="button" ng-click="preview('lg',customizedDoc)")
+						| Preview Report
 			br
 			br
 			.row

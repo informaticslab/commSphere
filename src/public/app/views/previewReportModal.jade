@@ -1,40 +1,46 @@
-div(ng-controller="previewReportCtrl" style="background-color:#f2f2f2;")
+div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 	.modal-content
 		.modal-header.header_dark
 			.row(style='background-color:#ffffff;')
 				.col-lg-12
 					.create-new-event-cont
-						h2.h2-create-new(id='myModalLabel') {{eventdoc.eventName}}	
-						h3 {{eventdoc.dateCreated | date:'medium'}}		
-						h3 Report Preview		
+						h2 Report Preview
+						i Due Date: {{eventdoc.eventDueDate | date:'medium'}}	
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
-						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type="button" ng-click="cancel()")
+						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel()')
 		.modal-body
 			.row
 				.col-lg-12.col-md-12.col-sm-12
 					.report-wrapper
-						h3.report-cat-title Media Summaries
-						div(ng-repeat="category in eventdoc.categories")
-							h4.report-category
-								| {{category.name}}
-							div(ng-repeat="topic in category.topics") 
-								h4.report-topic
-									| {{topic.name}}
+						h4 {{customizedDoc.title}}
+						h4 {{customizedDoc.type}}
+						h4 {{eventdoc.eventPublishDate | date:'medium'}}
+						br
+						br
+						div(ng-repeat='section in customizedDoc')
+							h4.report-cat-title
+								{{section.sectionName}}
+							div(ng-repeat='category in section.sectionData.categories' ng-if='section.sectionType == "Document" && category.checked') 
+								h4.report-category
+									| {{category.name}}
 								ul
-									li(ng-repeat="topicBullets in topic.bullets") 
-										| {{topicBullets.name}}
+									li(ng-repeat='topic in category.topics' ng-if='topic.checked') 
+										| {{topic.name}}
 										ul
-											li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
-												| {{topicSubBullets.name}}
-								div(ng-repeat="subtopic in topic.subTopics")
-									h4.report-sub-topic
-										| {{subtopic.name}}
-									ul
-										li(ng-repeat="bullet in subtopic.bullets") 
-											| {{bullet.name}}
+											li(ng-repeat='topicBullets in topic.bullets' ng-if='topicBullets.checked') 
+												| {{topicBullets.name}}
+												ul
+													li(ng-repeat='topicSubBullets in topicBullets.subBullets' ng-if='topicSubBullets.checked')
+														| {{topicSubBullets.name}}
+										div(ng-repeat='subtopic in topic.subTopics' ng-if='subtopic.checked')
+											h4.report-sub-topic
+												| {{subtopic.name}}
 											ul
-												li(ng-repeat="subBullet in bullet.subBullets") 
-													| {{subBullet.name}}
+												li(ng-repeat='bullet in subtopic.bullets' ng-if='bullet.checked') 
+													| {{bullet.name}}
+													ul
+														li(ng-repeat='subBullet in bullet.subBullets' ng-if='subBullet.checked') 
+															| {{subBullet.name}}
 							br
 
 						
@@ -44,4 +50,4 @@ div(ng-controller="previewReportCtrl" style="background-color:#f2f2f2;")
 			//- 	.col-lg-12
 			//- 		.form-comp-cont
 			//- 			label Report Title
-			//- 			input#exampleInputName2.form-control(placeholder="Enter report title" ng-model="reportTitle")
+			//- 			input#exampleInputName2.form-control(placeholder='Enter report title' ng-model='reportTitle')

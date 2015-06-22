@@ -1,23 +1,7 @@
-angular.module('app').controller('customizeReportCtrl', function($scope) {
-	$scope.eventData = { //Test grid model
-		"_id": "558179624f8a168122d39072",
-		"eventName": "Austin Hurricane",
-		"eventInstanceId": "AU0001-001",
-		gridData: [{
-			"gridName": "Public Interest",
-			"dailyData": [{
-				"label": "Inquiries to CDC-INFO",
-				"1434548481747": "20"
-			}, {
-				"label": "Inquiries to CDC EOC",
-				"1434548481747": "5"
-			}],
-			"editing": false
-		}]
-	};
+angular.module('app').controller('customizeReportCtrl', function($scope, $modal) {
 
 	$scope.customizedDoc = [];
-	$scope.customizedDoc.push({sectionName: 'Document', sectionType: 'Document', sectionData:$scope.eventdoc});
+	$scope.customizedDoc.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:$scope.eventdoc});
 	$scope.customizedDoc.push({sectionName: 'Metrics', sectionType: 'Metrics', sectionData:$scope.eventData});
 
 	for(var i = 0; i < $scope.customizedDoc.length; i++) {
@@ -56,6 +40,32 @@ angular.module('app').controller('customizeReportCtrl', function($scope) {
 
 	$scope.cancelEditingTopic = function(topic) {
 		topic.editing = false;
+	};
+
+	var previewReportModalInstanceCtrl = function($scope, $modalInstance, customizedDoc) {
+		$scope.customizedDoc = customizedDoc;
+
+		$scope.ok = function() {
+			$modalInstance.close();
+		};
+
+		$scope.cancel = function() {
+			$modalInstance.dismiss();
+		};
+	};
+
+	$scope.preview = function(size, customizedDoc) {
+		var modalInstance = $modal.open({
+			scope: $scope,
+			templateUrl: '/partials/previewReportModal',
+			controller: previewReportModalInstanceCtrl,
+			size: size,
+			resolve: {
+				customizedDoc: function() {
+					return customizedDoc;
+				}
+			}
+		});
 	};
 
 });
