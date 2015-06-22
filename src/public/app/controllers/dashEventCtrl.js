@@ -837,8 +837,12 @@ $scope.removeColumn = function() {
        // }
     };
 
-  var customizeReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc) {
+  var customizeReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc, eventData, columns, gridOptions, gridApi) {
     $scope.eventdoc = eventdoc;
+    $scope.eventData = eventData;
+    $scope.columns = columns;
+    $scope.gridOptions = gridOptions;
+    $scope.gridApi = gridApi;
 
     $scope.ok = function() {
       $modalInstance.close();
@@ -849,7 +853,7 @@ $scope.removeColumn = function() {
     };
   };
 
-  $scope.customize = function(size,eventdoc) {
+  $scope.customize = function(size,eventdoc,eventData, columns, gridOptions, gridApi) {
     var modalInstance = $modal.open({
       scope: $scope,
       templateUrl: '/partials/customizeReportModal',
@@ -858,7 +862,20 @@ $scope.removeColumn = function() {
       resolve: {
          eventdoc: function () {
            return eventdoc;
-         }
+         },
+          eventData: function() {
+            return eventData;
+          },
+          columns: function() {
+            return columns;
+          },
+          gridOptions: function() {
+            return gridOptions;
+          },
+          gridApi: function() {
+            return gridApi;
+          }
+         
        }
     });
   };
