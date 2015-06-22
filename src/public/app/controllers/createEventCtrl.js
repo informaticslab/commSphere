@@ -1,6 +1,9 @@
 angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log,ngEventIdService,$q) {
 $scope.identity = ngIdentity;
 
+$scope.tabCategory=[
+                    {active:false}
+                   ];
 $animate.enabled(false);
 $scope.allowSaveDrafts=false;
   var secondUnit = 1000;
@@ -58,7 +61,9 @@ $scope.allowSaveDrafts=false;
     "dateCreated": "",
     "draftStatus": true,
     "archiveStatus": false,
-    categories: []
+    categories: [],
+    gridData:[]  //temporary attach to eventdoc until actual event creation
+    
   };
 
    $scope.eventdoc.eventDueDate=moment().format();
@@ -440,6 +445,164 @@ $scope.setOverrideFlags = function() {
       $scope.isNew = false;
       $scope.eventNameReadonly = true;
    }
-} 
+}
+
+
+// grid section
+$scope.addTable = function(grid) {
+  
+  if (grid.newGridName.length > 0) {
+    var initialRow = {
+     'label' : ''
+    }
+   
+  $scope.eventdoc.gridData.push({
+            gridName: grid.newGridName,
+            dailyData: [initialRow]
+            });
+  if (!$scope.columns) {
+    $scope.columns = $scope.generateColumnDefs();
+  }
+  grid.newGridName="";
+  }
+};
+
+$scope.removeTable = function(gridName) {
+    for(var i=0; i < $scope.eventdoc.gridData.length ; i++){
+        if ($scope.eventdoc.gridData[i].gridName === gridName) {
+              $scope.eventdoc.gridData.splice(i,1);
+        }
+    }
+    
+}
+
+$scope.editTableName = function(grid) {
+  grid.editing = true;
+};
+
+$scope.cancelEditingTable = function(grid) {
+  grid.editing = false;
+};
+
+
+$scope.saveTableName = function(grid,e) {
+    // topic.save();
+    grid.editing = false;
+    e.preventDefault();
+  };
+
+
+$scope.generateColumnDefs= function() {
+   var columnArry = [];
+   var columnLayout = [];
+   // pick a grid to iterate
+   var oneGrid =  $scope.eventdoc.gridData[0];
+   if (oneGrid) {  // at least one grid exist
+       for (var columnName in oneGrid.dailyData[0]) {
+          if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
+            if (columnName !== '$$hashKey' && columnName != 'label')  {
+                columnArry.push(columnName);
+            } 
+          }
+       }
+
+    }
+    else {
+        $scope.addDataColumn('label');
+       // columnArry.push('label');
+        $scope.addDataColumn(''+$scope.eventdoc.dateCreated)
+        columnArry.push(''+$scope.eventdoc.dateCreated);
+    }
+       columnArry.sort();
+       columnArry.unshift('label');
+       for(i=0; i< columnArry.length; i++) {
+      // build columns defition object
+         if (columnArry[i] === 'label') {
+            oneColumnDef = {'field': columnArry[i], enableSorting:false, width: $scope.minTopicWidth,pinnedLeft:true};
+          }
+         else {
+            var formattedDate = $filter('date')(columnArry[i],'mediumDate');
+            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false};
+         }
+            columnLayout.push(oneColumnDef);
+       }
+
+       return columnLayout;
+     
+}; 
+
+$scope.$on('uiGridEventEndCellEdit', function () {
+  //   $scope.chartData = $scope.getChartData();
+  //   console.log('chart data inside grid update ', $scope.chartData );
+  //   $scope.highChartConfig.series = $scope.chartData.series;
+    
+});
+
+$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+ //   $scope.tabCategory[0].active = true;
+});
+
+
+$scope.removeColumn = function() {
+     var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
+     if (lastColumnName !=='label') {
+     $scope.columns.splice($scope.columns.length-1, 1);
+     for(var i=0; i < $scope.eventdoc.gridData.length; i++) {
+          for(var j=0; j<$scope.eventdoc.gridData[i].dailyData.length; j++){
+             if ($scope.eventdoc.gridData[i].dailyData[j].hasOwnProperty(lastColumnName)) {
+                delete $scope.eventdoc.gridData[i].dailyData[j][lastColumnName];
+             } else {  // column not exists, add
+             }
+          }
+      }
+    }
+  }
+  
+  $scope.addColumn = function() {
+    // assuming using eventInstanceId as column name
+    var newColumnName =  ''+new Date().getTime();
+    var formattedDate = $filter('date')(newColumnName,'mediumDate');
+    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false});
+    $scope.addDataColumn(newColumnName);
+  }
+
+ 
+  $scope.splice = function() {
+    $scope.columns.splice(1, 0, { field: 'company', enableSorting: false });
+  }
+ 
+  $scope.unsplice = function() {
+    $scope.columns.splice(1, 1);
+  }
+
+  $scope.addRow = function(grid,id) {
+    var n = grid.dailyData.length + 1;
+    grid.dailyData.push({
+                
+              });
+    // var myGrid = angular.element( document.querySelector( '#'+id ) );
+    // myGrid.css('height',(n+2)*30);
+  };
+
+  $scope.removeLastRow = function(grid,id) {
+
+    var n = grid.dailyData.length;
+    grid.dailyData.pop();
+
+  }
+  $scope.getTableHeight = function(grid,id) {
+       var rowHeight = 30; // your row height
+       var headerHeight = 30; // your header height
+       if (id.split('_')[1] ===  ''+($scope.eventdoc.gridData.length-1)) {
+         //  $scope.tabCategory[0].active = true;
+       }
+          return {
+              height: ((grid.dailyData.length+1) * rowHeight + headerHeight-12) + "px" };
+       //}
+       // else {
+       // return {
+       //    height: (grid.dailyData.length * rowHeight + headerHeight) + "px" };
+       // }
+    };
 
 });

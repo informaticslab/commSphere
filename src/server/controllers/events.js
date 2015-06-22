@@ -21,19 +21,33 @@ var ObjectID = require('mongodb').ObjectID;
 
 exports.saveEvent = function(req, res) {
 	var eventData = req.body;
+	console.log('b4 update ',eventData);
+	var dailyMetricsTemplate = eventData.gridData
 	console.log("req body****",req.body);
 	var Id = eventData._id;
   	delete eventData._id;
 	var collection = mongo.mongodb.collection('events');
 	var eventDataCollection = mongo.mongodb.collection('eventsData');
 	if (Id) {  // if existing id then update
-     collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
+	  // check if this is draft save or creation  
+	  if (eventData.draftStatus === false ){ 
+	  	 // detach daily metics if exist
+	  	  	if (dailyMetricsTemplate) {
+	  	 		delete eventData.gridData
+	 		}
+	  }
+	 collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
        if (err) {
 			res.send(err);
 			console.log(err);
 		}
 		else {
        console.log("document changed ", affectedDocCount);
+        // add a daily metrics here succesfully update 
+       if (affectedDocCount > 0 && !eventData.draftStatus) {
+       	  createDailyMetrics(eventData.eventInstanceId,eventData.eventName,eventData.dateCreated,dailyMetricsTemplate)
+       }
+
 	   res.send({success:true});
 		}
    		});
@@ -51,23 +65,10 @@ exports.saveEvent = function(req, res) {
 			 	 		console.log(err);
 			 	 	} else if (result.length < 1) {
 			 	 	// not exist, add
-
-			 	 	  //var creationDate =  eventData.dateCreated;
-			 	// 	  var creationTime =  new Date().toISOString().split('T')[1].replace('Z','').split(':').join('').split('.')[0];
 			 	 	  var newRecord = {
 			 	 	  			 "eventName": eventData.eventName,
 			 	 	  		  	"eventInstanceId": eventData.eventInstanceId,
 			 	 	  		  	"gridData" : []
-			 	 	  		 // 	"gridData" : [ {
-			 	 	  		 // 					'gridName': 'table 1',
-							 	 	 //  		 	"dailyData":
-							 	 	 //  		 		[
-							 	 	 //  		 			{
-							 	 	 //  		 				"subTopic":""
-							 	 	 //  		 		 	}
-							 	 	 //  		 		]
-							 	 	 //  		 	}
-			 	 	  		 // 				]
 			 	 	  		  	};
 			 	 	 // 	newRecord.dailyData[0][creationDate] = null;
 			 	 	  	//newRecord.gridData[0].dailyData[0][creationDate] = '*';
@@ -114,6 +115,102 @@ exports.saveEvent = function(req, res) {
  	});
   }
 };
+
+// exports.saveEvent = function(req, res) {
+// 	var eventData = req.body;
+// 	console.log("req body****",req.body);
+// 	var Id = eventData._id;
+//   	delete eventData._id;
+// 	var collection = mongo.mongodb.collection('events');
+// 	var eventDataCollection = mongo.mongodb.collection('eventsData');
+// 	if (Id) {  // if existing id then update
+//      collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
+//        if (err) {
+// 			res.send(err);
+// 			console.log(err);
+// 		}
+// 		else {
+//        console.log("document changed ", affectedDocCount);
+// 	   res.send({success:true});
+// 		}
+//    		});
+// 	}
+// 	else {
+//   		collection.insert(eventData, function(err, result) {
+// 		if(err) {
+// 			res.send(err);
+// 			console.log(err);
+// 		} else {
+// 			// create matching data collection for this new event if not exist	
+// 			var partialId = new RegExp('^'+eventData.eventInstanceId.split('-')[0]);		
+// 	 			eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
+// 				  	if(err){
+// 			 	 		console.log(err);
+// 			 	 	} else if (result.length < 1) {
+// 			 	 	// not exist, add
+
+// 			 	 	  //var creationDate =  eventData.dateCreated;
+// 			 	// 	  var creationTime =  new Date().toISOString().split('T')[1].replace('Z','').split(':').join('').split('.')[0];
+// 			 	 	  var newRecord = {
+// 			 	 	  			 "eventName": eventData.eventName,
+// 			 	 	  		  	"eventInstanceId": eventData.eventInstanceId,
+// 			 	 	  		  	"gridData" : []
+// 			 	 	  		 // 	"gridData" : [ {
+// 			 	 	  		 // 					'gridName': 'table 1',
+// 							 	 	 //  		 	"dailyData":
+// 							 	 	 //  		 		[
+// 							 	 	 //  		 			{
+// 							 	 	 //  		 				"subTopic":""
+// 							 	 	 //  		 		 	}
+// 							 	 	 //  		 		]
+// 							 	 	 //  		 	}
+// 			 	 	  		 // 				]
+// 			 	 	  		  	};
+// 			 	 	 // 	newRecord.dailyData[0][creationDate] = null;
+// 			 	 	  	//newRecord.gridData[0].dailyData[0][creationDate] = '*';
+// 			 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
+// 							if(err) {
+// 							res.send(err);
+// 							console.log(err);
+// 							} else {
+								
+// 							}
+// 			 			});
+// 	 	 	  		}
+// 	 	 	  		else {  // event data already exists,  add the next column the for new instance
+// 	 					  for (var j=0; j < result[0].gridData.length; j++){
+// 	 					     for(var i=0; i < result[0].gridData[j].dailyData.length; i++) {
+// 						           if (result[0].gridData[j].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
+// 						              // column alread there
+// 						           } else {  // column not exists, add
+// 						               result[0].gridData[j].dailyData[i][eventData.dateCreated] = '*';
+// 						           }
+// 						      }
+// 						   }   
+// 						  console.log(result[0]);
+// 						  var Id = result[0]._id;
+// 						  delete result[0]._id;   
+// 						  eventDataCollection.update({"_id":ObjectID(Id)},result[0],function(err, affectedDocCount) {
+// 						       if (err) {
+// 									res.send(err);
+// 									console.log(err);
+// 								}
+// 								else {
+// 						       console.log("event data document changed ", affectedDocCount);
+// 							   res.send({success:true});
+// 								}
+// 						   		});
+//   // end of eventdata exist
+// 	 	 	  		}
+// 	 	 	  	});		
+	
+// 	// end of new block
+
+// 			res.send({success:true});
+// 		}
+//  	});
+//   }
+// };
 
 exports.saveDraft = function(req,res) {
   var eventData = req.body;
@@ -339,6 +436,67 @@ function getPaddedNum(numText,padLength) {
  
 }
 
+function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData){
+	var eventDataCollection = mongo.mongodb.collection('eventsData');
+  	var partialId = new RegExp('^'+eventInstanceId.split('-')[0]);		
+	eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
+	  	if(err){
+			console.log(err);
+	 	} else if (result.length < 1) {
+			 	 	// not exist, add
+			 	 	  for(var i=0; i < gridData.length; i++) {
+					        var oneGrid = gridData[i];
+					        for (var j=0; j < oneGrid.dailyData.length; j++) {
+					           if (oneGrid.dailyData[j].hasOwnProperty(''+dateCreated)) {
+					           } else {  // column not exists, add
+					               oneGrid.dailyData[j][''+dateCreated] = '*';
+					           }
+					        }
+					  }
+			 	 	  var newRecord = {
+			 	 	  			 "eventName": eventName,
+			 	 	  		  	"eventInstanceId": eventInstanceId,
+			 	 	  		  	"gridData" : gridData
+			 	 	  		  	};
+
+			 	 	  	//newRecord.gridData[0].dailyData[0][creationDate] = '*';
+			 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
+							if(err) {
+							res.send(err);
+							console.log(err);
+							} else {
+								
+							}
+			 			});
+	 	 	  		}
+	 	 	  		else {  // event data already exists,  add the next column the for new instance
+	 					  for (var j=0; j < result[0].gridData.length; j++){
+	 					     for(var i=0; i < result[0].gridData[j].dailyData.length; i++) {
+						           if (result[0].gridData[j].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
+						              // column alread there
+						           } else {  // column not exists, add
+						               result[0].gridData[j].dailyData[i][eventData.dateCreated] = '*';
+						           }
+						      }
+						   }   
+						  console.log(result[0]);
+						  var Id = result[0]._id;
+						  delete result[0]._id;   
+						  eventDataCollection.update({"_id":ObjectID(Id)},result[0],function(err, affectedDocCount) {
+						       if (err) {
+									res.send(err);
+									console.log(err);
+								}
+								else {
+						       console.log("event data document changed ", affectedDocCount);
+							   res.send({success:true});
+								}
+						   		});
+  // end of eventdata exist
+	 	 	  		}
+	 	 	  	});		
+}
+
 exports.getDataById = function(req,res){
 	var collection = mongo.mongodb.collection('eventData');
 	var partialId = new RegExp('^'+req.params.id.split('-')[0]);
@@ -356,3 +514,9 @@ exports.getDataById2 = function(req,res){
 
 	})
 }
+
+function addDataColumn(columnName){
+
+ 
+  
+};

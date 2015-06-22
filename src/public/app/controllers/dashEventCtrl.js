@@ -671,6 +671,14 @@ $scope.addTable = function(grid) {
   }
 };
 
+$scope.removeTable = function(gridName) {
+    for(var i=0; i < $scope.eventData.gridData.length ; i++){
+        if ($scope.eventData.gridData[i].gridName === gridName) {
+              $scope.eventData.gridData.splice(i,1);
+        }
+    }
+    
+}
 $scope.editTableName = function(grid) {
   grid.editing = true;
 };
