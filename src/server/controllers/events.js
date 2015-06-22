@@ -59,54 +59,57 @@ exports.saveEvent = function(req, res) {
 			console.log(err);
 		} else {
 			// create matching data collection for this new event if not exist	
-			var partialId = new RegExp('^'+eventData.eventInstanceId.split('-')[0]);		
-	 			eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
-				  	if(err){
-			 	 		console.log(err);
-			 	 	} else if (result.length < 1) {
-			 	 	// not exist, add
-			 	 	  var newRecord = {
-			 	 	  			 "eventName": eventData.eventName,
-			 	 	  		  	"eventInstanceId": eventData.eventInstanceId,
-			 	 	  		  	"gridData" : []
-			 	 	  		  	};
-			 	 	 // 	newRecord.dailyData[0][creationDate] = null;
-			 	 	  	//newRecord.gridData[0].dailyData[0][creationDate] = '*';
-			 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
-							if(err) {
-							res.send(err);
-							console.log(err);
-							} else {
+				if (!eventData.draftStatus) {
+       	 			 createDailyMetrics(eventData.eventInstanceId,eventData.eventName,eventData.dateCreated,dailyMetricsTemplate)
+       			}
+		// 	var partialId = new RegExp('^'+eventData.eventInstanceId.split('-')[0]);		
+	 // 			eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
+		// 		  	if(err){
+		// 	 	 		console.log(err);
+		// 	 	 	} else if (result.length < 1) {
+		// 	 	 	// not exist, add
+		// 	 	 	  var newRecord = {
+		// 	 	 	  			 "eventName": eventData.eventName,
+		// 	 	 	  		  	"eventInstanceId": eventData.eventInstanceId,
+		// 	 	 	  		  	"gridData" : []
+		// 	 	 	  		  	};
+		// 	 	 	 // 	newRecord.dailyData[0][creationDate] = null;
+		// 	 	 	  	//newRecord.gridData[0].dailyData[0][creationDate] = '*';
+		// 	 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
+		// 					if(err) {
+		// 					res.send(err);
+		// 					console.log(err);
+		// 					} else {
 								
-							}
-			 			});
-	 	 	  		}
-	 	 	  		else {  // event data already exists,  add the next column the for new instance
-	 					  for (var j=0; j < result[0].gridData.length; j++){
-	 					     for(var i=0; i < result[0].gridData[j].dailyData.length; i++) {
-						           if (result[0].gridData[j].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
-						              // column alread there
-						           } else {  // column not exists, add
-						               result[0].gridData[j].dailyData[i][eventData.dateCreated] = '*';
-						           }
-						      }
-						   }   
-						  console.log(result[0]);
-						  var Id = result[0]._id;
-						  delete result[0]._id;   
-						  eventDataCollection.update({"_id":ObjectID(Id)},result[0],function(err, affectedDocCount) {
-						       if (err) {
-									res.send(err);
-									console.log(err);
-								}
-								else {
-						       console.log("event data document changed ", affectedDocCount);
-							   res.send({success:true});
-								}
-						   		});
-  // end of eventdata exist
-	 	 	  		}
-	 	 	  	});		
+		// 					}
+		// 	 			});
+	 // 	 	  		}
+	 // 	 	  		else {  // event data already exists,  add the next column the for new instance
+	 // 					  for (var j=0; j < result[0].gridData.length; j++){
+	 // 					     for(var i=0; i < result[0].gridData[j].dailyData.length; i++) {
+		// 				           if (result[0].gridData[j].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
+		// 				              // column alread there
+		// 				           } else {  // column not exists, add
+		// 				               result[0].gridData[j].dailyData[i][eventData.dateCreated] = '*';
+		// 				           }
+		// 				      }
+		// 				   }   
+		// 				  console.log(result[0]);
+		// 				  var Id = result[0]._id;
+		// 				  delete result[0]._id;   
+		// 				  eventDataCollection.update({"_id":ObjectID(Id)},result[0],function(err, affectedDocCount) {
+		// 				       if (err) {
+		// 							res.send(err);
+		// 							console.log(err);
+		// 						}
+		// 						else {
+		// 				       console.log("event data document changed ", affectedDocCount);
+		// 					   res.send({success:true});
+		// 						}
+		// 				   		});
+  // // end of eventdata exist
+	 // 	 	  		}
+	 // 	 	  	});		
 	
 	// end of new block
 
@@ -470,12 +473,12 @@ function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData){
 			 			});
 	 	 	  		}
 	 	 	  		else {  // event data already exists,  add the next column the for new instance
-	 					  for (var j=0; j < result[0].gridData.length; j++){
-	 					     for(var i=0; i < result[0].gridData[j].dailyData.length; i++) {
-						           if (result[0].gridData[j].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
+	 					  for (var i=0; i < result[0].gridData.length; i++){
+	 					     for(var j=0; j < result[0].gridData[i].dailyData.length; j++) {
+						           if (result[0].gridData[i].dailyData[j].hasOwnProperty(''+dateCreated)) {
 						              // column alread there
 						           } else {  // column not exists, add
-						               result[0].gridData[j].dailyData[i][eventData.dateCreated] = '*';
+						               result[0].gridData[i].dailyData[j][''+dateCreated] = '*';
 						           }
 						      }
 						   }   
@@ -489,7 +492,6 @@ function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData){
 								}
 								else {
 						       console.log("event data document changed ", affectedDocCount);
-							   res.send({success:true});
 								}
 						   		});
   // end of eventdata exist
@@ -514,9 +516,3 @@ exports.getDataById2 = function(req,res){
 
 	})
 }
-
-function addDataColumn(columnName){
-
- 
-  
-};
