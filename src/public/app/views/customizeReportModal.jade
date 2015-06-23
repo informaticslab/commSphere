@@ -33,6 +33,14 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 								label.sr-only(for='SectionName') Section Name
 								input.form-control(type='text', placeholder='Section name', ng-model='section.sectionName' ng-keyup='$event.keyCode==13 ? saveSection(section,$event) : null' ng-blur='saveSection(section,$event)')
 							.report-wrapper
+								div(ng-if='section.sectionType == "Metrics"')
+									.row
+										ol(ui-tree-nodes='' ng-model='section.sectionData.gridData')
+											li(ng-repeat='grid in section.sectionData.gridData', ui-tree-node='')
+												.topic-title.angular-ui-tree-handle(data-nodrag='')
+													div {{grid.gridName}}
+												ol(ui-tree-node='' ng-model='grid.dailyData' data-type='subTopic')
+													.grid(id="{{'grid_'+$index}}", ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
 								div(ng-repeat="category in section.sectionData.categories" ng-if='section.sectionType =="Document"')
 									h4.report-category
 										.checkbox
@@ -68,14 +76,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 															.checkbox
 																input(type='checkbox' ng-model='subBullet.checked')
 																| {{subBullet.name}}
-								div(ng-if='section.sectionType == "Metrics"')
-									.row
-										ol(ui-tree-nodes='' ng-model='section.sectionData.gridData')
-											li(ng-repeat='grid in section.sectionData.gridData', ui-tree-node='')
-												.topic-title.angular-ui-tree-handle(data-nodrag='')
-													div {{grid.gridName}}
-												ol(ui-tree-node='' ng-model='grid.dailyData' data-type='subTopic')
-													.grid(id="{{'grid_'+$index}}", ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableCellSelection: true, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
+								
 													
 
 
