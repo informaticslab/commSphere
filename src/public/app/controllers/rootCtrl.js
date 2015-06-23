@@ -1,4 +1,4 @@
-commSphereApp.controller('rootCtrl', ['$scope', '$rootScope','$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route','$log', function($scope, $rootScope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route,$log) {
+commSphereApp.controller('rootCtrl', ['$scope', '$rootScope','$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route','$log','$http', function($scope, $rootScope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route,$log,$http) {
 $rootScope.continueNav = true;
 $("#wrapper").show();
 $scope.activeMenu='';
@@ -115,11 +115,35 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
           }
      }
    }
-   
+   // attach a dailymetrics to draft instance here
+     $http.get('api/events/data2/'+selectedInstance.eventInstanceId).then(function(res){
+       var metricsTemplate = [];
+       if(res.data) {
+              // copy column label only
+           
+             var gridData = res.data[0].gridData;
+             for (i=0; i < gridData.length; i++) {
+                   var oneGrid = {
+                                    'gridName': gridData[i].gridName,
+                                    'dailyData' : []
+                                 }
+                   for (j=0; j < gridData[i].dailyData.length; j++) {
+                      var oneRow = {
+                                           'label' : gridData[i].dailyData[j]['label']
+                                       }
+                      oneGrid.dailyData.push(oneRow);
+                   }
+              metricsTemplate.push(oneGrid);
+
+             }
+           } else {
+               alert('no Eventdata received');
+           }
+       selectedInstance.gridData = metricsTemplate;
+  });
+  
    $log.debug(selectedInstance);
 };
-
-
 }]);
 
 
