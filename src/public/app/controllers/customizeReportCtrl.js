@@ -3,12 +3,9 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal)
 	$scope.customizedDoc = [];
 	$scope.customizedDoc.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:$scope.eventdoc});
 	$scope.customizedDoc.push({sectionName: 'Metrics', sectionType: 'Metrics', sectionData:$scope.eventData});
-
 	
 	$scope.minColWidth = 110;
 	$scope.minTopicWidth = 200;
-	$scope.chartData ={};
-	$scope.highChartConfig = {};
 
 	// $scope.checkOthers = function(category) {
 	// 	category.checked = category.topics.checked;
