@@ -91,6 +91,10 @@ input[type="text"].eventTemplateTopic {
   }
 }
 
+.modal-sm{
+  width: 70%;
+}
+
 .btn {
     margin-right: 8px;
 }
@@ -284,4 +288,8 @@ margin-top: 0px;
 
 .fixedWidthMenu{
   min-width:220px;
+}
+
+.preview-report-headers {
+  text-align: center;
 }

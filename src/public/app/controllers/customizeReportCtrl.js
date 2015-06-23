@@ -8,6 +8,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal)
 	$scope.minColWidth = 110;
 	$scope.minTopicWidth = 200;
 
+
 	// $scope.checkOthers = function(category) {
 	// 	category.checked = category.topics.checked;
 	// }
@@ -65,30 +66,6 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal)
 		}
 	};
 
-	$scope.removeTable = function(gridName) {
-		for (var i = 0; i < $scope.eventData.gridData.length; i++) {
-			if ($scope.eventData.gridData[i].gridName === gridName) {
-				$scope.eventData.gridData.splice(i, 1);
-			}
-		}
-
-	}
-	$scope.editTableName = function(grid) {
-		grid.editing = true;
-	};
-
-	$scope.cancelEditingTable = function(grid) {
-		grid.editing = false;
-	};
-
-
-	$scope.saveTableName = function(grid, e) {
-		// topic.save();
-		grid.editing = false;
-		e.preventDefault();
-	};
-
-
 	$scope.generateColumnDefs = function() {
 		var columnArry = [];
 		var columnLayout = [];
@@ -119,7 +96,8 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal)
 					'field': columnArry[i],
 					enableSorting: false,
 					minWidth: $scope.minTopicWidth,
-					pinnedLeft: true
+					pinnedLeft: true,
+					enableColumnMenu: false
 				};
 			} else {
 				var formattedDate = $filter('date')(columnArry[i], 'mediumDate');
@@ -128,7 +106,9 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal)
 					'displayName': formattedDate,
 					enableSorting: false,
 					minWidth: $scope.minColWidth,
-					enablePinning: false
+					enablePinning: false,
+					enableColumnMenu: false
+
 				};
 			}
 			columnLayout.push(oneColumnDef);
