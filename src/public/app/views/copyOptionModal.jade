@@ -40,8 +40,17 @@ div(ng-controller="copyOptionCtrl" style="background-color:#f2f2f2;")
               label(style='color:#337AB7')
                 |&nbsp; {{option.displayText}}
             br
+            //-div
+              input(type='checkbox' ng-model = "copyMetricTemplate") 
+              label(style='color:#337AB7')
+                |&nbsp; {{copyMetricOptions.displayText}}
+              br
+              //-| {{copyMetricTemplate}}
+              | Please note that copy daily metrics template option has no affect if you are creating a new instance
+              br
+              br
             div
-              button.btn.btn-success(type="button" ng-click="accept(selectedOption)" style="float:left; margin-left:5px;")
+              button.btn.btn-success(type="button" ng-click="accept(selectedOption,copyMetricTemplate)" style="float:left; margin-left:5px;")
                | Accept
               button.btn.btn-warning(type="button" ng-click="cancel()" style="float:left")
                | Cancel

@@ -28,15 +28,13 @@ exports.saveEvent = function(req, res) {
   	delete eventData._id;
 	var collection = mongo.mongodb.collection('events');
 	var eventDataCollection = mongo.mongodb.collection('eventsData');
-	if (Id) {  // if existing id then update
-	  // check if this is draft save or creation  
-	  if (eventData.draftStatus === false ){ 
-	  	 // detach daily metics if exist
-	  	  	if (dailyMetricsTemplate) {
+	// detach daily metics if exist
+	if (dailyMetricsTemplate) {
 	  	 		delete eventData.gridData
 	 		}
-	  }
-	 collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
+	if (Id) {  // if existing id then update
+	  // check if this is draft save or creation  
+	   collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
        if (err) {
 			res.send(err);
 			console.log(err);
@@ -500,15 +498,6 @@ function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData){
 }
 
 exports.getDataById = function(req,res){
-	var collection = mongo.mongodb.collection('eventData');
-	var partialId = new RegExp('^'+req.params.id.split('-')[0]);
-	collection.find({'eventInstanceId': {$regex: partialId}}).sort({'dateCollected':-1}).toArray(function(err,docs){
-         res.send(docs);
-
-	})
-}
-
-exports.getDataById2 = function(req,res){
 	var collection = mongo.mongodb.collection('eventsData');
 	var partialId = new RegExp('^'+req.params.id.split('-')[0]);
 	collection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,docs){

@@ -70,7 +70,7 @@ $scope.logout = function(){
           var selectedInstance = newResult.selectedInstance;
           var copyOption = newResult.copyOption;
           $scope.cleanDoc(selectedInstance,copyOption);
-          $scope.createEvent('lg',selectedInstance,false,true); 
+          //$scope.createEvent('lg',selectedInstance,false,true); 
       }, function () {
    //         $log.info('Modal dismissed at: ' + new Date());
       });
@@ -84,11 +84,12 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
    selectedInstance.dateCreated = "";
    selectedInstance.draftStatus = true;
    selectedInstance.archiveStatus =  false;
+    var metricsTemplate = [];
    for (var i=0; i < selectedInstance.categories.length; i++)
    {
        selectedInstance.categories[i].statusCompleted = false;
        selectedInstance.categories[i].dateCompleted = "";
-       if (copyOption === 2) {
+       if (copyOption.selectedOption === 2) {
         // clear bullets under sub topics here
           topics = selectedInstance.categories[i].topics;
           if (topics) {
@@ -115,9 +116,11 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
           }
      }
    }
+   if (copyOption.copyMetric){
    // attach a dailymetrics to draft instance here
-     $http.get('api/events/data2/'+selectedInstance.eventInstanceId).then(function(res){
-       var metricsTemplate = [];
+   //  console.log('copy template activated');
+     $http.get('api/events/data/'+selectedInstance.eventInstanceId).then(function(res){
+      
        if(res.data) {
               // copy column label only
            
@@ -140,9 +143,13 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
                alert('no Eventdata received');
            }
        selectedInstance.gridData = metricsTemplate;
+       $scope.createEvent('lg',selectedInstance,false,true); 
   });
-  
+  }
+  else {
+   $scope.createEvent('lg',selectedInstance,false,true); 
    $log.debug(selectedInstance);
+ }
 };
 }]);
 
@@ -321,6 +328,7 @@ $scope.showCopyOption = function (size,selectedInstance) {
 
 var copyOptionModalCtrl = function ($scope, $modalInstance,$location,$route,$timeout,selectedInstance) {
   $scope.selectedInstance = selectedInstance;
+  $scope.copyMetricTemplate = true;  // always copy the daily metrics grid for now.
    $scope.copyOptions = [{
         displayText: "Copy template only",
         optionValue : 2,
@@ -331,8 +339,15 @@ var copyOptionModalCtrl = function ($scope, $modalInstance,$location,$route,$tim
         optionValue : 1,
         checked: false
     }];
-    $scope.selectedOption = $scope.copyOptions[0].optionValue;
 
+    $scope.copyMetricOptions  =  {
+      displayText: "Copy Daily Metrics Template",
+        optionValue : 1,
+        checked: false
+    }
+    $scope.selectedOption = $scope.copyOptions[0].optionValue;
+   
+    
     // $scope.copyOptionSelected = function(option) {
     //     angular.forEach($scope.copyOptions, function(oneOption) {
     //         oneOption.checked = false;
@@ -341,9 +356,9 @@ var copyOptionModalCtrl = function ($scope, $modalInstance,$location,$route,$tim
     //     $scope.selectedOption = option; 
     // };
  
-  $scope.accept = function (selectedOption) {
-    $modalInstance.close(selectedOption);
-    
+  $scope.accept = function (selectedOption,copyMetricTemplate) {
+    var selectedOptions = { 'selectedOption': selectedOption, 'copyMetric': copyMetricTemplate}
+    $modalInstance.close(selectedOptions);
   };
 
   $scope.cancel = function () {
