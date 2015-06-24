@@ -69,7 +69,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      //    }
      //  });
      // set second set of test data
-     $http.get('api/events/data2/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
+     $http.get('api/events/data/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
         if (dataResult.data.length > 0 ){
        
             $scope.eventData = dataResult.data[0];
@@ -307,10 +307,10 @@ $scope.setActiveTab = function(tabId)
         
         var sourceNode = event.source.nodeScope;
         var destNodes = event.dest.nodesScope;
-        console.log(event);
+        //console.log(event);
         if(destNodes.$element.attr('data-type')=="bullet")
         {
-          console.log("OK!!",sourceNode.subBullet.type)
+          //console.log("OK!!",sourceNode.subBullet.type)
           sourceNode.subBullet.type="bullet";
           sourceNode.subBullet.subBullets=[];
         }
@@ -325,7 +325,7 @@ $scope.setActiveTab = function(tabId)
         }
         //delete sourceNode.subBullet.newSubBulletName;
         //sourceNode.subBullet.newBulletName="";
-        console.log(sourceNode.subBullet);
+        //console.log(sourceNode.subBullet);
         // update changes to server
         if (destNodes.isParent(sourceNode)
           && destNodes.$element.attr('data-type') == 'subTopic') { // If it moves in the same topic, then only update topic
@@ -333,7 +333,7 @@ $scope.setActiveTab = function(tabId)
           var topic = destNodes.$nodeScope.$modelValue;
           // topic.save();
         } else { // save all
-          console.log("257");
+       //   console.log("257");
        //   $scope.saveTopics();
         }
       },
@@ -641,7 +641,7 @@ $scope.addDataColumn= function(columnName){
 
 
 $scope.addTable = function(grid) {
-  
+  if (grid) {
   if (grid.newGridName.length > 0) {
     var initialRow = {
      'label' : ''
@@ -669,6 +669,7 @@ $scope.addTable = function(grid) {
   }
   grid.newGridName="";
   }
+}
 };
 
 $scope.removeTable = function(gridName) {
@@ -725,7 +726,7 @@ $scope.generateColumnDefs= function() {
           }
          else {
             var formattedDate = $filter('date')(columnArry[i],'mediumDate');
-            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false};
+            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false};
          }
             columnLayout.push(oneColumnDef);
        }

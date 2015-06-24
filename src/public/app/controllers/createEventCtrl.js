@@ -1,6 +1,8 @@
 angular.module('app').controller('createEventCtrl', function($scope, $http, $filter, $route, ngNotifier,$location,$interval,$animate,ngIdentity, ngUser,$log,ngEventIdService,$q) {
 $scope.identity = ngIdentity;
-
+$scope.eventNameOverride = false;
+$scope.minColWidth = 110;
+$scope.minTopicWidth = 500;
 $scope.tabCategory=[
                     {active:false}
                    ];
@@ -62,7 +64,7 @@ $scope.allowSaveDrafts=false;
     "draftStatus": true,
     "archiveStatus": false,
     categories: [],
-    gridData:[]  //temporary attach to eventdoc until actual event creation
+    "gridData":[]  //temporary attach to eventdoc until actual event creation
     
   };
 
@@ -80,6 +82,10 @@ $scope.onTimeSet = function (newDate, oldDate) {
 
   if ($scope.draftInstance) {
     $scope.eventdoc = $scope.draftInstance;
+    if ($scope.eventdoc.gridData) {
+      // $scope.columns = generateColumnDefs();
+      // console.log($scope.columns)
+    }
   }
 
   //created from existing event
@@ -437,6 +443,10 @@ $scope.setOverrideFlags = function() {
    if($scope.eventNameOverride && editConfirm) {  // user checked the override box
       $scope.isNew = true;
       $scope.eventNameReadonly = false;
+      // disable the checkbox here
+      $scope.eventNameOverrideDisable = true;
+     
+     // $scope.columns = generateColumnDefs();
    }
    else {// user unchecked the box
       // reset the name
@@ -444,6 +454,7 @@ $scope.setOverrideFlags = function() {
       $scope.eventdoc.eventName = $scope.savedEventName;
       $scope.isNew = false;
       $scope.eventNameReadonly = true;
+   //   $scope.columns = generateColumnDefs();
    }
 }
 
@@ -491,8 +502,12 @@ $scope.saveTableName = function(grid,e) {
     e.preventDefault();
   };
 
+$scope.canEditGrid = function() {
+   // return $scope.eventNameOverride;
+   return true;
+ };
 
-$scope.generateColumnDefs= function() {
+function generateColumnDefs() {
    var columnArry = [];
    var columnLayout = [];
    // pick a grid to iterate
@@ -508,6 +523,7 @@ $scope.generateColumnDefs= function() {
 
     }
     else {
+
         $scope.addDataColumn('label');
        // columnArry.push('label');
         $scope.addDataColumn(''+$scope.eventdoc.dateCreated)
@@ -518,18 +534,18 @@ $scope.generateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], enableSorting:false, width: $scope.minTopicWidth,pinnedLeft:true};
+            oneColumnDef = {'field': columnArry[i], enableSorting:false, minwidth: $scope.minTopicWidth,pinnedLeft:true, cellEditableCondition: true};
           }
          else {
             var formattedDate = $filter('date')(columnArry[i],'mediumDate');
-            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false};
+            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false,cellEditableCondition: true};
          }
             columnLayout.push(oneColumnDef);
        }
-
+       console.log(columnLayout);
        return columnLayout;
      
-}; 
+} 
 
 $scope.$on('uiGridEventEndCellEdit', function () {
   //   $scope.chartData = $scope.getChartData();
@@ -604,5 +620,7 @@ $scope.removeColumn = function() {
        //    height: (grid.dailyData.length * rowHeight + headerHeight) + "px" };
        // }
     };
+
+
 
 });
