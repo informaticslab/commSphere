@@ -11,8 +11,8 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 		.row
 			.col-lg-12.col-md-12.col-sm-12
 				.report-wrapper
-					h4.preview-report-headers {{customizedDoc.title}}
-					h4.preview-report-headers {{customizedDoc.type}}
+					h4.preview-report-headers {{customizedDoc.reportMeta.title}}
+					h4.preview-report-headers {{customizedDoc.reportMeta.type}}
 					h4.preview-report-headers {{eventdoc.eventPublishDate | date:'longDate'}}
 					br
 					div(ng-repeat='section in customizedDoc.docData')

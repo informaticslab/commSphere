@@ -857,6 +857,7 @@ $scope.removeColumn = function() {
       scope: $scope,
       templateUrl: '/partials/customizeReportModal',
       controller: customizeReportModalInstanceCtrl ,
+      backdrop: 'static',
       size: size,
       resolve: {
          eventdoc: function () {

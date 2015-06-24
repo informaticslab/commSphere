@@ -8,18 +8,18 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 						i Due Date: {{eventdoc.eventDueDate | date:'medium'}}		
 						h3 Customize Report		
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
-						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel()')
+						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel();saveCustomizedReport()')
 		.modal-body
 			.row
 				.submit-btn-cont.pull-right
-							button.btn.btn-success(type="button" ng-click="preview('sm',customizedDoc); saveCustomizedReport()")
+							button.btn.btn-success(type="button" ng-click="preview('sm',customizedDoc)")
 								| Preview Report
 				.col-lg-6.col-md-6.col-sm-6
 					div
 						label Report Title
-						input.form-control(placeholder='Enter report title' ng-model='customizedDoc.title')
+						input.form-control(placeholder='Enter report title' ng-model='customizedDoc.reportMeta.title')
 						label Report type
-						input.form-control(placeholder='Enter report type' ng-model='customizedDoc.type')
+						input.form-control(placeholder='Enter report type' ng-model='customizedDoc.reportMeta.type')
 			br
 			br
 			.row
@@ -82,8 +82,8 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 															.checkbox
 																input(type='checkbox' ng-model='subBullet.checked' ng-checked='subBullet.checked')
 																| {{subBullet.name}}
-								label Notes
-									textarea(type='text', ng-model='section.notes')
+									label Notes
+										textarea(type='text', ng-model='category.notes')
 								
 													
 
