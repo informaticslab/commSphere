@@ -1,6 +1,6 @@
 div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 	.modal-header.header_dark
-		.row(style='background-color:#ffffff;')
+		.row
 			.col-lg-12
 				.create-new-event-cont
 					h2 Report Preview
@@ -15,7 +15,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 					h4.preview-report-headers {{customizedDoc.type}}
 					h4.preview-report-headers {{eventdoc.eventPublishDate | date:'longDate'}}
 					br
-					div(ng-repeat='section in customizedDoc')
+					div(ng-repeat='section in customizedDoc.docData')
 						h4.report-cat-title
 							{{section.sectionName}}
 						div(ng-repeat='category in section.sectionData.categories' ng-if='section.sectionType == "Document"') 

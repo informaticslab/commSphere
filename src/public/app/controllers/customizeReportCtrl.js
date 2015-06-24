@@ -1,10 +1,17 @@
-angular.module('app').controller('customizeReportCtrl', function($scope, $modal) {
+angular.module('app').controller('customizeReportCtrl', function($scope, $modal, $http) {
 
-	$scope.customizedDoc = [];
-	$scope.customizedDoc.push({sectionName: 'Metrics', sectionType: 'Metrics', sectionData:$scope.eventData});
-	$scope.customizedDoc.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:$scope.eventdoc});
-	
-	
+	$scope.customizedDoc = {};
+
+	$http.get('/api/reports/getCustomizedReport/'+$scope.eventdoc._id).then(function(res) {
+		if (res.data.length > 0){
+			$scope.customizedDoc = res.data[0];
+		} else {
+			$scope.customizedDoc.docData = [];
+			$scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics', sectionData:$scope.eventData});
+			$scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:$scope.eventdoc});
+			$scope.customizedDoc.eventDocId = $scope.eventdoc._id;
+		}
+	});
 	$scope.minColWidth = 110;
 	$scope.minTopicWidth = 200;
 
@@ -133,10 +140,23 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal)
 	};
 
 	////END GRID///
-	console.log($scope.gridOptions);
-	console.log($scope.columns);
-	console.log($scope.gridApi);
-	console.log($scope.eventData);
+	// console.log($scope.gridOptions);
+	// console.log($scope.columns);
+	// console.log($scope.gridApi);
+	// console.log($scope.eventData);
+
+	$scope.saveCustomizedReport = function() {
+		var customDoc = {};
+		customDoc = $scope.customizedDoc;
+		//console.log(customDoc);
+		$http.post('/api/reports/saveCustomizedReport', customDoc).then(function(res) {
+			if (res.data.success) {
+				console.log('Customized report saved');
+			} else {
+				console.log('there was an error');
+			}
+		});
+	};
 
 	$scope.saveSection = function(section, e) {
 		// topic.save();

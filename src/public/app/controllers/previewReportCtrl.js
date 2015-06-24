@@ -1,6 +1,6 @@
 angular.module('app').controller('previewReportCtrl', function($scope) {
 	// console.log($scope.eventdoc);
-	console.log($scope.customizedDoc);
+	// console.log($scope.customizedDoc);
 
 		/////GRID//////
 	$scope.addDataColumn = function(columnName) {
