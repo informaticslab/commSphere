@@ -5,9 +5,11 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal,
 	$scope.customizedDoc.docData = [];
 
 	$scope.customizedDoc.reportMeta = $scope.eventdoc.reportMeta;
-	$scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics', sectionData:$scope.eventData});
-	$scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:$scope.eventdoc});
+	$scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics',  sectionData:{doc:$scope.eventData, notes:$scope.eventData.notes}});
+	$scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes}});
 	$scope.customizedDoc.eventDocId = $scope.eventdoc._id;
+
+
 
 	$scope.minColWidth = 110;
 	$scope.minTopicWidth = 200;
@@ -146,7 +148,8 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal,
 		for(var i = 0; i < $scope.customizedDoc.docData.length; i++)
 		{
 			if($scope.customizedDoc.docData[i].sectionType == 'Document') {
-				$scope.eventdoc = $scope.customizedDoc.docData[i].sectionData;
+				$scope.eventdoc = $scope.customizedDoc.docData[i].sectionData.doc;
+				$scope.eventdoc.notes = $scope.customizedDoc.docData[i].sectionData.notes;
 			}
 		}
 		$scope.eventdoc.reportMeta = $scope.customizedDoc.reportMeta;
@@ -169,6 +172,33 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal,
 		// 		console.log('there was an error');
 		// 	}
 		// });
+	};
+
+	$scope.selectAll = function(item) {
+		console.log(item.topics);
+		for (var i = 0; i < item.topics.length; i++) {
+			if(item.checked) {
+				item.topics[i].checked = true;
+			} else {
+				item.topics[i].checked = false; 
+			}
+			
+			for (var j = 0; j < item.topics[i].subTopics.length; j++){
+				if(item.topics[i].checked) {
+					item.topics[i].subTopics[j].checked = true;
+				} else {
+					item.topics[i].subTopics[j].checked = false;
+				}
+			}
+
+			for (var y = 0; y < item.topics[i].bullets.length; y++){
+				if(item.topics[i].checked) {
+					item.topics[i].bullets[y].checked = true;
+				} else {
+					item.topics[i].bullets[y].checked = false;
+				}
+			}
+		}
 	};
 
 	$scope.saveSection = function(section, e) {

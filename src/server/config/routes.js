@@ -34,7 +34,7 @@ module.exports = function(app) {
   app.get('/api/events/findDuplicateId/:eventId',events.findDuplicateId);
   app.get('/api/getNextAutoId/',events.getNextAutoId);
   app.get('/api/events/data/:id',events.getDataById);
-  app.get('/api/events/data2/:id',events.getDataById2);
+ 
   app.post('/api/events/saveCollectedData',events.saveCollectedData);
 
   app.post('/api/reports/saveCustomizedReport', reports.saveCustomizedReport);

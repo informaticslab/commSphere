@@ -12,7 +12,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 		.modal-body
 			.row
 				.submit-btn-cont.pull-right
-							button.btn.btn-success(type="button" ng-click="preview('sm',customizedDoc)")
+							button.btn.btn-success(type="button" ng-click="preview('sm',customizedDoc);saveCustomizedReport()")
 								| Preview Report
 				.col-lg-6.col-md-6.col-sm-6
 					div
@@ -36,21 +36,16 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 							.report-wrapper
 								div(ng-if='section.sectionType == "Metrics"')
 									.row
-										ol(ui-tree-nodes='' ng-model='section.sectionData.gridData')
-											li(ng-repeat='grid in section.sectionData.gridData', ui-tree-node='')
+										ol(ui-tree-nodes='' ng-model='section.sectionData.doc.gridData')
+											li(ng-repeat='grid in section.sectionData.doc.gridData', ui-tree-node='')
 												.topic-title.angular-ui-tree-handle(data-nodrag='')
 													div {{grid.gridName}}
 												ol(ui-tree-node='' ng-model='grid.dailyData' data-type='subTopic')
 													.grid(id="{{'grid_'+$index}}", ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableColumnMenu: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
-								div(ng-repeat="category in section.sectionData.categories" ng-if='section.sectionType =="Document"')
-									div
-										.checkbox.pull-right
-											input(type='checkbox' ng-model='master')
-											| Select All	
-									br
+								div(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"')
 									h4.report-category
 										.checkbox
-											input(type='checkbox' ng-model='category.checked' ng-checked='category.checked' ng-click='checkedValues(category)')
+											input(type='checkbox' ng-model='category.checked' ng-click='selectAll(category)')
 											| {{category.name}}
 									div(ng-repeat="topic in category.topics") 
 										h4.report-topic
@@ -82,8 +77,8 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 															.checkbox
 																input(type='checkbox' ng-model='subBullet.checked' ng-checked='subBullet.checked')
 																| {{subBullet.name}}
-									label Notes
-										textarea(type='text', ng-model='category.notes')
+								label Notes
+									textarea(type='text', ng-model='section.sectionData.notes')
 								
 													
 
