@@ -164,7 +164,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             ol(ui-tree-nodes='', ng-model='eventData.gridData')
                                                 li(ng-repeat='grid in eventData.gridData', ui-tree-node='')
                                                     .topic-title.angular-ui-tree-handle(ng-show='!grid.editing', ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false" )
-                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic && identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='removeTable(grid)')
+                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic && identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='removeTable(grid.gridName)')
                                                             i.glyphicon.glyphicon-trash
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic && identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='editTableName(grid)')
                                                             i.glyphicon.glyphicon-pencil
