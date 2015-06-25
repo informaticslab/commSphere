@@ -85,18 +85,23 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
    selectedInstance.draftStatus = true;
    selectedInstance.archiveStatus =  false;
     var metricsTemplate = [];
+    selectedInstance.notes = {"doc":"","metrics":""};
+    selectedInstance.reportMeta = {"title":"","type":""};
    for (var i=0; i < selectedInstance.categories.length; i++)
    {
        selectedInstance.categories[i].statusCompleted = false;
        selectedInstance.categories[i].dateCompleted = "";
+       selectedInstance.categories[i].checked = false;   //setting checked status to false
        if (copyOption.selectedOption === 2) {
         // clear bullets under sub topics here
           topics = selectedInstance.categories[i].topics;
           if (topics) {
             for (var j=0; j < topics.length; j++){  
+              topics[j].checked = false;
               subTopics = topics[j].subTopics;
               if (subTopics) {
                 for (var k=0; k < subTopics.length; k++ ) { // loop through subtopics and remove the bullets
+                    subTopics[k].checked = false;
                    if (subTopics[k].bullets) {
                      subTopics[k].bullets = [];
                    }

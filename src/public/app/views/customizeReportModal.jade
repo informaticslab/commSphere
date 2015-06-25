@@ -78,7 +78,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 																input(type='checkbox' ng-model='subBullet.checked' ng-checked='subBullet.checked')
 																| {{subBullet.name}}
 								label Notes
-									textarea(type='text', ng-model='section.sectionData.notes')
+								textarea.notesPlaceholder(placeholder='Notes' type='text', ng-model='section.sectionData.notes')
 								
 													
 

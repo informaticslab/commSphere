@@ -45,6 +45,8 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      $scope.eventdoc=res.data[0];
      $scope.contentloaded = true;
 
+
+
     //checking comepletion status for preview button display.
     var completedCount = 0;
     for (var i = 0; i < $scope.eventdoc.categories.length; i++) {
@@ -74,6 +76,15 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
        
             $scope.eventData = dataResult.data[0];
       //      $scope.addDataColumn2($scope.eventdoc.dateCreated);
+             ////CUSTOMIZE REPORT////
+              $scope.customizedDoc = {};
+              $scope.customizedDoc.reportMeta = {title: '', type: ''};
+              $scope.customizedDoc.docData = [];
+              $scope.customizedDoc.reportMeta = $scope.eventdoc.reportMeta;
+              $scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics',  sectionData:{doc:$scope.eventData, notes:$scope.eventdoc.notes.metrics}});
+              $scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
+              $scope.customizedDoc.eventDocId = $scope.eventdoc._id;
+               ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
             $scope.gridOptions = {
               columnDefs : $scope.columns,
@@ -878,6 +889,8 @@ $scope.removeColumn = function() {
     });
   };
 
+  
+
   $scope.getFormattedDate = function(timeStamp) {
      //////var isoDate = $filter('date')(timeStamp,'yyyy-MM-ddTHH:mm:ss.sss') ;
      //return isoDate;
@@ -915,5 +928,129 @@ $scope.removeColumn = function() {
   var myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
   
   }
+
+
+  /////////////CUSTOM REPORT////////////////
+
+
+  $scope.minColWidth = 110;
+  $scope.minTopicWidth = 200;
+
+  $scope.saveCustomizedReport = function() {
+    for (var i = 0; i < $scope.customizedDoc.docData.length; i++) {
+      if ($scope.customizedDoc.docData[i].sectionData.notes != undefined) {
+        if ($scope.customizedDoc.docData[i].sectionType == 'Document') {
+          $scope.eventdoc = $scope.customizedDoc.docData[i].sectionData.doc;
+          $scope.eventdoc.notes.doc = $scope.customizedDoc.docData[i].sectionData.notes;
+        } else if ($scope.customizedDoc.docData[i].sectionType == 'Metrics') {
+          $scope.eventdoc.notes.metrics = $scope.customizedDoc.docData[i].sectionData.notes;
+        }
+      }
+    }
+    $scope.eventdoc.reportMeta = $scope.customizedDoc.reportMeta;
+
+    var eventdoc = {};
+    eventdoc = $scope.eventdoc;
+    //console.log(customDoc);
+    console.log($scope.eventdoc);
+    $http.post('/api/events', eventdoc).then(function(res) {
+      if (res.data.success) {
+        console.log('Customized report saved');
+      } else {
+        console.log(res.data.err);
+      }
+    });
+   $rootScope.continueNav = true;
+  };
+
+  $scope.selectAll = function(item) {
+    //console.log(item.topics);
+    for (var i = 0; i < item.topics.length; i++) {
+      if(item.checked) {
+        item.topics[i].checked = true;
+      } else {
+        item.topics[i].checked = false; 
+      }
+      
+      for (var j = 0; j < item.topics[i].subTopics.length; j++){
+        if(item.topics[i].checked) {
+          item.topics[i].subTopics[j].checked = true;
+        } else {
+          item.topics[i].subTopics[j].checked = false;
+        }
+        for (var u = 0; u < item.topics[i].subTopics[j].bullets.length; u++) {
+          if(item.topics[i].subTopics[j].checked) {
+            item.topics[i].subTopics[j].bullets[u].checked = true;
+          } else {
+            item.topics[i].subTopics[j].bullets[u].checked = false;
+          }
+          for(var o = 0; o <item.topics[i].subTopics[j].bullets[u].subBullets.length; o++) {
+            if(item.topics[i].subTopics[j].bullets[u].checked) {
+              item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = true;
+            } else {
+              item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = false;
+            }
+          }
+        }
+      }
+
+      for (var y = 0; y < item.topics[i].bullets.length; y++) {
+        if(item.topics[i].checked) {
+          item.topics[i].bullets[y].checked = true;
+        } else {
+          item.topics[i].bullets[y].checked = false;
+        }
+        for (var l = 0; l < item.topics[i].bullets[y].subBullets.length; l++) {
+          if (item.topics[i].bullets[y].checked) {
+            item.topics[i].bullets[y].subBullets[l].checked = true;
+          } else {
+            item.topics[i].bullets[y].subBullets[l].checked = false;
+          }
+        }
+      }
+    }
+  };
+
+  $scope.preview = function(size, customizedDoc) {
+    var modalInstance = $modal.open({
+      scope: $scope,
+      templateUrl: '/partials/previewReportModal',
+      controller: previewReportModalInstanceCtrl,
+      size: size,
+      resolve: {
+        customizedDoc: function() {
+          return customizedDoc;
+        }
+      }
+    });
+  };
+
+  var previewReportModalInstanceCtrl = function($scope, $modalInstance) {
+
+    $scope.ok = function() {
+      $modalInstance.close();
+    };
+
+    $scope.cancel = function() {
+      $modalInstance.dismiss();
+    };
+  };
+
+  $scope.saveSection = function(section, e) {
+    // topic.save();
+    section.editing = false;
+    e.preventDefault();
+  };
+
+  $scope.editSection = function(section) {
+    section.editing = true;
+  };
+
+  $scope.cancelEditingTopic = function(topic) {
+    topic.editing = false;
+  };
+
+
+  /////////////////////////////////////////
 
 });

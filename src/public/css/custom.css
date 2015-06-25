@@ -9,6 +9,32 @@ body {
 }
 
 
+.notesPlaceholder:-moz-placeholder {
+  color: #ccc;
+  opacity: 1;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: normal;
+  width:350px;
+}
+.notesPlaceholder:-ms-input-placeholder {
+  color: #ccc;
+  opacity: 1;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: normal;
+  width:350px;
+}
+.notesPlaceholder:-webkit-input-placeholder {
+  color: #ccc;
+  opacity: 1;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: normal;
+  width:350px;
+}
+
+
 .bulletPlaceHoder::-moz-placeholder {
   color: #ccc;
   opacity: 1;
