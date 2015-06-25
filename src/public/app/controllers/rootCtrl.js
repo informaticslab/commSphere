@@ -98,14 +98,14 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
               if (subTopics) {
                 for (var k=0; k < subTopics.length; k++ ) { // loop through subtopics and remove the bullets
                    if (subTopics[k].bullets) {
-                    delete subTopics[k].bullets;
+                     subTopics[k].bullets = [];
                    }
                 }
               }
               // clear sub bullet under bullets under topics
               bullets = topics[j].bullets;
               if (bullets) {
-                delete topics[j].bullets;
+                   topics[j].bullets = [];
                 // for (var k=0; k < bullets.length; k++ ) { // loop through subtopics and remove the bullets
                 //    if (bullets[k].subBullets) {
                 //     delete bullets[k].subBullets;
