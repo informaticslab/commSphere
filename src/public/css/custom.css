@@ -187,11 +187,6 @@ input[type="text"].eventTemplateTopic {
   background-position: 0 0,30px 30px;
 }
 
-.angular-ui-tree-node {
-  min-height: 28px;
-  line-height: 28px;
-}
-
 .bullet-disc-nodes{
   list-style-type: disc;
   margin-left: 40px;
