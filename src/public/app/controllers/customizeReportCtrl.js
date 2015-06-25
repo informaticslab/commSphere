@@ -5,8 +5,8 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal,
 	$scope.customizedDoc.docData = [];
 
 	$scope.customizedDoc.reportMeta = $scope.eventdoc.reportMeta;
-	$scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics',  sectionData:{doc:$scope.eventData, notes:$scope.eventdoc.notes}});
-	$scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes}});
+	$scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics',  sectionData:{doc:$scope.eventData, notes:$scope.eventdoc.notes.metrics}});
+	$scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
 	$scope.customizedDoc.eventDocId = $scope.eventdoc._id;
 
 	$scope.minColWidth = 110;
@@ -134,7 +134,9 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal,
 			if ($scope.customizedDoc.docData[i].sectionData.notes != undefined) {
 				if ($scope.customizedDoc.docData[i].sectionType == 'Document') {
 					$scope.eventdoc = $scope.customizedDoc.docData[i].sectionData.doc;
-					$scope.eventdoc.notes = $scope.customizedDoc.docData[i].sectionData.notes;
+					$scope.eventdoc.notes.doc = $scope.customizedDoc.docData[i].sectionData.notes;
+				} else if ($scope.customizedDoc.docData[i].sectionType == 'Metrics') {
+					$scope.eventdoc.notes.metrics = $scope.customizedDoc.docData[i].sectionData.notes;
 				}
 			}
 		}

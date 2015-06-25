@@ -64,8 +64,11 @@ $scope.allowSaveDrafts=false;
     "draftStatus": true,
     "archiveStatus": false,
     categories: [],
-    "gridData":[]  //temporary attach to eventdoc until actual event creation
-    
+    "gridData":[],  //temporary attach to eventdoc until actual event creation
+    "notes":{
+      "doc":"",
+      "metrics":""
+    }
   };
 
    $scope.eventdoc.eventDueDate=moment().format();
