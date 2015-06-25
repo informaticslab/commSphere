@@ -91,7 +91,6 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
        selectedInstance.categories[i].dateCompleted = "";
        if (copyOption.selectedOption === 2) {
         // clear bullets under sub topics here
-        console.log('clearing bullet and subBullets');
           topics = selectedInstance.categories[i].topics;
           if (topics) {
             for (var j=0; j < topics.length; j++){  
@@ -105,9 +104,8 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
               }
               // clear sub bullet under bullets under topics
               bullets = topics[j].bullets;
-              console.log(bullets)
               if (bullets) {
-                delete topics[i].bullets;
+                delete bullets;
                 // for (var k=0; k < bullets.length; k++ ) { // loop through subtopics and remove the bullets
                 //    if (bullets[k].subBullets) {
                 //     delete bullets[k].subBullets;
