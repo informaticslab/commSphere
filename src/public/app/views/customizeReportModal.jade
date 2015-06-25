@@ -12,8 +12,8 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 		.modal-body
 			.row
 				.submit-btn-cont.pull-right
-							button.btn.btn-success(type="button" ng-click="preview('sm',customizedDoc);saveCustomizedReport()")
-								| Preview Report
+					button.btn.btn-success(type="button" ng-click="preview('sm',customizedDoc);saveCustomizedReport()")
+						| Preview Report
 				.col-lg-6.col-md-6.col-sm-6
 					div
 						label Report Title
@@ -50,7 +50,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 									div(ng-repeat="topic in category.topics") 
 										h4.report-topic
 											.checkbox
-												input(type='checkbox' ng-model='topic.checked' ng-checked='topic.checked' ng-click = 'checkedValues(topic)')
+												input(type='checkbox' ng-model='topic.checked' ng-checked='topic.checked')
 												| {{topic.name}}
 										ul
 											li(ng-repeat="topicBullets in topic.bullets") 
