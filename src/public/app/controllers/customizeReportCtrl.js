@@ -175,7 +175,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal,
 	};
 
 	$scope.selectAll = function(item) {
-		console.log(item.topics);
+		//console.log(item.topics);
 		for (var i = 0; i < item.topics.length; i++) {
 			if(item.checked) {
 				item.topics[i].checked = true;
@@ -189,13 +189,34 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $modal,
 				} else {
 					item.topics[i].subTopics[j].checked = false;
 				}
+				for (var u = 0; u < item.topics[i].subTopics[j].bullets.length; u++) {
+					if(item.topics[i].subTopics[j].checked) {
+						item.topics[i].subTopics[j].bullets[u].checked = true;
+					} else {
+						item.topics[i].subTopics[j].bullets[u].checked = false;
+					}
+					for(var o = 0; o <item.topics[i].subTopics[j].bullets[u].subBullets.length; o++) {
+						if(item.topics[i].subTopics[j].bullets[u].checked) {
+							item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = true;
+						} else {
+							item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = false;
+						}
+					}
+				}
 			}
 
-			for (var y = 0; y < item.topics[i].bullets.length; y++){
+			for (var y = 0; y < item.topics[i].bullets.length; y++) {
 				if(item.topics[i].checked) {
 					item.topics[i].bullets[y].checked = true;
 				} else {
 					item.topics[i].bullets[y].checked = false;
+				}
+				for (var l = 0; l < item.topics[i].bullets[y].subBullets.length; l++) {
+					if (item.topics[i].bullets[y].checked) {
+						item.topics[i].bullets[y].subBullets[l].checked = true;
+					} else {
+						item.topics[i].bullets[y].subBullets[l].checked = false;
+					}
 				}
 			}
 		}
