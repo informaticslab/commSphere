@@ -472,7 +472,7 @@ $scope.addTable = function(grid) {
             dailyData: [initialRow]
             });
   if (!$scope.columns) {
-    $scope.columns = $scope.generateColumnDefs();
+    $scope.columns = generateColumnDefs();
   }
   grid.newGridName="";
   }
