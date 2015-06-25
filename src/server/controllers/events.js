@@ -21,9 +21,9 @@ var ObjectID = require('mongodb').ObjectID;
 
 exports.saveEvent = function(req, res) {
 	var eventData = req.body;
-	console.log('b4 update ',eventData);
+	//console.log('b4 update ',eventData);
 	var dailyMetricsTemplate = eventData.gridData
-	console.log("req body****",req.body);
+	//console.log("req body****",req.body);
 	var Id = eventData._id;
   	delete eventData._id;
 	var collection = mongo.mongodb.collection('events');
