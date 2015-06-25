@@ -85,10 +85,9 @@ $scope.onTimeSet = function (newDate, oldDate) {
 
   if ($scope.draftInstance) {
     $scope.eventdoc = $scope.draftInstance;
-    if ($scope.eventdoc.gridData) {
-      // $scope.columns = generateColumnDefs();
-      // console.log($scope.columns)
-    }
+    if ($scope.eventdoc.gridData.length>0) {
+       $scope.columns = generateColumnDefs();
+  }
   }
 
   //created from existing event
@@ -447,9 +446,8 @@ $scope.setOverrideFlags = function() {
       $scope.isNew = true;
       $scope.eventNameReadonly = false;
       // disable the checkbox here
+      $scope.columns = generateColumnDefs();
       $scope.eventNameOverrideDisable = true;
-     
-     // $scope.columns = generateColumnDefs();
    }
    else {// user unchecked the box
       // reset the name
@@ -464,12 +462,12 @@ $scope.setOverrideFlags = function() {
 
 // grid section
 $scope.addTable = function(grid) {
-  
+ if(grid) {
   if (grid.newGridName.length > 0) {
     var initialRow = {
      'label' : ''
     }
-   
+
   $scope.eventdoc.gridData.push({
             gridName: grid.newGridName,
             dailyData: [initialRow]
@@ -479,6 +477,7 @@ $scope.addTable = function(grid) {
   }
   grid.newGridName="";
   }
+}
 };
 
 $scope.removeTable = function(gridName) {
@@ -506,8 +505,8 @@ $scope.saveTableName = function(grid,e) {
   };
 
 $scope.canEditGrid = function() {
-   // return $scope.eventNameOverride;
-   return true;
+    return $scope.eventNameOverride;
+   //return true;
  };
 
 function generateColumnDefs() {
@@ -537,11 +536,11 @@ function generateColumnDefs() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], enableSorting:false, minwidth: $scope.minTopicWidth,pinnedLeft:true, cellEditableCondition: true};
+            oneColumnDef = {'field': columnArry[i], enableSorting:false, minWidth: $scope.minTopicWidth, cellEditableCondition: $scope.eventNameOverride};
           }
          else {
-            var formattedDate = $filter('date')(columnArry[i],'mediumDate');
-            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false,cellEditableCondition: true};
+          //  var formattedDate = $filter('date')(columnArry[i],'mediumDate');
+          //  oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false,cellEditableCondition: $scope.eventNameOverride};
          }
             columnLayout.push(oneColumnDef);
        }
