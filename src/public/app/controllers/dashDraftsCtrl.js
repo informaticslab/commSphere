@@ -38,7 +38,11 @@ $scope.editDraft = function (size,draftInstance,isNew,showOverrideCheckbox) {
          draftInstance: function () {
            return draftInstance;
          },
-         isNew : function() {
+         isNew : function() { 
+          // check if eventInstanceId populated.  if yes, then the instance was saved while in creating from existing event mode
+            if (draftInstance.eventInstanceId !== ''){
+              isNew = false;
+            }
            return isNew;
          },
          showOverrideCheckbox : function() {
@@ -161,11 +165,11 @@ $scope.pageChanged = function(searchText) {
 
 }]);
 
-var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance,isNew,$log) {
+var DraftEventModalInstanceCtrl = function ($scope, $route, $modalInstance,draftInstance,isNew,showOverrideCheckbox,$log) {
 // controller for draft edit modal screen
  $scope.draftInstance = draftInstance;
  $scope.isNew = isNew;
-  
+ $scope.showOverrideCheckbox = showOverrideCheckbox;
   $scope.ok = function () {
     $log.debug("ok");
     $modalInstance.close();
