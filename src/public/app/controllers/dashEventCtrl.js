@@ -956,6 +956,7 @@ $scope.removeColumn = function() {
     $http.post('/api/events', eventdoc).then(function(res) {
       if (res.data.success) {
         console.log('Customized report saved');
+        ngNotifier.notify('Your customized report has been saved');
       } else {
         console.log(res.data.err);
       }
