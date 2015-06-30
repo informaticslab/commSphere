@@ -18,7 +18,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 					div
 						label Report Title
 						input.form-control(placeholder='Enter report title' ng-model='customizedDoc.reportMeta.title')
-						label Report type
+						label Report Type
 						input.form-control(placeholder='Enter report type' ng-model='customizedDoc.reportMeta.type')
 			br
 			br
@@ -42,7 +42,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 													div {{grid.gridName}}
 												ol(ui-tree-node='' ng-model='grid.dailyData' data-type='subTopic')
 													.grid(id="{{'grid_'+$index}}", ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableColumnMenu: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
-								div(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"')
+								div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"')
 									h4.report-category
 										.checkbox
 											input(type='checkbox' ng-model='category.checked' ng-click='selectAll(category)')
@@ -77,8 +77,8 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 															.checkbox
 																input(type='checkbox' ng-model='subBullet.checked' ng-checked='subBullet.checked')
 																| {{subBullet.name}}
-								label Notes
-								textarea.notesPlaceholder(placeholder='Notes' type='text', ng-model='section.sectionData.notes')
+								label Additional Notes
+								textarea.notesPlaceholder(placeholder='Enter text here' type='text', ng-model='section.sectionData.notes')
 								
 													
 

@@ -1,18 +1,22 @@
 div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 	.modal-content
-		.modal-header.header_dark
+		.modal-header.header_dark(style='background-color:#eeeeee;')
 			.row
 				.col-lg-12
 					.create-new-event-cont
-						h2 Report Preview
-						i Due Date: {{eventdoc.eventDueDate | date:'medium'}}	
+						h2.h2-create-new
+							|  Preview Report
+					.create-btn-cont
+						button.btn.btn-danger
+							span.glyphicon.glyphicon-save
+							|  Export to PDF
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
-						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel()')
+						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel()')			
 		.modal-body
 			.row
 				.col-lg-12.col-md-12.col-sm-12
 					.report-wrapper
-						h4.preview-report-headers {{customizedDoc.reportMeta.title}}
+						h4.preview-report-title {{customizedDoc.reportMeta.title}}
 						h4.preview-report-headers {{customizedDoc.reportMeta.type}}
 						h4.preview-report-headers {{eventdoc.eventPublishDate | date:'longDate'}}
 						br
