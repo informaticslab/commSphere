@@ -10,7 +10,7 @@ $scope.tabCategory=[
 $scope.currentLocation = $location.url();
 // grid setup
 
-$scope.gridOptions={};
+//$scope.gridOptions={};
 $scope.readyForPreview = false;
 $scope.minColWidth = 110;
 $scope.minTopicWidth = 200;
@@ -121,7 +121,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             
         }
 
-        // $scope.chartData = $scope.getChartData();
+        // $scope.chartData = $scope.getChartData($scope.eventData.gridData[0]);
         //     $scope.highChartConfig = {
         //     options: {
         //       chart: {
@@ -140,7 +140,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
         //     }],           
         //         loading: false
         //     }
-        // $scope.showChartJs('chartJS1');
+        // $scope.showChartJs('chartJS1',$scope.eventData.gridData[0]);
             
 
 
@@ -737,7 +737,9 @@ $scope.generateColumnDefs= function() {
           }
          else {
             var formattedDate = $filter('date')(columnArry[i],'mediumDate');
-            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false};
+            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false,
+            headerCellTemplate: '/partials/customHeaderCellTemplate'
+          }
          }
             columnLayout.push(oneColumnDef);
        }
@@ -746,48 +748,60 @@ $scope.generateColumnDefs= function() {
      
 };
 
-// $scope.getChartData = function() {
-//   var chartCategories= [];
-//   var chartCategoriesHeading= [];
-//   var serieData = [];
-//   var series = [];
-//   var chartData = {};
+$scope.getChartData = function(grid) {
+  var chartCategories= [];
+  var chartCategoriesHeading= [];
+  var serieData = [];
+  var series = [];
+  var chartData = {};
  
-//   for (i = 0; i < $scope.eventData.dailyData.length; i ++) {
-//   var oneRow =  $scope.eventData.dailyData[i];
-//   if (i == 0) { // pick first row and generate the chart categories
-//       for (var oneCol in oneRow) {
-//          if (oneCol !== '$$hashKey' && oneCol !=='subTopic') {
-//           // reformat to display on chart
-//             chartCategories.push(oneCol);
-//             chartCategoriesHeading.push($filter('date')(oneCol,'d-MMM'));
-//        }
-//       }
-//       chartCategories.sort();   // sort the remaining columns heading
-//   }
-//   serieName = oneRow['subTopic'];
-//      for (var j=0 ; j < chartCategories.length; j++) { 
-//            serieData.push(Number(oneRow[chartCategories[j]]));
-//          }
-//   var newSerie = {name: serieName, data: serieData}
-//       series.push(newSerie);
-//       serieData = [];
-//        console.log(series);
-//   }
-//   chartData['xAxis'] = chartCategoriesHeading;
-//   chartData['series'] = series;
-//   console.log(chartData);
-//   return  chartData;
+  for (i = 0; i < grid.dailyData.length; i ++) {
+  var oneRow =  grid.dailyData[i];
+  if (i == 0) { // pick first row and generate the chart categories
+      for (var oneCol in oneRow) {
+         if (oneCol !== '$$hashKey' && oneCol !=='label') {
+          // reformat to display on chart
+            chartCategories.push(oneCol);
+            chartCategoriesHeading.push($filter('date')(oneCol,'d-MMM'));
+       }
+      }
+      chartCategories.sort();   // sort the remaining columns heading
+  }
+  serieName = oneRow['label'];
+     for (var j=0 ; j < chartCategories.length; j++) { 
+           serieData.push(Number(oneRow[chartCategories[j]]));
+         }
+  var newSerie = {name: serieName, data: serieData}
+      series.push(newSerie);
+      serieData = [];
+       console.log(series);
+  }
+  chartData['xAxis'] = chartCategoriesHeading;
+  chartData['series'] = series;
+  console.log(chartData);
+  return  chartData;
      
-// }
+}
 
 
-$scope.$on('uiGridEventEndCellEdit', function () {
-  //   $scope.chartData = $scope.getChartData();
-  //   console.log('chart data inside grid update ', $scope.chartData );
-  //   $scope.highChartConfig.series = $scope.chartData.series;
+// $scope.$on('uiGridEventEndCellEdit', function (grid) {
+//   $scope.chartData = $scope.getChartData(grid);
+//   //   console.log('chart data inside grid update ', $scope.chartData );
+//   //   $scope.highChartConfig.series = $scope.chartData.series;
     
-})
+// })
+
+$scope.$on('uiGridEventEndCellEdit', function(event) {
+   // console.log(event);
+   // switch(event.targetScope.gridId) {
+   //    case $scope.gridOptions1.$gridScope.gridId:
+   //       //handle the event for grid 1
+   //       break;
+   //    case $scope.gridOptions2.$gridScope.gridId:
+   //       //handle the event for grid 2
+   //       break;
+   // }
+});
 
 $scope.removeColumn = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
@@ -849,11 +863,52 @@ $scope.removeColumn = function() {
        // }
     };
 
+  var renameColModalInstanceCtrl = function($scope, $modalInstance,oldColName) {
+   
+      $scope.oldColName = oldColName;
+      
+     
+      $scope.ok = function() {
+      $modalInstance.close();
+    };
+
+    $scope.cancel = function() {
+      $modalInstance.dismiss();
+    };
+
+  };
+
+  $scope.showRenameColModal = function(size,oldColName) {
+
+     var modalInstance = $modal.open({
+            scope: $scope,
+            templateUrl: '/partials/colRenameModal',
+            controller: renameColModalInstanceCtrl ,
+            backdrop: 'static',
+            size: size,
+            resolve: {
+                oldColName : function() {
+                  return oldColName;
+                }
+             }
+          });
+
+      modalInstance.result.then(function (result) {
+          var newColumnName = result.newColumnName;
+          var oldColumnName = resutl.oldColumnName;
+          $scope.renameCol(oldColName, newColName);
+      }, function () {
+   //         $log.info('Modal dismissed at: ' + new Date());
+      });
+  };
+
+
   var customizeReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc, eventData, gridOptions, gridApi) {
     $scope.eventdoc = eventdoc;
     $scope.eventData = eventData;
     $scope.gridOptions = gridOptions;
     $scope.gridApi = gridApi;
+
 
     $scope.ok = function() {
       $modalInstance.close();
@@ -897,7 +952,7 @@ $scope.removeColumn = function() {
      return timeStamp;
   }
 
-  $scope.showChartJs = function(chartId) {
+  $scope.showChartJs = function(chartId,grid) {
     var ctx = document.getElementById(chartId).getContext("2d");
     
     var chartJsConfig = {
@@ -905,7 +960,7 @@ $scope.removeColumn = function() {
     //Number - Tension of the bezier curve between points
             bezierCurveTension : 0.4,
             }
-  var chartData = $scope.getChartData();
+  var chartData = $scope.getChartData(grid);
   var datasets = [];
   for (serie in chartData.series){
       dataset =  {
