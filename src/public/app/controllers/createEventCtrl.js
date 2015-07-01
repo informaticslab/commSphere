@@ -466,7 +466,10 @@ $scope.addTable = function(grid) {
  if(grid) {
   if (grid.newGridName.length > 0) {
     var initialRow = {
-      'label' : '', 'displayName': 'Label'
+      'label' : ''
+    }
+     var initialColName = {
+      'label' : 'Label'
     }
 
   $scope.eventdoc.gridData.push({
@@ -474,6 +477,7 @@ $scope.addTable = function(grid) {
             gridName: grid.newGridName,
             dailyData: [initialRow]
             });
+  $scope.eventdoc.gridColDisplayNames = initialColName;
   if (!$scope.columns) {
     $scope.columns = generateColumnDefs();
   }
@@ -538,7 +542,7 @@ function generateColumnDefs() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], enableSorting:false, minWidth: $scope.minTopicWidth, cellEditableCondition: $scope.eventNameOverride};
+            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventdoc.gridColDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth, cellEditableCondition: $scope.eventNameOverride};
           }
          else {
           //  var formattedDate = $filter('date')(columnArry[i],'mediumDate');
@@ -546,7 +550,7 @@ function generateColumnDefs() {
          }
             columnLayout.push(oneColumnDef);
        }
-       console.log(columnLayout);
+      // console.log(columnLayout);
        return columnLayout;
      
 } 

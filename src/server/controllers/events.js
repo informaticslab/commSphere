@@ -22,7 +22,8 @@ var ObjectID = require('mongodb').ObjectID;
 exports.saveEvent = function(req, res) {
 	var eventData = req.body;
 	//console.log('b4 update ',eventData);
-	var dailyMetricsTemplate = eventData.gridData
+	var dailyMetricsTemplate = eventData.gridData;
+	var gridCols = eventData.gridColDisplayNames;
 	//console.log("req body****",req.body);
 	var Id = eventData._id;
   	delete eventData._id;
@@ -31,6 +32,7 @@ exports.saveEvent = function(req, res) {
 	// detach daily metics if exist
 	if (dailyMetricsTemplate) {
 	  	 		delete eventData.gridData
+	  	 		delete eventData.gridColDisplayNames;
 	 		}
 	if (Id) {  // if existing id then update
 	  // check if this is draft save or creation  
@@ -43,7 +45,7 @@ exports.saveEvent = function(req, res) {
        console.log("document changed ", affectedDocCount);
         // add a daily metrics here succesfully update 
        if (affectedDocCount > 0 && !eventData.draftStatus) {
-       	  createDailyMetrics(eventData.eventInstanceId,eventData.eventName,eventData.dateCreated,dailyMetricsTemplate)
+       	  createDailyMetrics(eventData.eventInstanceId,eventData.eventName,eventData.dateCreated,dailyMetricsTemplate,gridCols)
        }
 
 	   res.send({success:true});
@@ -58,7 +60,7 @@ exports.saveEvent = function(req, res) {
 		} else {
 			// create matching data collection for this new event if not exist	
 				if (!eventData.draftStatus) {
-       	 			 createDailyMetrics(eventData.eventInstanceId,eventData.eventName,eventData.dateCreated,dailyMetricsTemplate)
+       	 			 createDailyMetrics(eventData.eventInstanceId,eventData.eventName,eventData.dateCreated,dailyMetricsTemplate,gridCols)
        			}
 		// 	var partialId = new RegExp('^'+eventData.eventInstanceId.split('-')[0]);		
 	 // 			eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
@@ -437,7 +439,7 @@ function getPaddedNum(numText,padLength) {
  
 }
 
-function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData){
+function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData,gridCols){
 	var eventDataCollection = mongo.mongodb.collection('eventsData');
   	var partialId = new RegExp('^'+eventInstanceId.split('-')[0]);		
 	eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
@@ -451,12 +453,15 @@ function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData){
 					           if (oneGrid.dailyData[j].hasOwnProperty(''+dateCreated)) {
 					           } else {  // column not exists, add
 					               oneGrid.dailyData[j][''+dateCreated] = '*';
+					               var formattedDate = getFormattedDate(dateCreated);
+					               gridCols[''+dateCreated] = formattedDate;
 					           }
 					        }
 					  }
 			 	 	  var newRecord = {
 			 	 	  			 "eventName": eventName,
 			 	 	  		  	"eventInstanceId": eventInstanceId,
+			 	 	  		  	"colDisplayNames" : gridCols,
 			 	 	  		  	"gridData" : gridData
 			 	 	  		  	};
 
@@ -477,6 +482,8 @@ function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData){
 						              // column alread there
 						           } else {  // column not exists, add
 						               result[0].gridData[i].dailyData[j][''+dateCreated] = '*';
+						               var formattedDate = getFormattedDate(dateCreated);
+					               	   result[0].colDisplayNames[''+dateCreated] = formattedDate;
 						           }
 						      }
 						   }   
@@ -495,6 +502,12 @@ function createDailyMetrics(eventInstanceId,eventName,dateCreated,gridData){
   // end of eventdata exist
 	 	 	  		}
 	 	 	  	});		
+}
+
+function getFormattedDate(inDate) {
+	var myDate = new Date(inDate).toDateString().split(' ');
+	var formattedDate = myDate[1] + ' ' + myDate[2].replace(/^0+/, '')+', '+ myDate[3];
+	return formattedDate;
 }
 
 exports.getDataById = function(req,res){

@@ -736,23 +736,6 @@ $scope.saveTableName = function(grid,e) {
 
 
 var customHeaderCellTemplate = 
- // 'div(ng-class="{ \'sortable\': sortable }")'+
- //      '.ui-grid-vertical-bar'+  
- //      '.ui-grid-cell-contents(col-index="renderIndex" ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false\")'+
- //      '  input(type="checkbox", ng-click="$event.stopPropagation(); grid.appScope.dosomething(col.name)")'+
- //      '  |&nbsp; {{ col.displayName CUSTOM_FILTERS }}'+
- //      '  a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href="", ng-click="$event.stopPropagation(); grid.appScope.showRenameColModal(\'sm\',col)")'+
- //      '                                                       i.glyphicon.glyphicon-pencil'+
- //      '  span(ui-grid-visible="col.sort.direction", ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }")'+
- //      '.ui-grid-column-menu-button(ng-if="grid.options.enableColumnMenus && !col.isRowHeader && col.colDef.enableColumnMenu !== false", ng-click="toggleMenu($event)")'+
- //      '  i.ui-grid-icon-angle-down'+  
- //      '.ui-grid-filter-container(ng-if="filterable", ng-repeat="colFilter in col.filters")'+
- //      '  input.ui-grid-filter-input(type="text", ng-model="colFilter.term", ng-click="$event.stopPropagation()", ng-attr-placeholder="{{colFilter.placeholder || \'\'}}")'+
- //      '  .ui-grid-filter-button(ng-click=\'colFilter.term = null\')'+
- //      '    i.ui-grid-icon-cancel.right(ng-show="!!colFilter.term")' 
- //          // use !! because angular interprets 'f' as false
-
-
   '<div ng-class="{ \'sortable\': sortable }">'+
   '<div class="ui-grid-vertical-bar"> </div>'+
   '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents">'+
@@ -885,7 +868,7 @@ $scope.removeColumn = function() {
     
     var newColumnName =  ''+new Date().getTime();
     var formattedDate = $filter('date')(newColumnName,'mediumDate');  // default display name for date
-    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false
+    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
       //, headerCellTemplate: '/partials/customHeaderCellTemplate'
       , headerCellTemplate: customHeaderCellTemplate
     });
@@ -968,22 +951,16 @@ $scope.removeColumn = function() {
 
  $scope.renameColumn = function(col,newColName) {
      $scope.eventData.colDisplayNames[col.field] = newColName;
-     for (i = 0; i < $scope.columns.length; i++) {
-        if ($scope.columns[i].field === col.field) {
-              console.log($scope.columns[i]);
-              $scope.columns[i].displayName = newColName;
-              console.log($scope.columns[i]);
-              break; 
-        }
-
-     }
+     // for (i = 0; i < $scope.columns.length; i++) {
+     //    if ($scope.columns[i].field === col.field) {
+     //          console.log($scope.columns[i]);
+     //          $scope.columns[i].displayName = newColName;
+     //          console.log($scope.columns[i]);
+     //          break; 
+     //    }
+    //}
      $scope.columns = [];
      $timeout( function(){ $scope.columns = $scope.generateColumnDefs() ||[]; }, 25);
-    //  $interval( function() {
-    //  $scope.columns = $scope.generateColumnDefs();
-    // }, 0, 100);
-     
-
   }
 
   var customizeReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc, eventData, gridOptions, gridApi) {
