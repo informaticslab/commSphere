@@ -734,12 +734,30 @@ $scope.saveTableName = function(grid,e) {
     e.preventDefault();
   };
 
+$scope.editColName = function(col) {
+   col.editing = true;
+}
+
+$scope.cancelEditingColName = function(col) {
+   col.editing = false;
+}
+
+$scope.saveColName = function(col,e) {
+    // topic.save();
+    col.editing = false;
+    e.preventDefault();
+    if (col.displayName !== col.newColName && col.newColName !== '') {
+        $scope.eventData.colDisplayNames[col.field] = col.newColName;
+        $scope.columns = [];
+        $timeout( function(){ $scope.columns = $scope.generateColumnDefs() ||[]; }, 25);
+    }
+  };
 
 var customHeaderCellTemplate = 
   '<div ng-class="{ \'sortable\': sortable }">'+
   '<div class="ui-grid-vertical-bar"> </div>'+
   '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents">'+
-  '  <input type="checkbox" ng-click="$event.stopPropagation(); grid.appScope.dosomething(col.name)"/>&nbsp; {{ col.displayName CUSTOM_FILTERS }}<a ng-show="hoverTopic" href="" ng-click="$event.stopPropagation(); grid.appScope.showRenameColModal(\'sm\',col)" class="del-edit-btn btn btn-default btn-xs pull-right"><i class="glyphicon glyphicon-pencil"></i></a><span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
+  '  <input type="checkbox" ng-click="$event.stopPropagation(); grid.appScope.dosomething(col.name)"/>&nbsp;{{ col.displayName CUSTOM_FILTERS }}<input type="text" placeholder="New Column name" ng-model="col.newColName" ng-keyup="$event.keyCode==13 ? grid.appScope.saveColName(col,$event) : null" ng-blur="grid.appScope.saveColName(col,$event)" class="form-control" ng-show="col.editing"/><a ng-show="hoverTopic" href="" ng-click="$event.stopPropagation(); grid.appScope.editColName(col)" class="del-edit-btn btn btn-default btn-xs pull-right"><i class="glyphicon glyphicon-pencil"></i></a><span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
   '</div>'+
   '<div ng-if="grid.options.enableColumnMenus &amp;&amp; !col.isRowHeader &amp;&amp; col.colDef.enableColumnMenu !== false" ng-click="toggleMenu($event)" class="ui-grid-column-menu-button"><i class="ui-grid-icon-angle-down"> </i></div>'+
   '<div ng-if="filterable" ng-repeat="colFilter in col.filters" class="ui-grid-filter-container">'+
