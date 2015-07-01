@@ -8,7 +8,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 						i Due Date: {{eventdoc.eventDueDate | date:'medium'}}		
 						h3 Customize Report		
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
-						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel();saveCustomizedReport()')
+						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel();saveCustomizedReport();hideGridCheckbox')
 					.create-btn-cont
 						button.btn.btn-success(type="button" ng-click="preview('sm',customizedDoc)")
 							| Preview Report
@@ -41,8 +41,8 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 												.topic-title.angular-ui-tree-handle(data-nodrag='')
 													div {{grid.gridName}}
 												ol(ui-tree-node='' ng-model='grid.dailyData' data-type='subTopic')
-													.grid(id="{{'grid_'+$index}}", ui-grid="{data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableColumnMenu: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
-								div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"')
+													.grid(id="{{'grid_'+$index}}", data-sync-scroll ="{{'grid_'+$index}}", ui-grid="{data: grid.dailyData, columnDefs : customizeColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableColumnMenu: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true, showHeader: $index == 0}", ng-style="getCustomizedTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
+								div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"') 
 									h4.report-category
 										.checkbox
 											input(type='checkbox' ng-model='category.checked' ng-click='selectAll(category)')
@@ -79,8 +79,13 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 																| {{subBullet.name}}
 								label Additional Notes
 								textarea.notesPlaceholder(placeholder='Enter text here' type='text', ng-model='section.sectionData.notes')
-								
-													
-
+			.row
+				.col-lg-6
+					h3 Data binding
+					.info
+						| {{  }}
+					pre.code.
+						{{ eventData | json }}
+			
 
 

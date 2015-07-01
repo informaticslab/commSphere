@@ -24,7 +24,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                         button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
                             | Submit
                     .submit-btn-cont
-                        button.btn.btn-success.pull-right(type="button" ng-click="customize('lg',eventdoc, eventData, gridOptions, gridApi)" ng-if="identity.isAuthorized('levelTwo') && readyForPreview")
+                        button.btn.btn-success.pull-right(type="button" ng-click="customize('lg',eventdoc, eventData, gridOptions, gridApi); showGridCheckbox()" ng-if="identity.isAuthorized('levelTwo') && readyForPreview")
                             | Customize Report
         .modal-body(style='background-color:#f2f2f2;')
             .row(style='background-color:#f2f2f2; height:100vh;')
