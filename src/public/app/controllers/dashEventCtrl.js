@@ -1,4 +1,4 @@
-angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document) {
+angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout) {
 
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
@@ -10,7 +10,11 @@ $scope.tabCategory=[
 $scope.currentLocation = $location.url();
 // grid setup
 
-//$scope.gridOptions={};
+$scope.gridOptions={
+  onRegisterApi: function(gridApi){
+      $scope.gridApi = gridApi;
+    }
+};
 $scope.readyForPreview = false;
 $scope.minColWidth = 110;
 $scope.minTopicWidth = 200;
@@ -636,7 +640,24 @@ $scope.setActiveCategory = function(category)
    
  //  }, true);
 
-$scope.addDataColumn= function(columnName){
+
+ $scope.gridOptions.onRegisterApi = function(gridApi){
+      //set gridApi on scope
+      $scope.gridApi = gridApi;
+      gridApi.selection.on.rowSelectionChanged($scope,function(row){
+        var msg = 'row selected ' + row.isSelected;
+        console.log.log(msg);
+      });
+
+      gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
+        var msg = 'rows changed ' + rows.length;
+        console.log(msg);
+      });
+
+      gridApi.core.notifyDataChange(uiGridConstants.dataChange.OPTIONS);
+    };
+
+$scope.addDataColumn= function(columnName,displayName){
 
  for(var i=0; i < $scope.eventData.gridData.length; i++) {
         var oneGrid = $scope.eventData.gridData[i];
@@ -644,6 +665,8 @@ $scope.addDataColumn= function(columnName){
            if (oneGrid.dailyData[j].hasOwnProperty(columnName)) {
            } else {  // column not exists, add
                oneGrid.dailyData[j][columnName] = '*';
+               // also add a display name for it
+               $scope.eventData.colDisplayNames[columnName] = displayName;
            }
         }
   }
@@ -657,11 +680,15 @@ $scope.addTable = function(grid) {
     var initialRow = {
      'label' : ''
     }
+    var initialColName = {
+      'label' : 'Label'
+    }
     if ($scope.columns) {
       if ($scope.columns.length >0) {
       for(i = 0; i < $scope.columns.length; i++) {
          if ($scope.columns[i].field !== 'label') {
            initialRow[$scope.columns[i].field] = '*';  
+           initialColName[$scope.columns[i].field] =  $filter('date')($scope.columns[i].field,'mediumDate');
         }
       }
     }
@@ -670,11 +697,12 @@ $scope.addTable = function(grid) {
            var newColumn = ''+$scope.eventdoc.dateCreated
            initialRow[newColumn] = '*'; 
        }
-   
+  
   $scope.eventData.gridData.push({
             gridName: grid.newGridName,
             dailyData: [initialRow]
             });
+  $scope.eventData.colDisplayNames = initialColName;
   if (!$scope.columns) {
     $scope.columns = $scope.generateColumnDefs();
   }
@@ -707,6 +735,39 @@ $scope.saveTableName = function(grid,e) {
   };
 
 
+var customHeaderCellTemplate = 
+ // 'div(ng-class="{ \'sortable\': sortable }")'+
+ //      '.ui-grid-vertical-bar'+  
+ //      '.ui-grid-cell-contents(col-index="renderIndex" ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false\")'+
+ //      '  input(type="checkbox", ng-click="$event.stopPropagation(); grid.appScope.dosomething(col.name)")'+
+ //      '  |&nbsp; {{ col.displayName CUSTOM_FILTERS }}'+
+ //      '  a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic" href="", ng-click="$event.stopPropagation(); grid.appScope.showRenameColModal(\'sm\',col)")'+
+ //      '                                                       i.glyphicon.glyphicon-pencil'+
+ //      '  span(ui-grid-visible="col.sort.direction", ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }")'+
+ //      '.ui-grid-column-menu-button(ng-if="grid.options.enableColumnMenus && !col.isRowHeader && col.colDef.enableColumnMenu !== false", ng-click="toggleMenu($event)")'+
+ //      '  i.ui-grid-icon-angle-down'+  
+ //      '.ui-grid-filter-container(ng-if="filterable", ng-repeat="colFilter in col.filters")'+
+ //      '  input.ui-grid-filter-input(type="text", ng-model="colFilter.term", ng-click="$event.stopPropagation()", ng-attr-placeholder="{{colFilter.placeholder || \'\'}}")'+
+ //      '  .ui-grid-filter-button(ng-click=\'colFilter.term = null\')'+
+ //      '    i.ui-grid-icon-cancel.right(ng-show="!!colFilter.term")' 
+ //          // use !! because angular interprets 'f' as false
+
+
+  '<div ng-class="{ \'sortable\': sortable }">'+
+  '<div class="ui-grid-vertical-bar"> </div>'+
+  '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents">'+
+  '  <input type="checkbox" ng-click="$event.stopPropagation(); grid.appScope.dosomething(col.name)"/>&nbsp; {{ col.displayName CUSTOM_FILTERS }}<a ng-show="hoverTopic" href="" ng-click="$event.stopPropagation(); grid.appScope.showRenameColModal(\'sm\',col)" class="del-edit-btn btn btn-default btn-xs pull-right"><i class="glyphicon glyphicon-pencil"></i></a><span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
+  '</div>'+
+  '<div ng-if="grid.options.enableColumnMenus &amp;&amp; !col.isRowHeader &amp;&amp; col.colDef.enableColumnMenu !== false" ng-click="toggleMenu($event)" class="ui-grid-column-menu-button"><i class="ui-grid-icon-angle-down"> </i></div>'+
+  '<div ng-if="filterable" ng-repeat="colFilter in col.filters" class="ui-grid-filter-container">'+
+  '  <input type="text" ng-model="colFilter.term" ng-click="$event.stopPropagation()" ng-attr-placeholder="{{colFilter.placeholder || \'\'}}" class="ui-grid-filter-input"/>'+
+  '  <div ng-click="colFilter.term = null" class="ui-grid-filter-button"><i ng-show="!!colFilter.term" class="ui-grid-icon-cancel right"> </i>'+
+  '    <!-- use !! because angular interprets \'f\' as false-->'+
+  '  </div>'+
+  '</div>'+
+  '</div>'
+
+
 $scope.generateColumnDefs= function() {
    var columnArry = [];
    var columnLayout = [];
@@ -733,17 +794,18 @@ $scope.generateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true};
+            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true};
           }
          else {
-            var formattedDate = $filter('date')(columnArry[i],'mediumDate');
-            oneColumnDef = {'field': columnArry[i], 'displayName' :formattedDate, enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false,
-            headerCellTemplate: '/partials/customHeaderCellTemplate'
+            //var formattedDate = $filter('date')(columnArry[i],'mediumDate');
+            oneColumnDef = {'field': columnArry[i], 'displayName' : $scope.eventData.colDisplayNames[columnArry[i]], enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
+            //,headerCellTemplate: '/partials/customHeaderCellTemplate'
+            ,headerCellTemplate: customHeaderCellTemplate
           }
          }
             columnLayout.push(oneColumnDef);
        }
-
+       //console.log(columnLayout)
        return columnLayout;
      
 };
@@ -811,6 +873,7 @@ $scope.removeColumn = function() {
           for(var j=0; j<$scope.eventData.gridData[i].dailyData.length; j++){
              if ($scope.eventData.gridData[i].dailyData[j].hasOwnProperty(lastColumnName)) {
                 delete $scope.eventData.gridData[i].dailyData[j][lastColumnName];
+                delete $scope.eventData.colDisplayNames[lastColumnName];
              } else {  // column not exists, add
              }
           }
@@ -819,11 +882,14 @@ $scope.removeColumn = function() {
   }
   
   $scope.addColumn = function() {
-    // assuming using eventInstanceId as column name
+    
     var newColumnName =  ''+new Date().getTime();
-    var formattedDate = $filter('date')(newColumnName,'mediumDate');
-    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false});
-    $scope.addDataColumn(newColumnName);
+    var formattedDate = $filter('date')(newColumnName,'mediumDate');  // default display name for date
+    $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false
+      //, headerCellTemplate: '/partials/customHeaderCellTemplate'
+      , headerCellTemplate: customHeaderCellTemplate
+    });
+    $scope.addDataColumn(newColumnName,formattedDate);
   }
 
  
@@ -868,9 +934,9 @@ $scope.removeColumn = function() {
       $scope.oldColName = oldColName;
       
      
-      $scope.ok = function() {
-      $modalInstance.close();
-    };
+    $scope.accept = function (newColName) {
+     $modalInstance.close(newColName);
+  };
 
     $scope.cancel = function() {
       $modalInstance.dismiss();
@@ -878,8 +944,7 @@ $scope.removeColumn = function() {
 
   };
 
-  $scope.showRenameColModal = function(size,oldColName) {
-
+  $scope.showRenameColModal = function(size,col) {
      var modalInstance = $modal.open({
             scope: $scope,
             templateUrl: '/partials/colRenameModal',
@@ -888,20 +953,38 @@ $scope.removeColumn = function() {
             size: size,
             resolve: {
                 oldColName : function() {
-                  return oldColName;
+                  return col.displayName;
                 }
              }
           });
 
-      modalInstance.result.then(function (result) {
-          var newColumnName = result.newColumnName;
-          var oldColumnName = resutl.oldColumnName;
-          $scope.renameCol(oldColName, newColName);
+      modalInstance.result.then(function (newColName) {
+          $scope.renameColumn(col, newColName);
       }, function () {
    //         $log.info('Modal dismissed at: ' + new Date());
       });
   };
 
+
+ $scope.renameColumn = function(col,newColName) {
+     $scope.eventData.colDisplayNames[col.field] = newColName;
+     for (i = 0; i < $scope.columns.length; i++) {
+        if ($scope.columns[i].field === col.field) {
+              console.log($scope.columns[i]);
+              $scope.columns[i].displayName = newColName;
+              console.log($scope.columns[i]);
+              break; 
+        }
+
+     }
+     $scope.columns = [];
+     $timeout( function(){ $scope.columns = $scope.generateColumnDefs() ||[]; }, 25);
+    //  $interval( function() {
+    //  $scope.columns = $scope.generateColumnDefs();
+    // }, 0, 100);
+     
+
+  }
 
   var customizeReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc, eventData, gridOptions, gridApi) {
     $scope.eventdoc = eventdoc;

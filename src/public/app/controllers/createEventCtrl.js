@@ -466,10 +466,11 @@ $scope.addTable = function(grid) {
  if(grid) {
   if (grid.newGridName.length > 0) {
     var initialRow = {
-     'label' : ''
+      'label' : '', 'displayName': 'Label'
     }
 
   $scope.eventdoc.gridData.push({
+            gridId : 'grid_' +($scope.eventdoc.gridData.length +1),
             gridName: grid.newGridName,
             dailyData: [initialRow]
             });
@@ -516,8 +517,8 @@ function generateColumnDefs() {
    // pick a grid to iterate
    var oneGrid =  $scope.eventdoc.gridData[0];
    if (oneGrid) {  // at least one grid exist
-       for (var columnName in oneGrid.dailyData[0]) {
-          if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
+       for (var oneColumn in oneGrid.dailyData[0]) {
+          if (oneGrid.dailyData[0].hasOwnProperty(oneColumn.Name)) {
             if (columnName !== '$$hashKey' && columnName != 'label')  {
                 columnArry.push(columnName);
             } 
