@@ -36,12 +36,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 							.report-wrapper
 								div(ng-if='section.sectionType == "Metrics"')
 									.row
-										ol(ui-tree-nodes='' ng-model='section.sectionData.doc.gridData')
-											li(ng-repeat='grid in section.sectionData.doc.gridData', ui-tree-node='')
-												.topic-title.angular-ui-tree-handle(data-nodrag='')
-													div {{grid.gridName}}
-												ol(ui-tree-node='' ng-model='grid.dailyData' data-type='subTopic')
-													.grid(id="{{'grid_'+$index}}", data-sync-scroll ="{{'grid_'+$index}}", ui-grid="{data: grid.dailyData, columnDefs : customizeColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableColumnMenu: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true, showHeader: $index == 0}", ng-style="getCustomizedTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
+										.grid(id="{{'grid_'+$index}}", ui-grid="{data: combinedGrid, columnDefs : customizeColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableColumnMenu: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true, showHeader: $index == 0}", ng-style="getCustomizedTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
 								div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"') 
 									h4.report-category
 										.checkbox
