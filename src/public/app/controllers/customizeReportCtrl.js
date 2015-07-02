@@ -18,6 +18,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 		}
 	}
 
+	//console.log($rootScope.combinedGrid);
 	var customizeHeaderCellTemplate = 
 	  '<div ng-class="{ \'sortable\': sortable }">'+
 	  '<div class="ui-grid-vertical-bar"> </div>'+
@@ -47,7 +48,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
  		}
  	}
 
- 	console.log($rootScope.checkedColumns);
+ 	//console.log($rootScope.checkedColumns);
  };
 
  $scope.getCustomizedTableHeight = function(grid,id) {

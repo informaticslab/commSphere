@@ -4,62 +4,25 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
 	$scope.previewedGrid = [];
 	var checked = $rootScope.checkedColumns;
 	var gridData = $scope.eventData.gridData;
-	var combinedGrid = $rootScope.combinedGrid;
+	var combinedGrid = JSON.parse(JSON.stringify($rootScope.combinedGrid));
 
-	console.log('combinedGrid',combinedGrid);
+	//console.log('combinedGrid',combinedGrid);
 	if (checked.length > 0) {
-		
-		for(var i = 0; i < checked.length; i++) {
-			for(var j = 0; j < combinedGrid.length; j++) {
-				for(key in combinedGrid[j]) {
-					//console.log('Key:',key);
-					var obj = {};
-					obj[key] = combinedGrid[j][key];
-					if(key === 'label') {
-
-						$scope.previewedGrid.push(obj);
-					} else if (key === checked[i]) {
-						$scope.previewedGrid.push(obj);
-					}
+		for(var j = 0; j < combinedGrid.length; j++) {
+			for(key in combinedGrid[j]) {
+				//console.log('Key:',key);
+				if(key === 'label') {
+					//do nothing
+				} else if (checked.indexOf(key) == -1) {
+					delete combinedGrid[j][key];
 				}
 			}
-			
 		}
-		// for(var j = 0; j < gridData.length; j++) {
-		// 	$scope.previewedGrid.push({"label":gridData[j].gridName});
-			
-		// 	for(var k = 0; k < gridData[j].dailyData.length; k++) {
-		// 		for(var i = 0; i < checked.length; i++){
-		// 			for(obj in gridData[j].dailyData[k]){
-		// 				//console.log('Obj:'+obj+'checked:'+ checked[i]);
-
-		// 				if(obj === 'label'){
-		// 					//do nothing	 
-		// 				} else if(obj ==='$$hashKey') {
-
-		// 				} else if (obj === checked[i]) {
-
-		// 				} else {
-		// 					delete gridData[j].dailyData[k].obj
-		// 				}
-		// 				//delete gridData[j].dailyData[k].obj;
-		// 				console.log(gridData[j].dailyData[k]);
-		// 			}
-		// 			$scope.previewedGrid.push(gridData[j].dailyData[k]);
-		// 	}
-				
-		// 	}
-			
-		// 	// for(var l =0; l < gridData[j].dailyData.length; j++) {
-		// 	// 	if(checked[i] == gridData[j].dailyData[key])
-		// 	// }
-		// }
-	
 	}
 	
-
-	console.log('result:' ,$scope.previewedGrid);
-
+	// console.log(combinedGrid);
+	$scope.previewedGrid = combinedGrid;
+	
 	/////GRID//////
 	
 		var previewHeaderCellTemplate = 
@@ -90,8 +53,6 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
  			}
  		}
  	}
-
- 	console.log($rootScope.checkedColumns);
  };
 
  $scope.getPreviewTableHeight = function(grid,id) {
@@ -112,22 +73,31 @@ $scope.previewGenerateColumnDefs= function() {
    var columnArry = [];
    var columnLayout = [];
    // pick a grid to iterate
-   var oneGrid =  $scope.eventData.gridData[0];
-   if (oneGrid) {  // at least one grid exist
-       for (var columnName in oneGrid.dailyData[0]) {
-          if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
-            if (columnName !== '$$hashKey' && columnName != 'label')  {
-                columnArry.push(columnName);
-            } 
-          }
-       }
+   var oneGrid =  $scope.previewedGrid;
+		if (oneGrid) { // at least one grid exist
+			for (var  i=0; i<  oneGrid.length; i++) {
 
-    }
+				
+				for (var columnName in oneGrid[i]) {
+					
+					if (oneGrid[i].hasOwnProperty(columnName)) {
+
+						if (columnName !== '$$hashKey' && columnName != 'label') {
+							if (columnArry.indexOf(columnName) == -1) {
+								columnArry.push(columnName);
+							}
+						}
+					}
+				}
+
+			}
+
+		}
     else {
-        $scope.addDataColumn('label');
-       // columnArry.push('label');
-        $scope.addDataColumn(''+$scope.eventdoc.dateCreated)
-        columnArry.push(''+$scope.eventdoc.dateCreated);
+       //  $scope.addDataColumn('label');
+       // // columnArry.push('label');
+       //  $scope.addDataColumn(''+$scope.eventdoc.dateCreated)
+       //  columnArry.push(''+$scope.eventdoc.dateCreated);
     }
        columnArry.sort();
        columnArry.unshift('label');
@@ -138,10 +108,8 @@ $scope.previewGenerateColumnDefs= function() {
           }
          else {
             //var formattedDate = $filter('date')(columnArry[i],'mediumDate');
-            oneColumnDef = {'field': columnArry[i], 'displayName' : $scope.eventData.colDisplayNames[columnArry[i]], enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
-            //,headerCellTemplate: '/partials/customHeaderCellTemplate'
-            ,headerCellTemplate: previewHeaderCellTemplate
-          }
+            oneColumnDef = {'field': columnArry[i], 'displayName' : $scope.eventData.colDisplayNames[columnArry[i]], enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false,headerCellTemplate: previewHeaderCellTemplate
+          };
          }
             columnLayout.push(oneColumnDef);
        }
@@ -149,6 +117,7 @@ $scope.previewGenerateColumnDefs= function() {
        return columnLayout;
      
 };
+
 
 $scope.previewColumns = $scope.previewGenerateColumnDefs();
 
