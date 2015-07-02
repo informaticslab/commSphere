@@ -136,7 +136,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                 //-             pre.code.
                                 //-                 {{ eventdoc | json }}   
                             //DATA TAB
-                            tab(heading="Daily Metrics" select="tabShown = !tabShown;" deselect="tabShown = !tabShown")
+                            tab(heading="Daily Metrics" select="tabShown = !tabShown; gridTabSelected();" deselect="tabShown = !tabShown")
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;' ui-tree='options' drag-enabled="identity.isAuthorized('levelTwo')")
                                         br
@@ -196,11 +196,11 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                highchart#highchart1(config='highChartConfig')
                                         br
                                         .row
-                                               //-canvas#chartJS1(width='500', height='400' ng-if="tabShown") 
-                                               //-div#js-legend.chart-legend
-                                            div(ng-repeat = 'grid in eventData.gridData' on-finish-render="showChartJs();") 
+                                            canvas#chartJS_0(width='500', height='400' ng-if="tabShown") 
+                                            div#js-legend.chart-legend
+                                            div(ng-repeat = 'grid in eventData.gridData') 
                                                 div {{grid.gridName}}
-                                                canvas(id="{{'chartJS_'+$index}}" , width='500', height='300' ng-show="tabShown")
+                                                canvas#chartJS_0.chart.chart-line(data="chartJsData[0].datasets", labels="chartJsData[0].labels", legend="true", width='500', height='300')
                                                 div#js-legend.chart-legend
                              //tab(heading="Data2" select="setActiveCategory('Data2')")
                                  .row

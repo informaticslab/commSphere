@@ -100,7 +100,9 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
              }
 
             }
-            showChartJs();
+            $scope.buildChartJsData();
+            showChartJs('chartJS_0', $scope.chartJsData[0]);
+
         } else {
           console.log ('data not available');  // add default record
            //var  newId = $scope.eventdoc.eventInstanceId.split('-')[0]+'-001';
@@ -1067,6 +1069,7 @@ $scope.removeColumn = function() {
   };
 
    $scope.gridTabSelected = function() {
+     showChartJs('chartJS_0', $scope.chartJsData[0]);
      if ($scope.eventData) {
        
       //  for (x=0; x < $scope.eventData.gridData.length; x++) {
@@ -1092,17 +1095,44 @@ $scope.removeColumn = function() {
       //   }
       //   $scope.chartJsData.push(oneChartJsData);
       // }
-      showChartJs();
+     // showChartJs();
      }
   }
 
+  $scope.buildChartJsData = function (){
+
+       for (x=0; x < $scope.eventData.gridData.length; x++) {
+         var chartData = $scope.getChartData($scope.eventData.gridData[x]);
+         console.log('char data '+x ,chartData)
+         var datasets = [];
+          for (i= 0; i < chartData.series.length; i++){
+            dataset =  {
+                          label: chartData.series[i].name,
+                          //fillColor: "rgba(220,220,220,0.2)",
+                          strokeColor: $scope.chartColors[i],
+                          pointColor: $scope.chartColors[i],
+                          // pointStrokeColor: color,
+                          // pointHighlightFill: color,
+                          // pointHighlightStroke: color,
+                          data: chartData.series[i].data
+                        }
+            datasets.push(dataset);
+        }
+        var oneChartJsData = {
+          labels: chartData.xAxis,
+          datasets: datasets
+        }
+        $scope.chartJsData.push(oneChartJsData);
+      }
+
+  }
   $scope.getFormattedDate = function(timeStamp) {
      //////var isoDate = $filter('date')(timeStamp,'yyyy-MM-ddTHH:mm:ss.sss') ;
      //return isoDate;
      return timeStamp;
   }
 
-  function showChartJs(chartId,grid) {
+  function showChartJs(chartId,chartJsData) {
   console.log('passed id ', chartId)
    var colors = [ "#FF0000","#0000FF"];
    var chartJsData = [];
@@ -1147,68 +1177,71 @@ $scope.removeColumn = function() {
             bezierCurveTension : 0.4
             //legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
             }
-if (grid) {
-  //console.log('grid ', grid);
-  chartData = $scope.getChartData(grid) || [];
-  //console.log('chartData series ', chartData.series);
- //  var chartData = data;
-  var datasets = [];
-  for (var i= 0; i < chartData.series.length; i++){
+// if (grid) {
+//   //console.log('grid ', grid);
+//   chartData = $scope.getChartData(grid) || [];
+//   //console.log('chartData series ', chartData.series);
+//  //  var chartData = data;
+//   var datasets = [];
+//   for (var i= 0; i < chartData.series.length; i++){
      
-      dataset =  {
-                    label: chartData.series[i].name,
-                    //fillColor: "rgba(220,220,220,0.2)",
-                    strokeColor: colors[i],
-                    pointColor: colors[i],
-                    // pointStrokeColor: color,
-                    // pointHighlightFill: color,
-                    // pointHighlightStroke: color,
-                    data: chartData.series[i].data
-                  }
-      datasets.push(dataset);
-  }
-  chartJsData = {
-    labels: chartData.xAxis,
-    datasets: datasets
-  }
-} 
-$timeout(function() {}, 250);
-  for (x=0; x < $scope.eventData.gridData.length; x++) {
-         var chartData = $scope.getChartData($scope.eventData.gridData[x]);
-         console.log('char data '+x ,chartData)
-         var datasets = [];
-          for (i= 0; i < chartData.series.length; i++){
-            dataset =  {
-                          label: chartData.series[i].name,
-                          //fillColor: "rgba(220,220,220,0.2)",
-                          strokeColor: $scope.chartColors[x],
-                          pointColor: $scope.chartColors[x],
-                          // pointStrokeColor: color,
-                          // pointHighlightFill: color,
-                          // pointHighlightStroke: color,
-                          data: chartData.series[i].data
-                        }
-            datasets.push(dataset);
-        }
-        var oneChartJsData = {
-          labels: chartData.xAxis,
-          datasets: datasets
-        }
-        $scope.chartJsData.push(oneChartJsData);
+//       dataset =  {
+//                     label: chartData.series[i].name,
+//                     //fillColor: "rgba(220,220,220,0.2)",
+//                     strokeColor: colors[i],
+//                     pointColor: colors[i],
+//                     // pointStrokeColor: color,
+//                     // pointHighlightFill: color,
+//                     // pointHighlightStroke: color,
+//                     data: chartData.series[i].data
+//                   }
+//       datasets.push(dataset);
+//   }
+//   chartJsData = {
+//     labels: chartData.xAxis,
+//     datasets: datasets
+//   }
+// } 
 
-        var chartId = "chartJS_"+ x;
-        var ctx = document.getElementById(chartId).getContext("2d");
+  
+  // for (x=0; x < $scope.eventData.gridData.length; x++) {
+  //        var chartData = $scope.getChartData($scope.eventData.gridData[x]);
+  //        console.log('char data '+x ,chartData)
+  //        var datasets = [];
+  //         for (i= 0; i < chartData.series.length; i++){
+  //           dataset =  {
+  //                         label: chartData.series[i].name,
+  //                         //fillColor: "rgba(220,220,220,0.2)",
+  //                         strokeColor: $scope.chartColors[x],
+  //                         pointColor: $scope.chartColors[x],
+  //                         // pointStrokeColor: color,
+  //                         // pointHighlightFill: color,
+  //                         // pointHighlightStroke: color,
+  //                         data: chartData.series[i].data
+  //                       }
+  //           datasets.push(dataset);
+  //       }
+  //       var oneChartJsData = {
+  //         labels: chartData.xAxis,
+  //         datasets: datasets
+  //       }
+  //       $scope.chartJsData.push(oneChartJsData);
+
+  //       var chartId = "chartJS_"+ x;
+  //       var ctx = document.getElementById(chartId).getContext("2d");
+  //       ctx.canvas.width = 500;
+  //       ctx.canvas.height = 300;
+  //       var myLineChart = new Chart(ctx).Line($scope.chartJsData[x], chartJsConfig);
+  //       document.getElementById('js-legend').innerHTML = myLineChart.generateLegend();
+  //       myLineChart.resize();
+  //     }
+
+var ctx = document.getElementById(chartId).getContext("2d");
         ctx.canvas.width = 500;
-        ctx.canvas.height = 300;
-        var myLineChart = new Chart(ctx).Line($scope.chartJsData[x], chartJsConfig);
-        document.getElementById('js-legend').innerHTML = myLineChart.generateLegend();
-        myLineChart.resize();
-      }
-
- 
- // var myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
- // document.getElementById('js-legend').innerHTML = myLineChart.generateLegend();
- // myLineChart.resize();
+        ctx.canvas.height = 300; 
+ var myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
+ document.getElementById('js-legend').innerHTML = myLineChart.generateLegend();
+ myLineChart.resize();
   }
  finally {
 
