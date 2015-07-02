@@ -326,3 +326,18 @@ margin-top: 0px;
 .report-section {
   margin-bottom:40px;
 }
+
+/*-charts section*/
+
+.chart-legend li span{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    
+    top : -50px;
+}
+
+.line-legend {
+  list-style-type: none;
+}

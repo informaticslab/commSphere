@@ -15,6 +15,8 @@ var commSphereApp = angular.module('app', [
   ,'isteven-multi-select'
   ,'ui.bootstrap.datetimepicker'
   ,'duScroll'
+  ,'highcharts-ng'
+  ,'chart.js'
   // ,'chieffancypants.loadingBar'
   // ,'angulartics'
   // ,'angulartics.google.analytics'
