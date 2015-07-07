@@ -161,8 +161,8 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             br
                                             br
                                         .row
-                                            ol(ui-tree-nodes='', ng-model='eventData.gridData')
-                                                li(ng-repeat='grid in eventData.gridData', ui-tree-node='')
+                                            ol(ui-tree-nodes='', ng-model='eventData.gridData' )
+                                                li(ng-repeat='grid in eventData.gridData', ui-tree-node='' on-finish-render="ngRepeatFinished")
                                                     .topic-title.angular-ui-tree-handle(ng-show='!grid.editing', ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false" )
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverTopic && identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='removeTable(grid.gridName)')
                                                             i.glyphicon.glyphicon-trash
@@ -182,6 +182,14 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             //- button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add New Row to {{grid.gridName}}
                                                             //- br
                                                             br
+                                                            highchart(id="{{'chartHC_'+$index}}" config='highChartConfig[$index]')
+                                                            br
+                                                            //canvas(id="{{'chartJS_'+$index}}" tc-chartjs-line chart-options="chartJsLineConfig" chart-data="chartJsData[$index]" width="500" height="300") 
+                                                            canvas(id="{{'chartJS_'+$index}}" width="500" height="300" ) 
+                                                            div#js-legend.chart-legend
+                                                            br
+                                                            div(google-chart='', chart='googleChartObj[$index]', style='{{cssStyle}}' ng-show='tabShown')
+
                                             ol.angular-ui-tree-nodes(ng-show = "identity.isAuthorized('levelTwo')")
                                                 li.angular-ui-tree-node
                                                     .topic-title.angular-ui-tree-handle
@@ -194,13 +202,13 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         //br
                                         //.row
                                                highchart#highchart1(config='highChartConfig')
-                                        br
-                                        .row
+                                        //br
+                                        //.row
                                             canvas#chartJS_0(width='500', height='400' ng-if="tabShown") 
                                             div#js-legend.chart-legend
                                             div(ng-repeat = 'grid in eventData.gridData') 
                                                 div {{grid.gridName}}
-                                                canvas#chartJS_0.chart.chart-line(data="chartJsData[0].datasets", labels="chartJsData[0].labels", legend="true", width='500', height='300')
+                                                canvas(id="{{'chartJS_'+$index}}", width='500', height='300' ng-if="tabShown")
                                                 div#js-legend.chart-legend
                              //tab(heading="Data2" select="setActiveCategory('Data2')")
                                  .row

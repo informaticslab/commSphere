@@ -6,7 +6,7 @@ $rootScope.continueNav = true;
 $scope.canSubmit = true;
 $scope.checkboxShow = false;
 $scope.tabCategory=[
-                    {active:true}
+                    {active:false}
                    ];
 $scope.currentLocation = $location.url();
 // grid setup
@@ -19,9 +19,20 @@ $scope.gridOptions={
 $scope.readyForPreview = false;
 $scope.minColWidth = 110;
 $scope.minTopicWidth = 200;
+$scope.googleChartObj = [];
 $scope.chartJsData =[];
-$scope.highChartConfig = {};
+$scope.highChartConfig = [];
 $scope.chartColors = [ "#FF0000","#0000FF"];
+$scope.chartJsLineConfig = {
+            bezierCurve : true,
+            datasetFill : false,
+            responsive: true,
+            maintainAspectRatio: false,
+            legend:true,
+    //Number - Tension of the bezier curve between points
+            bezierCurveTension : 0.4,
+            legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+            }
 // $scope.eventData = {
 //     "eventName": "",
 //     "eventType": "",
@@ -101,7 +112,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 
             }
             $scope.buildChartJsData();
-            showChartJs('chartJS_0', $scope.chartJsData[0]);
+            //showChartJs('chartJS_0', $scope.chartJsData[0]);
 
         } else {
           console.log ('data not available');  // add default record
@@ -131,31 +142,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             
         }
 
-        $scope.chartData = $scope.getChartData($scope.eventData.gridData[0]);
-            $scope.highChartConfig = {
-            options: {
-              chart: {
-                  type: 'line',
-              }
-            },
-            series: $scope.chartData.series,
-            title: {
-            text: $scope.eventData.gridData[0].gridName
-            },
-             xAxis: {
-            categories: $scope.chartData.xAxis
-             },
-            yAxis : [{
-                  type: "logarithmic"
-            }],           
-                loading: false
-            }
-        
        
-        
-
-
-        $scope.tabCategory[0].active = true;
       });
      } else {
          alert('no data received, assign new id');
@@ -873,11 +860,11 @@ $scope.getChartData = function(grid) {
   var newSerie = {name: serieName, data: serieData}
       series.push(newSerie);
       serieData = [];
-       console.log(series);
+       //console.log(series);
   }
   chartData['xAxis'] = chartCategoriesHeading;
   chartData['series'] = series;
-  console.log(chartData);
+  //console.log(chartData);
   return  chartData;
      
 }
@@ -909,7 +896,10 @@ $scope.$on('uiGridEventEndCellEdit', function(event) {
 });
 
 $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-    showChartJs();
+    //console.log('i was call from ngrepeat completed');
+    //showChartJs('chartJS_0',chartJsData[0]);
+    $scope.buildChartJsData();
+   // $timeout(function () { $scope.tabCategory[0].active = true; },100);
 });
 
 $scope.removeColumn = function() {
@@ -1068,9 +1058,14 @@ $scope.removeColumn = function() {
     });
   };
 
+
    $scope.gridTabSelected = function() {
-     showChartJs('chartJS_0', $scope.chartJsData[0]);
+
+     console.log('this was call from gridtabselected');
+     
      if ($scope.eventData) {
+
+      $scope.buildChartJsData();
        
       //  for (x=0; x < $scope.eventData.gridData.length; x++) {
       //    var chartData = $scope.getChartData($scope.eventData.gridData[x]);
@@ -1096,14 +1091,114 @@ $scope.removeColumn = function() {
       //   $scope.chartJsData.push(oneChartJsData);
       // }
      // showChartJs();
+      //$timeout(function() { showChartJs('chartJS_1', $scope.chartJsData[1])},100);
+
      }
   }
 
   $scope.buildChartJsData = function (){
 
        for (x=0; x < $scope.eventData.gridData.length; x++) {
-         var chartData = $scope.getChartData($scope.eventData.gridData[x]);
-         console.log('char data '+x ,chartData)
+        $scope.chartJsData[x] = $scope.getOneChartJsData($scope.eventData.gridData[x]);
+        $scope.highChartConfig[x] = $scope.buildHighChartData($scope.eventData.gridData[x]);
+        $scope.googleChartObj[x] =  $scope.buildGoogleChartData($scope.eventData.gridData[x]);
+
+//        $timeout(function () { $scope.tabCategory[0].active = true; },200); //done building charts,  switch back to first tab
+      }
+
+  }
+  
+  $scope.buildGoogleChartData = function(grid) {
+    var chartData = $scope.getChartData(grid);
+    var cols = [];
+    var rows = [];
+    var oneRow = [];
+    var rawdata = [];
+   
+    
+    for (i=0; i < chartData.series.length; i++) {
+        oneRow.push(chartData.series[i].name);
+    }
+    oneRow.unshift('Date');
+    rows.push(oneRow);
+    oneRow=[];
+    for (i=0; i < chartData.xAxis.length; i++){
+         oneRow.push(chartData.xAxis[i]);
+         for (j=0; j < chartData.series.length; j++) {
+             oneRow.push(chartData.series[j].data[i]);
+
+         }
+         rows.push(oneRow);
+         oneRow=[];
+    }     
+         
+    //console.log(rows); 
+    // for (i=0; i < chartData.series.length; i++) {
+    //     for (j = 0 ; j < chartData.series[i].data.length; j++) {
+
+    //     }
+    //     if (i === 0) {
+    //       rows.push({"v"})
+    //     }
+    // }
+   //console.log(rows);
+   var data = (google.visualization.arrayToDataTable(rows));
+    
+    var chartObject = {
+  "type": "LineChart",
+  "displayed": true,
+  "data": data,
+  "options": {
+    "title": grid.gridName,
+    "width":700,
+    "height": 400,
+    "isStacked": false,
+    "fill": 20,
+    "displayExactValues": true,
+    "vAxis": {
+      "title": "Count",
+      "gridlines": {
+        "count": 5
+      }
+    },
+    "hAxis": {
+      "title": null
+    },
+    "legend" : {position: 'bottom', alignment:'start' , textStyle: {color: 'blue', fontSize: 12}},
+    "chartArea" : {left:40,top:20,width:"80%",height:"80%"}
+  },
+  "formatters": {}
+}
+ return chartObject;
+  }
+
+  $scope.buildHighChartData = function(grid) {
+     var chartData = $scope.getChartData(grid);
+     var highChartConfig = {
+            options: {
+              chart: {
+                  type: 'line',
+              }
+            },
+            series: chartData.series,
+            title: {
+            text: grid.gridName
+            },
+             xAxis: {
+            categories: chartData.xAxis
+             },
+            yAxis : [{
+                  type: "logarithmic"
+            }],           
+                loading: false
+            }
+     return highChartConfig;      
+  }
+
+  $scope.getOneChartJsData = function (grid){
+ 
+         var chartData = $scope.getChartData(grid);
+         //console.log('chart data '+x ,chartData)
          var datasets = [];
           for (i= 0; i < chartData.series.length; i++){
             dataset =  {
@@ -1122,18 +1217,16 @@ $scope.removeColumn = function() {
           labels: chartData.xAxis,
           datasets: datasets
         }
-        $scope.chartJsData.push(oneChartJsData);
-      }
-
-  }
+        return oneChartJsData;
+  };
   $scope.getFormattedDate = function(timeStamp) {
      //////var isoDate = $filter('date')(timeStamp,'yyyy-MM-ddTHH:mm:ss.sss') ;
      //return isoDate;
      return timeStamp;
   }
-
+  
   function showChartJs(chartId,chartJsData) {
-  console.log('passed id ', chartId)
+  
    var colors = [ "#FF0000","#0000FF"];
    var chartJsData = [];
    var chartData =  [];
@@ -1236,13 +1329,13 @@ $scope.removeColumn = function() {
   //       myLineChart.resize();
   //     }
 
-var ctx = document.getElementById(chartId).getContext("2d");
-        ctx.canvas.width = 500;
-        ctx.canvas.height = 300; 
+ console.log('passed id ', chartId)
+ var ctx = document.getElementById(chartId).getContext("2d");
+ 
  var myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
+ myLineChart.update();
  document.getElementById('js-legend').innerHTML = myLineChart.generateLegend();
- myLineChart.resize();
-  }
+ }
  finally {
 
  }
