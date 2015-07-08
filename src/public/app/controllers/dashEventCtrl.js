@@ -77,17 +77,6 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
       $scope.readyForPreview = false;
     }
 
-     // $http.get('api/events/data/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
-     //    if (dataResult){
-       
-     //        $scope.eventData = dataResult.data[0];
-     //   //     $scope.addDataColumn('20150604');
-     //        $scope.columnsLayout = $scope.generateColumnDefs();
-     //   //     console.log($scope.columnsLayout);
-
-     //    }
-     //  });
-     // set second set of test data
      $http.get('api/events/data/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
         if (dataResult.data.length > 0 ){
        
@@ -116,29 +105,6 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 
         } else {
           console.log ('data not available');  // add default record
-           //var  newId = $scope.eventdoc.eventInstanceId.split('-')[0]+'-001';
-           //$scope.eventData = {
-           //       "eventName":  $scope.eventdoc.eventName,
-           //        "eventInstanceId": newId,
-          //         gridData : [ { 'gridName': 'table 1',
-          //                        "dailyData": [{
-          //                                       "subTopic":""
-          //                                       }
-          //                                     ]
-          //                      }
-          //                     ]
-          //         };
-          // var creationDate = $scope.eventdoc.dateCreated;
-          // $scope.eventData.gridData[0].dailyData[0][creationDate] = '*'; 
-          // $scope.columns = $scope.generateColumnDefs();
-          // $scope.gridOptions = {
-          //     data: $scope.eventData.gridData[0].dailyData[0],
-          //     columnDefs : $scope.columns,
-          //     onRegisterApi: function(gridApi) {
-          //     $scope.gridApi = gridApi;
-          //    }
-
-          // }
             
         }
 
@@ -344,6 +310,10 @@ $scope.setActiveTab = function(tabId)
         } else { // save all
        //   console.log("257");
        //   $scope.saveTopics();
+        }
+        // check for grid dropped event and update the chart
+        if (sourceNode.grid) {
+            $scope.buildChartJsData();
         }
       },
       beforeDrop: function(event) {
@@ -615,26 +585,6 @@ $scope.setActiveCategory = function(category)
    
   }, true);
 
- // var objectsToWatch = ['eventdoc', 'eventData'];
- // var unregister=$scope.$watchGroup('objectsToWatch', function(newVal, oldVal){
- //   console.log("watching fired");
- //    if(newVal!=oldVal)
- //    {
- //      $log.debug('changed');
- //      if(oldVal == undefined){
- //          //do nothing
- //      } else {
- //        $rootScope.continueNav=false;
- //        $scope.canSubmit = false;
- //        $rootScope.preventNavigation=true;
- //        unregister();
- //      }
-      
- //    }
-   
- //  }, true);
-
-
  $scope.gridOptions.onRegisterApi = function(gridApi){
       //set gridApi on scope
       $scope.gridApi = gridApi;
@@ -693,6 +643,7 @@ $scope.addTable = function(grid) {
        }
   
   $scope.eventData.gridData.push({
+            gridId: $scope.eventData.gridData.length,
             gridName: grid.newGridName,
             dailyData: [initialRow]
             });
@@ -871,34 +822,17 @@ $scope.getChartData = function(grid) {
 
 
 $scope.$on('uiGridEventEndCellEdit', function (evt) {
-   //console.log(evt.targetScope.row.grid.appScope.$parent.$modelValue);
-   var gridIndex = evt.targetScope.row.grid.appScope.$parent.$modelValue.gridId.split('_')[1];
+  // console.log(evt.targetScope.row.grid.appScope);
+   var gridIndex = evt.targetScope.row.grid.appScope.$parent.$index;
    var chartId = 'chartJS_'+ gridIndex;
    $scope.chartJsData[gridIndex] = $scope.getOneChartJsData($scope.eventData.gridData[gridIndex]);
-   //$scope.showChartJs(chartId,$scope.getOneChartJsData($scope.eventData.gridData[gridIndex]));
-  // $scope.chartData = $scope.getChartData(grid);
-  //   console.log('chart data inside grid update ', $scope.chartData );
-  //   $scope.highChartConfig.series = $scope.chartData.series;
-    
+   $scope.highChartConfig[gridIndex] = $scope.buildHighChartData($scope.eventData.gridData[gridIndex]);
+   $scope.googleChartObj[gridIndex] =  $scope.buildGoogleChartData($scope.eventData.gridData[gridIndex]);
 });
 
 $scope.$on('uiGridEventData', function (gridId) {
     console.log('grid event fired ', gridId);
 })
-
-$scope.$on('uiGridEventEndCellEdit', function(event) {
-   // console.log(event);
-   // switch(event.targetScope.gridId) {
-   //    case $scope.gridOptions1.$gridScope.gridId:
-   //       //handle the event for grid 1
-   //       break;
-   //    case $scope.gridOptions2.$gridScope.gridId:
-   //       //handle the event for grid 2
-   //       break;
-   // }
-});
-
-
 
 $scope.removeColumn = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
@@ -1057,48 +991,17 @@ $scope.removeColumn = function() {
   };
 
 $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-    console.log('i was call from ngrepeat completed');
-    //showChartJs('chartJS_0',chartJsData[0]);
-    $scope.buildChartJsData();
-   // $timeout(function () { $scope.tabCategory[0].active = true; },100);
+    $timeout(function () { $scope.tabCategory[0].active = true; },100);
 });
 
-   $scope.gridTabSelected = function() {
+  $scope.buildOneGridChartData = function(index) {
+    $timeout(function() {
+        $scope.chartJsData[index] = $scope.getOneChartJsData($scope.eventData.gridData[index]);
+        $scope.highChartConfig[index] = $scope.buildHighChartData($scope.eventData.gridData[index]);
+        $scope.googleChartObj[index] =  $scope.buildGoogleChartData($scope.eventData.gridData[index]);
+      },400)
 
-     //console.log('this was call from gridtabselected');
-     
-     if ($scope.eventData) {
-
-      //$scope.buildChartJsData();
-       
-      //  for (x=0; x < $scope.eventData.gridData.length; x++) {
-      //    var chartData = $scope.getChartData($scope.eventData.gridData[x]);
-      //    console.log('char data '+x ,chartData)
-      //    var datasets = [];
-      //     for (i= 0; i < chartData.series.length; i++){
-      //       dataset =  {
-      //                     label: chartData.series[i].name,
-      //                     //fillColor: "rgba(220,220,220,0.2)",
-      //                     strokeColor: $scope.chartColors[i],
-      //                     pointColor: $scope.chartColors[i],
-      //                     // pointStrokeColor: color,
-      //                     // pointHighlightFill: color,
-      //                     // pointHighlightStroke: color,
-      //                     data: chartData.series[i].data
-      //                   }
-      //       datasets.push(dataset);
-      //   }
-      //   var oneChartJsData = {
-      //     labels: chartData.xAxis,
-      //     datasets: datasets
-      //   }
-      //   $scope.chartJsData.push(oneChartJsData);
-      // }
-     // showChartJs();
-      //$timeout(function() { showChartJs('chartJS_1', $scope.chartJsData[1])},100);
-
-     }
-  }
+  };
 
   $scope.buildChartJsData = function (){
 
@@ -1106,12 +1009,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         $scope.chartJsData[x] = $scope.getOneChartJsData($scope.eventData.gridData[x]);
         $scope.highChartConfig[x] = $scope.buildHighChartData($scope.eventData.gridData[x]);
         var chartId = 'chartJS_'+x;
-        //console.log('chart id inside build chartjs data ' , chartId);
-        var chartJsData =  $scope.getOneChartJsData($scope.eventData.gridData[x]);
-        //$scope.showChartJs(chartId,chartJsData) ;
-        //$scope.googleChartObj[x] =  $scope.buildGoogleChartData($scope.eventData.gridData[x]);
-
-//        $timeout(function () { $scope.tabCategory[0].active = true; },200); //done building charts,  switch back to first tab
+        $scope.googleChartObj[x] =  $scope.buildGoogleChartData($scope.eventData.gridData[x]);
       }
 
   }
@@ -1196,7 +1094,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
             categories: chartData.xAxis
              },
             yAxis : [{
-                  type: "logarithmic"
+                  //type: "logarithmic"
+                  type : "linear"
             }],           
                 loading: false
             }
@@ -1264,10 +1163,6 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
     ]
 };
  try {
-   // var ctx = document.getElementById(chartId).getContext("2d");
- //   console.log('ctx = ', ctx);
- //   ctx.canvas.width = 500;
- //   ctx.canvas.height = 300;
     var chartJsConfig = {
             bezierCurve : true,
             datasetFill : false,
@@ -1278,74 +1173,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
             bezierCurveTension : 0.4
             //legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
             }
-// if (grid) {
-//   //console.log('grid ', grid);
-//   chartData = $scope.getChartData(grid) || [];
-//   //console.log('chartData series ', chartData.series);
-//  //  var chartData = data;
-//   var datasets = [];
-//   for (var i= 0; i < chartData.series.length; i++){
-     
-//       dataset =  {
-//                     label: chartData.series[i].name,
-//                     //fillColor: "rgba(220,220,220,0.2)",
-//                     strokeColor: colors[i],
-//                     pointColor: colors[i],
-//                     // pointStrokeColor: color,
-//                     // pointHighlightFill: color,
-//                     // pointHighlightStroke: color,
-//                     data: chartData.series[i].data
-//                   }
-//       datasets.push(dataset);
-//   }
-//   chartJsData = {
-//     labels: chartData.xAxis,
-//     datasets: datasets
-//   }
-// } 
-
-  
-  // for (x=0; x < $scope.eventData.gridData.length; x++) {
-  //        var chartData = $scope.getChartData($scope.eventData.gridData[x]);
-  //        console.log('char data '+x ,chartData)
-  //        var datasets = [];
-  //         for (i= 0; i < chartData.series.length; i++){
-  //           dataset =  {
-  //                         label: chartData.series[i].name,
-  //                         //fillColor: "rgba(220,220,220,0.2)",
-  //                         strokeColor: $scope.chartColors[x],
-  //                         pointColor: $scope.chartColors[x],
-  //                         // pointStrokeColor: color,
-  //                         // pointHighlightFill: color,
-  //                         // pointHighlightStroke: color,
-  //                         data: chartData.series[i].data
-  //                       }
-  //           datasets.push(dataset);
-  //       }
-  //       var oneChartJsData = {
-  //         labels: chartData.xAxis,
-  //         datasets: datasets
-  //       }
-  //       $scope.chartJsData.push(oneChartJsData);
-
-  //       var chartId = "chartJS_"+ x;
-  //       var ctx = document.getElementById(chartId).getContext("2d");
-  //       ctx.canvas.width = 500;
-  //       ctx.canvas.height = 300;
-  //       var myLineChart = new Chart(ctx).Line($scope.chartJsData[x], chartJsConfig);
-  //       document.getElementById('js-legend').innerHTML = myLineChart.generateLegend();
-  //       myLineChart.resize();
-  //     }
-
- //console.log('passed id ', chartId)
  var ctx = document.getElementById(chartId).getContext("2d");
  ctx.canvas.width = 500;
  ctx.canvas.height = 300;
  window.myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
- //window.myLineChart.destroy();
- //window.myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
- //document.getElementById('js-legend').innerHTML = window.myLineChart.generateLegend();
-
   }
  finally {
 
