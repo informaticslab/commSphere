@@ -473,7 +473,7 @@ $scope.addTable = function(grid) {
     }
 
   $scope.eventdoc.gridData.push({
-            gridId : 'grid_' +($scope.eventdoc.gridData.length +1),
+            gridId : 'grid_' +($scope.eventdoc.gridData.length),
             gridName: grid.newGridName,
             dailyData: [initialRow]
             });

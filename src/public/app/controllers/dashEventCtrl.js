@@ -22,12 +22,12 @@ $scope.minTopicWidth = 200;
 $scope.googleChartObj = [];
 $scope.chartJsData =[];
 $scope.highChartConfig = [];
-$scope.chartColors = [ "#FF0000","#0000FF"];
+$scope.chartColors = [ "#FF0000","#0000FF","#00FF00"];
 $scope.chartJsLineConfig = {
             bezierCurve : true,
             datasetFill : false,
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             legend:true,
     //Number - Tension of the bezier curve between points
             bezierCurveTension : 0.4,
@@ -111,7 +111,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
              }
 
             }
-            $scope.buildChartJsData();
+            //$scope.buildChartJsData();
             //showChartJs('chartJS_0', $scope.chartJsData[0]);
 
         } else {
@@ -871,9 +871,12 @@ $scope.getChartData = function(grid) {
 
 
 $scope.$on('uiGridEventEndCellEdit', function (evt) {
-  console.log(evt.targetScope.row.entity);  
-  console.log(evt.targetScope.gridId);
- // $scope.chartData = $scope.getChartData(grid);
+   //console.log(evt.targetScope.row.grid.appScope.$parent.$modelValue);
+   var gridIndex = evt.targetScope.row.grid.appScope.$parent.$modelValue.gridId.split('_')[1];
+   var chartId = 'chartJS_'+ gridIndex;
+   $scope.chartJsData[gridIndex] = $scope.getOneChartJsData($scope.eventData.gridData[gridIndex]);
+   //$scope.showChartJs(chartId,$scope.getOneChartJsData($scope.eventData.gridData[gridIndex]));
+  // $scope.chartData = $scope.getChartData(grid);
   //   console.log('chart data inside grid update ', $scope.chartData );
   //   $scope.highChartConfig.series = $scope.chartData.series;
     
@@ -895,12 +898,7 @@ $scope.$on('uiGridEventEndCellEdit', function(event) {
    // }
 });
 
-$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-    //console.log('i was call from ngrepeat completed');
-    //showChartJs('chartJS_0',chartJsData[0]);
-    $scope.buildChartJsData();
-   // $timeout(function () { $scope.tabCategory[0].active = true; },100);
-});
+
 
 $scope.removeColumn = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
@@ -1058,14 +1056,20 @@ $scope.removeColumn = function() {
     });
   };
 
+$scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+    console.log('i was call from ngrepeat completed');
+    //showChartJs('chartJS_0',chartJsData[0]);
+    $scope.buildChartJsData();
+   // $timeout(function () { $scope.tabCategory[0].active = true; },100);
+});
 
    $scope.gridTabSelected = function() {
 
-     console.log('this was call from gridtabselected');
+     //console.log('this was call from gridtabselected');
      
      if ($scope.eventData) {
 
-      $scope.buildChartJsData();
+      //$scope.buildChartJsData();
        
       //  for (x=0; x < $scope.eventData.gridData.length; x++) {
       //    var chartData = $scope.getChartData($scope.eventData.gridData[x]);
@@ -1101,7 +1105,11 @@ $scope.removeColumn = function() {
        for (x=0; x < $scope.eventData.gridData.length; x++) {
         $scope.chartJsData[x] = $scope.getOneChartJsData($scope.eventData.gridData[x]);
         $scope.highChartConfig[x] = $scope.buildHighChartData($scope.eventData.gridData[x]);
-        $scope.googleChartObj[x] =  $scope.buildGoogleChartData($scope.eventData.gridData[x]);
+        var chartId = 'chartJS_'+x;
+        //console.log('chart id inside build chartjs data ' , chartId);
+        var chartJsData =  $scope.getOneChartJsData($scope.eventData.gridData[x]);
+        //$scope.showChartJs(chartId,chartJsData) ;
+        //$scope.googleChartObj[x] =  $scope.buildGoogleChartData($scope.eventData.gridData[x]);
 
 //        $timeout(function () { $scope.tabCategory[0].active = true; },200); //done building charts,  switch back to first tab
       }
@@ -1225,10 +1233,10 @@ $scope.removeColumn = function() {
      return timeStamp;
   }
   
-  function showChartJs(chartId,chartJsData) {
+  $scope.showChartJs = function(chartId,chartJsData) {
   
    var colors = [ "#FF0000","#0000FF"];
-   var chartJsData = [];
+   //var chartJsData = [];
    var chartData =  [];
    var data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
@@ -1264,8 +1272,8 @@ $scope.removeColumn = function() {
             bezierCurve : true,
             datasetFill : false,
             responsive: true,
-            maintainAspectRatio: false,
-            legend:true,
+            maintainAspectRatio: true,
+            legend:false,
     //Number - Tension of the bezier curve between points
             bezierCurveTension : 0.4
             //legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
@@ -1329,13 +1337,16 @@ $scope.removeColumn = function() {
   //       myLineChart.resize();
   //     }
 
- console.log('passed id ', chartId)
+ //console.log('passed id ', chartId)
  var ctx = document.getElementById(chartId).getContext("2d");
- 
- var myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
- myLineChart.update();
- document.getElementById('js-legend').innerHTML = myLineChart.generateLegend();
- }
+ ctx.canvas.width = 500;
+ ctx.canvas.height = 300;
+ window.myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
+ //window.myLineChart.destroy();
+ //window.myLineChart = new Chart(ctx).Line(chartJsData, chartJsConfig);
+ //document.getElementById('js-legend').innerHTML = window.myLineChart.generateLegend();
+
+  }
  finally {
 
  }
