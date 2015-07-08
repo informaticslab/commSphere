@@ -11,14 +11,29 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 	for(var i = 0; i < gridData.length; i++) {
 		//console.log(gridData[i].gridName);
 		$rootScope.combinedGrid.push({"label":gridData[i].gridName});
-
-		for(var j = 0; j < gridData[i].dailyData.length; j++) {
+  	for(var j = 0; j < gridData[i].dailyData.length; j++) {
 			//console.log(gridData[i].dailyData[j]);
 			$rootScope.combinedGrid.push(gridData[i].dailyData[j]);
 		}
 	}
-
 	//console.log($rootScope.combinedGrid);
+
+  function rowTemplate() {
+    return $timeout(function() {
+      $scope.waiting = 'Done!';
+      $interval.cancel(sec);
+      $scope.wait = '';
+      return '<div ng-class="{ \'report-grid-header\': grid.appScope.rowFormatter( row ) }">' +
+                 '  <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }"  ui-grid-cell></div>' +
+                 '</div>';
+    }, 6000);
+  }
+
+   $scope.rowFormatter = function( row ) {
+    console.log(row);
+    return true;
+  };
+
 	var customizeHeaderCellTemplate = 
 	  '<div ng-class="{ \'sortable\': sortable }">'+
 	  '<div class="ui-grid-vertical-bar"> </div>'+
@@ -33,6 +48,13 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 	  '  </div>'+
 	  '</div>'+
 	  '</div>'
+
+
+  var customizedCellTemplate = 
+  '<div class="ui-grid-cell-contents">'+
+  '<div style="text-align:center;" class="uiCellText">{{COL_FIELD}}</div>'+
+  '</div>'
+          
 
  $scope.checkGridColumn = function(column,checked) {
  	var toDelete = '';
@@ -65,6 +87,8 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
     };
 
 
+
+
 $scope.customizeGenerateColumnDefs= function() {
    var columnArry = [];
    var columnLayout = [];
@@ -91,18 +115,19 @@ $scope.customizeGenerateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true};
-          }
+              oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true};
+         }
          else {
             //var formattedDate = $filter('date')(columnArry[i],'mediumDate');
             oneColumnDef = {'field': columnArry[i], 'displayName' : $scope.eventData.colDisplayNames[columnArry[i]], enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
             //,headerCellTemplate: '/partials/customHeaderCellTemplate'
             ,headerCellTemplate: customizeHeaderCellTemplate
+            ,cellTemplate: customizedCellTemplate 
           }
          }
             columnLayout.push(oneColumnDef);
        }
-       //console.log(columnLayout)
+       console.log(columnLayout)
        return columnLayout;
      
 };

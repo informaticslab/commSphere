@@ -327,6 +327,8 @@ margin-top: 0px;
   margin-bottom:40px;
 }
 
+ .report-grid-header { color: green }
+
 /*-charts section*/
 
 .chart-legend li span{

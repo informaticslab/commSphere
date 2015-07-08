@@ -12,6 +12,7 @@ var commSphereApp = angular.module('app', [
   ,'ui.grid.pinning'
   ,'ui.grid.moveColumns'
   ,'ui.grid.autoResize'
+  ,'ui.grid.selection'
   ,'isteven-multi-select'
   ,'ui.bootstrap.datetimepicker'
   ,'duScroll'
