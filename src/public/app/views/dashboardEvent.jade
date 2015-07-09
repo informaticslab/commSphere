@@ -186,12 +186,12 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             div(id="{{'panel_'+$index}}" collapse='!isCollapsed[$index]')
                                                                 .well.well-lg
                                                                     highchart(id="{{'chartHC_'+$index}}" config='highChartConfig[$index]')
-                                                                    br
-                                                                    canvas(id="{{'chartJS_'+$index}}" tc-chartjs-line chart-options="chartJsLineConfig" chart-data="chartJsData[$index]" width="500" height="300" auto-legend) 
+                                                                    //br
+                                                                    //canvas(id="{{'chartJS_'+$index}}" tc-chartjs-line chart-options="chartJsLineConfig" chart-data="chartJsData[$index]" auto-legend) 
                                                                     //canvas(id="{{'chartJS_'+$index}}" width="500" height="300" ) 
                                                                     //div#js-legend.chart-legend
-                                                                    br
-                                                                    div(google-chart='', chart='googleChartObj[$index]', style='{{cssStyle}}')
+                                                                    //br
+                                                                    //div(google-chart='', chart='googleChartObj[$index]', style='{{cssStyle}}')
                                                             br
                                             ol.angular-ui-tree-nodes(ng-show = "identity.isAuthorized('levelTwo')")
                                                 li.angular-ui-tree-node

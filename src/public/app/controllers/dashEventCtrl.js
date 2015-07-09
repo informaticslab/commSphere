@@ -33,6 +33,13 @@ $scope.chartJsLineConfig = {
             bezierCurveTension : 0.4,
             legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
             }
+$scope.chartDefaultConfig = {
+    'chartType'  :'line',
+    'ChartTitle' :'Chart Title',
+    'yAxis': {'title': {'text':'Count', 'style': {'color':'blue','fontSize':10,"fontWeight": "bold" }}},
+    'xAxis': {'title': {'text' :undefined, 'style': {'color':'blue'}}},
+    'seriesColors' : [ "#FF0000","#0000FF","#00FF00"]
+}
 // $scope.eventData = {
 //     "eventName": "",
 //     "eventType": "",
@@ -89,8 +96,10 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               $scope.customizedDoc.docData = [];
               $scope.customizedDoc.reportMeta = $scope.eventdoc.reportMeta;
               $scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics',  sectionData:{doc:$scope.eventData, notes:$scope.eventdoc.notes.metrics}});
+              $scope.customizedDoc.docData.push({sectionName: 'Charts', sectionType: 'Charts', sectionData:{notes:$scope.eventdoc.notes.charts}});
               $scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
               $scope.customizedDoc.eventDocId = $scope.eventdoc._id;
+              $scope.customizedDoc.chartConfigs = $scope.eventdoc.chartConfigs || [];
                ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
             $scope.gridOptions = {
@@ -696,6 +705,8 @@ $scope.saveColName = function(col,e) {
         $scope.eventData.colDisplayNames[col.field] = col.newColName;
         $scope.columns = [];
         $timeout( function(){ $scope.columns = $scope.generateColumnDefs() ||[]; }, 55);
+        $timeout( function(){ $scope.buildChartJsData(); }, 100);
+
     }
   };
 
@@ -808,7 +819,7 @@ $scope.getChartData = function(grid) {
      for (var j=0 ; j < chartCategories.length; j++) { 
            serieData.push(Number(oneRow[chartCategories[j]]));
          }
-  var newSerie = {name: serieName, data: serieData}
+  var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[i]  }
       series.push(newSerie);
       serieData = [];
        //console.log(series);
@@ -824,10 +835,11 @@ $scope.getChartData = function(grid) {
 $scope.$on('uiGridEventEndCellEdit', function (evt) {
   // console.log(evt.targetScope.row.grid.appScope);
    var gridIndex = evt.targetScope.row.grid.appScope.$parent.$index;
-   var chartId = 'chartJS_'+ gridIndex;
-   $scope.chartJsData[gridIndex] = $scope.getOneChartJsData($scope.eventData.gridData[gridIndex]);
-   $scope.highChartConfig[gridIndex] = $scope.buildHighChartData($scope.eventData.gridData[gridIndex]);
-   $scope.googleChartObj[gridIndex] =  $scope.buildGoogleChartData($scope.eventData.gridData[gridIndex]);
+   //var chartId = 'chartJS_'+ gridIndex;
+   //$scope.chartJsData[gridIndex] = $scope.getOneChartJsData($scope.eventData.gridData[gridIndex]);
+   //$scope.highChartConfig[gridIndex] = $scope.buildHighChartData($scope.eventData.gridData[gridIndex],gridIndex);
+   $scope.buildHighChartData($scope.eventData.gridData[gridIndex],gridIndex);
+   //$scope.googleChartObj[gridIndex] =  $scope.buildGoogleChartData($scope.eventData.gridData[gridIndex]);
 });
 
 $scope.$on('uiGridEventData', function (gridId) {
@@ -947,6 +959,7 @@ $scope.removeColumn = function() {
     //}
      $scope.columns = [];
      $timeout( function(){ $scope.columns = $scope.generateColumnDefs() ||[]; }, 100);
+     $timeout( function(){ $scope.buildChartJsData(); }, 100);
   }
 
   var customizeReportModalInstanceCtrl = function($scope, $modalInstance, eventdoc, eventData, gridOptions, gridApi) {
@@ -996,9 +1009,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 
   $scope.buildOneGridChartData = function(index) {
     $timeout(function() {
-        $scope.chartJsData[index] = $scope.getOneChartJsData($scope.eventData.gridData[index]);
-        $scope.highChartConfig[index] = $scope.buildHighChartData($scope.eventData.gridData[index]);
-        $scope.googleChartObj[index] =  $scope.buildGoogleChartData($scope.eventData.gridData[index]);
+        //$scope.chartJsData[index] = $scope.getOneChartJsData($scope.eventData.gridData[index]);
+        //$scope.highChartConfig[index] = $scope.buildHighChartData($scope.eventData.gridData[index],index);
+        $scope.buildHighChartData($scope.eventData.gridData[index],index);
+        //$scope.googleChartObj[index] =  $scope.buildGoogleChartData($scope.eventData.gridData[index]);
       },400)
 
   };
@@ -1006,10 +1020,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   $scope.buildChartJsData = function (){
 
        for (x=0; x < $scope.eventData.gridData.length; x++) {
-        $scope.chartJsData[x] = $scope.getOneChartJsData($scope.eventData.gridData[x]);
-        $scope.highChartConfig[x] = $scope.buildHighChartData($scope.eventData.gridData[x]);
-        var chartId = 'chartJS_'+x;
-        $scope.googleChartObj[x] =  $scope.buildGoogleChartData($scope.eventData.gridData[x]);
+        //$scope.chartJsData[x] = $scope.getOneChartJsData($scope.eventData.gridData[x]);
+        //$scope.highChartConfig[x] = $scope.buildHighChartData($scope.eventData.gridData[x],x);
+        $scope.buildHighChartData($scope.eventData.gridData[x],x);
+        //$scope.googleChartObj[x] =  $scope.buildGoogleChartData($scope.eventData.gridData[x]);
       }
 
   }
@@ -1078,28 +1092,40 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
  return chartObject;
   }
 
-  $scope.buildHighChartData = function(grid) {
+  $scope.buildHighChartData = function(grid,index) {
+    // console.log($scope.chartDefaultConfig.yAxis);
      var chartData = $scope.getChartData(grid);
-     var highChartConfig = {
+     //console.log($scope.highChartConfig);
+     if ($scope.highChartConfig[index] != undefined) {
+          $scope.highChartConfig[index].series = chartData.series;
+          $scope.highChartConfig[index].xAxis.categories = chartData.xAxis;
+     }
+     else {
+          $scope.highChartConfig[index] =      
+          {
             options: {
               chart: {
-                  type: 'line',
+                  type: $scope.chartDefaultConfig.chartType,
               }
             },
             series: chartData.series,
             title: {
-            text: grid.gridName
+                      text: grid.gridName
             },
-             xAxis: {
+            xAxis: { 
+                      title : $scope.chartDefaultConfig.xAxis.title, 
             categories: chartData.xAxis
              },
             yAxis : [{
-                  //type: "logarithmic"
-                  type : "linear"
+                  title: $scope.chartDefaultConfig.yAxis.title, 
+                  type: "logarithmic"
+                  //type : "linear"
             }],           
                 loading: false
             }
-     return highChartConfig;      
+     }
+     //return highChartConfig;   
+     //console.log($scope.highChartConfig);   
   }
 
   $scope.getOneChartJsData = function (grid){
@@ -1198,10 +1224,19 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
           $scope.eventdoc.notes.doc = $scope.customizedDoc.docData[i].sectionData.notes;
         } else if ($scope.customizedDoc.docData[i].sectionType == 'Metrics') {
           $scope.eventdoc.notes.metrics = $scope.customizedDoc.docData[i].sectionData.notes;
+        } else if ($scope.customizedDoc.docData[i].sectionType == 'Charts') {
+          $scope.eventdoc.notes.charts = $scope.customizedDoc.docData[i].sectionData.notes;
         }
       }
     }
     $scope.eventdoc.reportMeta = $scope.customizedDoc.reportMeta;
+    // chart custom configuration save
+    for(config in $scope.customizedDoc.chartConfigs){
+              config.series = undefined;
+              config.categories = undefined
+          }
+    $scope.eventdoc.chartConfigs = $scope.customizedDoc.chartConfigs;
+
 
     var eventdoc = {};
     eventdoc = $scope.eventdoc;

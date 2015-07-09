@@ -37,6 +37,36 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 								div(ng-if='section.sectionType == "Metrics"')
 									.row
 										.grid(id="{{'grid_'+$index}}", ui-grid="{data: combinedGrid, columnDefs : customizeColumns, rowTemplate: rowTemplate(), showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableColumnMenu: false, enableCellSelection: false, enableRowSelection: true, multiSelect : true, enableSelectAll : false,  enableCellEditOnFocus: false, showHeader: $index == 0}", ng-style="getCustomizedTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-selection) 
+								div(ng-if='section.sectionType == "Charts"')
+									div(ng-repeat='grid in eventData.gridData' on-finish-render="ngRepeatFinished")
+										h4.report-topic
+											input(type='checkbox' ng-model='customizedDoc.chartConfigs[$index].checked' ng-checked='customizedDoc.chartConfigs[$index].checked')
+											| {{grid.gridName}}
+										accordion()
+											accordion-group(heading='Chart customization')
+												div
+													label Chart Title
+													input(type='textarea' ng-model='customizedDoc.chartConfigs[$index].title.text')
+													|  Font Weight 
+													input(type='textarea' ng-model='customizedDoc.chartConfigs[$index].title.style.fontWeight')
+													|  Font Size 
+													input(type='textarea' ng-model='customizedDoc.chartConfigs[$index].title.style.fontSize')
+													|  Color 
+													input(type='textarea' ng-model='customizedDoc.chartConfigs[$index].title.style.color')
+													br
+													label X-axis Title 
+													input.form-control(type='textarea' ng-model='customizedDoc.chartConfigs[$index].xAxis.title.text')
+													br
+													label Y-axis:
+													|Title 
+													input(type='textarea' ng-model='customizedDoc.chartConfigs[$index].yAxis[0].title.text')
+													|  Font Weight 
+													input(type='textarea' ng-model='customizedDoc.chartConfigs[$index].yAxis[0].title.style.fontWeight')
+													|  Font Size 
+													input(type='textarea' ng-model='customizedDoc.chartConfigs[$index].yAxis[0].title.style.fontSize')
+													|  Color 
+													input(type='textarea' ng-model='customizedDoc.chartConfigs[$index].yAxis[0].title.style.color')
+											highchart(id="{{'chartHC_'+$index}}" config='customizedDoc.chartConfigs[$index]')
 								div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"') 
 									h4.report-category
 										.checkbox
@@ -80,7 +110,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 					.info
 						| {{  }}
 					pre.code.
-						{{ eventData | json }}
+						{{ highChartConfigCustomized | json }}
 			
 
 

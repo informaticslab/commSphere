@@ -17,7 +17,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 				.col-lg-12.col-md-12.col-sm-12
 					.report-wrapper
 						h4.preview-report-title {{customizedDoc.reportMeta.title}}
-						h4.preview-report-headers {{customizedDoc.reportMeta.type}}
+						h4.preview-report-headers {{customizedDoc.reportMeta.type}} 
 						h4.preview-report-headers {{eventdoc.eventPublishDate | date:'longDate'}}
 						br
 						div(ng-repeat='section in customizedDoc.docData')
@@ -48,9 +48,12 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 								.row
 									.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
 							br
-							i(ng-if='!section.sectionData.notes == ""') Notes: {{section.sectionData.notes}}
+							div(ng-if='section.sectionType == "Charts"')
+									div(ng-repeat='chart in customizedDoc.chartConfigs' ng-if='chart.checked')
+										highchart(id="{{'chartHC_'+$index}}" config='customizedDoc.chartConfigs[$index]')
 							br
-
+							i(ng-if='!section.sectionData.notes == ""') Notes: {{section.sectionData.notes}}
+							
 						
 
 

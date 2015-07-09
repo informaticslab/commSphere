@@ -1,12 +1,51 @@
 angular.module('app').controller('customizeReportCtrl', function($scope, $rootScope, $modal, $http) {
 	$rootScope.combinedGrid = [];
 	$rootScope.checkedColumns = [];
+ 
+ 
 	var gridData = $scope.eventData.gridData;
 	// for(var i = 0; i < $scope.eventData.gridData.length; i++) {
 	// 	//console.log($scope.eventData.gridData[i]);
 	// 	$scope.combinedGrid.push({'gridSectionName':$scope.eventData.gridData[i].gridName, 'dailyData': $scope.eventData.gridData[i].dailyData});
 	// }
 	// console.log($scope.combinedGrid);
+ 
+  $scope.buildCustomizedHighChartConfig = function(grid,index) {
+    // console.log($scope.chartDefaultConfig.yAxis);
+     var chartData = $scope.getChartData(grid);
+     //console.log($scope.highChartConfig);
+     
+     if ($scope.customizedDoc.chartConfigs[index] != undefined) {
+          $scope.customizedDoc.chartConfigs[index].series = chartData.series;
+          $scope.customizedDoc.chartConfigs[index].xAxis.categories = chartData.xAxis;
+     }
+     else {
+          $scope.customizedDoc.chartConfigs[index] =      
+          {
+            options: {
+              chart: {
+                  type: angular.copy($scope.chartDefaultConfig.chartType),
+              }
+            },
+            series: chartData.series,
+            title: {
+                      text: grid.gridName
+            },
+            xAxis: { 
+                      title : angular.copy($scope.chartDefaultConfig.xAxis.title), 
+            categories: chartData.xAxis
+             },
+            yAxis : [{
+                  title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
+                  type: "logarithmic"
+                  //type : "linear"
+            }],           
+                loading: false
+            }
+     }
+     //return customizedDoc.chartConfig;   
+     //console.log($scope.customizedDoc.chartConfigs);   
+  };
 	
 	for(var i = 0; i < gridData.length; i++) {
 		//console.log(gridData[i].gridName);
@@ -15,9 +54,13 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 			//console.log(gridData[i].dailyData[j]);
 			$rootScope.combinedGrid.push(gridData[i].dailyData[j]);
 		}
+    // build charts data here
+    //$scope.highChartConfig[i] = $scope.buildHighChartData(gridData[i],i);
+    $scope.buildCustomizedHighChartConfig(gridData[i],i);
 	}
 	//console.log($rootScope.combinedGrid);
 
+  
   function rowTemplate() {
     return $timeout(function() {
       $scope.waiting = 'Done!';
@@ -127,12 +170,14 @@ $scope.customizeGenerateColumnDefs= function() {
          }
             columnLayout.push(oneColumnDef);
        }
-       console.log(columnLayout)
+      // console.log(columnLayout)
        return columnLayout;
      
 };
 
 $scope.customizeColumns = $scope.customizeGenerateColumnDefs();
+
+
 
 
 });
