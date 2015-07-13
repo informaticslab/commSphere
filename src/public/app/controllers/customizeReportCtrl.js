@@ -16,6 +16,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
      console.log($scope.customizedDoc.chartConfigs);
      
      if ($scope.customizedDoc.chartConfigs[index] != undefined) {
+          $scope.customizedDoc.chartConfigs[index].title.text = grid.gridName;
           $scope.customizedDoc.chartConfigs[index].series = chartData.series;
           $scope.customizedDoc.chartConfigs[index].xAxis.categories = chartData.xAxis;
      }
@@ -109,7 +110,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 	var customizeHeaderCellTemplate = 
 	  '<div ng-class="{ \'sortable\': sortable }">'+
 	  '<div class="ui-grid-vertical-bar"> </div>'+
-	  '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents">'+
+	  '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents" style="text-align:center;">'+
 	  '  <input type="checkbox" ng-click="$event.stopPropagation(); grid.appScope.checkGridColumn(col.name, col.checked); " ng-model="col.checked"/>&nbsp;{{ col.displayName CUSTOM_FILTERS }}<span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
 	  '</div>'+
 	  '<div ng-if="grid.options.enableColumnMenus &amp;&amp; !col.isRowHeader &amp;&amp; col.colDef.enableColumnMenu !== false" ng-click="toggleMenu($event)" class="ui-grid-column-menu-button"><i class="ui-grid-icon-angle-down"> </i></div>'+
@@ -187,7 +188,7 @@ $scope.customizeGenerateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-              oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true
+              oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true,enableColumnMenu:false
           }
         }
          else {
