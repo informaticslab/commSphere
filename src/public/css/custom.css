@@ -343,3 +343,7 @@ margin-top: 0px;
 .line-legend {
   list-style-type: none;
 }
+
+.padding-fix {
+  margin-left: -20px;
+}
