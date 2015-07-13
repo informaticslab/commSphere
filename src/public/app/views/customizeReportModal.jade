@@ -36,58 +36,72 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 							.report-wrapper
 								div(ng-if='section.sectionType == "Metrics"')
 									.row
-										.grid(id="{{'grid_'+$index}}", ui-grid="{ rowTemplate: myRowTemplate, data: combinedGrid, columnDefs : customizeColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableColumnMenu: false, enableCellSelection: false, enableRowSelection: true, multiSelect : true, enableSelectAll : false,  enableCellEditOnFocus: false, showHeader: $index == 0}", ng-style="getCustomizedTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize,ui-grid-selection) 
+										.grid(id="{{'grid_'+$index}}", ui-grid="{data: combinedGrid, columnDefs : customizeColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar:2, enableColumnMenu: false, enableCellSelection: false,  enableCellEditOnFocus: false, showHeader: $index == 0}", ng-style="getCustomizedTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
 								div(ng-if='section.sectionType == "Charts"')
-									div.well.wells(ng-repeat='chartConfig in customizedDoc.chartConfigs' on-finish-render="ngRepeatFinished")
-										input(type='checkbox' ng-model='chartConfig.checked' ng-checked='chartConfig.checked')
-										| {{chartConfig.title.text}}
-										div(style="width:350px;")
-											accordion()
-												accordion-group(heading="Customize Chart")
-													accordion()
-														accordion-group(heading="Chart Title")
-															|Chart Title
-															input.form-control(type='textarea' ng-model='chartConfig.title.text')
-															|  Font Weight 
-															input.form-control(type='textarea' ng-model='chartConfig.title.style.fontWeight')
-															|  Font Size 
-															input.form-control(type='number' min=0 ng-model='chartConfig.title.style.fontSize')
-															|  Color 
-															input.form-control(type='textarea' ng-model='chartConfig.title.style.color')
-														accordion-group(heading="X Axis")
-																label X-axis Title 
-																	input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
-														accordion-group(heading="Y Axis")
-															accordion()
-																accordion-group(heading="{{'Axis '+ $index}}" ng-repeat="yaxis in chartConfig.yAxis")
-																	label Title 
-																		input.form-control(type='textarea' ng-model='yaxis.title.text')
-																	label Font Weight 
-																		input.form-control(type='textarea' ng-model='yaxis.title.style.fontWeight')
-																	label Font Size 
-																		input.form-control(type='number' min=0 ng-model='yaxis.title.style.fontSize')
-																	label  Color 
-																		input.form-control(type='textarea' ng-model='yaxis.title.style.color')
-																	br
-																	| Position
-																	br
-																	div
-																		input(type='radio' ng-model='yaxis.opposite' ng-value='false')
-																		|  Left
-																		&nbsp;
-																		input(type='radio' ng-model='yaxis.opposite' ng-value='true')
-																		|  Right
-								
-														accordion-group(heading="Series")
-															accordion()
-																accordion-group(heading="{{serie.name}}" ng-repeat="serie in chartConfig.series")
-																	|  Color 
-																	input.form-control(type='textarea' ng-model='serie.color')
-																	|  Axis Bind To (default to left Y-Axis)
-																	input.form-control(type='number' ng-model='serie.yAxis' min=0 max="{{chartConfig.yAxis.length-1}}" value='serie.yAxis')
-
-
-										highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
+									div.well.wells
+										ol(ui-tree-nodes='', ng-model='customizedDoc.chartConfigs' )
+											li(ng-repeat='chartConfig in customizedDoc.chartConfigs', ui-tree-node='')
+												div.well.wells
+													input(type='checkbox' ng-model='chartConfig.checked' ng-checked='chartConfig.checked')
+													| {{chartConfig.title.text}}
+													br
+													br
+													label
+														|Chart Title 
+														input.form-control(type='textarea' ng-model='chartConfig.title.text')
+													&nbsp;&nbsp;
+													label
+														|Y-axis Title 
+														input.form-control(type='textarea' ng-model='chartConfig.yAxis[0].title.text')
+													&nbsp;&nbsp;
+													label
+														|X-axis Title 
+														input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
+													//- div(style="width:350px;")
+													//- 	accordion()
+													//- 		accordion-group(heading="Customize Chart")
+													//- 			accordion()
+													//- 				accordion-group(heading="Chart Title")
+													//- 					|Chart Title
+													//- 					input.form-control(type='textarea' ng-model='chartConfig.title.text')
+													//- 					|  Font Weight 
+													//- 					input.form-control(type='textarea' ng-model='chartConfig.title.style.fontWeight')
+													//- 					|  Font Size 
+													//- 					input.form-control(type='number' min=0 ng-model='chartConfig.title.style.fontSize')
+													//- 					|  Color 
+													//- 					input.form-control(type='textarea' ng-model='chartConfig.title.style.color')
+													//- 				accordion-group(heading="X Axis")
+													//- 						label X-axis Title 
+													//- 							input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
+													//- 				accordion-group(heading="Y Axis")
+													//- 					accordion()
+													//- 						accordion-group(heading="{{'Axis '+ $index}}" ng-repeat="yaxis in chartConfig.yAxis")
+													//- 							label Title 
+													//- 								input.form-control(type='textarea' ng-model='yaxis.title.text')
+													//- 							label Font Weight 
+													//- 								input.form-control(type='textarea' ng-model='yaxis.title.style.fontWeight')
+													//- 							label Font Size 
+													//- 								input.form-control(type='number' min=0 ng-model='yaxis.title.style.fontSize')
+													//- 							label  Color 
+													//- 								input.form-control(type='textarea' ng-model='yaxis.title.style.color')
+													//- 							br
+													//- 							| Position
+													//- 							br
+													//- 							div
+													//- 								input(type='radio' ng-model='yaxis.opposite' ng-value='false')
+													//- 								|  Left
+													//- 								&nbsp;
+													//- 								input(type='radio' ng-model='yaxis.opposite' ng-value='true')
+													//- 								|  Right
+											
+													//- 				accordion-group(heading="Series")
+													//- 					accordion()
+													//- 						accordion-group(heading="{{serie.name}}" ng-repeat="serie in chartConfig.series")
+													//- 							|  Color 
+													//- 							input.form-control(type='textarea' ng-model='serie.color')
+													//- 							|  Axis Bind To (default to left Y-Axis)
+													//- 							input.form-control(type='number' ng-model='serie.yAxis' min=0 max="{{chartConfig.yAxis.length-1}}" value='serie.yAxis')
+													highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
 								div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"') 
 									h4.report-category
 										.checkbox
@@ -125,7 +139,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 																| {{subBullet.name}}
 								label Additional Notes
 								textarea.notesPlaceholder(placeholder='Enter text here' type='text', ng-model='section.sectionData.notes')
-			//.row
+			.row
 				.col-lg-6
 					h3 Data binding
 					.info
