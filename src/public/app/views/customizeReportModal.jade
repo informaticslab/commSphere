@@ -51,7 +51,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 															|  Font Weight 
 															input.form-control(type='textarea' ng-model='chartConfig.title.style.fontWeight')
 															|  Font Size 
-															input.form-control(type='number' ng-model='chartConfig.title.style.fontSize')
+															input.form-control(type='number' min=0 ng-model='chartConfig.title.style.fontSize')
 															|  Color 
 															input.form-control(type='textarea' ng-model='chartConfig.title.style.color')
 														accordion-group(heading="X Axis")
@@ -65,25 +65,26 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 																	label Font Weight 
 																		input.form-control(type='textarea' ng-model='yaxis.title.style.fontWeight')
 																	label Font Size 
-																		input.form-control(type='number' ng-model='yaxis.title.style.fontSize')
+																		input.form-control(type='number' min=0 ng-model='yaxis.title.style.fontSize')
 																	label  Color 
 																		input.form-control(type='textarea' ng-model='yaxis.title.style.color')
+																	br
 																	| Position
 																	br
-																	label
-																		| Left
-																	input.form-control(type='radio' ng-model='yaxis.opposite' ng-value='false')
-																	br
-																	label
-																		| Right
-																	input.form-control(type='radio' ng-model='yaxis.opposite' ng-value='true')
+																	div
+																		input(type='radio' ng-model='yaxis.opposite' ng-value='false')
+																		|  Left
+																		&nbsp;
+																		input(type='radio' ng-model='yaxis.opposite' ng-value='true')
+																		|  Right
+								
 														accordion-group(heading="Series")
 															accordion()
 																accordion-group(heading="{{serie.name}}" ng-repeat="serie in chartConfig.series")
 																	|  Color 
 																	input.form-control(type='textarea' ng-model='serie.color')
 																	|  Axis Bind To (default to left Y-Axis)
-																	input.form-control(type='number' ng-model='serie.yAxis' value='serie.yAxis')
+																	input.form-control(type='number' ng-model='serie.yAxis' min=0 max="{{chartConfig.yAxis.length-1}}" value='serie.yAxis')
 
 
 										highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
@@ -124,7 +125,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 																| {{subBullet.name}}
 								label Additional Notes
 								textarea.notesPlaceholder(placeholder='Enter text here' type='text', ng-model='section.sectionData.notes')
-			.row
+			//.row
 				.col-lg-6
 					h3 Data binding
 					.info
