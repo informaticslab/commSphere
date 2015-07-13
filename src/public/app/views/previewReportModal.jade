@@ -49,8 +49,8 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 									.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
 							br
 							div(ng-if='section.sectionType == "Charts"')
-									div(ng-repeat='chart in customizedDoc.chartConfigs' ng-if='chart.checked')
-										highchart(id="{{'chartHC_'+$index}}" config='customizedDoc.chartConfigs[$index]')
+									div(ng-repeat='chartConfig in customizedDoc.chartConfigs' ng-if='chartConfig.checked')
+										highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
 							br
 							i(ng-if='!section.sectionData.notes == ""') Notes: {{section.sectionData.notes}}
 							

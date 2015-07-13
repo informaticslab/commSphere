@@ -1097,6 +1097,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
      var chartData = $scope.getChartData(grid);
      //console.log($scope.highChartConfig);
      if ($scope.highChartConfig[index] != undefined) {
+          $scope.highChartConfig[index].title.text = grid.gridName
           $scope.highChartConfig[index].series = chartData.series;
           $scope.highChartConfig[index].xAxis.categories = chartData.xAxis;
      }
@@ -1117,16 +1118,34 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
             categories: chartData.xAxis
              },
             yAxis : [{
-                  title: $scope.chartDefaultConfig.yAxis.title, 
-                  type: "logarithmic"
-                  //type : "linear"
-            }],           
+                        title: $scope.chartDefaultConfig.yAxis.title, 
+                        type: "logarithmic"
+                        //type : "linear"],
+            }],
                 loading: false
-            }
+            };
+                                               
      }
      //return highChartConfig;   
      //console.log($scope.highChartConfig);   
   }
+   
+  $scope.addYaxis = function(chartIndex,yAxisId, serieId,side) {
+    var oneYaxis = {
+                  title: $scope.chartDefaultConfig.yAxis.title, 
+                  type: "logarithmic",
+                  //type : "linear"
+                  opposite : function() { if (side == 'right') {
+                                                 return true
+                                             } else {
+                                                 return false;
+                                             }
+                                         }
+                                       }
+        $scope.highChartConfig[chartIndex].yAxis.push(oneYaxis);
+        $scope.highChartConfig[chartIndex].series[serieId].yAxis = yAxisId;
+  }
+
 
   $scope.getOneChartJsData = function (grid){
  

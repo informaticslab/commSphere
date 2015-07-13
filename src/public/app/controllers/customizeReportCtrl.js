@@ -13,7 +13,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
   $scope.buildCustomizedHighChartConfig = function(grid,index) {
     // console.log($scope.chartDefaultConfig.yAxis);
      var chartData = $scope.getChartData(grid);
-     //console.log($scope.highChartConfig);
+     console.log($scope.customizedDoc.chartConfigs);
      
      if ($scope.customizedDoc.chartConfigs[index] != undefined) {
           $scope.customizedDoc.chartConfigs[index].series = chartData.series;
@@ -29,24 +29,52 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
             },
             series: chartData.series,
             title: {
-                      text: grid.gridName
+                      text: grid.gridName,
+                      style: {
+                                fontWeight: undefined,
+                                fontSize  : 26
+                             }
+
             },
             xAxis: { 
                       title : angular.copy($scope.chartDefaultConfig.xAxis.title), 
             categories: chartData.xAxis
              },
-            yAxis : [{
-                  title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
-                  type: "logarithmic"
-                  //type : "linear"
-            }],           
+            yAxis:[],          
                 loading: false
             }
+            for(i=0; i < chartData.series.length; i ++) {
+              var oneYaxis = {
+                  title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
+                  type: "logarithmic",
+                  //type : "linear"
+                  showEmpty : false,
+                  opposite  : function(){
+                               return !(i%2 == 0)
+                             }
+              }
+              $scope.customizedDoc.chartConfigs[index].yAxis.push(oneYaxis);
+          }
      }
      //return customizedDoc.chartConfig;   
      //console.log($scope.customizedDoc.chartConfigs);   
   };
 	
+  $scope.addYaxis = function(chartIndex,yAxisId, serieId,side) {
+    var oneYaxis = {
+                  title: $scope.chartDefaultConfig.yAxis.title, 
+                  type: "logarithmic",
+                  //type : "linear"
+                  opposite : function() { if (side == 'right') {
+                                                 return true
+                                             } else {
+                                                 return false;
+                                             }
+                                         }
+                                       }
+        $scope.highChartConfig[chartIndex].yAxis.push(oneYaxis);
+        $scope.highChartConfig[chartIndex].series[serieId].yAxis = yAxisId;
+  }
 	for(var i = 0; i < gridData.length; i++) {
 		//console.log(gridData[i].gridName);
 		$rootScope.combinedGrid.push({"label":gridData[i].gridName});
@@ -60,7 +88,8 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 	}
 	//console.log($rootScope.combinedGrid);
 
-  
+  $scope.myRowTemplate =   '<div ng-class="{\'ui-grid-row\':true}"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ui-grid-cell></div></div>';
+
   function rowTemplate() {
     return $timeout(function() {
       $scope.waiting = 'Done!';
@@ -158,8 +187,9 @@ $scope.customizeGenerateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-              oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true};
-         }
+              oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true
+          }
+        }
          else {
             //var formattedDate = $filter('date')(columnArry[i],'mediumDate');
             oneColumnDef = {'field': columnArry[i], 'displayName' : $scope.eventData.colDisplayNames[columnArry[i]], enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
