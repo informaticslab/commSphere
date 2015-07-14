@@ -740,7 +740,7 @@ $scope.hideGridCheckbox = function () {
 var customHeaderCellTemplate = 
   '<div ng-class="{ \'sortable\': sortable }">'+
   '<div class="ui-grid-vertical-bar"> </div>'+
-  '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents">'+
+  '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents-head">'+
   '  &nbsp;{{ col.displayName CUSTOM_FILTERS }}<input type="text" placeholder="New Column name" ng-model="col.newColName" ng-keyup="$event.keyCode==13 ? grid.appScope.saveColName(col,$event) : null" ng-blur="grid.appScope.saveColName(col,$event)" class="form-control" ng-show="col.editing"/><a ng-show="hoverTopic" href="" ng-click="$event.stopPropagation(); grid.appScope.editColName(col)" class="del-edit-btn btn btn-default btn-xs pull-right"><i class="glyphicon glyphicon-pencil"></i></a><span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
   '</div>'+
   '<div ng-if="grid.options.enableColumnMenus &amp;&amp; !col.isRowHeader &amp;&amp; col.colDef.enableColumnMenu !== false" ng-click="toggleMenu($event)" class="ui-grid-column-menu-button"><i class="ui-grid-icon-angle-down"> </i></div>'+
@@ -750,7 +750,14 @@ var customHeaderCellTemplate =
   '    <!-- use !! because angular interprets \'f\' as false-->'+
   '  </div>'+
   '</div>'+
-  '</div>'
+  '</div>';
+
+var customHeaderCellTemplate0 = 
+  '<div ng-class="{ \'sortable\': sortable }">'+
+  '<div class="ui-grid-vertical-bar"> </div>'+
+  '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents-head">'+
+  '  &nbsp;{{ col.displayName CUSTOM_FILTERS }}'+
+  '</div>';
 
 
 $scope.generateColumnDefs= function() {
@@ -779,7 +786,7 @@ $scope.generateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true};
+            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true,headerCellTemplate: customHeaderCellTemplate0};
           }
          else {
             //var formattedDate = $filter('date')(columnArry[i],'mediumDate');

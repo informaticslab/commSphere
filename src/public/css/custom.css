@@ -347,6 +347,22 @@ margin-top: 0px;
 .padding-fix {
   margin-left: -20px;
 }
+
+.ui-grid-cell-contents-head {
+    height: 33px !important;
+    width:100%;
+      padding: 5px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+}
+
 /* CHECK BOX STYLE */
 input[type=checkbox].css-checkbox {
               position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;
