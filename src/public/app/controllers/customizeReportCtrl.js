@@ -208,6 +208,16 @@ $scope.customizeGenerateColumnDefs= function() {
 
 $scope.customizeColumns = $scope.customizeGenerateColumnDefs();
 
+$scope.filterLabel = function(items) {
+    var result = {};
+    angular.forEach(items, function(value,key) {
+        //console.log(key,' ',value)
+        if (key != 'label') {
+            result[key] = value;
+        }
+    });
+    return result;
+}
 
 
 
