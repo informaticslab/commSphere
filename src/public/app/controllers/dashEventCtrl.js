@@ -6,7 +6,7 @@ $rootScope.continueNav = true;
 $scope.canSubmit = true;
 $scope.checkboxShow = false;
 $scope.tabCategory=[
-                    {active:false}
+                    {active:true}
                    ];
 $scope.currentLocation = $location.url();
 // grid setup
@@ -1007,7 +1007,7 @@ $scope.removeColumn = function() {
   };
 
 $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
-    $timeout(function () { $scope.tabCategory[0].active = true; },100);
+   // $timeout(function () { $scope.tabCategory[0].active = true; },100);
 });
 
   $scope.buildOneGridChartData = function(index) {
