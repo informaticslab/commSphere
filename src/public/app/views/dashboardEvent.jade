@@ -163,7 +163,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             ol(ui-tree-nodes='', ng-model='eventData.gridData' )
                                                 li(ng-repeat='grid in eventData.gridData', ui-tree-node='' on-finish-render="ngRepeatFinished")
-                                                    .topic-title.angular-ui-tree-handle(ng-show='!grid.editing', ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false" )
+                                                    .topic-title-tables.angular-ui-tree-handle(ng-show='!grid.editing', ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false" )
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='removeTable(grid.gridName)')
                                                             i.glyphicon.glyphicon-trash
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='editTableName(grid)')
@@ -175,7 +175,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="isCollapsed[$index] = !isCollapsed[$index]; buildOneGridChartData($index);")
                                                             i.glyphicon.glyphicon-stats
                                                         div  {{grid.gridName}}
-                                                    .topic-title.angular-ui-tree-handle(data-nodrag='', ng-show='grid.editing')
+                                                    .topic-title-tables.angular-ui-tree-handle(data-nodrag='', ng-show='grid.editing')
                                                         label.sr-only(for='gridName') Table name
                                                         input.form-control(type='text', placeholder='Table name', ng-model='grid.gridName' ng-keyup='$event.keyCode==13 ? saveTableName(grid,$event) : null' ng-blur='saveTableName(grid,$event)')
                                                     ol(ui-tree-nodes='', ng-model='grid.dailyData', data-type='subTopic')
@@ -195,11 +195,11 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             br
                                             ol.angular-ui-tree-nodes(ng-show = "identity.isAuthorized('levelTwo')")
                                                 li.angular-ui-tree-node
-                                                    .topic-title.angular-ui-tree-handle
+                                                    .topic-title-tables.angular-ui-tree-handle
                                                         form.form-inline(role='form')
                                                             .form-topic
                                                                 label.sr-only(for='gridName') Table name
-                                                                input#gridName.form-control(type='text' placeholder='Enter Table name to add' ng-model="grid.newGridName" ng-keyup='$event.keyCode==13 ? addTable(grid,$event) : null' ng-blur='addTable(grid,$event)')
+                                                                input#gridName.form-control(type='text' placeholder='Enter table name' ng-model="grid.newGridName" ng-keyup='$event.keyCode==13 ? addTable(grid,$event) : null' ng-blur='addTable(grid,$event)')
                                                             //button.btn.btn-default(type='submit', ng-click='addTable(grid)') Add Table   
 
                                         //br

@@ -150,7 +150,7 @@ input[type="text"].eventTemplateTopic {
 }
 
 .angular-ui-tree-handle:hover {
-    color: #438eb9;
+    color: #7f7f7f;
     background: #f4f6f7;
     border-color: #dce2e8;
 }
@@ -221,7 +221,7 @@ input[type="text"].eventTemplateTopic {
   font-size: 16;
 }
 .del-edit-btn {
-	color:#498cd0;
+	color:#7f7f7f;
 }
 
 .event-type-title {

@@ -218,6 +218,21 @@ color:#ffffff;
   line-height: 20px;
   font-size:17px;
  }
+ .topic-title-tables {
+  background: #c6d8ae !important;
+  border: 1px solid #dae2ea;
+  color: #272727;
+  padding: 10px 10px;
+    display: block;
+  text-decoration: none;
+  font-weight: 700;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 46px;
+  line-height: 20px;
+  font-size:17px;
+ }
 .subTopic-title {
   background: #f4f6f7 !important;
   border: 1px solid #dce2e8;
