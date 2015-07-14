@@ -696,16 +696,29 @@ $scope.cancelEditingColName = function(col) {
    col.editing = false;
 }
 
+// $scope.saveColName = function(col,e) {
+//     // topic.save();
+//     col.editing = false;
+//     e.preventDefault();
+//     console.log(col.newColName);
+//     if (col.displayName !== col.newColName && col.newColName !== '' && col.newColName.length>0) {
+//         $scope.eventData.colDisplayNames[col.field] = col.newColName;
+//         $scope.columns = [];
+//         $timeout( function(){ $scope.columns = $scope.generateColumnDefs() ||[]; }, 55);
+//         $timeout( function(){ $scope.buildChartJsData(); }, 100);
+
+//     }
+//   };
+
 $scope.saveColName = function(col,e) {
     // topic.save();
     col.editing = false;
     e.preventDefault();
-    console.log(col.newColName);
-    if (col.displayName !== col.newColName && col.newColName !== '' && col.newColName.length>0) {
-        $scope.eventData.colDisplayNames[col.field] = col.newColName;
+    if (col.displayName !== '' && col.displayName.length>0) {
+        $scope.eventData.colDisplayNames[col.field] = col.displayName;
         $scope.columns = [];
         $timeout( function(){ $scope.columns = $scope.generateColumnDefs() ||[]; }, 55);
-        $timeout( function(){ $scope.buildChartJsData(); }, 100);
+        $timeout( function(){ $scope.buildChartJsData(); }, 50);
 
     }
   };
@@ -740,8 +753,13 @@ $scope.hideGridCheckbox = function () {
 var customHeaderCellTemplate = 
   '<div ng-class="{ \'sortable\': sortable }">'+
   '<div class="ui-grid-vertical-bar"> </div>'+
-  '<div col-index="renderIndex" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents-head">'+
-  '  &nbsp;{{ col.displayName CUSTOM_FILTERS }}<input type="text" placeholder="New Column name" ng-model="col.newColName" ng-keyup="$event.keyCode==13 ? grid.appScope.saveColName(col,$event) : null" ng-blur="grid.appScope.saveColName(col,$event)" class="form-control" ng-show="col.editing"/><a ng-show="hoverTopic" href="" ng-click="$event.stopPropagation(); grid.appScope.editColName(col)" class="del-edit-btn btn btn-default btn-xs pull-right"><i class="glyphicon glyphicon-pencil"></i></a><span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
+  '<div col-index="renderIndex" ng-show="!col.editing" ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false" class="ui-grid-cell-contents-head">'+
+  '<a ng-show="hoverTopic" href="" ng-click="$event.stopPropagation(); grid.appScope.editColName(col)" class="del-edit-btn btn btn-default btn-xs pull-right"><i class="glyphicon glyphicon-pencil"></i></a>'+
+  '  &nbsp;{{ col.displayName CUSTOM_FILTERS }}'+
+  '</div>'+
+  '<div ng-show="col.editing"  class="ui-grid-cell-contents-head">'+
+  '<label for="displayName" class="sr-only">Column Name</label>'+
+  '<input type="text" placeholder="Column Name" ng-model="col.displayName" ng-keyup="$event.keyCode==13 ? grid.appScope.saveColName(col,$event) : null" ng-blur="grid.appScope.saveColName(col,$event)"/></a><span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
   '</div>'+
   '<div ng-if="grid.options.enableColumnMenus &amp;&amp; !col.isRowHeader &amp;&amp; col.colDef.enableColumnMenu !== false" ng-click="toggleMenu($event)" class="ui-grid-column-menu-button"><i class="ui-grid-icon-angle-down"> </i></div>'+
   '<div ng-if="filterable" ng-repeat="colFilter in col.filters" class="ui-grid-filter-container">'+
