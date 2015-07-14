@@ -900,9 +900,12 @@ $scope.removeColumn = function() {
   $scope.getTableHeight = function(grid,id) {
        var rowHeight = 30; // your row height
        var headerHeight = 30; // your header height
+       //console.log(grid,id);
        //if (id.split('_')[1] ==='0') {
           return {
-              height: ((grid.dailyData.length+1) * rowHeight + headerHeight-12) + "px" };
+              //height: ((grid.dailyData.length+1) * rowHeight + headerHeight-12) + "px"
+              height: ((grid.dailyData.length+1) * rowHeight)+"px"
+            };
        //}
        // else {
        // return {
