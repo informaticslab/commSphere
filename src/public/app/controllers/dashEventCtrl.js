@@ -690,6 +690,7 @@ $scope.saveTableName = function(grid,e) {
 
 $scope.editColName = function(col) {
    col.editing = true;
+   col.orgName = col.displayName;
 }
 
 $scope.cancelEditingColName = function(col) {
@@ -719,8 +720,14 @@ $scope.saveColName = function(col,e) {
         $scope.columns = [];
         $timeout( function(){ $scope.columns = $scope.generateColumnDefs() ||[]; }, 55);
         $timeout( function(){ $scope.buildChartJsData(); }, 50);
-
+        return true;
     }
+    else {
+        alert('Column Name can not be blank')
+        col.displayName = col.orgName;
+        return false;
+    }
+
   };
 
 $scope.showGridCheckbox  = function() {
