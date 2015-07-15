@@ -2,9 +2,11 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 	$rootScope.combinedGrid = [];
 	$rootScope.checkedColumns = [];
  
- $scope.displayColumnLimit=3;
+  $scope.displayColumnLimit=3;
+  $scope.numberOfColumns=Object.keys($scope.eventData.colDisplayNames).length;
+
 	var gridData = $scope.eventData.gridData;
-  console.log($scope.eventData)
+  console.log($scope.eventData);
 	// for(var i = 0; i < $scope.eventData.gridData.length; i++) {
 	// 	//console.log($scope.eventData.gridData[i]);
 	// 	$scope.combinedGrid.push({'gridSectionName':$scope.eventData.gridData[i].gridName, 'dailyData': $scope.eventData.gridData[i].dailyData});
@@ -220,6 +222,23 @@ $scope.filterLabel = function(items) {
     return result;
 }
 
+
+$scope.options = {
+accept: function(sourceNode, destNodes, destIndex) {
+  var data = sourceNode.$modelValue;
+  var destType = destNodes.$element.attr('data-type');
+  return (data.type == destType); // only accept the same type
+},
+dropped: function(event) {
+  
+
+},
+beforeDrop: function(event) {
+  // if (!window.confirm('Are you sure you want to drop it here?')) {
+  //   event.source.nodeScope.$$apply = false;
+  // }
+}
+};
 
 
 });

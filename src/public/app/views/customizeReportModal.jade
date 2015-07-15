@@ -25,147 +25,104 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 			br
 			br
 			.row
-				.col-lg-12(ui-tree='options')
-					ol(ui-tree-nodes='' ng-model='customizedDoc.docData' data-type='section')
-						li(ng-repeat='section in customizedDoc.docData', ui-tree-node='' )
-							.topic-title.angular-ui-tree-handle(ng-show='!section.editing' ng-mouseenter="hoverSection = true" ng-mouseleave="hoverSection = false")
-								a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show='hoverSection' href='' data-nodrag='' ng-click='editSection(section)')
-									i.glyphicon.glyphicon-pencil
-								div  {{section.sectionName}}
-							.topic-title.angular-ui-tree-handle(data-nodrag='', ng-show='section.editing')
-								label.sr-only(for='SectionName') Section Name
-								input.form-control(type='text', placeholder='Section name', ng-model='section.sectionName' ng-keyup='$event.keyCode==13 ? saveSection(section,$event) : null' ng-blur='saveSection(section,$event)')
-							.report-wrapper
-								div(ng-if='section.sectionType == "Metrics"')
-									.row
-										.col-lg-12
-											table(style="margin-bottom:50px;", border="1")
-												tr(style="background-color:#c6d8ae")
-													td(rowspan="4")
-														| &nbsp;
-													td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="5")
-														| Daily Metrics
-												tr(style="background-color:#c6d8ae")
-													td(style="font-style:italic; text-align:center; padding:5px;", colspan="5")
-														| Percent change from previous day is given in parentheses
-												tr(style="background-color:#c6d8ae")
-													td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
-														| {{ col | date : 'EEEE'}}
-												tr(style="background-color:#c6d8ae")
-													td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
-														| {{displayValue}}
-												tbody(ng-repeat="gridData in eventData.gridData")
-													tr
-														td(colspan="6" style="background-color:#c6d8ae; padding:7px 0 7px 5px;")
-															| {{gridData.gridName}}
-													tr(ng-repeat="dailyData in gridData.dailyData")
-														td(style="padding:3px 3px 3px 5px;", width="260")
-															| {{dailyData.label}}
-														td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="cols in filterLabel(dailyData)")
-															| {{cols}}
-								div(ng-if='section.sectionType == "Charts"')
-									div.well.wells
-										ol(ui-tree-nodes='', ng-model='customizedDoc.chartConfigs' )
-											li(ng-repeat='chartConfig in customizedDoc.chartConfigs', ui-tree-node='')
-												div.well.wells
-													input(type='checkbox' ng-model='chartConfig.checked' ng-checked='chartConfig.checked')
-													| {{chartConfig.title.text}}
-													br
-													br
-													label
-														|Chart Title 
-														input.form-control(type='textarea' ng-model='chartConfig.title.text')
-													&nbsp;&nbsp;
-													label
-														|Y-axis Title 
-														input.form-control(type='textarea' ng-model='chartConfig.yAxis[0].title.text')
-													&nbsp;&nbsp;
-													label
-														|X-axis Title 
-														input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
-													//- div(style="width:350px;")
-													//- 	accordion()
-													//- 		accordion-group(heading="Customize Chart")
-													//- 			accordion()
-													//- 				accordion-group(heading="Chart Title")
-													//- 					|Chart Title
-													//- 					input.form-control(type='textarea' ng-model='chartConfig.title.text')
-													//- 					|  Font Weight 
-													//- 					input.form-control(type='textarea' ng-model='chartConfig.title.style.fontWeight')
-													//- 					|  Font Size 
-													//- 					input.form-control(type='number' min=0 ng-model='chartConfig.title.style.fontSize')
-													//- 					|  Color 
-													//- 					input.form-control(type='textarea' ng-model='chartConfig.title.style.color')
-													//- 				accordion-group(heading="X Axis")
-													//- 						label X-axis Title 
-													//- 							input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
-													//- 				accordion-group(heading="Y Axis")
-													//- 					accordion()
-													//- 						accordion-group(heading="{{'Axis '+ $index}}" ng-repeat="yaxis in chartConfig.yAxis")
-													//- 							label Title 
-													//- 								input.form-control(type='textarea' ng-model='yaxis.title.text')
-													//- 							label Font Weight 
-													//- 								input.form-control(type='textarea' ng-model='yaxis.title.style.fontWeight')
-													//- 							label Font Size 
-													//- 								input.form-control(type='number' min=0 ng-model='yaxis.title.style.fontSize')
-													//- 							label  Color 
-													//- 								input.form-control(type='textarea' ng-model='yaxis.title.style.color')
-													//- 							br
-													//- 							| Position
-													//- 							br
-													//- 							div
-													//- 								input(type='radio' ng-model='yaxis.opposite' ng-value='false')
-													//- 								|  Left
-													//- 								&nbsp;
-													//- 								input(type='radio' ng-model='yaxis.opposite' ng-value='true')
-													//- 								|  Right
-											
-													//- 				accordion-group(heading="Series")
-													//- 					accordion()
-													//- 						accordion-group(heading="{{serie.name}}" ng-repeat="serie in chartConfig.series")
-													//- 							|  Color 
-													//- 							input.form-control(type='textarea' ng-model='serie.color')
-													//- 							|  Axis Bind To (default to left Y-Axis)
-													//- 							input.form-control(type='number' ng-model='serie.yAxis' min=0 max="{{chartConfig.yAxis.length-1}}" value='serie.yAxis')
-													highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
-								div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"') 
-									h4.report-category
+				.col-lg-12
+					//ol(ui-tree-nodes='' ng-model='customizedDoc.docData' data-type='section')
+					div(ng-repeat='section in customizedDoc.docData' )
+						.topic-title(ng-show='!section.editing' ng-mouseenter="hoverSection = true" ng-mouseleave="hoverSection = false")
+							a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show='hoverSection' href='' data-nodrag='' ng-click='editSection(section)')
+								i.glyphicon.glyphicon-pencil
+							div  {{section.sectionName}}
+						.topic-title(data-nodrag='', ng-show='section.editing')
+							label.sr-only(for='SectionName') Section Name
+							input.form-control(type='text', placeholder='Section name', ng-model='section.sectionName' ng-keyup='$event.keyCode==13 ? saveSection(section,$event) : null' ng-blur='saveSection(section,$event)')
+						.report-wrapper
+							div(ng-if='section.sectionType == "Metrics"')
+								.row
+									.col-lg-12
+										table(style="margin-bottom:50px;", border="1")
+											tr(style="background-color:#c6d8ae")
+												td(rowspan="4")
+													| &nbsp;
+												td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
+													| Daily Metrics
+											tr(style="background-color:#c6d8ae")
+												td(style="font-style:italic; text-align:center; padding:5px;", colspan="5")
+													| Percent change from previous day is given in parentheses
+											tr(style="background-color:#c6d8ae")
+												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
+													| {{ col | date : 'EEEE'}}
+											tr(style="background-color:#c6d8ae")
+												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
+													| {{displayValue}}
+											tbody(ng-repeat="gridData in eventData.gridData")
+												tr
+													td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; padding:7px 0 7px 5px;")
+														| {{gridData.gridName}}
+												tr(ng-repeat="dailyData in gridData.dailyData")
+													td(style="padding:3px 3px 3px 5px;", width="260")
+														| {{dailyData.label}}
+													td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="cols in filterLabel(dailyData)")
+														| {{cols}}
+							div(ng-if='section.sectionType == "Charts"')
+								.row
+									.col-lg-12
+										//ol(ui-tree-nodes='', ng-model='customizedDoc.chartConfigs' data-nodrop-enabled="true")
+										div(ng-repeat='chartConfig in customizedDoc.chartConfigs')
+											input#checkboxG4.css-checkbox(type='checkbox', name='checkboxG4')
+											label.css-label(for='checkboxG4')
+												| {{chartConfig.title.text}}
+											div.well
+												//input(type='checkbox' ng-model='chartConfig.checked' ng-checked='chartConfig.checked')
+												label
+													|Chart Title 
+													input.form-control(type='textarea' ng-model='chartConfig.title.text')
+												&nbsp;&nbsp;
+												label
+													|Y-axis Title 
+													input.form-control(type='textarea' ng-model='chartConfig.yAxis[0].title.text')
+												&nbsp;&nbsp;
+												label
+													|X-axis Title 
+													input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
+												highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
+							div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"') 
+								h4.report-category
+									.checkbox
+										input(type='checkbox' ng-model='category.checked' ng-click='selectAll(category)')
+										| {{category.name}}
+								div(ng-repeat="topic in category.topics") 
+									h4.report-topic
 										.checkbox
-											input(type='checkbox' ng-model='category.checked' ng-click='selectAll(category)')
-											| {{category.name}}
-									div(ng-repeat="topic in category.topics") 
-										h4.report-topic
+											input(type='checkbox' ng-model='topic.checked' ng-checked='topic.checked')
+											| {{topic.name}}
+									ul
+										li(ng-repeat="topicBullets in topic.bullets") 
 											.checkbox
-												input(type='checkbox' ng-model='topic.checked' ng-checked='topic.checked')
-												| {{topic.name}}
-										ul
-											li(ng-repeat="topicBullets in topic.bullets") 
-												.checkbox
-													input(type='checkbox' ng-model='topicBullets.checked' ng-checked='topicBullets.checked')
-													| {{topicBullets.name}}
-												ul
-													li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
-														.checkbox
-															input(type='checkbox' ng-model='topicSubBullets.checked' ng-checked='topicSubBullets.checked')
-															| {{topicSubBullets.name}}
-										div(ng-repeat="subtopic in topic.subTopics")
-											h4.report-sub-topic
-												.checkbox
-													input(type='checkbox' ng-model='subtopic.checked' ng-checked='subtopic.checked')
-													| {{subtopic.name}}
+												input(type='checkbox' ng-model='topicBullets.checked' ng-checked='topicBullets.checked')
+												| {{topicBullets.name}}
 											ul
-												li(ng-repeat="bullet in subtopic.bullets") 
+												li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
 													.checkbox
-														input(type='checkbox' ng-model = 'bullet.checked' ng-checked='bullet.checked')
-														| {{bullet.name}}	
-													ul
-														li(ng-repeat="subBullet in bullet.subBullets") 
-															.checkbox
-																input(type='checkbox' ng-model='subBullet.checked' ng-checked='subBullet.checked')
-																| {{subBullet.name}}
-								label Additional Notes
-								textarea.notesPlaceholder(placeholder='Enter text here' type='text', ng-model='section.sectionData.notes')
-			.row
+														input(type='checkbox' ng-model='topicSubBullets.checked' ng-checked='topicSubBullets.checked')
+														| {{topicSubBullets.name}}
+									div(ng-repeat="subtopic in topic.subTopics")
+										h4.report-sub-topic
+											.checkbox
+												input(type='checkbox' ng-model='subtopic.checked' ng-checked='subtopic.checked')
+												| {{subtopic.name}}
+										ul
+											li(ng-repeat="bullet in subtopic.bullets") 
+												.checkbox
+													input(type='checkbox' ng-model = 'bullet.checked' ng-checked='bullet.checked')
+													| {{bullet.name}}	
+												ul
+													li(ng-repeat="subBullet in bullet.subBullets") 
+														.checkbox
+															input(type='checkbox' ng-model='subBullet.checked' ng-checked='subBullet.checked')
+															| {{subBullet.name}}
+							label Additional Notes
+							textarea.notesPlaceholder(placeholder='Enter text here' type='text', ng-model='section.sectionData.notes')
+			//.row
 				.col-lg-6
 					h3 Data binding
 					.info
