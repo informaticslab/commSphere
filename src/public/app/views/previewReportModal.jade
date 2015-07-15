@@ -46,7 +46,32 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 														| {{subBullet.name}}
 							div(ng-if='section.sectionType == "Metrics"')
 								.row
-									.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
+									.col-lg-12
+										table(style="margin-bottom:50px;", border="1")
+											tr(style="background-color:#c6d8ae")
+												td(rowspan="4")
+													| &nbsp;
+												td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="5")
+													| Daily Metrics
+											tr(style="background-color:#c6d8ae")
+												td(style="font-style:italic; text-align:center; padding:5px;", colspan="5")
+													| Percent change from previous day is given in parentheses
+											tr(style="background-color:#c6d8ae")
+												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(customizedData.colDisplayNames)")
+													| {{ col | date : 'EEEE'}}
+											tr(style="background-color:#c6d8ae")
+												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(customizedData.colDisplayNames)")
+													| {{displayValue}}
+											tbody(ng-repeat="gridData in customizedData.gridData")
+												tr
+													td(colspan="6" style="background-color:#c6d8ae; padding:7px 0 7px 5px;")
+														| {{gridData.gridName}}
+												tr(ng-repeat="dailyData in gridData.dailyData")
+													td(style="padding:3px 3px 3px 5px;", width="100")
+														| {{dailyData.label}}
+													td(style="padding:3px 3px 3px 5px;", ng-repeat="cols in filterLabel(dailyData)")
+														| {{cols}}
+									//.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
 							br
 							div(ng-if='section.sectionType == "Charts"')
 									div(ng-repeat='chartConfig in customizedDoc.chartConfigs' ng-if='chartConfig.checked')
