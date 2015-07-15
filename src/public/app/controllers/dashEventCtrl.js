@@ -416,7 +416,7 @@ $scope.saveCategory = function (status) {  // save data for the current tab
  var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
       if(newVal!=oldVal)
       {
-        $log.debug('changed');
+        console.log('changed');
         if(oldVal == undefined){
             //do nothing
         } else {
@@ -1305,7 +1305,49 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         console.log(res.data.err);
       }
     });
+
+
+ $http.post('/api/events/saveCollectedData',$scope.eventData).then(function(res){
+        if(res.data.success){
+        } else {
+             alert('there was an error');
+        }
+
+ });
    $rootScope.continueNav = true;
+
+   var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
+     $log.debug("watching");
+      if(newVal!=oldVal)
+      {
+        $log.debug('changed');
+        if(oldVal == undefined){
+            //do nothing
+        } else {
+          $rootScope.continueNav=false;
+          $rootScope.preventNavigation =true;
+          unregister();
+        }
+        
+        $log.debug('oldVal: ', oldVal);
+        $log.debug('newVal: ', newVal);
+      }
+     
+    }, true);
+ var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
+      if(newVal!=oldVal)
+      {
+        console.log('changed');
+        if(oldVal == undefined){
+            //do nothing
+        } else {
+          $rootScope.continueNav=false;
+          $rootScope.preventNavigation =true;
+          unregister2();
+        }
+      }
+     
+    }, true);
   };
 
   $scope.selectAll = function(item) {
