@@ -59,9 +59,9 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 														td(colspan="6" style="background-color:#c6d8ae; padding:7px 0 7px 5px;")
 															| {{gridData.gridName}}
 													tr(ng-repeat="dailyData in gridData.dailyData")
-														td(style="padding:3px 3px 3px 5px;", width="100")
+														td(style="padding:3px 3px 3px 5px;", width="260")
 															| {{dailyData.label}}
-														td(style="padding:3px 3px 3px 5px;", ng-repeat="cols in filterLabel(dailyData)")
+														td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="cols in filterLabel(dailyData)")
 															| {{cols}}
 								div(ng-if='section.sectionType == "Charts"')
 									div.well.wells
