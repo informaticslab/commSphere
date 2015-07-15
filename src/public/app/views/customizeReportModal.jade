@@ -38,29 +38,31 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 							.report-wrapper
 								div(ng-if='section.sectionType == "Metrics"')
 									.row
-										//-.grid(id="{{'grid_'+$index}}", ui-grid="{data: combinedGrid, columnDefs : customizeColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar:2, enableColumnMenu: false, enableCellSelection: false,  enableCellEditOnFocus: false, showHeader: $index == 0}", ng-style="getCustomizedTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize) 
-										table(border='1')
-											tr
-												td(bgcolor='green', rowspan='5') 
-													&nbsp;  
-												td
-													tr(align='center')
-														td(colspan='5') Daily Metrics
-													tr(align='center')
-														td(colspan='5') (notes: example - Percent change from previous day is given in parentheses)
-													tr(align='center')
-														td(ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
-															|{{ col | date : 'EEEE'}}
-													tr(align='center')
-														td(ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
-															|{{displayValue}}
-											tr(ng-repeat = 'grid in eventData.gridData')
-												td
-													|{{grid.gridName}}
-												td(ng-repeat='blank in filterLabel(eventData.colDisplayNames)')
-															&nbsp;
-													//-td(ng-repeat = '(key,value) in oneRow') 
-															|{{value}}
+										.col-lg-12
+											table(border="1")
+												tr(style="background-color:#c6d8ae")
+													td(rowspan="4")
+														| &nbsp;
+													td(colspan="5")
+														| Daily Metrics
+												tr(style="background-color:#c6d8ae")
+													td(colspan="5")
+														| Percent change from previous day is given in parentheses
+												tr(style="background-color:#c6d8ae")
+													td(ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
+														| {{ col | date : 'EEEE'}}
+												tr(style="background-color:#c6d8ae")
+													td(ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
+														| {{displayValue}}
+												tbody(ng-repeat="gridData in eventData.gridData")
+													tr
+														td(colspan="6" style="background-color:#c6d8ae")
+															| {{gridData.gridName}}
+													tr(ng-repeat="dailyData in gridData.dailyData")
+														td(width="100")
+															| {{dailyData.label}}
+														td(ng-repeat="cols in filterLabel(dailyData)")
+															| {{cols}}
 								div(ng-if='section.sectionType == "Charts"')
 									div.well.wells
 										ol(ui-tree-nodes='', ng-model='customizedDoc.chartConfigs' )

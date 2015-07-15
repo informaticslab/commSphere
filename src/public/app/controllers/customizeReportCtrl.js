@@ -2,8 +2,9 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 	$rootScope.combinedGrid = [];
 	$rootScope.checkedColumns = [];
  
- 
+ $scope.displayColumnLimit=3;
 	var gridData = $scope.eventData.gridData;
+  console.log($scope.eventData)
 	// for(var i = 0; i < $scope.eventData.gridData.length; i++) {
 	// 	//console.log($scope.eventData.gridData[i]);
 	// 	$scope.combinedGrid.push({'gridSectionName':$scope.eventData.gridData[i].gridName, 'dailyData': $scope.eventData.gridData[i].dailyData});
