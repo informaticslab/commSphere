@@ -59,14 +59,14 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 														| {{displayValue}}
 											tbody(ng-repeat="gridData in eventData.gridData")
 												tr
-													td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; padding:0px 0 0px 25px;")
+													td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
 														.checkbox
 															input(type='checkbox' ng-model='gridData.checked')
 															| {{gridData.gridName}}
 												tr(ng-repeat="dailyData in gridData.dailyData")
-													td(style="padding:3px 3px 3px 5px; min-width:250px; !important")
+													td(style="padding:2px 3px 2px 5px; min-width:250px; !important")
 														| {{dailyData.label}}
-													td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="(col,value) in filterLabel(dailyData)")
+													td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="(col,value) in filterLabel(dailyData)")
 														| {{value}} 
 														br
 														| {{percentChanged(dailyData,col)}}

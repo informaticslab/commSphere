@@ -47,7 +47,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 							div(ng-if='section.sectionType == "Metrics"')
 								.row
 									.col-lg-12
-										table(style="margin-bottom:50px;", border="1")
+										table(style="margin-bottom:0px;", border="1")
 											tr(style="background-color:#c6d8ae")
 												td(rowspan="4")
 													| &nbsp;
@@ -64,17 +64,16 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 													| {{displayValue}}
 											tbody(ng-repeat="gridData in customizedData.gridData")
 												tr
-													td(colspan="6" style="background-color:#c6d8ae; padding:7px 0 7px 5px;" ng-if='gridData.checked')
+													td(colspan="6" style="background-color:#c6d8ae; font-weight:bold; padding:7px 0 7px 5px;" ng-if='gridData.checked')
 														| {{gridData.gridName}}
 												tr(ng-repeat="dailyData in gridData.dailyData" ng-if='gridData.checked')
-													td(style="padding:3px 3px 3px 5px;", width="260")
+													td(style="padding:2px 3px 2px 5px;", width="260")
 														| {{dailyData.label}}
-													td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="(col,value) in filterSelected(dailyData)")
+													td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="(col,value) in filterSelected(dailyData)")
 														| {{value}} 
 														br
 														| {{percentChanged(dailyData,col)}}
 									//.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
-							br
 							div(ng-if='section.sectionType == "Charts"')
 									div.well(ng-repeat='chartConfig in customizedDoc.chartConfigs' ng-if='chartConfig.checked')
 										highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
