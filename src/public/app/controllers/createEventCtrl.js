@@ -4,7 +4,7 @@ $scope.eventNameOverride = false;
 $scope.minColWidth = 110;
 $scope.minTopicWidth = 500;
 $scope.tabCategory=[
-                    {active:false}
+                    {active:true}
                    ];
 $animate.enabled(false);
 $scope.allowSaveDrafts=false;
