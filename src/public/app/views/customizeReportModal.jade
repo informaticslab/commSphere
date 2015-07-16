@@ -4,11 +4,13 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 			.row(style='background-color:#ffffff;')
 				.col-lg-12
 					.create-new-event-cont
-						h2.h2-create-new(id='myModalLabel') {{eventdoc.eventName}}	
-						i Due Date: {{eventdoc.eventDueDate | date:'medium'}}		
-						h3 Customize Report	
-						input#checkboxG4.css-checkbox(type='checkbox', name='checkboxG4')
-						label.css-label(for='checkboxG4') Add to report
+						h2.h2-create-new(id='myModalLabel') 
+							div Customize Report: {{eventdoc.eventName}}
+						br
+						div(style="color:#acacac;") Please select the checkbox to add to your report. You also can drag and move items in any desired order. 
+						div(style="color:#acacac;") Click the Preview Report button to see your final report.
+						br
+						br
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
 						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel();saveCustomizedReport();hideGridCheckbox')
 					.create-btn-cont
