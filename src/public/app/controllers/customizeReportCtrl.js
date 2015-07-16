@@ -136,7 +136,14 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
  	var toDelete = '';
 
  	if(checked) {
- 		$rootScope.checkedColumns.push(column);
+ 		console.log($rootScope.checkedColumns.length);
+ 		if($rootScope.checkedColumns.length < 5) {
+ 			$rootScope.checkedColumns.push(column);
+ 		} else {
+ 			alert('You may only select a maximum of five columns.');
+ 			checked = false;
+ 			return checked;
+ 		}
  	} else {
  		if($rootScope.checkedColumns.length > 0) {
  			toDelete = $scope.checkedColumns.indexOf(column);
@@ -146,23 +153,23 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
  		}
  	}
 
- 	//console.log($rootScope.checkedColumns);
+ 	console.log($rootScope.checkedColumns);
+ 	
  };
 
- $scope.getCustomizedTableHeight = function(grid,id) {
-       var rowHeight = 30; // your row height
-       var headerHeight = 30; // your header height
-       if (id.split('_')[1] ==='0') {
-          return {
-              height: (($scope.combinedGrid.length+1) * rowHeight + headerHeight-12) + "px" };
-       }
-       else {
-       return {
-          height: ($scope.combinedGrid.length * rowHeight + headerHeight-14) + "px" };
-       }
-    };
-
-
+$scope.getCustomizedTableHeight = function(grid, id) {
+	var rowHeight = 30; // your row height
+	var headerHeight = 30; // your header height
+	if (id.split('_')[1] === '0') {
+		return {
+			height: (($scope.combinedGrid.length + 1) * rowHeight + headerHeight - 12) + "px"
+		};
+	} else {
+		return {
+			height: ($scope.combinedGrid.length * rowHeight + headerHeight - 14) + "px"
+		};
+	}
+};
 
 
 $scope.customizeGenerateColumnDefs= function() {

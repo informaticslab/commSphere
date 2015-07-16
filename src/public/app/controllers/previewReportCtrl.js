@@ -3,7 +3,6 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
 	// console.log($scope.customizedDoc);
 //	$scope.previewedGrid = [];
 	var checked = $rootScope.checkedColumns;
-	checked = ['1435861626006','1436463022438']
 	$scope.numberOfColumns=checked.length;
 	var columnArry = [];
    // pick a grid to iterate
@@ -21,6 +20,11 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
     }
 //	var gridData = $scope.eventData.gridData;
 //	var combinedGrid = JSON.parse(JSON.stringify($rootScope.combinedGrid));
+
+	//checked = ['1435861626006','1436463022438']
+	//var gridData = $scope.eventData.gridData;
+	//var combinedGrid = JSON.parse(JSON.stringify($rootScope.combinedGrid));
+
 	$scope.customizedData = JSON.parse(JSON.stringify($scope.eventData));
 	//console.log('combinedGrid',combinedGrid);
 	// if (checked.length > 0) {

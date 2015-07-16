@@ -64,9 +64,9 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 													| {{displayValue}}
 											tbody(ng-repeat="gridData in customizedData.gridData")
 												tr
-													td(colspan="6" style="background-color:#c6d8ae; padding:7px 0 7px 5px;")
+													td(colspan="6" style="background-color:#c6d8ae; padding:7px 0 7px 5px;" ng-if='gridData.checked')
 														| {{gridData.gridName}}
-												tr(ng-repeat="dailyData in gridData.dailyData")
+												tr(ng-repeat="dailyData in gridData.dailyData" ng-if='gridData.checked')
 													td(style="padding:3px 3px 3px 5px;", width="260")
 														| {{dailyData.label}}
 													td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="(col,value) in filterSelected(dailyData)")

@@ -7,7 +7,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 						h2.h2-create-new(id='myModalLabel') 
 							div Customize Report: {{eventdoc.eventName}}
 						br
-						div(style="color:#acacac; font-style:italic; width:570px;") Please select the checkbox to add an item to your report. You also can drag and move items in any desired order. If you still have edits to make in the data table or bullets, please close this window and make your changes on the Events page. 
+						div(style="color:#acacac; font-style:italic; width:570px;") Please select the checkbox to add an item to your report. You also can drag and move items in any desired order. If you still have edits to make in the data table or bullets, please close this window and make your changes on the Events page.
 						br
 						br
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
@@ -53,12 +53,16 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
 													| {{ col | date : 'EEEE'}}
 											tr(style="background-color:#c6d8ae")
-												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
-													| {{displayValue}}
+												td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
+													.checkbox
+														input(type='checkbox' ng-model='columnChecked' ng-click='checkGridColumn(col,columnChecked)')
+														| {{displayValue}}
 											tbody(ng-repeat="gridData in eventData.gridData")
 												tr
-													td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; padding:7px 0 7px 5px;")
-														| {{gridData.gridName}}
+													td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; padding:0px 0 0px 25px;")
+														.checkbox
+															input(type='checkbox' ng-model='gridData.checked')
+															| {{gridData.gridName}}
 												tr(ng-repeat="dailyData in gridData.dailyData")
 													td(style="padding:3px 3px 3px 5px; min-width:250px; !important")
 														| {{dailyData.label}}
@@ -69,11 +73,10 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 									.col-lg-12
 										//ol(ui-tree-nodes='', ng-model='customizedDoc.chartConfigs' data-nodrop-enabled="true")
 										div(ng-repeat='chartConfig in customizedDoc.chartConfigs')
-											input#checkboxG4.css-checkbox(type='checkbox', name='checkboxG4')
-											label.css-label(for='checkboxG4')
+											h4.checkbox
+												input(type='checkbox' ng-model='chartConfig.checked')
 												| {{chartConfig.title.text}}
 											div.well
-												//input(type='checkbox' ng-model='chartConfig.checked' ng-checked='chartConfig.checked')
 												label
 													|Chart Title 
 													input.form-control(type='textarea' ng-model='chartConfig.title.text')
