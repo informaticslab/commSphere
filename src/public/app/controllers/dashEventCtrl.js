@@ -3,6 +3,7 @@ angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $h
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $rootScope.continueNav = true;
+$rootScope.checkedColumns = [];
 $scope.canSubmit = true;
 $scope.checkboxShow = false;
 $scope.tabCategory=[
@@ -89,7 +90,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
        
             $scope.eventData = dataResult.data[0];
       //      $scope.addDataColumn2($scope.eventdoc.dateCreated);
-            $scope.eventData.selectedColumns = [];
+            
              ////CUSTOMIZE REPORT////
               $scope.customizedDoc = {};
               $scope.customizedDoc.reportMeta = {title: '', type: ''};
@@ -100,6 +101,12 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               $scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
               $scope.customizedDoc.eventDocId = $scope.eventdoc._id;
               $scope.customizedDoc.chartConfigs = $scope.eventdoc.chartConfigs || [];
+              $scope.customizedDoc.selectedColumns = $scope.eventdoc.selectedColumns;
+
+              if($scope.customizedDoc.selectedColumns !=  undefined) {
+                $rootScope.checkedColumns = $scope.customizedDoc.selectedColumns;
+              }
+              
                ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
             $scope.gridOptions = {
@@ -1291,6 +1298,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
               config.categories = undefined
           }
     $scope.eventdoc.chartConfigs = $scope.customizedDoc.chartConfigs;
+    $scope.eventdoc.selectedColumns = $rootScope.checkedColumns;
 
 
     var eventdoc = {};

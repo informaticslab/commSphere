@@ -1,12 +1,13 @@
 angular.module('app').controller('customizeReportCtrl', function($scope, $rootScope, $modal, $http) {
-	$rootScope.combinedGrid = [];
-	$rootScope.checkedColumns = [];
+	$rootScope.combinedGrid = [];	
  
   $scope.displayColumnLimit=3;
   $scope.numberOfColumns=Object.keys($scope.eventData.colDisplayNames).length;
+  
+  $scope.columnsList = {};
 
 	var gridData = $scope.eventData.gridData;
-  //console.log($scope.eventData);
+  console.log($scope.eventData);
 	// for(var i = 0; i < $scope.eventData.gridData.length; i++) {
 	// 	//console.log($scope.eventData.gridData[i]);
 	// 	$scope.combinedGrid.push({'gridSectionName':$scope.eventData.gridData[i].gridName, 'dailyData': $scope.eventData.gridData[i].dailyData});
@@ -133,29 +134,39 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
           
 
  $scope.checkGridColumn = function(column,checked) {
- 	var toDelete = '';
+ 	console.log($scope.columnsList);
+ 	// console.log(Object.keys($scope.columnsList).length);
+ 	// if(Object.keys($scope.columnsList).length) {
 
- 	if(checked) {
- 		console.log($rootScope.checkedColumns.length);
- 		if($rootScope.checkedColumns.length < 5) {
- 			$rootScope.checkedColumns.push(column);
- 		} else {
- 			alert('You may only select a maximum of five columns.');
- 			checked = false;
- 			return checked;
- 		}
- 	} else {
- 		if($rootScope.checkedColumns.length > 0) {
- 			toDelete = $scope.checkedColumns.indexOf(column);
- 			if(toDelete != -1) {
- 				$rootScope.checkedColumns.splice(toDelete, 1);
- 			}
- 		}
- 	}
+ 	// }
+ 	
+ 	// if(checked) {
+ 	// 	console.log($rootScope.checkedColumns.length);
+ 	// 	if($rootScope.checkedColumns.length < 5) {
+ 	// 		$rootScope.checkedColumns.push(column);
+ 	// 	} else {
+ 	// 		alert('You may only select a maximum of five columns.');
+ 	// 	}
+ 	// } else {
+ 	// 	if($rootScope.checkedColumns.length > 0) {
+ 	// 		toDelete = $rootScope.checkedColumns.indexOf(column);
+ 	// 		if(toDelete != -1) {
+ 	// 			$rootScope.checkedColumns.splice(toDelete, 1);
+ 	// 		}
+ 	// 	}
+ 	// }
 
- 	console.log($rootScope.checkedColumns);
+ 	// console.log($rootScope.checkedColumns);
  	
  };
+
+ $scope.initialChecks = function() {
+ 	for(var i = 0; i < $scope.customizedDoc.selectedColumns.length; i++){
+ 		if(column == $scope.customizedDoc.selectedColumns[i]) {
+ 			$scope.columnChecked = true;
+ 		}
+ 	}
+ }
 
 $scope.getCustomizedTableHeight = function(grid, id) {
 	var rowHeight = 30; // your row height
