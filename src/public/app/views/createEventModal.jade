@@ -133,6 +133,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 										br
 										hr
 										br
+										p(ng-if = '!isNew') Note: Since this draft event is created from an existing event, the Daily Metrics layout can not be modified due to live data being entered
 										.row
 											ol(ui-tree-nodes='', ng-model='eventdoc.gridData' )
 												li(ng-repeat='grid in eventdoc.gridData', ui-tree-node='' , on-finish-render="ngRepeatFinished")
