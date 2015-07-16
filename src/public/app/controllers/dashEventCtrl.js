@@ -74,7 +74,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
     //checking comepletion status for preview button display.
     var completedCount = 0;
     for (var i = 0; i < $scope.eventdoc.categories.length; i++) {
-      if ($scope.eventdoc.categories[i].statusCompleted == true) {
+      if ($scope.eventdoc.categories[i].statusCompleted == true || $scope.eventdoc.categories[i].userAssigned =="") {
         completedCount++;
       }
     }
