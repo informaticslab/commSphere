@@ -3,9 +3,10 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
 	// console.log($scope.customizedDoc);
 	$scope.previewedGrid = [];
 	var checked = $rootScope.checkedColumns;
+	checked = ['1435861626006','1436463022438']
 	var gridData = $scope.eventData.gridData;
 	var combinedGrid = JSON.parse(JSON.stringify($rootScope.combinedGrid));
-
+	$scope.customizedData = JSON.parse(JSON.stringify($scope.eventData));
 	//console.log('combinedGrid',combinedGrid);
 	if (checked.length > 0) {
 		for(var j = 0; j < combinedGrid.length; j++) {
@@ -121,6 +122,16 @@ $scope.previewGenerateColumnDefs= function() {
 
 $scope.previewColumns = $scope.previewGenerateColumnDefs();
 
+$scope.filterSelected = function(items) {
+    var result = {};
+    angular.forEach(items, function(value,key) {
+        //console.log(key,' ',value)
+        if (key != 'label' && (checked.indexOf(key) > -1)) {
+            result[key] = value;
+        }
+    });
+    return result;
+}
 
 	////END GRID///
 });
