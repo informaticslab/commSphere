@@ -511,7 +511,7 @@ $scope.saveTableName = function(grid,e) {
   };
 
 $scope.canEditGrid = function() {
-    return $scope.eventNameOverride;
+  return $scope.isNew
    //return true;
  };
 
@@ -542,7 +542,7 @@ function generateColumnDefs() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventdoc.gridColDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth, cellEditableCondition: $scope.eventNameOverride};
+            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventdoc.gridColDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth, cellEditableCondition: $scope.isNew};
           }
          else {
           //  var formattedDate = $filter('date')(columnArry[i],'mediumDate');
