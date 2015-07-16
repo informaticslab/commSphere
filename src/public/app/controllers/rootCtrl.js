@@ -128,7 +128,6 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
       
        if(res.data) {
               // copy column label only
-           
              var gridData = res.data[0].gridData;
              for (i=0; i < gridData.length; i++) {
                    var oneGrid = {
@@ -144,6 +143,8 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
               metricsTemplate.push(oneGrid);
 
              }
+              // attaching column display name
+              selectedInstance.gridColDisplayNames = res.data[0].colDisplayNames;
            } else {
                alert('no Eventdata received');
            }
