@@ -46,7 +46,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 												td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
 													| Daily Metrics
 											tr(style="background-color:#c6d8ae")
-												td(style="font-style:italic; text-align:center; padding:5px;", colspan="5")
+												td(style="font-style:italic; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
 													| Percent change from previous day is given in parentheses
 											tr(style="background-color:#c6d8ae")
 												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
