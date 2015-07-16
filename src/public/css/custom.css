@@ -348,6 +348,9 @@ margin-top: 0px;
   margin-left: -20px;
 }
 
+div.ui-grid-cell input{
+  height:30px;
+}
 .ui-grid-cell-contents-head {
     height: 38px !important;
     width:100%;
