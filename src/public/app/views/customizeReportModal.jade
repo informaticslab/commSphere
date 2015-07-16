@@ -7,8 +7,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 						h2.h2-create-new(id='myModalLabel') 
 							div Customize Report: {{eventdoc.eventName}}
 						br
-						div(style="color:#acacac;") Please select the checkbox to add to your report. You also can drag and move items in any desired order. 
-						div(style="color:#acacac;") Click the Preview Report button to see your final report.
+						div(style="color:#acacac; font-style:italic; width:570px;") Please select the checkbox to add an item to your report. You also can drag and move items in any desired order. If you still have edits to make in the data table or bullets, please close this window and make your changes on the Events page. 
 						br
 						br
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
@@ -61,7 +60,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 													td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; padding:7px 0 7px 5px;")
 														| {{gridData.gridName}}
 												tr(ng-repeat="dailyData in gridData.dailyData")
-													td(style="padding:3px 3px 3px 5px;", width="260")
+													td(style="padding:3px 3px 3px 5px; min-width:250px; !important")
 														| {{dailyData.label}}
 													td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="cols in filterLabel(dailyData)")
 														| {{cols}}
