@@ -6,7 +6,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
   $scope.numberOfColumns=Object.keys($scope.eventData.colDisplayNames).length;
 
 	var gridData = $scope.eventData.gridData;
-  console.log($scope.eventData);
+  //console.log($scope.eventData);
 	// for(var i = 0; i < $scope.eventData.gridData.length; i++) {
 	// 	//console.log($scope.eventData.gridData[i]);
 	// 	$scope.combinedGrid.push({'gridSectionName':$scope.eventData.gridData[i].gridName, 'dailyData': $scope.eventData.gridData[i].dailyData});
@@ -247,5 +247,43 @@ beforeDrop: function(event) {
 }
 };
 
+
+$scope.percentChanged = function(row,col) {
+  var columnArry = [];
+   // pick a grid to iterate
+    var oneGrid =  $scope.eventData.gridData[0];
+    if (oneGrid) {  // at least one grid exist
+       for (var columnName in oneGrid.dailyData[0]) {
+          if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
+            if (columnName !== '$$hashKey' && columnName != 'label')  {
+                columnArry.push(columnName);
+            } 
+          }
+       }
+       columnArry.sort();
+
+    }
+    var curIdx = columnArry.indexOf(col);
+    var delta = 0;
+    if ( curIdx > -1) { // col exist in array
+    if (curIdx  === 0) { // check if this is the first element
+       // no percent change calculation 
+    }
+    else {
+      var previousValue =  row[columnArry[curIdx - 1]];
+      var currentValue = row[col];
+      delta = Math.floor((currentValue - previousValue) / currentValue *100);
+    }
+  }
+  if (delta > 0) {
+    return '(+'+delta+'%)';
+  }
+  else if(delta ==0) {
+    return '(nc%)';
+  }
+  else {
+    return '('+delta+'%)';
+  }
+}
 
 });

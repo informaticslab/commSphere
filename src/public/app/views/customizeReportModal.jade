@@ -66,8 +66,10 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 												tr(ng-repeat="dailyData in gridData.dailyData")
 													td(style="padding:3px 3px 3px 5px; min-width:250px; !important")
 														| {{dailyData.label}}
-													td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="cols in filterLabel(dailyData)")
-														| {{cols}}
+													td(style="padding:3px 3px 3px 5px;text-align:center;", ng-repeat="(col,value) in filterLabel(dailyData)")
+														| {{value}} 
+														br
+														| {{percentChanged(dailyData,col)}}
 							div(ng-if='section.sectionType == "Charts"')
 								.row
 									.col-lg-12
