@@ -160,7 +160,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             //-br
                                             br
                                             br
-                                        .row
+                                        .row#gridRow
                                             ol(ui-tree-nodes='', ng-model='eventData.gridData' )
                                                 li(ng-repeat='grid in eventData.gridData', ui-tree-node='' on-finish-render="ngRepeatFinished")
                                                     .topic-title-tables.angular-ui-tree-handle(ng-show='!grid.editing', ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false" )
