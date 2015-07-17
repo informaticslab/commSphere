@@ -860,7 +860,8 @@ $scope.getChartData = function(grid) {
   }
   serieName = oneRow['label'];
      for (var j=0 ; j < chartCategories.length; j++) { 
-           serieData.push(Number(oneRow[chartCategories[j]]));
+           var colValue = Number(oneRow[chartCategories[j]]);
+           serieData.push(isNaN(colValue)? null : colValue);
          }
   var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[i]  }
       series.push(newSerie);
