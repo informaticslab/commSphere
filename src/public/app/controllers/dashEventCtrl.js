@@ -155,12 +155,14 @@ $scope.filterTabForAnalyst = function(category) {
 
 $scope.returnToAnalyst = function(category) {
 // set category statusCompleted flag back to false so analyst could access their assigned category
+  unregister();
   category.statusCompleted = false;
 
   var data = { docId : $scope.eventdoc._id , categoryData : category};
 
   $http.post('/api/events/saveEventCategory',data).then(function(res) {
     if(res.data.success) {
+         $rootScope.continueNav = true;
       ngNotifier.notify(data.categoryData.name  + " has been returned to "+ data.categoryData.userAssigned.displayName);
     } else {
       alert('There was an error, failed to return to analyst.');
@@ -347,7 +349,7 @@ $scope.setActiveTab = function(tabId)
 $scope.saveCategory = function (status) {  // save data for the current tab
 
  var oneCategoryData;
- 
+ unregister();
  if (ngIdentity.isAuthorized('levelTwo'))
  { // coordinator save - save data from each category only if category statusCompleted flag = true
      $log.debug("i am in coordinator save");
@@ -398,6 +400,21 @@ $scope.saveCategory = function (status) {  // save data for the current tab
 
  $http.post('/api/events/saveCollectedData',$scope.eventData).then(function(res){
         if(res.data.success){
+          var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
+      if(newVal!=oldVal)
+      {
+        console.log('changed');
+        if(oldVal == undefined){
+            //do nothing
+        } else {
+          console.log('inside savecategory, metrics save')
+          $rootScope.continueNav=false;
+          $rootScope.preventNavigation =true;
+          unregister2();
+        }
+      }
+     
+    }, true);
         } else {
              alert('there was an error');
         }
@@ -406,38 +423,8 @@ $scope.saveCategory = function (status) {  // save data for the current tab
 
  $rootScope.continueNav=true;
  $rootScope.preventNavigation = false;
- var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
-     $log.debug("watching");
-      if(newVal!=oldVal)
-      {
-        $log.debug('changed');
-        if(oldVal == undefined){
-            //do nothing
-        } else {
-          $rootScope.continueNav=false;
-          $rootScope.preventNavigation =true;
-          unregister();
-        }
-        
-        $log.debug('oldVal: ', oldVal);
-        $log.debug('newVal: ', newVal);
-      }
-     
-    }, true);
- var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
-      if(newVal!=oldVal)
-      {
-        console.log('changed');
-        if(oldVal == undefined){
-            //do nothing
-        } else {
-          $rootScope.continueNav=false;
-          $rootScope.preventNavigation =true;
-          unregister2();
-        }
-      }
-     
-    }, true);
+
+ 
 };
 
 function saveOneCategory(data) {
@@ -445,7 +432,25 @@ function saveOneCategory(data) {
    $log.debug("i am in save one category" , data);
    $http.post('/api/events/saveEventCategory',data).then(function(res) {
               if(res.data.success) {
-                
+                 var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
+                 $log.debug("watching");
+                  if(newVal!=oldVal)
+                  {
+                    $log.debug('changed');
+                    if(oldVal == undefined){
+                        //do nothing
+                    } else {
+                      console.log('inside save one category')
+                      $rootScope.continueNav=false;
+                      $rootScope.preventNavigation =true;
+                      unregister();
+                    }
+                    
+                    $log.debug('oldVal: ', oldVal);
+                    $log.debug('newVal: ', newVal);
+                  }
+                 
+                }, true);
               } else {
                 alert('there was an error');
               }
@@ -577,6 +582,7 @@ $scope.setActiveCategory = function(category)
       if(oldVal == undefined){
           //do nothing
       } else {
+        console.log('inside main eventdoc unregister')
         $rootScope.continueNav=false;
         $scope.canSubmit = false;
         $rootScope.preventNavigation=true;
@@ -595,6 +601,9 @@ $scope.setActiveCategory = function(category)
       if(oldVal == undefined){
           //do nothing
       } else {
+        console.log('old obj ', oldVal);
+        console.log('new obj ', newVal);
+        console.log('inside main eventData unregister 2')
         $rootScope.continueNav=false;
         $scope.canSubmit = false;
         $rootScope.preventNavigation=true;
@@ -1317,22 +1326,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
       if (res.data.success) {
         console.log('Customized report saved');
         ngNotifier.notify('Your customized report has been saved');
-      } else {
-        console.log(res.data.err);
-      }
-    });
-
-
- $http.post('/api/events/saveCollectedData',$scope.eventData).then(function(res){
-        if(res.data.success){
-        } else {
-             alert('there was an error');
-        }
-
- });
-   $rootScope.continueNav = true;
-
-   var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
+           var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
      $log.debug("watching");
       if(newVal!=oldVal)
       {
@@ -1340,6 +1334,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         if(oldVal == undefined){
             //do nothing
         } else {
+          console.log(' inside save customized repport')
           $rootScope.continueNav=false;
           $rootScope.preventNavigation =true;
           unregister();
@@ -1350,13 +1345,22 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
       }
      
     }, true);
- var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
+      } else {
+        console.log(res.data.err);
+      }
+    });
+
+
+ $http.post('/api/events/saveCollectedData',$scope.eventData).then(function(res){
+        if(res.data.success){
+             var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
       if(newVal!=oldVal)
       {
         console.log('changed');
         if(oldVal == undefined){
             //do nothing
         } else {
+          console.log('inside customized report save, save collected data')
           $rootScope.continueNav=false;
           $rootScope.preventNavigation =true;
           unregister2();
@@ -1364,6 +1368,12 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
       }
      
     }, true);
+        } else {
+             alert('there was an error');
+        }
+
+ });
+   $rootScope.continueNav = true;
   };
 
   $scope.selectAll = function(item) {
