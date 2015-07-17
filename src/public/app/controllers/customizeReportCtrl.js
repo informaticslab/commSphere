@@ -1,13 +1,22 @@
 angular.module('app').controller('customizeReportCtrl', function($scope, $rootScope, $modal, $http) {
-	$rootScope.combinedGrid = [];	
- $scope.haveChecked = 0;
- $scope.limit = 5;
-  $scope.displayColumnLimit=3;
-  $scope.numberOfColumns=Object.keys($scope.eventData.colDisplayNames).length;
+	$rootScope.combinedGrid = [];
+	$scope.haveChecked = 0;
+	$scope.checkedLimit = 5;
+	$scope.displayColumnLimit = 3;
+	$scope.numberOfColumns = Object.keys($scope.eventData.colDisplayNames).length;
+
+	//determine how many columns have been checked on load
+	for(obj in $scope.customizedDoc.checkedColumns){
+		if($scope.customizedDoc.checkedColumns[obj].checked){
+			$scope.haveChecked++;
+		}
+	}
+
+	//console.log("Onload Checked ", $scope.haveChecked);
   
 
 	var gridData = $scope.eventData.gridData;
-  console.log($scope.eventData);
+  	// console.log($scope.eventData);
 	// for(var i = 0; i < $scope.eventData.gridData.length; i++) {
 	// 	//console.log($scope.eventData.gridData[i]);
 	// 	$scope.combinedGrid.push({'gridSectionName':$scope.eventData.gridData[i].gridName, 'dailyData': $scope.eventData.gridData[i].dailyData});
@@ -160,8 +169,11 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
  	
  };
 
+
+
+	//console.log(currentChecked);
 $scope.checkChanged = function(col){
-	
+
 	console.log(col);
 	
     if(col.checked){
