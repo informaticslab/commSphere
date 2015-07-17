@@ -725,7 +725,7 @@ $scope.cancelEditingColName = function(col) {
 $scope.saveColName = function(col,e) {
     // topic.save();
     col.editing = false;
-    e.preventDefault();
+    
     if (col.displayName !== '' && col.displayName.length>0) {
         $scope.eventData.colDisplayNames[col.field] = col.displayName;
         $scope.columns = [];
@@ -738,7 +738,7 @@ $scope.saveColName = function(col,e) {
         col.displayName = col.orgName;
         return false;
     }
-
+    e.preventDefault();
   };
 
 $scope.showGridCheckbox  = function() {
@@ -777,7 +777,7 @@ var customHeaderCellTemplate =
   '</div>'+
   '<div ng-show="col.editing"  class="ui-grid-cell-contents-head">'+
   '<label for="displayName" class="sr-only">Column Name</label>'+
-  '<input class="form-control input-sm" type="text" placeholder="Column Name" ng-model="col.displayName" ng-keyup="$event.keyCode==13 ? grid.appScope.saveColName(col,$event) : null" ng-blur="grid.appScope.saveColName(col,$event)"/></a><span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
+  '<input class="form-control input-sm" type="text" placeholder="Column Name" ng-model="col.displayName" ng-keydown="$event.keyCode==13 ? grid.appScope.saveColName(col,$event) : null" ng-blur="grid.appScope.saveColName(col,$event)"/></a><span ui-grid-visible="col.sort.direction" ng-class="{ \'ui-grid-icon-up-dir\': col.sort.direction == asc, \'ui-grid-icon-down-dir\': col.sort.direction == desc, \'ui-grid-icon-blank\': !col.sort.direction }"></span>'+
   '</div>'+
   '<div ng-if="grid.options.enableColumnMenus &amp;&amp; !col.isRowHeader &amp;&amp; col.colDef.enableColumnMenu !== false" ng-click="toggleMenu($event)" class="ui-grid-column-menu-button"><i class="ui-grid-icon-angle-down"> </i></div>'+
   '<div ng-if="filterable" ng-repeat="colFilter in col.filters" class="ui-grid-filter-container">'+
