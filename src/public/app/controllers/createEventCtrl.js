@@ -69,7 +69,8 @@ $scope.allowSaveDrafts=false;
       "doc":"",
       "metrics":""
     },
-    "reportMeta":""
+    "reportMeta":"",
+    "checkedColumns":""
   };
 
    $scope.eventdoc.eventDueDate=moment().format();

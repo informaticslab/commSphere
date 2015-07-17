@@ -1,9 +1,11 @@
 angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout) {
 
+
+
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $rootScope.continueNav = true;
-$rootScope.checkedColumns = [];
+//$rootScope.checkedColumns = {};
 $scope.canSubmit = true;
 $scope.checkboxShow = false;
 $scope.tabCategory=[
@@ -101,7 +103,9 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               $scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
               $scope.customizedDoc.eventDocId = $scope.eventdoc._id;
               $scope.customizedDoc.chartConfigs = $scope.eventdoc.chartConfigs || [];
-              $scope.customizedDoc.selectedColumns = $scope.eventdoc.selectedColumns;
+              $scope.customizedDoc.checkedColumns = $scope.eventdoc.checkedColumns;
+
+
 
               if($scope.customizedDoc.selectedColumns !=  undefined) {
                 $rootScope.checkedColumns = $scope.customizedDoc.selectedColumns;
@@ -1297,8 +1301,11 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
               config.series = undefined;
               config.categories = undefined
           }
+    //console.log("Checked Columns ", $rootScope.checkedColumns);
+    $scope.eventdoc.checkedColumns = $scope.customizedDoc.checkedColumns;
     $scope.eventdoc.chartConfigs = $scope.customizedDoc.chartConfigs;
-    $scope.eventdoc.selectedColumns = $rootScope.checkedColumns;
+    //$scope.eventdoc.selectedColumns = $rootScope.checkedColumns;
+    //$scope.eventdoc.columnsList = $scope.columnsList;
 
 
     var eventdoc = {};

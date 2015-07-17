@@ -55,7 +55,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 											tr(style="background-color:#c6d8ae")
 												td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
 													.checkbox
-														input(type='checkbox' ng-model='columnsList[col].checked' ng-click='checkGridColumn(col,columnChecked)')
+														input(type='checkbox' ng-model='customizedDoc.checkedColumns[col].checked')
 														| {{displayValue}}
 											tbody(ng-repeat="gridData in eventData.gridData")
 												tr
