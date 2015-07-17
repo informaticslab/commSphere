@@ -1,9 +1,9 @@
 angular.module('app').controller('previewReportCtrl', function($scope,$rootScope) {
 	// console.log($scope.eventdoc);
-	// console.log($scope.customizedDoc);
+	
 //	$scope.previewedGrid = [];
-	var checked = $rootScope.checkedColumns;
-	$scope.numberOfColumns=checked.length;
+	//var checked = $scope.customizedDoc.checkedColumns;
+	$scope.numberOfColumns = getCheckedColCounts();
 	var columnArry = [];
    // pick a grid to iterate
    	var oneGrid =  $scope.eventData.gridData[0];
@@ -145,8 +145,10 @@ $scope.filterSelected = function(items) {
     var result = {};
     angular.forEach(items, function(value,key) {
         //console.log(key,' ',value)
-        if (key != 'label' && (checked.indexOf(key) > -1)) {
-            result[key] = value;
+        if (key != 'label' && ($scope.customizedDoc.checkedColumns.hasOwnProperty(key))) {
+            if ($scope.customizedDoc.checkedColumns[key].checked) {	
+         	   result[key] = value;
+        	}
         }
     });
     return result;
@@ -176,5 +178,14 @@ $scope.percentChanged = function(row,col) {
 	}
 }
 
+function getCheckedColCounts() {
+	var count = 0;
+	for(col in $scope.customizedDoc.checkedColumns) {
+		if ($scope.customizedDoc.checkedColumns[col].checked) {
+			count++
+		}
+	}
+ 	return count
+}
 	////END GRID///
 });
