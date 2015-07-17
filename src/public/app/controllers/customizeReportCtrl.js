@@ -1,10 +1,10 @@
 angular.module('app').controller('customizeReportCtrl', function($scope, $rootScope, $modal, $http) {
 	$rootScope.combinedGrid = [];	
- 
+ $scope.haveChecked = 0;
+ $scope.limit = 5;
   $scope.displayColumnLimit=3;
   $scope.numberOfColumns=Object.keys($scope.eventData.colDisplayNames).length;
   
-  $scope.columnsList = {};
 
 	var gridData = $scope.eventData.gridData;
   console.log($scope.eventData);
@@ -134,7 +134,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
           
 
  $scope.checkGridColumn = function(column,checked) {
- 	console.log($scope.columnsList);
+ 	console.log($rootScope.checkedColumns);
  	// console.log(Object.keys($scope.columnsList).length);
  	// if(Object.keys($scope.columnsList).length) {
 
@@ -160,13 +160,17 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
  	
  };
 
- $scope.initialChecks = function() {
- 	for(var i = 0; i < $scope.customizedDoc.selectedColumns.length; i++){
- 		if(column == $scope.customizedDoc.selectedColumns[i]) {
- 			$scope.columnChecked = true;
- 		}
- 	}
- }
+$scope.checkChanged = function(col){
+	
+	console.log(col);
+	
+    if(col.checked){
+    	$scope.haveChecked++;
+    } else {
+    	$scope.haveChecked--;
+    }
+    console.log($scope.haveChecked);
+}
 
 $scope.getCustomizedTableHeight = function(grid, id) {
 	var rowHeight = 30; // your row height
