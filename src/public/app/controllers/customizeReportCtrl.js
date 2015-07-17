@@ -299,7 +299,12 @@ $scope.percentChanged = function(row,col) {
     else {
       var previousValue =  row[columnArry[curIdx - 1]];
       var currentValue = row[col];
+      if (currentValue == 0 || isNaN(currentValue) ) {
+         delta = -1;
+      }
+      else {
       delta = Math.floor((currentValue - previousValue) / currentValue *100);
+      }
     }
   }
   if (delta > 0) {
@@ -307,6 +312,9 @@ $scope.percentChanged = function(row,col) {
   }
   else if(delta ==0) {
     return '(nc%)';
+  }
+  else if(delta == -1){
+    return ' '
   }
   else {
     return '('+delta+'%)';
