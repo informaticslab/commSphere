@@ -1464,6 +1464,14 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   };
 
 
+  $scope.autoResizeHGridack=function()
+  {
+    console.log($("#gridRow").height());
+    $("#gridRow").height($("#gridRow").height()-1);
+    console.log($("#gridRow").height());
+    $("#gridRow").height($("#gridRow").height()+1);
+    console.log($("#gridRow").height());
+  }
   /////////////////////////////////////////
 
 });
