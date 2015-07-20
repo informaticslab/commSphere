@@ -38,7 +38,13 @@ $scope.allowSaveDrafts=false;
       {
         $log.debug("saving");
         $scope.saveDraftEvent();
-        $location.path('/dashboard/drafts');
+        var parentPath = $location.path();
+        if (parentPath.indexOf('dashboard/event') > -1) {
+          // do not go back to dashboard since user opened modal within the active event editing screen
+        }
+        else {
+         $location.path('/dashboard/drafts');
+      }
       }
       
     }
@@ -424,17 +430,25 @@ $scope.saveEvent = function()
   // saving the document here
     $scope.eventdoc.dateCreated = $scope.date;
     $scope.eventdoc.draftStatus = false;  
+    var reload = true;
     $http.post('/api/events', $scope.eventdoc).then(function(res) {
        if (res.data.success) {
          ngNotifier.notify("Event has been created!");
-         $location.path('/dashboard/');
-        
+         var currentPath = $location.path(); // get the current path to decide if we need to go back to dashboard or stay at the active in progress event
+       if (currentPath.indexOf('dashboard/event') > -1) {  // user create event while editing existing event
+              reload= false;
+         }
+         else {
+           $location.path('/dashboard/');
+          
+         }
+        $scope.ok(reload);
        } 
        else {
          alert('there was an error');
        }
      });
-     $scope.ok();
+    
 }
 
 

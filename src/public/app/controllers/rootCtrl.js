@@ -193,16 +193,20 @@ var CreateEventModalInstanceCtrl = function ($scope, $modalInstance,$location,$r
  $scope.draftInstance = draftInstance;
  $scope.isNew = isNew;
  $scope.showOverrideCheckbox = showOverrideCheckbox;
-  $scope.ok = function () {
+ $scope.ok = function (reload) {
     $animate.enabled(true);
     $modalInstance.close();
-    $route.reload();
+    if (reload) {
+     $timeout($route.reload,500);
+    }
   };
 
   $scope.cancel = function () {
     $animate.enabled(true);
     $modalInstance.dismiss();
-    $timeout($route.reload,500);
+    // if (reload) {
+    //   $timeout($route.reload,500);
+    // }
   };
 };
 
