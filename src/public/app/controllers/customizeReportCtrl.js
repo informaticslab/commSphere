@@ -60,8 +60,8 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
             for(i=0; i < chartData.series.length; i ++) {
               var oneYaxis = {
                   title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
-                  type: "logarithmic",
-                  //type : "linear"
+                  //type: "logarithmic",
+                  type : "linear",
                   showEmpty : false,
                   opposite  : function(){
                                return !(i%2 == 0)
@@ -77,8 +77,8 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
   $scope.addYaxis = function(chartIndex,yAxisId, serieId,side) {
     var oneYaxis = {
                   title: $scope.chartDefaultConfig.yAxis.title, 
-                  type: "logarithmic",
-                  //type : "linear"
+                  //type: "logarithmic",
+                  type : "linear",
                   opposite : function() { if (side == 'right') {
                                                  return true
                                              } else {
