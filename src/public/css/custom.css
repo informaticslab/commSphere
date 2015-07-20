@@ -421,6 +421,9 @@ input[type=checkbox].css-checkbox {
     text-align: left; 
   }*/
 
+.pagebreak { 
+  page-break-before: always; 
+}
 
 @media screen {
   #printSection {

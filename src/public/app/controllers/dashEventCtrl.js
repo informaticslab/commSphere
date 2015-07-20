@@ -1176,8 +1176,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
              },
             yAxis : [{
                         title: $scope.chartDefaultConfig.yAxis.title, 
-                        type: "logarithmic"
-                        //type : "linear"],
+                        //type: "logarithmic"
+                        type : "linear"
             }],
                 loading: false
             };
@@ -1190,8 +1190,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   $scope.addYaxis = function(chartIndex,yAxisId, serieId,side) {
     var oneYaxis = {
                   title: $scope.chartDefaultConfig.yAxis.title, 
-                  type: "logarithmic",
-                  //type : "linear"
+                  //type: "logarithmic",
+                  type : "linear",
                   opposite : function() { if (side == 'right') {
                                                  return true
                                              } else {
