@@ -425,9 +425,7 @@ input[type=checkbox].css-checkbox {
     text-align: left; 
   }*/
 
-.pagebreak { 
-  page-break-before: always; 
-}
+
 
 @media screen {
   #printSection {
@@ -448,6 +446,10 @@ input[type=checkbox].css-checkbox {
     left:0;
     top:0;
   }
+
+  .pagebreak { 
+  page-break-after: always; 
+}
 
   .report-wrapper {
     font-size:15px;
