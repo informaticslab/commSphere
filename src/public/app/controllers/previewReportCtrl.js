@@ -146,14 +146,10 @@ for (var i = 0 ; i < $scope.customizedDoc.chartConfigs.length; i++){
 	    var c_ar = chart.chartHeight / chart.chartWidth;
 
 	    // Set canvas size
-	    canvas.width = chart.chartWidth*0.6;
-	    canvas.height = canvas.width * c_ar;
+	    // canvas.width = chart.chartWidth*0.6;
+	    // canvas.height = canvas.width * c_ar;
 	    
-	    canvg(canvas, chart_svg, {
-	        ignoreDimensions: true,
-	        scaleWidth: canvas.width,
-	        scaleHeight: canvas.height
-	    });
+	    canvg(canvas, chart_svg);
 	    $scope.chartImgUrls.push(canvas.toDataURL("image/png"));
 	}
 }
