@@ -49,18 +49,18 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 									.row
 										.col-lg-12
 											table(style="margin-bottom:0px;", border="1")
-												tr(style="background-color:#c6d8ae")
+												tr#metric-table-row
 													td(rowspan="4")
 														| &nbsp;
 													td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
 														| Daily Metrics
-												tr(style="background-color:#c6d8ae")
+												tr#metric-table-row
 													td(style="font-style:italic; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
 														| Percent change from previous day is given in parentheses
-												tr(style="background-color:#c6d8ae")
+												tr#metric-table-row
 													td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterSelected(customizedData.colDisplayNames)")
 														| {{ col | date : 'EEEE'}}
-												tr(style="background-color:#c6d8ae")
+												tr#metric-table-row
 													td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterSelected(customizedData.colDisplayNames)")
 														| {{displayValue}}
 												tbody(ng-repeat="gridData in customizedData.gridData")

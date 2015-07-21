@@ -340,6 +340,10 @@ margin-top: 0px;
     top : -50px;
 }
 
+#metric-table-row{
+  background-color:#c6d8ae
+}
+
 .line-legend {
   list-style-type: none;
 }
@@ -432,6 +436,7 @@ input[type=checkbox].css-checkbox {
 }
 
 @media print {
+
   body * {
     visibility:hidden;
   }
@@ -442,5 +447,9 @@ input[type=checkbox].css-checkbox {
     position:absolute;
     left:0;
     top:0;
+  }
+
+ #metric-table-row{
+    background-color:#c6d8ae
   }
 }
