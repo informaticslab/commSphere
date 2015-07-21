@@ -20,8 +20,8 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 						h4.preview-report-headers {{customizedDoc.reportMeta.type}} 
 						h4.preview-report-headers {{eventdoc.eventPublishDate | date:'longDate'}}
 						br
-						div(ng-repeat='section in customizedDoc.docData')
-							h4.report-cat-title
+						div.print-padding(ng-repeat='section in customizedDoc.docData')
+							h4.report-cat-title(ng-hide='section.sectionType=="Metrics"')
 								| {{section.sectionName}}
 							div(ng-repeat='category in section.sectionData.doc.categories' ng-if='section.sectionType == "Document"') 
 								h4.report-category(ng-if='category.checked')
@@ -74,7 +74,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 														br
 														| {{percentChanged(dailyData,col)}}
 									//.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
-							div.pagebreak(ng-if='section.sectionType == "Charts"')
+							div.pagebreak.print-padding(ng-if='section.sectionType == "Charts"')
 									div.well(ng-repeat='chartImgUrl in chartImgUrls')
 										img(src='{{chartImgUrl}}', alt='chart image'  style="width:100%;")
 									//div.well(ng-repeat='chartConfig in customizedDoc.chartConfigs')
