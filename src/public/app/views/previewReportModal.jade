@@ -20,67 +20,69 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 						h4.preview-report-headers {{customizedDoc.reportMeta.type}} 
 						h4.preview-report-headers {{eventdoc.eventPublishDate | date:'longDate'}}
 						br
-						div.print-padding(ng-repeat='section in customizedDoc.docData')
-							h4.report-cat-title(ng-hide='section.sectionType=="Metrics"')
-								| {{section.sectionName}}
-							div(ng-repeat='category in section.sectionData.doc.categories' ng-if='section.sectionType == "Document"') 
-								h4.report-category(ng-if='category.checked')
-									| {{category.name}}
-								div(ng-repeat='topic in category.topics' ng-if='topic.checked')
-									h4.report-topic
-										| {{topic.name}}
-									ul
-										li(ng-repeat='topicBullets in topic.bullets' ng-if='topicBullets.checked') 
-											| {{topicBullets.name}}
-											ul
-												li(ng-repeat='topicSubBullets in topicBullets.subBullets' ng-if='topicSubBullets.checked')
-													| {{topicSubBullets.name}}
-									div(ng-repeat='subtopic in topic.subTopics' ng-if='subtopic.checked')
-										h4.report-sub-topic
-											| {{subtopic.name}}
+						div(ng-repeat='section in customizedDoc.docData')
+							.pagebreak
+								h4.report-cat-title
+									| {{section.sectionName}}
+								div(ng-repeat='category in section.sectionData.doc.categories' ng-if='section.sectionType == "Document"') 
+									h4.report-category(ng-if='category.checked')
+										| {{category.name}}
+									div(ng-repeat='topic in category.topics' ng-if='topic.checked')
+										h4.report-topic
+											| {{topic.name}}
 										ul
-											li(ng-repeat='bullet in subtopic.bullets' ng-if='bullet.checked') 
-												| {{bullet.name}}
+											li(ng-repeat='topicBullets in topic.bullets' ng-if='topicBullets.checked') 
+												| {{topicBullets.name}}
 												ul
-													li(ng-repeat='subBullet in bullet.subBullets' ng-if='subBullet.checked') 
-														| {{subBullet.name}}
-							div.pagebreak(ng-if='section.sectionType == "Metrics"')
-								.row
-									.col-lg-12
-										table(style="margin-bottom:0px;", border="1")
-											tr#metric-table-row
-												td(rowspan="4")
-													| &nbsp;
-												td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
-													| Daily Metrics
-											tr#metric-table-row
-												td(style="font-style:italic; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
-													| Percent change from previous day is given in parentheses
-											tr#metric-table-row
-												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterSelected(customizedData.colDisplayNames)")
-													| {{ col | date : 'EEEE'}}
-											tr#metric-table-row
-												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterSelected(customizedData.colDisplayNames)")
-													| {{displayValue}}
-											tbody(ng-repeat="gridData in customizedData.gridData")
-												tr
-													td(colspan="6" style="background-color:#c6d8ae; font-weight:bold; padding:7px 0 7px 5px;" ng-if='gridData.checked')
-														| {{gridData.gridName}}
-												tr(ng-repeat="dailyData in gridData.dailyData" ng-if='gridData.checked')
-													td(style="padding:2px 3px 2px 5px;", width="260")
-														| {{dailyData.label}}
-													td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="(col,value) in filterSelected(dailyData)")
-														| {{value}} 
-														br
-														| {{percentChanged(dailyData,col)}}
-									//.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
-							div.pagebreak.print-padding(ng-if='section.sectionType == "Charts"')
-									div.well(ng-repeat='chartImgUrl in chartImgUrls')
-										img(src='{{chartImgUrl}}', alt='chart image'  style="width:100%;")
-									//div.well(ng-repeat='chartConfig in customizedDoc.chartConfigs')
-										//highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
-							br
-							i(ng-if='!section.sectionData.notes == ""') Notes: {{section.sectionData.notes}}
+													li(ng-repeat='topicSubBullets in topicBullets.subBullets' ng-if='topicSubBullets.checked')
+														| {{topicSubBullets.name}}
+										div(ng-repeat='subtopic in topic.subTopics' ng-if='subtopic.checked')
+											h4.report-sub-topic
+												| {{subtopic.name}}
+											ul
+												li(ng-repeat='bullet in subtopic.bullets' ng-if='bullet.checked') 
+													| {{bullet.name}}
+													ul
+														li(ng-repeat='subBullet in bullet.subBullets' ng-if='subBullet.checked') 
+															| {{subBullet.name}}
+								div(ng-if='section.sectionType == "Metrics"')
+									.row
+										.col-lg-12
+											table(style="margin-bottom:0px;", border="1")
+												tr#metric-table-row
+													td(rowspan="4")
+														| &nbsp;
+													td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
+														| Daily Metrics
+												tr#metric-table-row
+													td(style="font-style:italic; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
+														| Percent change from previous day is given in parentheses
+												tr#metric-table-row
+													td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterSelected(customizedData.colDisplayNames)")
+														| {{ col | date : 'EEEE'}}
+												tr#metric-table-row
+													td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterSelected(customizedData.colDisplayNames)")
+														| {{displayValue}}
+												tbody(ng-repeat="gridData in customizedData.gridData")
+													tr
+														td(colspan="6" style="background-color:#c6d8ae; font-weight:bold; padding:7px 0 7px 5px;" ng-if='gridData.checked')
+															| {{gridData.gridName}}
+													tr(ng-repeat="dailyData in gridData.dailyData" ng-if='gridData.checked')
+														td(style="padding:2px 3px 2px 5px;", width="260")
+															| {{dailyData.label}}
+														td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="(col,value) in filterSelected(dailyData)")
+															| {{value}} 
+															br
+															| {{percentChanged(dailyData,col)}}
+										//.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
+								div(ng-if='section.sectionType == "Charts"')
+										div.well(ng-repeat='chartImgUrl in chartImgUrls' style="text-align:center")
+											//canvas(id="{{'canvas_'+$index}}")
+											img(src='{{chartImgUrl}}', alt='chart image' )
+										//div.well(ng-repeat='chartConfig in customizedDoc.chartConfigs')
+											//highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
+								br
+								i(ng-if='!section.sectionData.notes == ""') Notes: {{section.sectionData.notes}}
 							
 						
 

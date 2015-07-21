@@ -136,11 +136,25 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
      
 // };
 for (var i = 0 ; i < $scope.customizedDoc.chartConfigs.length; i++){
+
   	if ($scope.customizedDoc.chartConfigs[i].checked) {
-  	    canvg(document.getElementById('canvas'), $scope.customizedDoc.chartConfigs[i].getHighcharts().getSVG());
-	    var canvas = document.getElementById("canvas");
+  	
+  	    var chart = $scope.customizedDoc.chartConfigs[i].getHighcharts();
+  	    var chart_svg = chart.getSVG();                            
+	    var canvas = document.getElementById('canvas');
+	    // Get chart aspect ratio
+	    var c_ar = chart.chartHeight / chart.chartWidth;
+
+	    // Set canvas size
+	    canvas.width = chart.chartWidth*0.6;
+	    canvas.height = canvas.width * c_ar;
+	    
+	    canvg(canvas, chart_svg, {
+	        ignoreDimensions: true,
+	        scaleWidth: canvas.width,
+	        scaleHeight: canvas.height
+	    });
 	    $scope.chartImgUrls.push(canvas.toDataURL("image/png"));
-	 
 	}
 }
 //$scope.previewColumns = $scope.previewGenerateColumnDefs();
