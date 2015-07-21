@@ -1,8 +1,6 @@
 angular.module('app').controller('previewReportCtrl', function($scope,$rootScope) {
-	// console.log($scope.eventdoc);
-	
-//	$scope.previewedGrid = [];
-	//var checked = $scope.customizedDoc.checkedColumns;
+
+	$scope.chartImgUrls = [];
 	$scope.numberOfColumns = getCheckedColCounts();
 	var columnArry = [];
    // pick a grid to iterate
@@ -137,10 +135,15 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
 //        return columnLayout;
      
 // };
-
+for (i=0 ; i < $scope.customizedDoc.chartConfigs.length; i++){
+  	if ($scope.customizedDoc.chartConfigs[i].checked) {
+  	    canvg(document.getElementById('canvas'), $scope.customizedDoc.chartConfigs[i].getHighcharts().getSVG());
+	    var canvas = document.getElementById("canvas");
+	    $scope.chartImgUrls.push(canvas.toDataURL("image/png"));
+	}
+}
 
 //$scope.previewColumns = $scope.previewGenerateColumnDefs();
-
 $scope.filterSelected = function(items) {
     var result = {};
     angular.forEach(items, function(value,key) {
