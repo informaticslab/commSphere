@@ -13,7 +13,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 	}
 
 	//console.log("Onload Checked ", $scope.haveChecked);
-  
+$scope.sortedCols = getSortedColumns();
 
 	var gridData = $scope.eventData.gridData;
   	// console.log($scope.eventData);
@@ -26,7 +26,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
   $scope.buildCustomizedHighChartConfig = function(grid,index) {
     // console.log($scope.chartDefaultConfig.yAxis);
      var chartData = $scope.getChartData(grid);
-     console.log($scope.customizedDoc.chartConfigs);
+     //console.log($scope.customizedDoc.chartConfigs);
      
      if ($scope.customizedDoc.chartConfigs[index] != undefined) {
           $scope.customizedDoc.chartConfigs[index].title.text = grid.gridName;
@@ -62,10 +62,10 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
                   title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
                   //type: "logarithmic",
                   type : "linear",
-                  showEmpty : false,
-                  opposite  : function(){
-                               return !(i%2 == 0)
-                             }
+                  showEmpty : false
+                  // opposite  : function(){
+                  //              return !(i%2 == 0)
+                  //            }
               }
               $scope.customizedDoc.chartConfigs[index].yAxis.push(oneYaxis);
           }
@@ -245,17 +245,37 @@ $scope.customizeGenerateColumnDefs= function() {
 
 $scope.customizeColumns = $scope.customizeGenerateColumnDefs();
 
-$scope.filterLabel = function(items) {
-    var result = {};
-    angular.forEach(items, function(value,key) {
-        //console.log(key,' ',value)
-        if (key != 'label') {
-            result[key] = value;
-        }
-    });
-    return result;
-}
 
+// $scope.filterLabel = function(items) {
+    
+//     var result = {};
+//     angular.forEach(items, function(value,key) {
+//         //console.log(key,' ',value)
+//         if (key != 'label') {
+//             result[key] = value;
+//         }
+//     });
+//     return result;
+//}
+
+function getSortedColumns() {
+
+   var columnArry = [];
+   // pick a grid to iterate
+   var cols =  $scope.eventData.colDisplayNames;
+   if (cols) {  // at least one grid exist
+       for (var columnName in cols ) {
+          if (cols.hasOwnProperty(columnName)) {
+            if (columnName !== '$$hashKey' && columnName != 'label')  {
+                columnArry.push(columnName);
+            } 
+          }
+       }
+
+    }
+    columnArry.sort();
+    return columnArry;
+}
 
 $scope.options = {
 accept: function(sourceNode, destNodes, destIndex) {
@@ -276,20 +296,20 @@ beforeDrop: function(event) {
 
 
 $scope.percentChanged = function(row,col) {
-  var columnArry = [];
-   // pick a grid to iterate
-    var oneGrid =  $scope.eventData.gridData[0];
-    if (oneGrid) {  // at least one grid exist
-       for (var columnName in oneGrid.dailyData[0]) {
-          if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
-            if (columnName !== '$$hashKey' && columnName != 'label')  {
-                columnArry.push(columnName);
-            } 
-          }
-       }
-       columnArry.sort();
+  var columnArry = $scope.sortedCols;
+  //  // pick a grid to iterate
+  //   var oneGrid =  $scope.eventData.gridData[0];
+  //   if (oneGrid) {  // at least one grid exist
+  //      for (var columnName in oneGrid.dailyData[0]) {
+  //         if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
+  //           if (columnName !== '$$hashKey' && columnName != 'label')  {
+  //               columnArry.push(columnName);
+  //           } 
+  //         }
+  //      }
+  //      columnArry.sort();
 
-    }
+  //   }
     var curIdx = columnArry.indexOf(col);
     var delta = 0;
     if ( curIdx > -1) { // col exist in array
@@ -299,7 +319,7 @@ $scope.percentChanged = function(row,col) {
     else {
       var previousValue =  row[columnArry[curIdx - 1]];
       var currentValue = row[col];
-      if (currentValue == 0 || isNaN(currentValue) ) {
+      if (currentValue == 0 || isNaN(currentValue) || isNaN(previousValue)) {
          delta = -1;
       }
       else {

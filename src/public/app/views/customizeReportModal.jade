@@ -50,13 +50,13 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 												td(style="font-style:italic; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
 													| Percent change from previous day is given in parentheses
 											tr(style="background-color:#c6d8ae")
-												td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
-													| {{ col | date : 'EEEE'}}
+												td(style="text-align:center; padding:3px;", ng-repeat = "col in sortedCols")
+													| {{ col | date : 'EEEE'}} 
 											tr(style="background-color:#c6d8ae")
-												td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "(col,displayValue) in filterLabel(eventData.colDisplayNames)")
+												td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in sortedCols")
 													//.checkbox
 													input(type='checkbox' ng-change='checkChanged(customizedDoc.checkedColumns[col])' ng-disabled = 'haveChecked==checkedLimit && !customizedDoc.checkedColumns[col].checked' ng-model='customizedDoc.checkedColumns[col].checked')
-													| &nbsp;&nbsp;{{displayValue}}
+													| &nbsp;&nbsp;{{eventData.colDisplayNames[col]}}
 											tbody(ng-repeat="gridData in eventData.gridData")
 												tr
 													td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
@@ -66,8 +66,8 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 												tr(ng-repeat="dailyData in gridData.dailyData")
 													td(style="padding:2px 3px 2px 5px; min-width:250px; !important")
 														| {{dailyData.label}}
-													td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="(col,value) in filterLabel(dailyData)")
-														| {{value}} 
+													td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in sortedCols")
+														| {{dailyData[col]}} 
 														br
 														| {{percentChanged(dailyData,col)}}
 							div(ng-if='section.sectionType == "Charts"')
@@ -131,13 +131,13 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 								textarea.form-control.notesPlaceholder(placeholder='Enter text here' type='text', ng-model='section.sectionData.notes')
 							canvas(id="canvas" style="display:none;")
 							
-			//.row
+			.row
 				.col-lg-6
 					h3 Data binding
 					.info
 						| {{  }}
 					pre.code.
-						{{ customizedDoc.chartConfigs | json }}
+						{{ customizedDoc | json }}
 			
 
 

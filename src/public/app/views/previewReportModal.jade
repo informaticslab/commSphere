@@ -58,11 +58,11 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 													td(style="font-style:italic; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
 														| Percent change from previous day is given in parentheses
 												tr#metric-table-row
-													td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterSelected(customizedData.colDisplayNames)")
+													td(style="text-align:center; padding:3px;", ng-repeat = "col in filterSelected(sortedCols)")
 														| {{ col | date : 'EEEE'}}
 												tr#metric-table-row
-													td(style="text-align:center; padding:3px;", ng-repeat = "(col,displayValue) in filterSelected(customizedData.colDisplayNames)")
-														| {{displayValue}}
+													td(style="text-align:center; padding:3px;", ng-repeat = "col in filterSelected(sortedCols)")
+														| {{eventData.colDisplayNames[col]}}
 												tbody(ng-repeat="gridData in customizedData.gridData")
 													tr
 														td(colspan="6" style="background-color:#c6d8ae; font-weight:bold; padding:7px 0 7px 5px;" ng-if='gridData.checked')
@@ -70,13 +70,13 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 													tr(ng-repeat="dailyData in gridData.dailyData" ng-if='gridData.checked')
 														td(style="padding:2px 3px 2px 5px;", width="260")
 															| {{dailyData.label}}
-														td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="(col,value) in filterSelected(dailyData)")
-															| {{value}} 
+														td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in filterSelected(sortedCols)")
+															| {{dailyData[col]}} 
 															br
 															| {{percentChanged(dailyData,col)}}
 										//.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
 								div(ng-if='section.sectionType == "Charts"')
-										div(ng-repeat='chartImgUrl in chartImgUrls' style="text-align:center")
+										div.well(ng-repeat='chartImgUrl in chartImgUrls' style="text-align:center")
 											//canvas(id="{{'canvas_'+$index}}")
 											img(src='{{chartImgUrl}}', alt='chart image' )
 										//div.well(ng-repeat='chartConfig in customizedDoc.chartConfigs')

@@ -2,20 +2,26 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
 
 	$scope.chartImgUrls = [];
 	$scope.numberOfColumns = getCheckedColCounts();
-	var columnArry = [];
-   // pick a grid to iterate
-   	var oneGrid =  $scope.eventData.gridData[0];
-   	if (oneGrid) {  // at least one grid exist
-       for (var columnName in oneGrid.dailyData[0]) {
-          if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
-            if (columnName !== '$$hashKey' && columnName != 'label')  {
-                columnArry.push(columnName);
-            } 
-          }
-       }
-       columnArry.sort();
 
-    }
+
+
+	$scope.sortedCols = getSortedColumns();
+
+
+	// var columnArry = [];
+ //   // pick a grid to iterate
+ //   	var oneGrid =  $scope.eventData.gridData[0];
+ //   	if (oneGrid) {  // at least one grid exist
+ //       for (var columnName in oneGrid.dailyData[0]) {
+ //          if (oneGrid.dailyData[0].hasOwnProperty(columnName)) {
+ //            if (columnName !== '$$hashKey' && columnName != 'label')  {
+ //                columnArry.push(columnName);
+ //            } 
+ //          }
+ //       }
+ //       columnArry.sort();
+
+ //    }
 //	var gridData = $scope.eventData.gridData;
 //	var combinedGrid = JSON.parse(JSON.stringify($rootScope.combinedGrid));
 
@@ -155,19 +161,19 @@ for (var i = 0 ; i < $scope.customizedDoc.chartConfigs.length; i++){
 }
 //$scope.previewColumns = $scope.previewGenerateColumnDefs();
 $scope.filterSelected = function(items) {
-    var result = {};
-    angular.forEach(items, function(value,key) {
-        //console.log(key,' ',value)
-        if (key != 'label' && ($scope.customizedDoc.checkedColumns.hasOwnProperty(key))) {
-            if ($scope.customizedDoc.checkedColumns[key].checked) {	
-         	   result[key] = value;
+    var result = [];
+    for (var i = 0; i < items.length; i++) {
+        if ($scope.customizedDoc.checkedColumns.hasOwnProperty(items[i])) {
+            if ($scope.customizedDoc.checkedColumns[items[i]].checked) {	
+         	   result.push(items[i]);
         	}
         }
-    });
+    }
     return result;
 }
 
 $scope.percentChanged = function(row,col) {
+	var columnArry = $scope.sortedCols;
 	var curIdx = columnArry.indexOf(col);
     var delta = 0;
     if ( curIdx > -1) { // col exist in array
@@ -177,7 +183,7 @@ $scope.percentChanged = function(row,col) {
  		else {
  			var previousValue =  row[columnArry[curIdx - 1]];
  			var currentValue = row[col];
- 			if (currentValue == 0 || isNaN(currentValue) ) {
+ 			if (currentValue == 0 || isNaN(currentValue) || isNaN(previousValue) ) {
         		 delta = -1;
  			}
  			else {
@@ -230,6 +236,25 @@ function getCheckedColCounts() {
 		}
 	}
  	return count
+}
+
+function getSortedColumns() {
+
+   var columnArry = [];
+   // pick a grid to iterate
+   var cols =  $scope.eventData.colDisplayNames;
+   if (cols) {  // at least one grid exist
+       for (var columnName in cols ) {
+          if (cols.hasOwnProperty(columnName)) {
+            if (columnName !== '$$hashKey' && columnName != 'label')  {
+                columnArry.push(columnName);
+            } 
+          }
+       }
+
+    }
+    columnArry.sort();
+    return columnArry;
 }
 	////END GRID///
 });
