@@ -1466,11 +1466,15 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 
   $scope.autoResizeHGridack=function()
   {
-    console.log($("#gridRow").height());
-    $("#gridRow").height($("#gridRow").height()-1);
-    console.log($("#gridRow").height());
-    $("#gridRow").height($("#gridRow").height()+1);
-    console.log($("#gridRow").height());
+    console.log($("#gridRow").css("padding"));
+    var padValue=$("#gridRow").css("padding").slice(0,$("#gridRow").css("padding").length-2);
+    console.log(padValue);
+    padValue++;
+    $("#gridRow").css("padding",padValue+"px");
+    console.log($("#gridRow").css("padding"));
+    padValue--;
+    $("#gridRow").css("padding",padValue+"px");
+    console.log($("#gridRow").css("padding"));
   }
   /////////////////////////////////////////
 
