@@ -400,6 +400,11 @@ margin-top: 0px;
   margin-left: -20px;
 }
 
+.notes {
+    font-size:13px;
+    font-style: italic;
+}
+
 div.ui-grid-cell input{
   height:30px;
 }
