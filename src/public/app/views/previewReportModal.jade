@@ -9,7 +9,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 					.create-btn-cont
 						button.btn.btn-danger(type='button' ng-click='print()')
 							span.glyphicon.glyphicon-save
-							|  Export to PDF
+							|  Print PDF
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
 						button.btn.btn-default.btn-circle.glyphicon.glyphicon-remove(type='button' ng-click='cancel()')			
 		.modal-body#printThis
@@ -51,25 +51,25 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 											tr#metric-table-row
 												td(rowspan="4")
 													| &nbsp;
-												td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
+												td.report-table-daily-metrics(colspan="{{numberOfColumns}}")
 													| Daily Metrics
 											tr#metric-table-row
-												td(style="font-style:italic; text-align:center; padding:5px;", colspan="{{numberOfColumns}}")
+												td.report-table-percent-change(colspan="{{numberOfColumns}}")
 													| Percent change from previous day is given in parentheses
 											tr#metric-table-row
-												td(style="text-align:center; padding:3px;", ng-repeat = "col in filterSelected(sortedCols)")
+												td.report-table-date(ng-repeat = "col in filterSelected(sortedCols)")
 													| {{ col | date : 'EEEE'}}
 											tr#metric-table-row
-												td(style="text-align:center; padding:3px;", ng-repeat = "col in filterSelected(sortedCols)")
+												td.report-table-display-name(ng-repeat = "col in filterSelected(sortedCols)")
 													| {{eventData.colDisplayNames[col]}}
 											tbody(ng-repeat="gridData in customizedData.gridData")
 												tr
-													td(colspan="6" style="background-color:#c6d8ae; font-weight:bold; padding:7px 0 7px 5px;" ng-if='gridData.checked')
+													td.report-table-display-name-b(colspan="6" ng-if='gridData.checked')
 														| {{gridData.gridName}}
 												tr(ng-repeat="dailyData in gridData.dailyData" ng-if='gridData.checked')
-													td(style="padding:2px 3px 2px 5px;", width="260")
+													td.report-table-data1(width="260")
 														| {{dailyData.label}}
-													td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in filterSelected(sortedCols)")
+													td.report-table-data2(ng-repeat="col in filterSelected(sortedCols)")
 														| {{dailyData[col]}} 
 														br
 														| {{percentChanged(dailyData,col)}}
@@ -81,7 +81,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 									div.well.no-print(ng-repeat='chartConfig in customizedDoc.chartConfigs')
 										highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
 							br
-							i(ng-if='!section.sectionData.notes == ""') Notes: {{section.sectionData.notes}}
+							i(style="font-size:13px;" ng-if='!section.sectionData.notes == ""') Notes: *{{section.sectionData.notes}}
 							
 						
 
