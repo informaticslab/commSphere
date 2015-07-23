@@ -78,8 +78,8 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 									div.well.hidden-chart.print-chart(ng-repeat='chartImgUrl in chartImgUrls' style="text-align:center")
 										//canvas(id="{{'canvas_'+$index}}")
 										img(src='{{chartImgUrl}}', alt='chart image' )
-									div.well.no-print(ng-repeat='chartConfig in customizedDoc.chartConfigs')
-										highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
+									div.well.no-print(ng-repeat='chartConfig in previewChartConfigs' ng-if='chartConfig.checked')
+										highchart(id="{{'chartHCp_'+$index}}" config='chartConfig')
 							br
 							i(style="font-size:13px;" ng-if='!section.sectionData.notes == ""') Notes: *{{section.sectionData.notes}}
 							

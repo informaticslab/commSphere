@@ -159,6 +159,8 @@ for (var i = 0 ; i < $scope.customizedDoc.chartConfigs.length; i++){
 	    $scope.chartImgUrls.push(canvas.toDataURL("image/png"));
 	}
 }
+$scope.previewChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
+
 //$scope.previewColumns = $scope.previewGenerateColumnDefs();
 $scope.filterSelected = function(items) {
     var result = [];
