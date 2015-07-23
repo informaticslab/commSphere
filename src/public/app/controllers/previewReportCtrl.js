@@ -155,12 +155,14 @@ for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
 	    var c_ar = chart.chartHeight / chart.chartWidth;
 
 	    // Set canvas size
-	     canvas.width = chart.chartWidth;
-	     canvas.height = chart.chartHeight;
+	     //canvas.width = chart.chartWidth;
+	     //canvas.height = chart.chartHeight;
+	     canvas.width = 600;
+	     canvas.height = 300;
 	    
 	    //canvg(canvas, chart_svg);
 	    canvg(canvas, chart_svg, {
-	        ignoreDimensions: false,
+	        ignoreDimensions: true,
 	        scaleWidth: canvas.width,
 	        scaleHeight: canvas.height
 	    });
