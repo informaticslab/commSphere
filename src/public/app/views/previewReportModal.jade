@@ -21,7 +21,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 						h4.preview-report-headers {{eventdoc.eventPublishDate | date:'longDate'}}
 						br
 						div(ng-repeat='section in customizedDoc.docData')
-							h4.report-cat-title
+							h4.report-cat-title(ng-show='section.sectionType=="Document"')
 								| {{section.sectionName}}
 							div(ng-repeat='category in section.sectionData.doc.categories' ng-if='section.sectionType == "Document"') 
 								h4.report-category(ng-if='category.checked')
@@ -44,7 +44,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 												ul
 													li(ng-repeat='subBullet in bullet.subBullets' ng-if='subBullet.checked') 
 														| {{subBullet.name}}
-							div.pagebreak(ng-if='section.sectionType == "Metrics"')
+							div(ng-if='section.sectionType == "Metrics"')
 								.row
 									.col-lg-12
 										table(style="margin-bottom:0px;", border="1")
@@ -73,15 +73,16 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 														| {{dailyData[col]}} 
 														br
 														| {{percentChanged(dailyData,col)}}
+							br
 									//.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
-							div.pagebreak(ng-if='section.sectionType == "Charts"')
+							div(ng-if='section.sectionType == "Charts"')
 									div.well.hidden-chart.print-chart(ng-repeat='chartImgUrl in chartImgUrls' style="text-align:center")
 										//canvas(id="{{'canvas_'+$index}}")
 										img(src='{{chartImgUrl}}', alt='chart image' )
 									div.well.no-print(ng-repeat='chartConfig in previewChartConfigs' ng-if='chartConfig.checked')
 										highchart(id="{{'chartHCp_'+$index}}" config='chartConfig')
 							br
-							i(style="font-size:13px;" ng-if='!section.sectionData.notes == ""') Notes: *{{section.sectionData.notes}}
+							i.pagebreak(style="font-size:13px;" ng-if='!section.sectionData.notes == ""') Notes: *{{section.sectionData.notes}}
 							
 						
 
