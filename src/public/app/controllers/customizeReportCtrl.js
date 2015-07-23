@@ -4,6 +4,7 @@ angular.module('app').controller('customizeReportCtrl', function($scope, $rootSc
 	$scope.checkedLimit = 5;
 	$scope.displayColumnLimit = 3;
 	$scope.numberOfColumns = Object.keys($scope.eventData.colDisplayNames).length;
+  $rootScope.hiddenChartConfigs = [];
 
 	//determine how many columns have been checked on load
 	for(obj in $scope.customizedDoc.checkedColumns){
@@ -101,7 +102,13 @@ $scope.sortedCols = getSortedColumns();
     $scope.buildCustomizedHighChartConfig(gridData[i],i);
 	}
 	//console.log($rootScope.combinedGrid);
+  $rootScope.hiddenChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
+  for (var i = 0; i < $scope.hiddenChartConfigs.length; i++) {
+      $rootScope.hiddenChartConfigs[i].options.chart.height = 500;
+      $rootScope.hiddenChartConfigs[i].options.chart.width = 1200;
+  }
 
+  
   $scope.myRowTemplate =   '<div ng-class="{\'ui-grid-row\':true}"><div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name" class="ui-grid-cell" ng-class="{ \'ui-grid-row-header-cell\': col.isRowHeader }" ui-grid-cell></div></div>';
 
   function rowTemplate() {

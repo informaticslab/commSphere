@@ -1424,7 +1424,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
     }
   };
 
-  $scope.preview = function(size, customizedDoc) {
+  $scope.preview = function(size, customizedDoc, hiddenChartConfigs) {
     var modalInstance = $modal.open({
       scope: $scope,
       templateUrl: '/partials/previewReportModal',
@@ -1433,6 +1433,9 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
       resolve: {
         customizedDoc: function() {
           return customizedDoc;
+        },
+        hiddenChartConfigs : function() {
+          return hiddenChartConfigs;
         }
       }
     });

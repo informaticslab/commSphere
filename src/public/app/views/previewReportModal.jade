@@ -76,11 +76,12 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 														| {{percentChanged(dailyData,col)}}
 									//.grid(id="{{'grid_'+$index}}", ui-grid="{data: previewedGrid, columnDefs : previewColumns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 2, enableHeaderOptions: false, enableCellSelection: false, enableRowSelection: false, enableCellEditOnFocus: true,}", ng-style="getPreviewTableHeight(grid,'grid_'+$index)",ui-grid-auto-resize, style="background-color:#fff;") 
 							div.pagebreak(ng-if='section.sectionType == "Charts"')
+									div.well.no-print(ng-repeat='chartConfig in previewChartConfigs' ng-if='chartConfig.checked')
+										highchart(id="{{'chartHCp_'+$index}}" config='chartConfig')
 									div.well.hidden-chart.print-chart(ng-repeat='chartImgUrl in chartImgUrls' style="text-align:center")
 										//canvas(id="{{'canvas_'+$index}}")
 										img(src='{{chartImgUrl}}', alt='chart image' )
-									div.well.no-print(ng-repeat='chartConfig in previewChartConfigs' ng-if='chartConfig.checked')
-										highchart(id="{{'chartHCp_'+$index}}" config='chartConfig')
+									
 							br
 							div.notes(ng-if='!section.sectionData.notes == ""') Notes: *{{section.sectionData.notes}}
 								br

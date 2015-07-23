@@ -141,25 +141,34 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
 //        return columnLayout;
      
 // };
-for (var i = 0 ; i < $scope.customizedDoc.chartConfigs.length; i++){
+
+$scope.previewChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
+
+for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
 
   	if ($scope.customizedDoc.chartConfigs[i].checked) {
   	
-  	    var chart = $scope.customizedDoc.chartConfigs[i].getHighcharts();
+  	    var chart = $scope.hiddenChartConfigs[i].getHighcharts();
   	    var chart_svg = chart.getSVG();                            
 	    var canvas = document.getElementById('canvas');
 	    // Get chart aspect ratio
 	    var c_ar = chart.chartHeight / chart.chartWidth;
 
 	    // Set canvas size
-	    // canvas.width = chart.chartWidth*0.6;
-	    // canvas.height = canvas.width * c_ar;
+	     canvas.width = chart.chartWidth;
+	     canvas.height = chart.chartHeight;
 	    
-	    canvg(canvas, chart_svg);
+	    //canvg(canvas, chart_svg);
+	    canvg(canvas, chart_svg, {
+	        ignoreDimensions: false,
+	        scaleWidth: canvas.width,
+	        scaleHeight: canvas.height
+	    });
+
 	    $scope.chartImgUrls.push(canvas.toDataURL("image/png"));
 	}
 }
-$scope.previewChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
+
 
 //$scope.previewColumns = $scope.previewGenerateColumnDefs();
 $scope.filterSelected = function(items) {
@@ -208,6 +217,7 @@ $scope.percentChanged = function(row,col) {
 }
 
 $scope.print = function() {
+	
 	printElement(document.getElementById('printThis'));
 
 	window.print();
