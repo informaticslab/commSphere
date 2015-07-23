@@ -340,6 +340,10 @@ margin-top: 0px;
     top : -50px;
 }
 
+.hidden-chart {
+  display:none;
+}
+
 #metric-table-row{
   background-color:#c6d8ae
 }
@@ -461,6 +465,14 @@ input[type=checkbox].css-checkbox {
 
   .row {
     background-color: #ffffff
+  }
+
+  .print-chart {
+    display: block;
+  }
+
+  .no-print, .no-print * {
+        display: none !important;
   }
 
   .modal-body {
