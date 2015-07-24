@@ -232,6 +232,80 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                 div(ng-repeat="topic in eventData.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
                                                         |{{topic.name}}
                                                         .grid(ui-grid="{data: topic.subTopics, enableCellEditOnFocus: true , columnDefs: columnsLayout} ", ui-grid-edit,ui-grid-cellNav)                                                        
+                            //CHART TAB
+                            tab(heading="Charts Generation" select="tabShown = !tabShown;" ng-click="populateGrid()" deselect="tabShown = !tabShown")
+                                .row
+                                    .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;' ui-tree='options' drag-enabled="identity.isAuthorized('levelTwo')")
+                                        br
+                                        .row
+                                            .col-lg-9.col-md-9.col-sm-9
+                                                .tab-title-heading
+                                                    img(src='img/web-icon.png', width='37', height='32')
+                                                    |   Charts
+                                        br
+                                        hr
+                                        br
+                                        .row
+                                            .col-lg-12(style="overflow:scroll;")
+                                                table(style="margin-bottom:20px;", border="1")
+                                                    tr(style="background-color:#c6d8ae")
+                                                        td(rowspan="4")
+                                                            | &nbsp;
+                                                        td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{columns.length}}")
+                                                            | Daily Metrics
+                                                    tr(style="background-color:#c6d8ae")
+                                                        td(style="text-align:center; padding:3px;", ng-repeat = "col in columns | filter:{field:'!label'}")
+                                                            | {{ col.field | date : 'EEEE'}} 
+                                                    tr(style="background-color:#c6d8ae")
+                                                        td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in columns | filter:{field:'!label'}")
+                                                            //.checkbox
+                                                            input(type='checkbox' ng-change='checkChanged(customizedChart.checkedColumns[col.field])' ng-model='customizedChart.checkedColumns[col.field].checked')
+                                                            | &nbsp;&nbsp;{{col.displayName}}
+                                                    tbody(ng-repeat="gridData in eventData.gridData")
+                                                        tr
+                                                            td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
+                                                                    | {{gridData.gridName}}
+                                                        tr(ng-repeat="dailyData in gridData.dailyData")
+                                                            td(style="padding:2px 3px 2px 5px; min-width:250px; !important")
+                                                                input(type='checkbox' ng-change='checkChanged(customizedChart.checkedRows[$index])' ng-model='customizedChart.checkedRows[$index].checked')
+                                                                | &nbsp;&nbsp; {{dailyData.label}}
+                                                            td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in columns | filter:{field:'!label'}")
+                                                                | {{dailyData[col.field]}} 
+                                        br
+                                        .row
+                                            button#button_add.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Add Chart
+                                            br
+                                        
+                                        //br
+                                        //.row
+                                               highchart#highchart1(config='highChartConfig')
+                                        //br
+                                        //.row
+                                            canvas#chartJS_0(width='500', height='400' ng-if="tabShown") 
+                                            div#js-legend.chart-legend
+                                            div(ng-repeat = 'grid in eventData.gridData') 
+                                                div {{grid.gridName}}
+                                                canvas(id="{{'chartJS_'+$index}}", width='500', height='300' ng-if="tabShown")
+                                                div#js-legend.chart-legend
+                             //tab(heading="Data2" select="setActiveCategory('Data2')")
+                                 .row
+                                    .col-lg-12.col-md-12.col-sm-12
+                                        br
+                                        .row
+                                            .col-lg-9.col-md-9.col-sm-9
+                                                 .tab-title-heading
+                                                    img(src='img/web-icon.png', width='37', height='32')
+                                        .row
+                                            .col-lg-3.col-md-3.col-sm-3
+                                                ul.nav.nav-pills.nav-stacked(style="background-color:#f2f2f2;")
+                                                    li(ng-repeat="topic in eventData.topics" ng-class="{active:activeTab=='tab_'+$index}")
+                                                        a(data-target="{{'#tab_'+$index}}" data-toggle="pill"  ng-click="gotoElement('tab_'+$index)" style="cursor:pointer")
+                                                            | {{topic.name}}
+                                            .col-lg-9.col-md-9.col-sm-9
+                                                //div.tab-content
+                                                div(ng-repeat="topic in eventData.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
+                                                        |{{topic.name}}
+                                                        .grid(ui-grid="{data: topic.subTopics, enableCellEditOnFocus: true , columnDefs: columnsLayout} ", ui-grid-edit,ui-grid-cellNav)                                                        
             //.row
                 .col-lg-6
                         h3 Data binding

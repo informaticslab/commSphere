@@ -967,43 +967,6 @@ $scope.removeColumn = function() {
        // }
     };
 
-  var renameColModalInstanceCtrl = function($scope, $modalInstance,oldColName) {
-   
-      $scope.oldColName = oldColName;
-      
-     
-    $scope.accept = function (newColName) {
-     $modalInstance.close(newColName);
-  };
-
-    $scope.cancel = function() {
-      $modalInstance.dismiss();
-    };
-
-  };
-
-  $scope.showRenameColModal = function(size,col) {
-     var modalInstance = $modal.open({
-            scope: $scope,
-            templateUrl: '/partials/colRenameModal',
-            controller: renameColModalInstanceCtrl ,
-            backdrop: 'static',
-            size: size,
-            resolve: {
-                oldColName : function() {
-                  return col.displayName;
-                }
-             }
-          });
-
-      modalInstance.result.then(function (newColName) {
-          $scope.renameColumn(col, newColName);
-      }, function () {
-   //         $log.info('Modal dismissed at: ' + new Date());
-      });
-  };
-
-
  $scope.renameColumn = function(col,newColName) {
      $scope.eventData.colDisplayNames[col.field] = newColName;
      // for (i = 0; i < $scope.columns.length; i++) {
