@@ -242,6 +242,20 @@ function printElement(elem) {
     $printSection.appendChild(domClone);
 }
 
+$scope.PrintContent=function()
+{
+var DocumentContainer = document.getElementById('printThis');
+console.log(DocumentContainer);
+var WindowObject = window.open("", "PrintWindow",
+"width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+WindowObject.document.writeln(DocumentContainer.innerHTML);
+WindowObject.document.write('<link rel="stylesheet" type="text/css" href="../css/custom.css">')
+WindowObject.document.close();
+WindowObject.focus();
+WindowObject.print();
+WindowObject.close();
+}
+
 function getCheckedColCounts() {
 	var count = 0;
 	for(col in $scope.customizedDoc.checkedColumns) {

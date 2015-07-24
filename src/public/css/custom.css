@@ -488,7 +488,7 @@ input[type=checkbox].css-checkbox {
 
 @media print {
 
-  body * {
+ /* body * {
     visibility:hidden;
   }
   #printSection, #printSection * {
@@ -498,7 +498,7 @@ input[type=checkbox].css-checkbox {
     position:absolute;
     left:0;
     top:0;
-  }
+  }*/
 
   .pagebreak { 
   page-break-before: always; 

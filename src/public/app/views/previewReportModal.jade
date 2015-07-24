@@ -7,7 +7,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 						h2.h2-create-new
 							|  Preview Report
 					.create-btn-cont
-						button.btn.btn-danger(type='button' ng-click='print()')
+						button.btn.btn-danger(type='button' ng-click='PrintContent()')
 							span.glyphicon.glyphicon-save
 							|  Print PDF
 					.save-draft-cont(style='position:absolute; float:left; margin-left:-30px;')
@@ -22,7 +22,7 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2;')
 						br
 						br
 						div(ng-repeat='section in customizedDoc.docData')
-							h4.report-cat-title(ng-show='section.sectionType=="Document"')
+							h4.report-cat-title(ng-if='section.sectionType=="Document"')
 								| {{section.sectionName}}
 							div(ng-repeat='category in section.sectionData.doc.categories' ng-if='section.sectionType == "Document"') 
 								h4.report-category(ng-if='category.checked')
