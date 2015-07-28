@@ -247,7 +247,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         br
                                         .row
                                             .col-lg-12(style="overflow:scroll;")
-                                                table(style="margin-bottom:20px;", border="1")
+                                                table(id="dataTable" style="margin-bottom:20px;", border="1")
                                                     tr(style="background-color:#c6d8ae")
                                                         td(rowspan="4")
                                                             | &nbsp;
@@ -259,60 +259,39 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     tr(style="background-color:#c6d8ae")
                                                         td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in columns | filter:{field:'!label'}")
                                                             //.checkbox
-                                                            input(type='checkbox' ng-change='checkChanged(customizedChart.checkedColumns[col.field])' ng-model='customizedChart.checkedColumns[col.field].checked')
+                                                            input(type='checkbox' ng-change='checkChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
                                                             | &nbsp;&nbsp;{{col.displayName}}
                                                     tbody(ng-repeat="gridData in eventData.gridData")
                                                         tr
-                                                            td(colspan="{{numberOfColumns}}" style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
+                                                            td(style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
                                                                     | {{gridData.gridName}}
                                                         tr(ng-repeat="dailyData in gridData.dailyData")
                                                             td(style="padding:2px 3px 2px 5px; min-width:250px; !important")
-                                                                input(type='checkbox' ng-change='checkChanged(customizedChart.checkedRows[$index])' ng-model='customizedChart.checkedRows[$index].checked')
+                                                                input(id="{{gridData.gridId}}_{{dailyData.label}}" type='checkbox' ng-change='rowChecked(gridData.gridId,$index)' ng-model='checkedRows[gridData.gridId+"_"+$index].checked')
                                                                 | &nbsp;&nbsp; {{dailyData.label}}
                                                             td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in columns | filter:{field:'!label'}")
                                                                 | {{dailyData[col.field]}} 
                                         br
                                         .row
-                                            button#button_add.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Add Chart
-                                            br
-                                        
-                                        //br
-                                        //.row
-                                               highchart#highchart1(config='highChartConfig')
-                                        //br
-                                        //.row
-                                            canvas#chartJS_0(width='500', height='400' ng-if="tabShown") 
-                                            div#js-legend.chart-legend
-                                            div(ng-repeat = 'grid in eventData.gridData') 
-                                                div {{grid.gridName}}
-                                                canvas(id="{{'chartJS_'+$index}}", width='500', height='300' ng-if="tabShown")
-                                                div#js-legend.chart-legend
-                             //tab(heading="Data2" select="setActiveCategory('Data2')")
-                                 .row
-                                    .col-lg-12.col-md-12.col-sm-12
+                                            div
+                                                .well.well-lg
+                                                    .col-lg-12
+                                                        highchart(id="chartTemp" config='highChartTempConfig')
+                                                    .col-sm-12
+                                                        select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
+                                                            |'Chart Type'
+   
                                         br
                                         .row
-                                            .col-lg-9.col-md-9.col-sm-9
-                                                 .tab-title-heading
-                                                    img(src='img/web-icon.png', width='37', height='32')
+                                            button#button_add.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
+                                        br
                                         .row
-                                            .col-lg-3.col-md-3.col-sm-3
-                                                ul.nav.nav-pills.nav-stacked(style="background-color:#f2f2f2;")
-                                                    li(ng-repeat="topic in eventData.topics" ng-class="{active:activeTab=='tab_'+$index}")
-                                                        a(data-target="{{'#tab_'+$index}}" data-toggle="pill"  ng-click="gotoElement('tab_'+$index)" style="cursor:pointer")
-                                                            | {{topic.name}}
-                                            .col-lg-9.col-md-9.col-sm-9
-                                                //div.tab-content
-                                                div(ng-repeat="topic in eventData.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
-                                                        |{{topic.name}}
-                                                        .grid(ui-grid="{data: topic.subTopics, enableCellEditOnFocus: true , columnDefs: columnsLayout} ", ui-grid-edit,ui-grid-cellNav)                                                        
-            //.row
-                .col-lg-6
-                        h3 Data binding
-                        .info
-                            | {{  }}
-                        pre.code.
-                            {{ eventData | json }}   
+                                            .col-lg-6
+                                                    h3 Data binding
+                                                    .info
+                                                        | {{  }}
+                                                    pre.code.
+                                                        {{ highChartTempConfig | json }}   
             .clear-divs
 
 

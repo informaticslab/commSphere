@@ -1,7 +1,8 @@
 angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout) {
 
 
-
+$scope.checkedRows =[];
+$scope.checkedColumns = [];
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $rootScope.continueNav = true;
@@ -22,20 +23,20 @@ $scope.gridOptions={
 $scope.readyForPreview = false;
 $scope.minColWidth = 110;
 $scope.minTopicWidth = 200;
-$scope.googleChartObj = [];
-$scope.chartJsData =[];
+//$scope.googleChartObj = [];
+//$scope.chartJsData =[];
 $scope.highChartConfig = [];
 $scope.chartColors = [ "#FF0000","#0000FF","#00FF00"];
-$scope.chartJsLineConfig = {
-            bezierCurve : true,
-            datasetFill : false,
-            responsive: true,
-            maintainAspectRatio: true,
-            legend:true,
-    //Number - Tension of the bezier curve between points
-            bezierCurveTension : 0.4,
-            legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-            }
+// $scope.chartJsLineConfig = {
+//             bezierCurve : true,
+//             datasetFill : false,
+//             responsive: true,
+//             maintainAspectRatio: true,
+//             legend:true,
+//     //Number - Tension of the bezier curve between points
+//             bezierCurveTension : 0.4,
+//             legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+//             }
 $scope.chartDefaultConfig = {
     'chartType'  :'line',
     'ChartTitle' :'Chart Title',
@@ -43,12 +44,10 @@ $scope.chartDefaultConfig = {
     'xAxis': {'title': {'text' :undefined, 'style': {'color':'blue'}}},
     'seriesColors' : [ "#FF0000","#0000FF","#00FF00"]
 }
-// $scope.eventData = {
-//     "eventName": "",
-//     "eventType": "",
-//     "eventInstanceId": "",
-//     gridData: []
-//   };
+$scope.chartTypes = ['line'
+                     ,'bar'
+                     ,'pie'
+                    ]
 
 
 //Prevent accidental leaving of dashboard event screen
@@ -1167,30 +1166,30 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   }
 
 
-  $scope.getOneChartJsData = function (grid){
+  // $scope.getOneChartJsData = function (grid){
  
-         var chartData = $scope.getChartData(grid);
-         //console.log('chart data '+x ,chartData)
-         var datasets = [];
-          for (i= 0; i < chartData.series.length; i++){
-            dataset =  {
-                          label: chartData.series[i].name,
-                          //fillColor: "rgba(220,220,220,0.2)",
-                          strokeColor: $scope.chartColors[i],
-                          pointColor: $scope.chartColors[i],
-                          // pointStrokeColor: color,
-                          // pointHighlightFill: color,
-                          // pointHighlightStroke: color,
-                          data: chartData.series[i].data
-                        }
-            datasets.push(dataset);
-        }
-        var oneChartJsData = {
-          labels: chartData.xAxis,
-          datasets: datasets
-        }
-        return oneChartJsData;
-  };
+  //        var chartData = $scope.getChartData(grid);
+  //        //console.log('chart data '+x ,chartData)
+  //        var datasets = [];
+  //         for (i= 0; i < chartData.series.length; i++){
+  //           dataset =  {
+  //                         label: chartData.series[i].name,
+  //                         //fillColor: "rgba(220,220,220,0.2)",
+  //                         strokeColor: $scope.chartColors[i],
+  //                         pointColor: $scope.chartColors[i],
+  //                         // pointStrokeColor: color,
+  //                         // pointHighlightFill: color,
+  //                         // pointHighlightStroke: color,
+  //                         data: chartData.series[i].data
+  //                       }
+  //           datasets.push(dataset);
+  //       }
+  //       var oneChartJsData = {
+  //         labels: chartData.xAxis,
+  //         datasets: datasets
+  //       }
+  //       return oneChartJsData;
+  // };
   $scope.getFormattedDate = function(timeStamp) {
      //////var isoDate = $filter('date')(timeStamp,'yyyy-MM-ddTHH:mm:ss.sss') ;
      //return isoDate;
@@ -1443,5 +1442,94 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
     console.log($("#gridRow").css("padding"));
   }
   /////////////////////////////////////////
+// new chart tab functions
+  $scope.rowChecked = function(grid,row) {
+   //  console.log($scope.checkedColumns);
+     var chartData = $scope.getRowData();
+     if ($scope.highChartTempConfig) {
+         $scope.highChartTempConfig.series = chartData.series;
+         $scope.highChartTempConfig.xAxis.categories = chartData.xAxis;
+     }
+     else {
+      console.log('chart data ', chartData );
+     $scope.highChartTempConfig = { options: {
+      //This is the Main Highcharts chart config. Any Highchart options are valid here.
+      //will be overriden by values specified below.
+                                chart: {
+                                    type: 'line'
+                                    },
+                                tooltip: {
+                                    style: {
+                                        padding: 10,
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                                },
+                                series: chartData.series,
+                                xAxis: { 
+                                          title : $scope.chartDefaultConfig.xAxis.title, 
+                                          categories: chartData.xAxis
+                                },
+                                yAxis : [{
+                                          title: $scope.chartDefaultConfig.yAxis.title, 
+                        //type: "logarithmic"
+                                          type : "linear"
+                                }],
+                                loading: false,
+                              //size (optional) if left out the chart will default to size of the div or something sensible.
+                                size: {
+                                  width: 400,
+                                  height: 300
+                                },
+                                //function (optional)
+                                func: function (chart) {
+                                 //setup some logic for the chart
+                                }
+                              };                 
+    } 
+  }
+
+  
+  $scope.getRowData = function() {
+  var chartCategories= [];
+  var chartCategoriesHeading= [];
+  var serieData = [];
+  var series = [];
+  var chartData = {};
+  
+  for(var oneCheckedRow in $scope.checkedRows) {
+    if ($scope.checkedRows[oneCheckedRow].checked) {
+        var grid = $scope.eventData.gridData[oneCheckedRow.split('_')[0]];
+        console.log('grid = ',grid)
+        var oneRow =  grid.dailyData[oneCheckedRow.split('_')[1]];
+        console.log('row = ', oneRow);
+        serieName = oneRow['label'];
+        for (var oneCol in $scope.checkedColumns) {
+           if ($scope.checkedColumns[oneCol].checked) {
+            // reformat to display on chart
+              chartCategories.push(oneCol);
+             // chartCategoriesHeading.push($filter('date')(oneCol,'d-MMM'));
+              chartCategoriesHeading.push($scope.eventData.colDisplayNames[oneCol]);
+         }
+        }
+
+        chartCategories.sort();   // sort the remaining columns heading
+        for (var j=0 ; j < chartCategories.length; j++) { 
+           var colValue = Number(oneRow[chartCategories[j]]);
+           serieData.push(isNaN(colValue)? null : colValue);
+        }
+        var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[i]  }
+          series.push(newSerie);
+          serieData = [];
+           //console.log(series);
+    }
+  }
+      chartData['xAxis'] = chartCategoriesHeading;
+      chartData['series'] = series;
+      console.log('chart data inside get row data ',chartData);
+  return  chartData;
+}
+
+
 
 });
