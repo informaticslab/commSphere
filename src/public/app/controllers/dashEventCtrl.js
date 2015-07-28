@@ -2,7 +2,7 @@ angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $h
 
 
 $scope.checkedRows =[];
-$scope.checkedColumns = [];
+$scope.checkedColumns = {};
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $rootScope.continueNav = true;
@@ -45,9 +45,14 @@ $scope.chartDefaultConfig = {
     'seriesColors' : [ "#FF0000","#0000FF","#00FF00"]
 }
 $scope.chartTypes = ['line'
-                     ,'bar'
+                     ,'column'
                      ,'pie'
+                     ,'bar'
+                     ,'spline'
+                     ,'area'
+                     ,'areaspline'
                     ]
+
 
 
 //Prevent accidental leaving of dashboard event screen
@@ -112,6 +117,11 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               
                ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
+            $scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field , 'yyyy-MM-dd  h:mm a'));
+            $scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field , 'yyyy-MM-dd  h:mm a'));
+            for(var i = 1; i < $scope.columns.length; i++) {
+                $scope.checkedColumns[$scope.columns[i].field] =  {'checked':true};
+            }
             $scope.gridOptions = {
               columnDefs : $scope.columns,
               onRegisterApi: function(gridApi) {
@@ -1443,6 +1453,14 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   }
   /////////////////////////////////////////
 // new chart tab functions
+  $scope.checkedColsChanged = function(){
+
+    var chartData = $scope.getRowData();
+    if ($scope.highChartTempConfig) {
+      $scope.highChartTempConfig.series = chartData.series;
+      $scope.highChartTempConfig.xAxis.categories = chartData.xAxis;
+    }
+  }
   $scope.rowChecked = function(grid,row) {
    //  console.log($scope.checkedColumns);
      var chartData = $scope.getRowData();
@@ -1451,7 +1469,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
          $scope.highChartTempConfig.xAxis.categories = chartData.xAxis;
      }
      else {
-      console.log('chart data ', chartData );
+      //console.log('chart data ', chartData );
      $scope.highChartTempConfig = { options: {
       //This is the Main Highcharts chart config. Any Highchart options are valid here.
       //will be overriden by values specified below.
@@ -1478,8 +1496,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                                 loading: false,
                               //size (optional) if left out the chart will default to size of the div or something sensible.
                                 size: {
-                                  width: 400,
-                                  height: 300
+                                  width: 600,
+                                  height: 400
                                 },
                                 //function (optional)
                                 func: function (chart) {
@@ -1496,40 +1514,85 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   var serieData = [];
   var series = [];
   var chartData = {};
+  var checkedRowCount = 0;
   
   for(var oneCheckedRow in $scope.checkedRows) {
     if ($scope.checkedRows[oneCheckedRow].checked) {
         var grid = $scope.eventData.gridData[oneCheckedRow.split('_')[0]];
-        console.log('grid = ',grid)
+        //console.log('grid = ',grid)
         var oneRow =  grid.dailyData[oneCheckedRow.split('_')[1]];
-        console.log('row = ', oneRow);
+        //console.log('row = ', oneRow);
         serieName = oneRow['label'];
+        //console.log($scope.checkedColumns)
         for (var oneCol in $scope.checkedColumns) {
            if ($scope.checkedColumns[oneCol].checked) {
             // reformat to display on chart
-              chartCategories.push(oneCol);
-             // chartCategoriesHeading.push($filter('date')(oneCol,'d-MMM'));
-              chartCategoriesHeading.push($scope.eventData.colDisplayNames[oneCol]);
-         }
+             if (chartCategories.indexOf(oneCol) == -1) { 
+                chartCategories.push(oneCol);
+                // chartCategoriesHeading.push($filter('date')(oneCol,'d-MMM'));
+                //chartCategoriesHeading.push($scope.eventData.colDisplayNames[oneCol]);
+              }
+            }
         }
-
         chartCategories.sort();   // sort the remaining columns heading
         for (var j=0 ; j < chartCategories.length; j++) { 
+           chartCategoriesHeading.push($scope.eventData.colDisplayNames[chartCategories[j]]);
            var colValue = Number(oneRow[chartCategories[j]]);
            serieData.push(isNaN(colValue)? null : colValue);
         }
-        var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[i]  }
+        var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[checkedRowCount]  }
           series.push(newSerie);
           serieData = [];
-           //console.log(series);
+          checkedRowCount++;
     }
   }
       chartData['xAxis'] = chartCategoriesHeading;
       chartData['series'] = series;
-      console.log('chart data inside get row data ',chartData);
+      //console.log('chart data inside get row data ',chartData);
   return  chartData;
 }
 
+$scope.refreshCheckedCols = function() {
+ //  console.log($scope.chartDataFromDate);
+    var rawFromDate = new Date($scope.chartDataFromDate).getTime();
+    var rawToDate = new Date($scope.chartDataToDate).getTime();
+   // console.log(rawFromDate, rawToDate)
+  for(var i = 1; i < $scope.columns.length; i++) {
+      var col = Number($scope.columns[i].field);
+      //console.log('col = ', col);
+      if (( col >= rawFromDate ) && (col <= rawToDate)) {
+        $scope.checkedColumns[col].checked = true;
+      }
+      else {
+        $scope.checkedColumns[col].checked = false;
+      }
+  }
+  $scope.checkedColsChanged();
+}
 
+$scope.todateChanged = function (newDate, oldDate) {
+    //console.log(newDate);
+    //console.log(oldDate);
+    $scope.chartDataToDate = newDate;
+}
 
+$scope.fromdateChanged = function (newDate, oldDate) {
+    //console.log(newDate);
+    //console.log(oldDate);
+    $scope.chartDataFromDate = newDate;
+}
+
+$scope.selectAllColumns = function() {
+  for(var i = 1; i < $scope.columns.length; i++) {
+      var col = Number($scope.columns[i].field);
+        $scope.checkedColumns[col].checked = true;
+      }
+}
+
+$scope.deSelectAllColumns = function() {
+  for(var i = 1; i < $scope.columns.length; i++) {
+      var col = Number($scope.columns[i].field);
+        $scope.checkedColumns[col].checked = false;
+      }
+}
 });
