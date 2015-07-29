@@ -119,9 +119,8 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               
                ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
-            $scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field));
-            $scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field));
-            
+            $scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field , 'yyyy-MM-dd  h:mm a'));
+            $scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field , 'yyyy-MM-dd  h:mm a'));
             for(var i = 1; i < $scope.columns.length; i++) {
                 $scope.checkedColumns[$scope.columns[i].field] =  {'checked':true};
             }
@@ -1491,25 +1490,34 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                                           title : $scope.chartDefaultConfig.xAxis.title, 
                                           categories: chartData.xAxis
                                 },
-                                yAxis : [{
-                                          title: $scope.chartDefaultConfig.yAxis.title, 
-                        //type: "logarithmic"
-                                          type : "linear"
-                                }],
+                                yAxis : [],
                                 loading: false,
                               //size (optional) if left out the chart will default to size of the div or something sensible.
                                 size: {
                                   width: 600,
                                   height: 400
                                 },
+                                title: {
+                                          text: "chart title",
+                                          style : {fontWeight: 'bold', fontSize:20}
+                                },
                                 //function (optional)
                                 func: function (chart) {
                                  //setup some logic for the chart
                                 }
-                              };                 
+                              };    
+  for(i=0; i < chartData.series.length; i ++) {
+        var oneYaxis = {
+        title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
+                  //type: "logarithmic",
+                  type : "linear",
+                  showEmpty : false,
+                  opposite  : false,
+              }  
+        $scope.highChartTempConfig.yAxis.push(oneYaxis);           
     } 
   }
-
+}
   
   $scope.getRowData = function() {
   var chartCategories= [];
@@ -1539,7 +1547,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         }
         chartCategories.sort();   // sort the remaining columns heading
         for (var j=0 ; j < chartCategories.length; j++) { 
-           chartCategoriesHeading.push($scope.eventData.colDisplayNames[chartCategories[j]]);
+          if (chartCategoriesHeading.indexOf($scope.eventData.colDisplayNames[chartCategories[j]])){
+              chartCategoriesHeading.push($scope.eventData.colDisplayNames[chartCategories[j]]);
+          }
+          
            var colValue = Number(oneRow[chartCategories[j]]);
            serieData.push(isNaN(colValue)? null : colValue);
         }
@@ -1597,5 +1608,23 @@ $scope.deSelectAllColumns = function() {
       var col = Number($scope.columns[i].field);
         $scope.checkedColumns[col].checked = false;
       }
+}
+
+$scope.deleteChart = function(index) {
+    if ($scope.customizedDoc.chartConfigs) {
+      $scope.customizedDoc.chartConfigs.splice(index, 1);
+    }
+}
+
+$scope.addChart = function() {
+  if ($scope.highChartTempConfig){
+      $scope.customizedDoc.chartConfigs.push($scope.highChartTempConfig);
+  }
+
+}
+$scope.editChart = function(index) {
+   if ($scope.customizedDoc.chartConfigs[index]) {
+      $scope.highChartTempConfig = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs[index]));
+   }
 }
 });

@@ -310,21 +310,85 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             .col-lg-12
                                                 .well.well-lg
+                                                    div.pull-right(style="width:350px;")
+                                                        accordion()
+                                                            accordion-group(heading="Customize Chart")
+                                                                accordion()
+                                                                    accordion-group(heading="Chart")
+                                                                        |Chart Type&nbsp;&nbsp;
+                                                                        select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
+                                                                        br
+                                                                        |Chart Width
+                                                                        input.form-control(type='number' min=100 step=10 ng-model='highChartTempConfig.size.width')
+                                                                        |Chart height
+                                                                        input.form-control(type='number' min=100 step=10 ng-model='highChartTempConfig.size.height')
+                                                                        |Chart Title
+                                                                        input.form-control(type='textarea' ng-model='highChartTempConfig.title.text')
+                                                                    accordion-group(heading="X Axis")
+                                                                            label X-axis Title 
+                                                                                input.form-control(type='textarea' ng-model='highChartTempConfig.xAxis.title.text')
+                                                                    accordion-group(heading="Y Axis")
+                                                                        accordion()
+                                                                            accordion-group(heading="{{'Axis '+ $index}}" ng-repeat="yaxis in highChartTempConfig.yAxis")
+                                                                                label Title 
+                                                                                    input.form-control(type='textarea' ng-model='yaxis.title.text')
+                                                                                label Font Weight 
+                                                                                    input.form-control(type='textarea' ng-model='yaxis.title.style.fontWeight')
+                                                                                label Font Size 
+                                                                                    input.form-control(type='number' min=10 ng-model='yaxis.title.style.fontSize')
+                                                                                label  Color 
+                                                                                    input.form-control(type='textarea' ng-model='yaxis.title.style.color')
+                                                                                br
+                                                                                | Position
+                                                                                br
+                                                                                div
+                                                                                    input(type='radio' ng-model='yaxis.opposite' ng-value='false')
+                                                                                    |  Left
+                                                                                    &nbsp;
+                                                                                    input(type='radio' ng-model='yaxis.opposite' ng-value='true')
+                                                                                    |  Right
+                                            
+                                                                    accordion-group(heading="Series")
+                                                                        accordion()
+                                                                            accordion-group(heading="{{serie.name}}" ng-repeat="serie in highChartTempConfig.series")
+                                                                                |  Color 
+                                                                                input.form-control(type='textarea' ng-model='serie.color')
+                                                                                |  Axis Bind To (default to left Y-Axis)
+                                                                                input.form-control(type='number' ng-model='serie.yAxis' min=0 max="{{highChartTempConfig.yAxis.length-1}}" value='serie.yAxis')
+                                                    br
                                                     highchart(id="chartTemp" config='highChartTempConfig')
-                                                    select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
-                                                            |'Chart Type'
-   
+                                                    br
+                                                    button#button_add.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
                                         br
                                         .row
-                                            button#button_add.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
+                                            .col-lg-12
+
+                                                div(ng-repeat='chartConfig in customizedDoc.chartConfigs track by $index', style="margin-bottom:30px;")
+                                                   
+                                                    div.well
+                                                        //- label
+                                                        //-     |Chart Title 
+                                                        //-     input.form-control(type='textarea' ng-model='chartConfig.title.text')
+                                                        //- &nbsp;&nbsp;
+                                                        //- label
+                                                        //-     |Y-axis Title 
+                                                        //-     input.form-control(type='textarea' ng-model='chartConfig.yAxis[0].title.text')
+                                                        //- &nbsp;&nbsp;
+                                                        //- label
+                                                        //-     |X-axis Title 
+                                                        //-     input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
+                                                        highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
+                                                        br
+                                                        button.btn.btn-warning(ng-click='deleteChart($index)', style='color:#337ab7;') Delete Chart
+                                                        button.btn.btn-warning(ng-click='editChart($index)', style='color:#337ab7;') Edit Chart
                                         br
-                                        .row
+                                        //.row
                                             .col-lg-6
                                                     h3 Data binding
                                                     .info
                                                         | {{  }}
                                                     pre.code.
-                                                        {{ highChartTempConfig | json }}   
+                                                        {{ customizedDoc.chartConfigs | json }}   
             .clear-divs
 
 

@@ -99,7 +99,7 @@ $scope.sortedCols = getSortedColumns();
 		}
     // build charts data here
     //$scope.highChartConfig[i] = $scope.buildHighChartData(gridData[i],i);
-    $scope.buildCustomizedHighChartConfig(gridData[i],i);
+    //$scope.buildCustomizedHighChartConfig(gridData[i],i);
 	}
 	//console.log($rootScope.combinedGrid);
   $rootScope.hiddenChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
