@@ -1,4 +1,4 @@
-angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout) {
+angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout, ngExcelExport) {
 
 
 $scope.checkedRows =[];
@@ -7,8 +7,11 @@ $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $rootScope.continueNav = true;
 //$rootScope.checkedColumns = {};
+// $scope.numberOfColumns = Object.keys($scope.eventData.colDisplayNames).length;
 $scope.canSubmit = true;
 $scope.checkboxShow = false;
+$scope.hideCheckbox = true;
+
 $scope.tabCategory=[
                     {active:true}
                    ];
@@ -1627,4 +1630,24 @@ $scope.editChart = function(index) {
       $scope.highChartTempConfig = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs[index]));
    }
 }
+
+//Export to excel
+  $scope.exportToExcel = function(tableId) { 
+
+    $scope.hideCheckbox = false;
+    
+    $timeout(function() {
+      $scope.exportHref = ngExcelExport.tableToExcel(tableId, 'sheet name');
+      $timeout(function() {
+        location.href = $scope.exportHref;
+      }, 100); // trigger download
+
+      $scope.hideCheckbox = true;
+    }, 2000);
+
+
+    
+  }
+
+
 });

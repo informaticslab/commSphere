@@ -248,6 +248,8 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             button.btn.btn-default(ng-click='selectAllColumns()', style='color:#337ab7;') Select All Columns
                                             button.btn.btn-default(ng-click='deSelectAllColumns()', style='color:#337ab7;') De-select All Columns
+                                            button.btn.btn-default(ng-click='exportToExcel("#dataTable")')
+                                                | Export Data Table to Excel
                                         br
                                         .row.row-margin
                                             .col-lg-3.col-md-4.col-sm-6
@@ -293,16 +295,16 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     tr(style="background-color:#c6d8ae")
                                                         td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in columns | filter:{field:'!label'}")
                                                             //.checkbox
-                                                            input(type='checkbox' ng-change='checkedColsChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
-                                                            | &nbsp;&nbsp;{{col.displayName}}
+                                                            input.cbRemove(ng-if='hideCheckbox' type='checkbox' ng-change='checkedColsChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
+                                                            | &nbsp;{{col.displayName}}
                                                     tbody(ng-repeat="gridData in eventData.gridData")
                                                         tr
-                                                            td(style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
+                                                            td(colspan="365" style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
                                                                     | {{gridData.gridName}}
                                                         tr(ng-repeat="dailyData in gridData.dailyData")
                                                             td(style="padding:2px 3px 2px 5px; min-width:250px; !important")
-                                                                input(id='$parent.$index+"_"+$index' type='checkbox' ng-change='rowChecked($parent.$index,$index)' ng-model='checkedRows[$parent.$index+"_"+$index].checked')
-                                                                | &nbsp;&nbsp; {{dailyData.label}}
+                                                                input.cbRemove(ng-if='hideCheckbox' id='$parent.$index+"_"+$index' type='checkbox' ng-change='rowChecked($parent.$index,$index)' ng-model='checkedRows[$parent.$index+"_"+$index].checked')
+                                                                | &nbsp; {{dailyData.label}}
                                                             td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in columns | filter:{field:'!label'}")
                                                                 | {{dailyData[col.field]}} 
                                         br
