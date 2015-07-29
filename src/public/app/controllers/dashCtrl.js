@@ -1,4 +1,4 @@
-commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','ngIdentity','$log','$filter', function($scope, $modal,$routeParams,ngEvents,$http,ngIdentity,$log,$filter) {
+commSphereApp.controller('dashCtrl', ['$scope', '$modal','$routeParams','ngEvents','$http','ngIdentity','$log','$filter','$window','$route', function($scope, $modal,$routeParams,ngEvents,$http,ngIdentity,$log,$filter,$window,$route) {
 $("body").css("background-color", "#f7f7f7;");
 $scope.identity = ngIdentity
 $scope.$parent.activeMenu='dashboard';
@@ -209,5 +209,25 @@ $scope.pageChanged = function(searchText) {
     $scope.endItem = $scope.beginItem + $scope.itemsPerPage;
     //$scope.filteredInstances = $filter('searchAll')($scope.instances,searchText).slice(beginItem,endItem);
   };
+
+$scope.deleteActive = function (activeInstance) {
+  // delete the passed in draft instance
+    var createdDate = $filter('date')(activeInstance.dateCreated,'MM/dd/yyyy - hh:mm:ss');
+    var deleteConfirm = $window.confirm('Are you absolutely sure you want to delete active instance: ' + activeInstance.eventName +' created on ' + createdDate + '? ');
+
+    if (deleteConfirm) {
+      
+       $http.post('/api/events/active/delete/'+activeInstance._id).then(function(res){
+       if(res.data) {
+            // delete success
+            $route.reload();
+         } 
+         else {
+             alert('delete failed');
+         }
+    });
+         
+    }
+    };
 }]);
 

@@ -61,6 +61,9 @@
                                     progressbar(animate='false', value='instance.eventInstanceStatus' ng-if="instance.eventInstanceStatus<100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
                                             | {{instance.eventInstanceStatus}}%
+                                td(ng-if="identity.isAuthorized('levelTwo')")
+                                    a.del-edit-btn.btn.btn-default.btn-xs( href='', ng-click="deleteActive(instance)")
+                                        .glyphicon.glyphicon-trash
         .row(ng-show='filinstances.length > itemsPerPage')
             .col-lg-12
                 .text-center

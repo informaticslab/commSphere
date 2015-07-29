@@ -518,3 +518,22 @@ exports.getDataById = function(req,res){
 
 	})
 }
+
+exports.deActivateInstance = function(req,res) {
+	 
+  var Id = req.params.Id;
+  var collection = mongo.mongodb.collection('events');
+  if (Id) {  // if existing id then update
+  	 
+    collection.update({"_id":ObjectID(Id)}, {$set:{ 'draftStatus':'inActive'}},function(err, affectedDocCount) {
+		if (err) {
+			res.send(err);
+			console.log(err);
+		}
+		else {
+			console.log("document deleted", affectedDocCount);
+			res.send({success:true});
+		}
+   	});
+	}
+};
