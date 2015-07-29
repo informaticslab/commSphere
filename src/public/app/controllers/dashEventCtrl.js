@@ -51,6 +51,8 @@ $scope.chartTypes = ['line'
                      ,'spline'
                      ,'area'
                      ,'areaspline'
+                     ,'scatter'
+                     ,'bubble'
                     ]
 
 
@@ -117,8 +119,9 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               
                ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
-            $scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field , 'yyyy-MM-dd  h:mm a'));
-            $scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field , 'yyyy-MM-dd  h:mm a'));
+            $scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field));
+            $scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field));
+            
             for(var i = 1; i < $scope.columns.length; i++) {
                 $scope.checkedColumns[$scope.columns[i].field] =  {'checked':true};
             }
