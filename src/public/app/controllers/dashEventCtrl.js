@@ -1572,9 +1572,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 $scope.refreshCheckedCols = function() {
  //  console.log($scope.chartDataFromDate);
     var rawFromDate = new Date($scope.chartDataFromDate).getTime();
-    var rawToDate = new Date($scope.chartDataToDate).getTime();
-   // console.log(rawFromDate, rawToDate)
-  for(var i = 1; i < $scope.columns.length; i++) {
+    var rawToDate = new Date($scope.chartDataToDate).getTime()+ 86400000;
+   for(var i = 1; i < $scope.columns.length; i++) {
       var col = Number($scope.columns[i].field);
       //console.log('col = ', col);
       if (( col >= rawFromDate ) && (col <= rawToDate)) {
