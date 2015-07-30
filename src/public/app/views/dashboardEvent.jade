@@ -249,6 +249,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             button.btn.btn-default(ng-click='selectAllColumns()', style='color:#337ab7;') Select All Columns
                                             button.btn.btn-default(ng-click='deSelectAllColumns()', style='color:#337ab7;') De-select All Columns
                                             button.btn.btn-default(ng-click='fnExcelReport()')
+
                                                 | Export Data Table to Excel
                                         br
                                         .row.row-margin
@@ -295,15 +296,15 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     tr(style="background-color:#c6d8ae")
                                                         td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in columns | filter:{field:'!label'}")
                                                             //.checkbox
-                                                            input(type='checkbox' ng-change='checkedColsChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
+                                                            input.cbRemove(ng-show='hideCheckbox' type='checkbox' ng-change='checkedColsChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
                                                             | &nbsp;{{col.displayName}}
-                                                    tbody(ng-repeat="gridData in eventData.gridData")
+                                                    tbody(ng-repeat="gridData in eventData.gridData track by $index")
                                                         tr
                                                             td(colspan="365" style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
                                                                     | {{gridData.gridName}}
-                                                        tr(ng-repeat="dailyData in gridData.dailyData")
+                                                        tr(ng-repeat="dailyData in gridData.dailyData track by $index")
                                                             td(style="padding:2px 3px 2px 5px; min-width:250px; !important")
-                                                                input(id='$parent.$index+"_"+$index' type='checkbox' ng-change='rowChecked($parent.$index,$index)' ng-model='checkedRows[$parent.$index+"_"+$index].checked')
+                                                                input(ng-show='hideCheckbox' id='$parent.$index+"_"+$index' type='checkbox' ng-change='rowChecked($parent.$index,$index)' ng-model='checkedRows[$parent.$index+"_"+$index].checked')
                                                                 | &nbsp; {{dailyData.label}}
                                                             td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in columns | filter:{field:'!label'}")
                                                                 | {{dailyData[col.field]}} 
@@ -345,6 +346,8 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                     accordion-group(heading="Chart")
                                                                         |Chart Type&nbsp;&nbsp;
                                                                         select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
+                                                                        | &nbsp;Show polar &nbsp;
+                                                                        input(type='checkbox' ng-model = 'highChartTempConfig.options.chart.polar')
                                                                         br
                                                                         |Chart Width
                                                                         input.form-control(type='number' min=100 step=10 ng-model='highChartTempConfig.size.width')
@@ -386,7 +389,8 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     br
                                                     highchart(id="chartTemp" config='highChartTempConfig')
                                                     br
-                                                    button#button_add.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
+                                                    button.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
+                                                    button.btn.btn-default(ng-click='resetChart()', style='color:#337ab7;') Reset Chart
                                         br
                                         .row
                                             .col-lg-12
@@ -419,7 +423,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     .info
                                                         | {{  }}
                                                     pre.code.
-                                                        {{ customizedDoc.chartConfigs | json }}   
+                                                        {{ highChartTempConfig | json }}   
             .clear-divs
 
 
