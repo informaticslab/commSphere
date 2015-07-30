@@ -1631,13 +1631,21 @@ $scope.editChart = function(index) {
 }
 
 //Export to excel
-  $scope.exportToExcel = function(tableId) { 
-      $scope.exportHref = ngExcelExport.tableToExcel(tableId, 'sheet 1');
-      $timeout(function() {
-        location.href = $scope.exportHref;
-      }, 100); // trigger download
+  // $scope.exportToExcel = function(tableId) { 
+  //     $scope.exportHref = ngExcelExport.tableToExcel(tableId, 'sheet 1');
+  //     $timeout(function() {
+  //       location.href = $scope.exportHref;
+  //     }, 100); // trigger download
 
-  }
+  // }
+
+  $scope.exportToExcel = function() {
+    $('#dataTableForPrint').table2excel({
+      exclude: ".excludeThisClass",
+      name: "Worksheet Name",
+      filename: "SomeFile" //do not include extension
+    });
+  };
 
 
 });

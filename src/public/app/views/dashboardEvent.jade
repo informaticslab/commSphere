@@ -248,7 +248,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             button.btn.btn-default(ng-click='selectAllColumns()', style='color:#337ab7;') Select All Columns
                                             button.btn.btn-default(ng-click='deSelectAllColumns()', style='color:#337ab7;') De-select All Columns
-                                            button.btn.btn-default(ng-click='exportToExcel("#dataTableForPrint")')
+                                            button.btn.btn-default(ng-click='exportToExcel()')
                                                 | Export Data Table to Excel
                                         br
                                         .row.row-margin
@@ -311,8 +311,6 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             .col-lg-12(style="overflow:scroll;")
                                                 table(id="dataTableForPrint" style="margin-bottom:20px;", border="1")
                                                     tr(style="background-color:#c6d8ae")
-                                                        td(rowspan="4")
-                                                            | &nbsp;
                                                         td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{columns.length}}")
                                                             | Daily Metrics
                                                     tr(style="background-color:#c6d8ae")
