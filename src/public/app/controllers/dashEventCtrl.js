@@ -1642,7 +1642,7 @@ $scope.editChart = function(index) {
       }, 100); // trigger download
 
       $scope.hideCheckbox = true;
-    }, 2000);
+    }, 150);
 
 
     
