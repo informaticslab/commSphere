@@ -56,6 +56,7 @@ $scope.chartTypes = ['line'
                      ,'areaspline'
                      ,'scatter'
                      ,'bubble'
+                     ,'columnrange'
                     ]
 
 
@@ -1472,6 +1473,19 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
      if ($scope.highChartTempConfig) {
          $scope.highChartTempConfig.series = chartData.series;
          $scope.highChartTempConfig.xAxis.categories = chartData.xAxis;
+         // reset y axises
+         $scope.highChartTempConfig.yAxis = [];
+         for(i=0; i < chartData.series.length; i ++) {
+            var oneYaxis = {
+            title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
+                      //type: "logarithmic",
+                  type : "linear",
+                  showEmpty : false,
+                  opposite  : false,
+                  style     : {color : chartData.series[i].color}
+         }  
+        $scope.highChartTempConfig.yAxis.push(oneYaxis);           
+    } 
      }
      else {
       //console.log('chart data ', chartData );
@@ -1479,7 +1493,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
       //This is the Main Highcharts chart config. Any Highchart options are valid here.
       //will be overriden by values specified below.
                                 chart: {
-                                    type: 'line'
+                                    type: 'line',
+                                    polar: false
                                     },
                                 tooltip: {
                                     style: {
@@ -1509,13 +1524,15 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                                  //setup some logic for the chart
                                 }
                               };    
-  for(i=0; i < chartData.series.length; i ++) {
+  for(var i=0; i < chartData.series.length; i ++) {
+       // console.log('i am in chartdata series')
         var oneYaxis = {
         title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
                   //type: "logarithmic",
                   type : "linear",
                   showEmpty : false,
                   opposite  : false,
+                  style     : {color : chartData.series[i].color}
               }  
         $scope.highChartTempConfig.yAxis.push(oneYaxis);           
     } 
@@ -1529,7 +1546,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   var series = [];
   var chartData = {};
   var checkedRowCount = 0;
-  
+  var headingSet = false;
   for(var oneCheckedRow in $scope.checkedRows) {
     if ($scope.checkedRows[oneCheckedRow].checked) {
         var grid = $scope.eventData.gridData[oneCheckedRow.split('_')[0]];
@@ -1549,8 +1566,15 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
             }
         }
         chartCategories.sort();   // sort the remaining columns heading
+        if (!headingSet) {
+          headingSet = true;
+          for (var j=0 ; j < chartCategories.length; j++) { 
+              chartCategoriesHeading.push($scope.eventData.colDisplayNames[chartCategories[j]]);
+          }
+        }
         for (var j=0 ; j < chartCategories.length; j++) { 
-          if (chartCategoriesHeading.indexOf($scope.eventData.colDisplayNames[chartCategories[j]])){
+          if (!headingSet) {
+              headingSet = true;
               chartCategoriesHeading.push($scope.eventData.colDisplayNames[chartCategories[j]]);
           }
           
@@ -1628,6 +1652,64 @@ $scope.editChart = function(index) {
    if ($scope.customizedDoc.chartConfigs[index]) {
       $scope.highChartTempConfig = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs[index]));
    }
+}
+
+$scope.deSelectAllRows = function() {
+    //console.log('checked rows before ',$scope.checkedRows)
+   for (var checkedRow in $scope.checkedRows) {
+      $scope.checkedRows[checkedRow].checked = false;
+   }
+   //console.log('checked rows after ',$scope.checkedRows)
+}
+
+$scope.resetChart = function() {
+   $scope.highChartTempConfig = $scope.highChartTempConfig = { options: {
+      //This is the Main Highcharts chart config. Any Highchart options are valid here.
+      //will be overriden by values specified below.
+                                chart: {
+                                    type: 'line',
+                                    polar: false
+                                    },
+                                tooltip: {
+                                    style: {
+                                        padding: 10,
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                                },
+                                series: undefined,
+                                xAxis: { 
+                                          title : $scope.chartDefaultConfig.xAxis.title, 
+                                          categories: undefined
+                                },
+                                yAxis : [],
+                                loading: false,
+                              //size (optional) if left out the chart will default to size of the div or something sensible.
+                                size: {
+                                  width: 600,
+                                  height: 400
+                                },
+                                title: {
+                                          text: "chart title",
+                                          style : {fontWeight: 'bold', fontSize:20}
+                                },
+                                //function (optional)
+                                func: function (chart) {
+                                 //setup some logic for the chart
+                                }
+                              };  
+       var oneYaxis = {
+        title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
+                  //type: "logarithmic",
+                  type : "linear",
+                  showEmpty : false,
+                  opposite  : false,
+              }  
+       $scope.highChartTempConfig.yAxis.push(oneYaxis);
+   
+  $scope.selectAllColumns();
+  $scope.deSelectAllRows();
+
 }
 
 //Export to excel
