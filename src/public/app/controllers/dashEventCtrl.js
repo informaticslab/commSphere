@@ -1632,20 +1632,11 @@ $scope.editChart = function(index) {
 
 //Export to excel
   $scope.exportToExcel = function(tableId) { 
-
-    $scope.hideCheckbox = false;
-    
-    $timeout(function() {
-      $scope.exportHref = ngExcelExport.tableToExcel(tableId, 'sheet name');
+      $scope.exportHref = ngExcelExport.tableToExcel(tableId, 'sheet 1');
       $timeout(function() {
         location.href = $scope.exportHref;
       }, 100); // trigger download
 
-      $scope.hideCheckbox = true;
-    }, 150);
-
-
-    
   }
 
 

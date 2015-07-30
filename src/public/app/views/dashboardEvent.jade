@@ -248,7 +248,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             button.btn.btn-default(ng-click='selectAllColumns()', style='color:#337ab7;') Select All Columns
                                             button.btn.btn-default(ng-click='deSelectAllColumns()', style='color:#337ab7;') De-select All Columns
-                                            button.btn.btn-default(ng-click='exportToExcel("#dataTable")')
+                                            button.btn.btn-default(ng-click='exportToExcel("#dataTableForPrint")')
                                                 | Export Data Table to Excel
                                         br
                                         .row.row-margin
@@ -295,7 +295,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     tr(style="background-color:#c6d8ae")
                                                         td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in columns | filter:{field:'!label'}")
                                                             //.checkbox
-                                                            input.cbRemove(ng-show='hideCheckbox' type='checkbox' ng-change='checkedColsChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
+                                                            input(type='checkbox' ng-change='checkedColsChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
                                                             | &nbsp;{{col.displayName}}
                                                     tbody(ng-repeat="gridData in eventData.gridData")
                                                         tr
@@ -303,8 +303,35 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                     | {{gridData.gridName}}
                                                         tr(ng-repeat="dailyData in gridData.dailyData")
                                                             td(style="padding:2px 3px 2px 5px; min-width:250px; !important")
-                                                                input.cbRemove(ng-show='hideCheckbox' id='$parent.$index+"_"+$index' type='checkbox' ng-change='rowChecked($parent.$index,$index)' ng-model='checkedRows[$parent.$index+"_"+$index].checked')
+                                                                input(id='$parent.$index+"_"+$index' type='checkbox' ng-change='rowChecked($parent.$index,$index)' ng-model='checkedRows[$parent.$index+"_"+$index].checked')
                                                                 | &nbsp; {{dailyData.label}}
+                                                            td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in columns | filter:{field:'!label'}")
+                                                                | {{dailyData[col.field]}} 
+                                        .row(ng-hide='true')
+                                            .col-lg-12(style="overflow:scroll;")
+                                                table(id="dataTableForPrint" style="margin-bottom:20px;", border="1")
+                                                    tr(style="background-color:#c6d8ae")
+                                                        td(rowspan="4")
+                                                            | &nbsp;
+                                                        td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{columns.length}}")
+                                                            | Daily Metrics
+                                                    tr(style="background-color:#c6d8ae")
+                                                        td(style="text-align:center; padding:3px;", ng-repeat = "col in columns | filter:{field:'!label'}")
+                                                            | {{ col.field | date : 'EEEE'}} 
+                                                    tr(style="background-color:#c6d8ae")
+                                                        td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in columns | filter:{field:'!label'}")
+                                                            //.checkbox
+                                                            input(ng-if='false' type='checkbox' ng-change='checkedColsChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
+                                                            | &nbsp;{{col.displayName}}
+                                                    tbody(ng-repeat="gridData in eventData.gridData")
+                                                        tr
+                                                            td(colspan="365" style="background-color:#c6d8ae; font-weight:bold; padding:0px 0 0px 25px;")
+                                                                    | {{gridData.gridName}}
+                                                        tr(ng-repeat="dailyData in gridData.dailyData")
+                                                            td(style="padding:2px 3px 2px 5px; min-width:250px; !important")
+                                                                div(ng-if='false')
+                                                                    input(id='$parent.$index+"_"+$index' type='checkbox' ng-change='rowChecked($parent.$index,$index)' ng-model='checkedRows[$parent.$index+"_"+$index].checked')
+                                                                    | &nbsp; {{dailyData.label}}
                                                             td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in columns | filter:{field:'!label'}")
                                                                 | {{dailyData[col.field]}} 
                                         br
