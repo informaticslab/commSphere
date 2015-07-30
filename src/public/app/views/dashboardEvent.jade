@@ -311,16 +311,16 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row(ng-hide='true')
                                             .col-lg-12(id="dataTableForPrintDiv" style="overflow:scroll;")
                                                 table(id="dataTable" style="margin-bottom:20px;", border="1")
-                                                    tr(style="background-color:#c6d8ae")
-                                                        td(rowspan="3")
+                                                    tr
+                                                        td(style="background-color:#c6d8ae" rowspan="3")
                                                             | &nbsp;
-                                                        td(style="font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{columns.length}}")
+                                                        td(style="background-color:#c6d8ae;font-size:20px; font-weight: bold; text-align:center; padding:5px;", colspan="{{columns.length-1}}")
                                                             | Daily Metrics
-                                                    tr(style="background-color:#c6d8ae")
-                                                        td(style="text-align:center; padding:3px;", ng-repeat = "col in columns | filter:{field:'!label'}")
+                                                    tr
+                                                        td(style="background-color:#c6d8ae;text-align:center; padding:3px;", ng-repeat = "col in columns | filter:{field:'!label'}")
                                                             | {{ col.field | date : 'EEEE'}} 
-                                                    tr(style="background-color:#c6d8ae")
-                                                        td(style="text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in columns | filter:{field:'!label'}")
+                                                    tr
+                                                        td(style="background-color:#c6d8ae;text-align:center; padding:0px 0px 0px 0px; min-width:135px;", ng-repeat = "col in columns | filter:{field:'!label'}")
                                                             //.checkbox
                                                             //input(type='checkbox' ng-change='checkedColsChanged(checkedColumns[col.field])' ng-model='checkedColumns[col.field].checked')
                                                             | &nbsp;{{col.displayName}}

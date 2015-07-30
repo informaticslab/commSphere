@@ -1760,7 +1760,7 @@ $scope.fnExcelReport = function() {
                txtArea1.document.write(tab_text);
                txtArea1.document.close();
                txtArea1.focus(); 
-                sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+                sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xlsx");
               }  
       else                 //other browser not tested on IE 11
           sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
