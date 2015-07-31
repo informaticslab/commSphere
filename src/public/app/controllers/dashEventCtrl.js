@@ -128,6 +128,12 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             for(var i = 1; i < $scope.columns.length; i++) {
                 $scope.checkedColumns[$scope.columns[i].field] =  {'checked':true};
             }
+           for(var i = 0 ; i < $scope.eventData.gridData.length; i++) {
+              for (var j = 0; j < $scope.eventData.gridData[i].dailyData.length; j++) {
+                       $scope.checkedRows[i+'_'+j] = {'checked':true};
+                       $scope.rowChecked(i,j);
+              }
+           }
             $scope.gridOptions = {
               columnDefs : $scope.columns,
               onRegisterApi: function(gridApi) {
@@ -1627,6 +1633,7 @@ $scope.selectAllColumns = function() {
       var col = Number($scope.columns[i].field);
         $scope.checkedColumns[col].checked = true;
       }
+  $scope.checkedColsChanged();
 }
 
 $scope.deSelectAllColumns = function() {
@@ -1634,6 +1641,7 @@ $scope.deSelectAllColumns = function() {
       var col = Number($scope.columns[i].field);
         $scope.checkedColumns[col].checked = false;
       }
+  $scope.checkedColsChanged();
 }
 
 $scope.deleteChart = function(index) {
@@ -1644,6 +1652,7 @@ $scope.deleteChart = function(index) {
 
 $scope.addChart = function() {
   if ($scope.highChartTempConfig){
+     // $scope.highChartTempConfig.size = { width: 400, height: 320};
       $scope.customizedDoc.chartConfigs.push($scope.highChartTempConfig);
   }
 
@@ -1651,6 +1660,7 @@ $scope.addChart = function() {
 $scope.editChart = function(index) {
    if ($scope.customizedDoc.chartConfigs[index]) {
       $scope.highChartTempConfig = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs[index]));
+    //  $scope.highChartTempConfig.size = { width: 600, height: 400};
    }
 }
 
