@@ -172,7 +172,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             i.glyphicon.glyphicon-tasks
                                                         a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="removeLastRow(grid,'grid_'+$index)")
                                                             i.glyphicon.glyphicon-minus
-                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="isCollapsed[$index] = !isCollapsed[$index]; buildOneGridChartData($index);")
+                                                        //a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="isCollapsed[$index] = !isCollapsed[$index]; buildOneGridChartData($index);")
                                                             i.glyphicon.glyphicon-stats
                                                         div  {{grid.gridName}}
                                                     .topic-title-tables.angular-ui-tree-handle(data-nodrag='', ng-show='grid.editing')
@@ -183,7 +183,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             //- br
                                                             //- button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add New Row to {{grid.gridName}}
                                                             //- br
-                                                            div(id="{{'panel_'+$index}}" collapse='!isCollapsed[$index]')
+                                                            //div(id="{{'panel_'+$index}}" collapse='!isCollapsed[$index]')
                                                                 .well.well-lg
                                                                     highchart(id="{{'chartHC_'+$index}}" config='highChartConfig[$index]')
                                                                     //br
