@@ -56,7 +56,8 @@ $scope.chartTypes = ['line'
                      ,'areaspline'
                      ,'scatter'
                      ,'bubble'
-                     ,'columnrange'
+                     //,'heatmap'
+                     // ,'columnrange'
                     ]
 
 
@@ -125,15 +126,15 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             $scope.columns = $scope.generateColumnDefs();
             $scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field , 'yyyy-MM-dd  h:mm a'));
             $scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field , 'yyyy-MM-dd  h:mm a'));
-            for(var i = 1; i < $scope.columns.length; i++) {
-                $scope.checkedColumns[$scope.columns[i].field] =  {'checked':true};
-            }
-           for(var i = 0 ; i < $scope.eventData.gridData.length; i++) {
-              for (var j = 0; j < $scope.eventData.gridData[i].dailyData.length; j++) {
-                       $scope.checkedRows[i+'_'+j] = {'checked':true};
-                       $scope.rowChecked(i,j);
-              }
-           }
+           //  for(var i = 1; i < $scope.columns.length; i++) {
+           //      $scope.checkedColumns[$scope.columns[i].field] =  {'checked':true};
+           //  }
+           // for(var i = 0 ; i < $scope.eventData.gridData.length; i++) {
+           //    for (var j = 0; j < $scope.eventData.gridData[i].dailyData.length; j++) {
+           //             $scope.checkedRows[i+'_'+j] = {'checked':true};
+           //             $scope.rowChecked(i,j);
+           //    }
+           // }
             $scope.gridOptions = {
               columnDefs : $scope.columns,
               onRegisterApi: function(gridApi) {
@@ -1069,29 +1070,29 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 
   }
   
-  $scope.buildGoogleChartData = function(grid) {
-    var chartData = $scope.getChartData(grid);
-    var cols = [];
-    var rows = [];
-    var oneRow = [];
-    var rawdata = [];
+  // $scope.buildGoogleChartData = function(grid) {
+  //   var chartData = $scope.getChartData(grid);
+  //   var cols = [];
+  //   var rows = [];
+  //   var oneRow = [];
+  //   var rawdata = [];
    
     
-    for (i=0; i < chartData.series.length; i++) {
-        oneRow.push(chartData.series[i].name);
-    }
-    oneRow.unshift('Date');
-    rows.push(oneRow);
-    oneRow=[];
-    for (i=0; i < chartData.xAxis.length; i++){
-         oneRow.push(chartData.xAxis[i]);
-         for (j=0; j < chartData.series.length; j++) {
-             oneRow.push(chartData.series[j].data[i]);
+  //   for (i=0; i < chartData.series.length; i++) {
+  //       oneRow.push(chartData.series[i].name);
+  //   }
+  //   oneRow.unshift('Date');
+  //   rows.push(oneRow);
+  //   oneRow=[];
+  //   for (i=0; i < chartData.xAxis.length; i++){
+  //        oneRow.push(chartData.xAxis[i]);
+  //        for (j=0; j < chartData.series.length; j++) {
+  //            oneRow.push(chartData.series[j].data[i]);
 
-         }
-         rows.push(oneRow);
-         oneRow=[];
-    }     
+  //        }
+  //        rows.push(oneRow);
+  //        oneRow=[];
+  //   }     
          
     //console.log(rows); 
     // for (i=0; i < chartData.series.length; i++) {
@@ -1148,7 +1149,12 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
             options: {
               chart: {
                   type: $scope.chartDefaultConfig.chartType,
-              }
+              },
+              yAxis : [{
+                        title: $scope.chartDefaultConfig.yAxis.title, 
+                        //type: "logarithmic"
+                        type : "linear"
+            }]
             },
             series: chartData.series,
             title: {
@@ -1158,11 +1164,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                       title : $scope.chartDefaultConfig.xAxis.title, 
             categories: chartData.xAxis
              },
-            yAxis : [{
-                        title: $scope.chartDefaultConfig.yAxis.title, 
-                        //type: "logarithmic"
-                        type : "linear"
-            }],
+            
                 loading: false
             };
                                                
@@ -1183,7 +1185,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                                              }
                                          }
                                        }
-        $scope.highChartConfig[chartIndex].yAxis.push(oneYaxis);
+        $scope.highChartConfig[chartIndex].options.yAxis.push(oneYaxis);
         $scope.highChartConfig[chartIndex].series[serieId].yAxis = yAxisId;
   }
 
@@ -1480,7 +1482,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
          $scope.highChartTempConfig.series = chartData.series;
          $scope.highChartTempConfig.xAxis.categories = chartData.xAxis;
          // reset y axises
-         $scope.highChartTempConfig.yAxis = [];
+         $scope.highChartTempConfig.options.yAxis = [];
          for(i=0; i < chartData.series.length; i ++) {
             var oneYaxis = {
             title: angular.copy($scope.chartDefaultConfig.yAxis.title), 
@@ -1490,7 +1492,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                   opposite  : false,
                   style     : {color : chartData.series[i].color}
          }  
-        $scope.highChartTempConfig.yAxis.push(oneYaxis);           
+        $scope.highChartTempConfig.options.yAxis.push(oneYaxis);           
     } 
      }
      else {
@@ -1507,14 +1509,15 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                                         padding: 10,
                                         fontWeight: 'bold'
                                     }
-                                }
+                                },
+                                yAxis : [],
                                 },
                                 series: chartData.series,
                                 xAxis: { 
                                           title : $scope.chartDefaultConfig.xAxis.title, 
                                           categories: chartData.xAxis
                                 },
-                                yAxis : [],
+                                
                                 loading: false,
                               //size (optional) if left out the chart will default to size of the div or something sensible.
                                 // size: {
@@ -1540,7 +1543,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                   opposite  : false,
                   style     : {color : chartData.series[i].color}
               }  
-        $scope.highChartTempConfig.yAxis.push(oneYaxis);           
+        $scope.highChartTempConfig.options.yAxis.push(oneYaxis);           
     } 
   }
 }
@@ -1579,15 +1582,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
           }
         }
         for (var j=0 ; j < chartCategories.length; j++) { 
-          if (!headingSet) {
-              headingSet = true;
-              chartCategoriesHeading.push($scope.eventData.colDisplayNames[chartCategories[j]]);
-          }
-          
            var colValue = Number(oneRow[chartCategories[j]]);
            serieData.push(isNaN(colValue)? null : colValue);
         }
-        var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[checkedRowCount]  }
+        var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[checkedRowCount], yAxis : 1   }
           series.push(newSerie);
           serieData = [];
           checkedRowCount++;
@@ -1684,14 +1682,15 @@ $scope.resetChart = function() {
                                         padding: 10,
                                         fontWeight: 'bold'
                                     }
-                                }
+                                },
+                                yAxis : [],
                                 },
                                 series: undefined,
                                 xAxis: { 
                                           title : $scope.chartDefaultConfig.xAxis.title, 
                                           categories: undefined
                                 },
-                                yAxis : [],
+                                
                                 loading: false,
                               //size (optional) if left out the chart will default to size of the div or something sensible.
                                 // size: {
@@ -1714,7 +1713,7 @@ $scope.resetChart = function() {
                   showEmpty : false,
                   opposite  : false,
               }  
-       $scope.highChartTempConfig.yAxis.push(oneYaxis);
+       $scope.highChartTempConfig.options.yAxis.push(oneYaxis);
   $scope.deSelectAllRows();
   $scope.selectAllColumns();
   

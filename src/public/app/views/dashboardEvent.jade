@@ -353,7 +353,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             .col-lg-12
                                                 h4
-                                                    | Preview Chart
+                                                    | Chart Preview
                                         .well
                                             .row
                                                 .col-lg-7
@@ -384,7 +384,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                                 input.form-control(type='textarea' ng-model='highChartTempConfig.xAxis.title.text')
                                                                     accordion-group(heading="Y Axis")
                                                                         accordion()
-                                                                            accordion-group(heading="{{'Axis '+ $index}}" ng-repeat="yaxis in highChartTempConfig.yAxis")
+                                                                            accordion-group(heading="{{'Axis '+ ($index+1)}}" ng-repeat="yaxis in highChartTempConfig.options.yAxis")
                                                                                 label Title 
                                                                                     input.form-control(type='textarea' ng-model='yaxis.title.text')
                                                                                 label Font Weight 
@@ -409,7 +409,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                                 |  Color 
                                                                                 input.form-control(type='textarea' ng-model='serie.color')
                                                                                 |  Axis Bind To (default to left Y-Axis)
-                                                                                input.form-control(type='number' ng-model='serie.yAxis' min=0 max="{{highChartTempConfig.yAxis.length-1}}" value='serie.yAxis')
+                                                                                input.form-control(type='number' ng-model='serie.yAxis' min=1 max="{{highChartTempConfig.series.length}}" value = '1' ng-change="processYaxis()")
                                          .row
                                             .col-lg-12
                                                 h4
@@ -439,7 +439,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             .col-lg-12
                                                 iframe(id="txtArea1" style="display:none")
-                                        //.row
+                                        .row
                                             .col-lg-6
                                                     h3 Data binding
                                                     .info
