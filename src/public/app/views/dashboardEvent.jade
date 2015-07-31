@@ -246,41 +246,51 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         hr
                                         br
                                         .row
-                                            button.btn.btn-default(ng-click='selectAllColumns()', style='color:#337ab7;') Select All Columns
-                                            button.btn.btn-default(ng-click='deSelectAllColumns()', style='color:#337ab7;') De-select All Columns
-                                            button.btn.btn-default(ng-click='fnExcelReport()')
-
-                                                | Export Data Table to Excel
+                                            .col-lg-12
+                                                h4
+                                                    | Select Columns
                                         br
-                                        .row.row-margin
-                                            .col-lg-3.col-md-4.col-sm-6
-                                            
-                                                .form-comp-cont-bottomrow
-                                                    label From Date
-                                                    .dropdown
-                                                        a#dropdown1.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
-                                                            .input-group
-                                                                div.form-control(type='text')
-                                                                    | {{chartDataFromDate | date:'MMM d, yyyy'}}
-                                                                span.input-group-addon
-                                                                    i.glyphicon.glyphicon-calendar
-                                                        ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
-                                                            datetimepicker(data-on-set-time="fromdateChanged(newDate, oldDate)" data-ng-model='chartDataFromDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1',startView:'day', minView:'day' }")
-                                            .col-lg-3.col-md-4.col-sm-6
-                                                .form-comp-cont-bottomrow2
-                                                    label To Date
-                                                    .dropdown
-                                                        a#dropdown2.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
-                                                            .input-group
-                                                                div.form-control(type='text')
-                                                                    | {{chartDataToDate | date:'MMM d, yyyy'}}
-                                                                span.input-group-addon
-                                                                    i.glyphicon.glyphicon-calendar
-                                                        ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
-                                                            datetimepicker(data-on-set-time="todateChanged(newDate, oldDate)" data-ng-model='chartDataToDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown2',startView:'day', minView:'day' }")
-                                            .col-lg-6.col-md-4.col-sm-0
+                                        .row
+                                            .col-lg-3
+                                                label
+                                                    | From Date
+                                                .dropdown
+                                                    a#dropdown1.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
+                                                        .input-group
+                                                            div.form-control(type='text')
+                                                                | {{chartDataFromDate | date:'MMM d, yyyy'}}
+                                                            span.input-group-addon
+                                                                i.glyphicon.glyphicon-calendar
+                                                    ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
+                                                        datetimepicker(data-on-set-time="fromdateChanged(newDate, oldDate)" data-ng-model='chartDataFromDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1',startView:'day', minView:'day' }")
+                                            .col-lg-3
+                                                label
+                                                    | To Date
+                                                .dropdown                                                    
+                                                    a#dropdown2.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
+                                                        .input-group
+                                                            div.form-control(type='text')
+                                                                | {{chartDataToDate | date:'MMM d, yyyy'}}
+                                                            span.input-group-addon
+                                                                i.glyphicon.glyphicon-calendar
+                                                    ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
+                                                        datetimepicker(data-on-set-time="todateChanged(newDate, oldDate)" data-ng-model='chartDataToDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown2',startView:'day', minView:'day' }")     
+                                            .col-lg-3
+                                                label
+                                                    | &nbsp;
+                                                br
                                                 button.btn.btn-success(type="button" ng-click="refreshCheckedCols()")
                                                     | GO
+                                        br
+                                        .row
+                                            .col-lg-12
+                                                label
+                                                    | (or)
+                                        br
+                                        .row
+                                            .col-lg-12
+                                                button.btn.btn-default(ng-click='selectAllColumns()', style='color:#337ab7;') Select All Columns
+                                                button.btn.btn-default(ng-click='deSelectAllColumns()', style='color:#337ab7;') De-select All Columns
                                         br
                                         .row
                                             .col-lg-12(style="overflow:scroll;")
@@ -308,6 +318,10 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                 | &nbsp; {{dailyData.label}}
                                                             td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in columns | filter:{field:'!label'}")
                                                                 | {{dailyData[col.field]}} 
+                                        .row
+                                            .col-lg-12
+                                                button.btn.btn-default.btn-xs(ng-click='fnExcelReport()')
+                                                    | Export Data Table to Excel
                                         .row(ng-hide='true')
                                             .col-lg-12(id="dataTableForPrintDiv" style="overflow:scroll;")
                                                 table(id="dataTable" style="margin-bottom:20px;", border="1")
@@ -338,10 +352,20 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         br
                                         .row
                                             .col-lg-12
-                                                .well.well-lg
-                                                    div.pull-right(style="width:350px;")
+                                                h4
+                                                    | Preview Chart
+                                        .well
+                                            .row
+                                                .col-lg-8
+                                                    highchart(id="chartTemp" config='highChartTempConfig')
+                                                    br
+                                                    button.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
+                                                    button.btn.btn-default(ng-click='resetChart()', style='color:#337ab7;') Reset Chart
+                                                .col-lg-4
+                                                    //.well.well-lg
+                                                    div.pull-left(style="width:100%;")
                                                         accordion()
-                                                            accordion-group(heading="Customize Chart")
+                                                            accordion-group(is-open="true"  heading="Customize")
                                                                 accordion()
                                                                     accordion-group(heading="Chart")
                                                                         |Chart Type&nbsp;&nbsp;
@@ -386,33 +410,31 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                                 input.form-control(type='textarea' ng-model='serie.color')
                                                                                 |  Axis Bind To (default to left Y-Axis)
                                                                                 input.form-control(type='number' ng-model='serie.yAxis' min=0 max="{{highChartTempConfig.yAxis.length-1}}" value='serie.yAxis')
-                                                    br
-                                                    highchart(id="chartTemp" config='highChartTempConfig')
-                                                    br
-                                                    button.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
-                                                    button.btn.btn-default(ng-click='resetChart()', style='color:#337ab7;') Reset Chart
-                                        br
+                                         .row
+                                            .col-lg-12
+                                                h4
+                                                    | Saved Charts
+                                        hr
                                         .row
                                             .col-lg-12
-
                                                 div(ng-repeat='chartConfig in customizedDoc.chartConfigs track by $index', style="margin-bottom:30px;")
-                                                   
-                                                    div.well
-                                                        //- label
-                                                        //-     |Chart Title 
-                                                        //-     input.form-control(type='textarea' ng-model='chartConfig.title.text')
-                                                        //- &nbsp;&nbsp;
-                                                        //- label
-                                                        //-     |Y-axis Title 
-                                                        //-     input.form-control(type='textarea' ng-model='chartConfig.yAxis[0].title.text')
-                                                        //- &nbsp;&nbsp;
-                                                        //- label
-                                                        //-     |X-axis Title 
-                                                        //-     input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
-                                                        highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
-                                                        br
-                                                        button.btn.btn-warning(ng-click='deleteChart($index)', style='color:#337ab7;') Delete Chart
-                                                        button.btn.btn-warning(ng-click='editChart($index)', style='color:#337ab7;') Edit Chart
+                                                    //div.well
+                                                    //- label
+                                                    //-     |Chart Title 
+                                                    //-     input.form-control(type='textarea' ng-model='chartConfig.title.text')
+                                                    //- &nbsp;&nbsp;
+                                                    //- label
+                                                    //-     |Y-axis Title 
+                                                    //-     input.form-control(type='textarea' ng-model='chartConfig.yAxis[0].title.text')
+                                                    //- &nbsp;&nbsp;
+                                                    //- label
+                                                    //-     |X-axis Title 
+                                                    //-     input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
+                                                    highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
+                                                    br
+                                                    button.btn.btn-warning(ng-click='deleteChart($index)', style='color:#337ab7;') Delete Chart
+                                                    button.btn.btn-warning(ng-click='editChart($index)', style='color:#337ab7;') Edit Chart
+                                                    hr
                                         br
                                         .row
                                             .col-lg-12
