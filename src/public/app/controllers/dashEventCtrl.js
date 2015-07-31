@@ -1517,10 +1517,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                                 yAxis : [],
                                 loading: false,
                               //size (optional) if left out the chart will default to size of the div or something sensible.
-                                size: {
-                                  width: 600,
-                                  height: 400
-                                },
+                                // size: {
+                                //   width: 600,
+                                //   height: 400
+                                // },
                                 title: {
                                           text: "chart title",
                                           style : {fontWeight: 'bold', fontSize:20}
@@ -1660,7 +1660,6 @@ $scope.addChart = function() {
 $scope.editChart = function(index) {
    if ($scope.customizedDoc.chartConfigs[index]) {
       $scope.highChartTempConfig = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs[index]));
-    //  $scope.highChartTempConfig.size = { width: 600, height: 400};
    }
 }
 
@@ -1695,10 +1694,10 @@ $scope.resetChart = function() {
                                 yAxis : [],
                                 loading: false,
                               //size (optional) if left out the chart will default to size of the div or something sensible.
-                                size: {
-                                  width: 600,
-                                  height: 400
-                                },
+                                // size: {
+                                //   width: 600,
+                                //   height: 400
+                                // },
                                 title: {
                                           text: "chart title",
                                           style : {fontWeight: 'bold', fontSize:20}
@@ -1716,9 +1715,9 @@ $scope.resetChart = function() {
                   opposite  : false,
               }  
        $scope.highChartTempConfig.yAxis.push(oneYaxis);
-   
-  $scope.selectAllColumns();
   $scope.deSelectAllRows();
+  $scope.selectAllColumns();
+  
 
 }
 
