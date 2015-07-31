@@ -28,6 +28,7 @@ module.exports = function(app) {
   app.get('/api/events/getEventInstanceInfo/:Id',dashboardData.getEventInstanceInfo);
   app.get('/api/events/duplicate/:eventName',events.findDuplicate);
   app.post('/api/events/drafts/delete/:Id',events.deleteDraft);
+  app.post('/api/events/active/delete/:Id',events.deActivateInstance);
   app.get('/api/events/analyst/:analystId',events.getEventsByAnalyst);
   app.post('/api/events/saveEventCategory',events.saveEventCategory);
   app.get('/api/events/getEventsForImport',events.getEventsForImport);
