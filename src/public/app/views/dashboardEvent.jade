@@ -402,15 +402,15 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                                     &nbsp;
                                                                                     input(type='radio' ng-model='yaxis.opposite' ng-value='true')
                                                                                     |  Right
-                                            
                                                                     accordion-group(heading="Series")
                                                                         accordion()
                                                                             accordion-group(heading="{{serie.name}}" ng-repeat="serie in highChartTempConfig.series")
                                                                                 |  Color 
                                                                                 input.form-control(type='textarea' ng-model='serie.color')
                                                                                 |  Axis Bind To (default to left Y-Axis)
-                                                                                input.form-control(type='number' ng-model='serie.yAxis' min=1 max="{{highChartTempConfig.series.length}}" value = '1' ng-change="processYaxis()")
-                                         .row
+                                                                                //input.form-control(type='number' ng-model='serie.yAxis' min=1 max="{{highChartTempConfig.series.length}}" value =  ng-change="processYaxis()")
+                                                                                select(data-ng-model='serie.yAxis' data-ng-options='idx*1 as yAxis.id for (idx,yAxis) in highChartTempConfig.options.yAxis')
+                                        .row
                                             .col-lg-12
                                                 h4
                                                     | Saved Charts

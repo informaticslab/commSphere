@@ -126,15 +126,15 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
             $scope.columns = $scope.generateColumnDefs();
             $scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field , 'yyyy-MM-dd  h:mm a'));
             $scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field , 'yyyy-MM-dd  h:mm a'));
-           //  for(var i = 1; i < $scope.columns.length; i++) {
-           //      $scope.checkedColumns[$scope.columns[i].field] =  {'checked':true};
-           //  }
-           // for(var i = 0 ; i < $scope.eventData.gridData.length; i++) {
-           //    for (var j = 0; j < $scope.eventData.gridData[i].dailyData.length; j++) {
-           //             $scope.checkedRows[i+'_'+j] = {'checked':true};
-           //             $scope.rowChecked(i,j);
-           //    }
-           // }
+            for(var i = 1; i < $scope.columns.length; i++) {
+                $scope.checkedColumns[$scope.columns[i].field] =  {'checked':false};
+            }
+           for(var i = 0 ; i < $scope.eventData.gridData.length; i++) {
+              for (var j = 0; j < $scope.eventData.gridData[i].dailyData.length; j++) {
+                       $scope.checkedRows[i+'_'+j] = {'checked':false};
+                      //   $scope.rowChecked(i,j);
+              }
+           }
             $scope.gridOptions = {
               columnDefs : $scope.columns,
               onRegisterApi: function(gridApi) {
@@ -892,7 +892,7 @@ $scope.getChartData = function(grid) {
   serieName = oneRow['label'];
      for (var j=0 ; j < chartCategories.length; j++) { 
            var colValue = Number(oneRow[chartCategories[j]]);
-           serieData.push(isNaN(colValue)? null : colValue);
+            serieData.push({'name': $scope.eventData.colDisplayNames[chartCategories[j]], 'y': (isNaN(colValue)? null : colValue)});
          }
   var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[i]  }
       series.push(newSerie);
@@ -1104,35 +1104,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
     //     }
     // }
    //console.log(rows);
-   var data = (google.visualization.arrayToDataTable(rows));
-    
-    var chartObject = {
-  "type": "LineChart",
-  "displayed": true,
-  "data": data,
-  "options": {
-    "title": grid.gridName,
-    "width":700,
-    "height": 400,
-    "isStacked": false,
-    "fill": 20,
-    "displayExactValues": true,
-    "vAxis": {
-      "title": "Count",
-      "gridlines": {
-        "count": 5
-      }
-    },
-    "hAxis": {
-      "title": null
-    },
-    "legend" : {position: 'bottom', alignment:'start' , textStyle: {color: 'blue', fontSize: 12}},
-    "chartArea" : {left:40,top:20,width:"80%",height:"80%"}
-  },
-  "formatters": {}
-}
- return chartObject;
-  }
+// 
 
   $scope.buildHighChartData = function(grid,index) {
     // console.log($scope.chartDefaultConfig.yAxis);
@@ -1490,7 +1462,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                   type : "linear",
                   showEmpty : false,
                   opposite  : false,
-                  style     : {color : chartData.series[i].color}
+                  style     : {color : chartData.series[i].color},
+                  id: 'Y-Axis '+(i+1)
          }  
         $scope.highChartTempConfig.options.yAxis.push(oneYaxis);           
     } 
@@ -1541,7 +1514,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                   type : "linear",
                   showEmpty : false,
                   opposite  : false,
-                  style     : {color : chartData.series[i].color}
+                  style     : {color : chartData.series[i].color},
+                  id        : 'Y-Axis '+ (i+1)
               }  
         $scope.highChartTempConfig.options.yAxis.push(oneYaxis);           
     } 
@@ -1583,9 +1557,9 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         }
         for (var j=0 ; j < chartCategories.length; j++) { 
            var colValue = Number(oneRow[chartCategories[j]]);
-           serieData.push(isNaN(colValue)? null : colValue);
+           serieData.push({'name': $scope.eventData.colDisplayNames[chartCategories[j]], 'y': (isNaN(colValue)? null : colValue)});
         }
-        var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[checkedRowCount], yAxis : 1   }
+        var newSerie = {name: serieName, data: serieData, color: $scope.chartDefaultConfig.seriesColors[checkedRowCount], yAxis : 0   }
           series.push(newSerie);
           serieData = [];
           checkedRowCount++;
@@ -1651,7 +1625,7 @@ $scope.deleteChart = function(index) {
 $scope.addChart = function() {
   if ($scope.highChartTempConfig){
      // $scope.highChartTempConfig.size = { width: 400, height: 320};
-      $scope.customizedDoc.chartConfigs.push($scope.highChartTempConfig);
+      $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
   }
 
 }
@@ -1712,6 +1686,7 @@ $scope.resetChart = function() {
                   type : "linear",
                   showEmpty : false,
                   opposite  : false,
+                  id        : 'Y-Axis 1'   
               }  
        $scope.highChartTempConfig.options.yAxis.push(oneYaxis);
   $scope.deSelectAllRows();
