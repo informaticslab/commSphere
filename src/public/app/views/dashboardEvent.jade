@@ -235,7 +235,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         |{{topic.name}}
                                                         .grid(ui-grid="{data: topic.subTopics, enableCellEditOnFocus: true , columnDefs: columnsLayout} ", ui-grid-edit,ui-grid-cellNav)                                                        
                             //CHART TAB
-                            tab(heading="Charts Generation" select="tabShown = !tabShown;" ng-click="populateGrid()" deselect="tabShown = !tabShown")
+                            tab(heading="Charts" select="tabShown = !tabShown;" ng-click="populateGrid()" deselect="tabShown = !tabShown")
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;' )
                                         br
@@ -255,7 +255,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             .col-lg-3
                                                 label
-                                                    | From Date
+                                                    | Start Date
                                                 .dropdown
                                                     a#dropdown1.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
                                                         .input-group
@@ -267,7 +267,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         datetimepicker(data-on-set-time="fromdateChanged(newDate, oldDate)" data-ng-model='chartDataFromDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1',startView:'day', minView:'day' }")
                                             .col-lg-3
                                                 label
-                                                    | To Date
+                                                    | End Date
                                                 .dropdown                                                    
                                                     a#dropdown2.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
                                                         .input-group
@@ -283,11 +283,6 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                 br
                                                 button.btn.btn-success(type="button" ng-click="refreshCheckedCols()")
                                                     | GO
-                                        br
-                                        .row
-                                            .col-lg-12
-                                                label
-                                                    | (or)
                                         br
                                         .row
                                             .col-lg-12
@@ -363,12 +358,29 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     br
                                                     button.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
                                                     button.btn.btn-default(ng-click='resetChart()', style='color:#337ab7;') Reset Chart
-                                                .col-lg-5
+                                                .col-lg-5(style="padding-left:20px;")
                                                     //.well.well-lg
                                                     div.pull-left(style="width:100%;")
                                                         accordion()
-                                                            accordion-group(is-open="true"  heading="Customize")
-                                                                accordion()
+                                                            accordion-group(is-open="true"  heading="Customize Chart")
+                                                                |Chart Type&nbsp;&nbsp;
+                                                                select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
+                                                                br
+                                                                br
+                                                                |Polar Display &nbsp;
+                                                                input(type='checkbox' ng-model = 'highChartTempConfig.options.chart.polar')
+                                                                br
+                                                                br
+                                                                |Chart Title
+                                                                input.form-control(type='textarea' ng-model='highChartTempConfig.title.text')
+                                                                br
+                                                                |X-Axis Title 
+                                                                input.form-control(type='textarea' ng-model='highChartTempConfig.xAxis.title.text')
+                                                                br
+                                                                |Y-Axis Title 
+                                                                input.form-control(type='textarea' ng-model='yaxis.title.text')
+                                                                br
+                                                                //-accordion()
                                                                     accordion-group(heading="Chart")
                                                                         |Chart Type&nbsp;&nbsp;
                                                                         select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
@@ -381,10 +393,10 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                         //- input.form-control(type='number' min=100 step=10 ng-model='highChartTempConfig.size.height')
                                                                         |Chart Title
                                                                         input.form-control(type='textarea' ng-model='highChartTempConfig.title.text')
-                                                                    accordion-group(heading="X Axis")
+                                                                    //-accordion-group(heading="X Axis")
                                                                             label X-axis Title 
                                                                                 input.form-control(type='textarea' ng-model='highChartTempConfig.xAxis.title.text')
-                                                                    accordion-group(heading="Y Axis")
+                                                                    //-accordion-group(heading="Y Axis")
                                                                         accordion()
                                                                             accordion-group(heading="{{'Axis '+ ($index+1)}}" ng-repeat="yaxis in highChartTempConfig.options.yAxis")
                                                                                 label Title 
@@ -404,7 +416,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                                     &nbsp;
                                                                                     input(type='radio' ng-model='yaxis.opposite' ng-value='true')
                                                                                     |  Right
-                                                                    accordion-group(heading="Series")
+                                                                    //-accordion-group(heading="Series")
                                                                         accordion()
                                                                             accordion-group(heading="{{serie.name}}" ng-repeat="serie in highChartTempConfig.series")
                                                                                 |  Color 
