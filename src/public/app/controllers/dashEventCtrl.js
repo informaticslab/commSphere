@@ -29,7 +29,8 @@ $scope.minTopicWidth = 200;
 //$scope.googleChartObj = [];
 //$scope.chartJsData =[];
 $scope.highChartConfig = [];
-$scope.chartColors = [ "#FF0000","#0000FF","#00FF00"];
+$scope.chartColors = [ '#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', 
+             '#FF9655', '#FFF263', '#6AF9C4'];
 // $scope.chartJsLineConfig = {
 //             bezierCurve : true,
 //             datasetFill : false,
@@ -45,7 +46,8 @@ $scope.chartDefaultConfig = {
     'ChartTitle' :'Chart Title',
     'yAxis': {'title': {'text':'Count', 'style': {'color':'blue','fontSize':10,"fontWeight": "bold" }}},
     'xAxis': {'title': {'text' :undefined, 'style': {'color':'blue'}}},
-    'seriesColors' : [ "#FF0000","#0000FF","#00FF00"]
+    'seriesColors' : [ '#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', 
+             '#FF9655', '#FFF263', '#6AF9C4']
 }
 $scope.chartTypes = ['line'
                      ,'column'
@@ -124,8 +126,8 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               
                ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
-            $scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field , 'yyyy-MM-dd  h:mm a'));
-            $scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field , 'yyyy-MM-dd  h:mm a'));
+            //$scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field , 'yyyy-MM-dd  h:mm a'));
+            //$scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field , 'yyyy-MM-dd  h:mm a'));
             for(var i = 1; i < $scope.columns.length; i++) {
                 $scope.checkedColumns[$scope.columns[i].field] =  {'checked':false};
             }
@@ -135,6 +137,9 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
                       //   $scope.rowChecked(i,j);
               }
            }
+
+           $scope.resetChart();
+
             $scope.gridOptions = {
               columnDefs : $scope.columns,
               onRegisterApi: function(gridApi) {
@@ -157,7 +162,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      }
 });
 
-
+            
 $scope.date = new Date().getTime();
 $scope.activeTab="tab_0";
 
@@ -1592,12 +1597,14 @@ $scope.todateChanged = function (newDate, oldDate) {
     //console.log(newDate);
     //console.log(oldDate);
     $scope.chartDataToDate = newDate;
+    $scope.refreshCheckedCols();
 }
 
 $scope.fromdateChanged = function (newDate, oldDate) {
     //console.log(newDate);
     //console.log(oldDate);
     $scope.chartDataFromDate = newDate;
+    $scope.refreshCheckedCols();
 }
 
 $scope.selectAllColumns = function() {
@@ -1635,15 +1642,26 @@ $scope.editChart = function(index) {
    }
 }
 
+$scope.selectAllRows = function() {
+    for(var i = 0 ; i < $scope.eventData.gridData.length; i++) {
+              for (var j = 0; j < $scope.eventData.gridData[i].dailyData.length; j++) {
+                       $scope.checkedRows[i+'_'+j] = {'checked':true}
+                       $scope.rowChecked(i,j);
+              }
+   }
+
+}
+
 $scope.deSelectAllRows = function() {
     //console.log('checked rows before ',$scope.checkedRows)
    for (var checkedRow in $scope.checkedRows) {
       $scope.checkedRows[checkedRow].checked = false;
    }
    //console.log('checked rows after ',$scope.checkedRows)
+   $scope.checkedColsChanged();
 }
 
-$scope.resetChart = function() {
+$scope.resetChart  = function() {
    $scope.highChartTempConfig = $scope.highChartTempConfig = { options: {
       //This is the Main Highcharts chart config. Any Highchart options are valid here.
       //will be overriden by values specified below.
@@ -1690,7 +1708,7 @@ $scope.resetChart = function() {
               }  
        $scope.highChartTempConfig.options.yAxis.push(oneYaxis);
   $scope.deSelectAllRows();
-  $scope.selectAllColumns();
+  $scope.deSelectAllColumns();
   
 
 }

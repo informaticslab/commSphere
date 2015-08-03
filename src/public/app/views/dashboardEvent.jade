@@ -377,7 +377,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                                 i.glyphicon.glyphicon-calendar
                                                                     ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
                                                                         datetimepicker(data-on-set-time="todateChanged(newDate, oldDate)" data-ng-model='chartDataToDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown2',startView:'day', minView:'day' }")     
-                                                            .col-lg-3
+                                                            //.col-lg-3
                                                                 label
                                                                     | &nbsp;
                                                                 br
@@ -388,6 +388,10 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             .col-lg-12
                                                                 button.btn.btn-default(ng-click='selectAllColumns()', style='color:#337ab7;') Select All Columns
                                                                 button.btn.btn-default(ng-click='deSelectAllColumns()', style='color:#337ab7;') De-select All Columns
+                                                                br
+                                                                br
+                                                                button.btn.btn-default(ng-click='selectAllRows()', style='color:#337ab7;') Select All Rows
+                                                                button.btn.btn-default(ng-click='deSelectAllRows()', style='color:#337ab7;') De-select All Rows
                                         hr
                                         .row
                                             .col-lg-12
@@ -400,7 +404,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         highchart(id="chartTemp" config='highChartTempConfig')
                                                     br
                                                     button.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
-                                                    button.btn.btn-default(ng-click='resetChart()', style='color:#337ab7;') Reset Chart
+                                                    button.btn.btn-default(ng-click='resetChart();', style='color:#337ab7;') Reset Chart
                                                 .col-lg-5(style="padding-left:20px;")
                                                     //.well.well-lg
                                                     div.pull-left(style="width:100%;")
@@ -423,7 +427,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                 input.form-control(type='textarea' ng-model='highChartTempConfig.xAxis.title.text')
                                                                 br
                                                                 |Y-Axis Title 
-                                                                input.form-control(type='textarea' ng-model='yaxis.title.text')
+                                                                input.form-control(type='textarea' ng-model='highChartTempConfig.options.yAxis[0].title.text')
                                                                 br
                                                         //-accordion()
                                                             accordion-group(is-open="true"  heading="Customize Chart")
