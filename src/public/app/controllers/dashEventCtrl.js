@@ -1,4 +1,4 @@
-angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout, ngExcelExport) {
+angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout, ngExcelExport, Upload) {
 
 
 $scope.checkedRows =[];
@@ -17,6 +17,8 @@ $scope.tabCategory=[
                    ];
 $scope.currentLocation = $location.url();
 // grid setup
+
+$scope.log = '';
 
 $scope.gridOptions={
   onRegisterApi: function(gridApi){
@@ -1782,5 +1784,24 @@ $scope.CreateExcelSheet=function()
 
   return xls;
 }
+
+$scope.importFile = function(files) {
+  if(files && files.length) {
+    for(var i = 0; i < files.length; i++) {
+      var file = files[i];
+      Upload.upload({
+        url:'/api/upload',
+        fields: {
+          'eventId':'DUMMY ID'
+        },
+        file: file
+      }).success(function (data, status, header, config) {
+        $timeout(function() {
+          $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
+        });
+      });
+    }
+  }
+};
 
 });

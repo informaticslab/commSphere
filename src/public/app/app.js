@@ -17,6 +17,7 @@ var commSphereApp = angular.module('app', [
   ,'ui.bootstrap.datetimepicker'
   ,'duScroll'
   ,'highcharts-ng'
+  ,'ngFileUpload'
   //,'chart.js'
   //,'tc.chartjs'
   //,'googlechart'

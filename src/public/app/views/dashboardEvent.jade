@@ -202,38 +202,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             .form-topic
                                                                 label.sr-only(for='gridName') Table name
                                                                 input#gridName.form-control(type='text' placeholder='Enter table name' ng-model="grid.newGridName" ng-keyup='$event.keyCode==13 ? addTable(grid,$event) : null' ng-blur='addTable(grid,$event)')
-                                                            //button.btn.btn-default(type='submit', ng-click='addTable(grid)') Add Table   
-
-                                        //br
-                                        //.row
-                                               highchart#highchart1(config='highChartConfig')
-                                        //br
-                                        //.row
-                                            canvas#chartJS_0(width='500', height='400' ng-if="tabShown") 
-                                            div#js-legend.chart-legend
-                                            div(ng-repeat = 'grid in eventData.gridData') 
-                                                div {{grid.gridName}}
-                                                canvas(id="{{'chartJS_'+$index}}", width='500', height='300' ng-if="tabShown")
-                                                div#js-legend.chart-legend
-                             //tab(heading="Data2" select="setActiveCategory('Data2')")
-                                 .row
-                                    .col-lg-12.col-md-12.col-sm-12
-                                        br
-                                        .row
-                                            .col-lg-9.col-md-9.col-sm-9
-                                                 .tab-title-heading
-                                                    img(src='img/web-icon.png', width='37', height='32')
-                                        .row
-                                            .col-lg-3.col-md-3.col-sm-3
-                                                ul.nav.nav-pills.nav-stacked(style="background-color:#f2f2f2;")
-                                                    li(ng-repeat="topic in eventData.topics" ng-class="{active:activeTab=='tab_'+$index}")
-                                                        a(data-target="{{'#tab_'+$index}}" data-toggle="pill"  ng-click="gotoElement('tab_'+$index)" style="cursor:pointer")
-                                                            | {{topic.name}}
-                                            .col-lg-9.col-md-9.col-sm-9
-                                                //div.tab-content
-                                                div(ng-repeat="topic in eventData.topics" id="{{'tab_'+$index}}" ng-class="{active:activeTab=='tab_'+$index}")
-                                                        |{{topic.name}}
-                                                        .grid(ui-grid="{data: topic.subTopics, enableCellEditOnFocus: true , columnDefs: columnsLayout} ", ui-grid-edit,ui-grid-cellNav)                                                        
+                                                            //button.btn.btn-default(type='submit', ng-click='addTable(grid)') Add Table                   
                             //CHART TAB
                             tab(heading="Charts Generation" select="tabShown = !tabShown;" ng-click="populateGrid()" deselect="tabShown = !tabShown")
                                 .row
@@ -448,6 +417,33 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         | {{  }}
                                                     pre.code.
                                                         {{ highChartTempConfig | json }}   
+                            //IMAGE UPLOAD TAB
+                            tab(heading="Upload Images" select="tabShown = !tabShown;" deselect="tabShown = !tabShown")
+                                .row
+                                    .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;' drag-enabled="identity.isAuthorized('levelTwo')")
+                                        br
+                                        .row
+                                            .col-lg-9.col-md-9.col-sm-9
+                                                .tab-title-heading
+                                                    img(src='img/web-icon.png', width='37', height='32')
+                                                    |  Upload Images
+                                        br
+                                        hr 
+                                        br
+                                        .row
+                                            .well
+                                                .form
+                                                    h3 
+                                                    | Select file for Upload
+                                                    .form-group
+                                                        label(for='inputFile')
+                                                        input#inputFile(type="file")
+
+
+
+
+
+
             .clear-divs
 
 
