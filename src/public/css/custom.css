@@ -540,3 +540,5 @@ input[type=checkbox].css-checkbox {
     background-color:#c6d8ae;
   }
 }
+
+.highcharts-container{width:110% !important; height:100% !important;}

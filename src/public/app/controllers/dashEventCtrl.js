@@ -1,6 +1,6 @@
 angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout, ngExcelExport) {
 
-
+$scope.isCollapsed = true;
 $scope.checkedRows =[];
 $scope.checkedColumns = {};
 $scope.contentloaded=false;
@@ -138,7 +138,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               }
            }
 
-           $scope.resetChart();
+            $scope.resetChart();
 
             $scope.gridOptions = {
               columnDefs : $scope.columns,
@@ -1662,7 +1662,7 @@ $scope.deSelectAllRows = function() {
 }
 
 $scope.resetChart  = function() {
-   $scope.highChartTempConfig = $scope.highChartTempConfig = { options: {
+   $scope.highChartTempConfig = { options: {
       //This is the Main Highcharts chart config. Any Highchart options are valid here.
       //will be overriden by values specified below.
                                 chart: {
@@ -1675,7 +1675,7 @@ $scope.resetChart  = function() {
                                         fontWeight: 'bold'
                                     }
                                 },
-                                yAxis : [],
+                                yAxis : []
                                 },
                                 series: undefined,
                                 xAxis: { 
@@ -1695,7 +1695,7 @@ $scope.resetChart  = function() {
                                 },
                                 //function (optional)
                                 func: function (chart) {
-                                 //setup some logic for the chart
+                                 $timeout(chart.reflow(),200);
                                 }
                               };  
        var oneYaxis = {
@@ -1707,8 +1707,12 @@ $scope.resetChart  = function() {
                   id        : 'Y-Axis 1'   
               }  
        $scope.highChartTempConfig.options.yAxis.push(oneYaxis);
+
   $scope.deSelectAllRows();
   $scope.deSelectAllColumns();
+  $scope.highChartTempConfig.options.chart.type = '';
+  $timeout(function(){$scope.highChartTempConfig.options.chart.type = 'line';},200);
+
   
 
 }
