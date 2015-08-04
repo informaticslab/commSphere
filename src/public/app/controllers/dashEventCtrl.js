@@ -1,4 +1,4 @@
-angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout, ngExcelExport, Upload) {
+angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout, ngExcelExport,Upload) {
 
 
 $scope.checkedRows =[];
@@ -19,6 +19,7 @@ $scope.currentLocation = $location.url();
 // grid setup
 
 $scope.log = '';
+$scope.file=[];
 
 $scope.gridOptions={
   onRegisterApi: function(gridApi){
@@ -1785,23 +1786,36 @@ $scope.CreateExcelSheet=function()
   return xls;
 }
 
-$scope.importFile = function(files) {
-  if(files && files.length) {
-    for(var i = 0; i < files.length; i++) {
-      var file = files[i];
+  // $scope.$watch('file', function () {
+  //       $scope.importFile([$scope.file]);
+  //   });
+
+$scope.uploadFile = function(files) {
+  console.log("importFile fired");
+  console.log(files);
+  if(files) {
+    // for(var i = 0; i < files.length; i++) {
+      var file = files;
+      console.log(file);
       Upload.upload({
         url:'/api/upload',
         fields: {
           'eventId':'DUMMY ID'
         },
         file: file
+      }).progress(function(evt) {
+        var progressPercentage = parseInt(100.0*evt.loaded / evt.total);
+        console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
       }).success(function (data, status, header, config) {
+        console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
         $timeout(function() {
           $scope.log = 'file: ' + config.file.name + ', Response: ' + JSON.stringify(data) + '\n' + $scope.log;
+        }).error(function (data, status, headers, config) {
+          console.log('error status: '+ status);
         });
       });
     }
-  }
+  // }
 };
 
 });

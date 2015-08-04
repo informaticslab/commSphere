@@ -432,18 +432,23 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         br
                                         .row
                                             .well
-                                                .form
-                                                    h3 
-                                                    | Select file for Upload
-                                                    .form-group
-                                                        label(for='inputFile')
-                                                        input#inputFile(type="file")
-
-
-
-
-
-
+                                                .form(name='uploadForm')
+                                                    fieldset
+                                                        legend Upload on form submit
+                                                        | File Name: 
+                                                        input(type='text', name='filename', ng-model='fileName', size='39', required='')
+                                                        br
+                                                        i(ng-show='uploadForm.filename.$error.required') *required
+                                                        br
+                                                        input(type='file', ngf-select= '', ng-model='imageFile', name='file', accept='image/*', required='')
+                                                        i(ng-show='uploadForm.file.$error.required') *required
+                                                        br
+                                                        button(ng-click='uploadFile(imageFile)') Upload
+                                                        img.thumb(ng-show='imageFile != null', ngf-src='imageFile')
+                                                        span.progress(ng-show='imageFile.progress >= 0')
+                                                          .ng-binding(style='width:{{imageFile.progress}}%', ng-bind="imageFile.progress + '%'")
+                                                        span(ng-show='imageFile.result') Upload Successful
+                                                    br
             .clear-divs
 
 
