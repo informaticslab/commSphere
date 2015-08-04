@@ -346,6 +346,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                 | &nbsp; {{dailyData.label}}
                                                             td(style="padding:2px 0px 2px 0px;text-align:center; line-height:16px;", ng-repeat="col in columns | filter:{field:'!label'}")
                                                                 | {{dailyData[col.field]}}
+                                        br
                                         .row
                                             .col-lg-12
                                                 button.btn.btn-primary(type='button', data-toggle='collapse', data-target='#collapseExample', aria-expanded='false', aria-controls='collapseExample')
@@ -395,7 +396,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         hr
                                         .row
                                             .col-lg-12
-                                                h4
+                                                h3
                                                     | Chart Preview
                                         .well(style='background-color:#f6f6f0;')
                                             .row
@@ -410,7 +411,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     div.pull-left(style="width:100%;")
                                                         .panel.panel-default
                                                             .panel-heading(style='background-color:#e5e5dc;')
-                                                                h3.panel-title Panel title
+                                                                h3.panel-title Customize Chart
                                                             .panel-body
                                                                 |Chart Type&nbsp;&nbsp;
                                                                 select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
