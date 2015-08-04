@@ -57,7 +57,7 @@ $scope.chartTypes = ['line'
                      ,'area'
                      ,'areaspline'
                      ,'scatter'
-                     ,'bubble'
+                     //,'bubble'
                      //,'heatmap'
                      // ,'columnrange'
                     ]
