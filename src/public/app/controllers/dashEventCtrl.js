@@ -1804,7 +1804,7 @@ $scope.uploadFile = function(files) {
         fields: {
           'eventId': $scope.eventdoc._id
         },
-        fileName: 'chart.js'
+        fileName: 'chart.jpg'
       }).progress(function(evt) {
         var progressPercentage = parseInt(100.0*evt.loaded / evt.total);
         console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
