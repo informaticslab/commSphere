@@ -1,7 +1,6 @@
-var _ = require('lodash');
+var mongo = require('../lib/mongoConnection');
 
-exports.createUpload = function(req,res,next) {
-	var data = _.pick(req.body, 'type'),
-			uploadPath ='../../../uploads'
-			file = req.files.file;
+exports.uploadFile = function(req,res) {
+	console.log(req.files);
+	res.send('success');
 };

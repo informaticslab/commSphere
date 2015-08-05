@@ -6,7 +6,8 @@ var dashboardData = require('../controllers/dashboardData');
 var admin = require('../controllers/admin');
 var reports = require('../controllers/reports');
 var multer = require('multer');
-var upload = multer({ dest: '../../../uploads/' })
+var upload = require('../controllers/upload');
+var fs = require('fs');
 var auth = require('./auth');
 var mongoose = require('mongoose'),
     User = mongoose.model('User');
@@ -21,6 +22,7 @@ module.exports = function(app) {
   app.get('/api/users/analysts', users.getAnalysts);
   app.post('/api/users/remove', users.removeUser);
 
+  app.post('/api/fileUpload', upload.uploadFile);
 
   app.post('/api/events', events.saveEvent);
   app.post('/api/events/drafts',events.saveDraft);
@@ -47,10 +49,6 @@ module.exports = function(app) {
   app.post('/api/eventTypes', admin.updateEventTypes);
   app.get('/api/categories', admin.getCategories);
   app.post('/api/categories', admin.updateCategories);
-
-  app.post('/api/upload', upload.single('uploaded'), function(req,res,next) { 
-    console.log(req.file);
-  });
 
   app.get('/partials/*', function(req, res) {
     res.render('../../public/app/views/' + req.params);
