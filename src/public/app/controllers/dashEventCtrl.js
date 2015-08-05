@@ -18,7 +18,7 @@ $scope.tabCategory=[
 $scope.currentLocation = $location.url();
 // grid setup
 
-$scope.log = '';
+$scope.fileName = '';
 $scope.file=[];
 
 $scope.gridOptions={
@@ -1802,9 +1802,9 @@ $scope.uploadFile = function(files) {
         url:'/api/fileUpload',
         file: file,
         fields: {
-          'eventId':'DUMMY ID'
+          'eventId': $scope.eventdoc._id
         },
-        fileName:'chart.jpg'
+        fileName: 'chart.js'
       }).progress(function(evt) {
         var progressPercentage = parseInt(100.0*evt.loaded / evt.total);
         console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
