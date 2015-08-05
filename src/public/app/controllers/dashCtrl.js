@@ -213,7 +213,7 @@ $scope.pageChanged = function(searchText) {
 $scope.deleteActive = function (activeInstance) {
   // delete the passed in draft instance
     var createdDate = $filter('date')(activeInstance.dateCreated,'MM/dd/yyyy - hh:mm:ss');
-    var deleteConfirm = $window.confirm('Are you absolutely sure you want to delete active instance: ' + activeInstance.eventName +' created on ' + createdDate + '? ');
+    var deleteConfirm = $window.confirm('Are you sure you want to delete active instance: ' + activeInstance.eventName +' created on ' + createdDate + '? ');
 
     if (deleteConfirm) {
       

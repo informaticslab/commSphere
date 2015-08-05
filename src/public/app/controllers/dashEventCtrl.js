@@ -714,7 +714,7 @@ $scope.addTable = function(grid) {
 };
 
 $scope.removeTable = function(gridName) {
-    var deleteConfirm = $window.confirm('Are you absolutely sure you want to remove table: ' + gridName + '? ');
+    var deleteConfirm = $window.confirm('Are you sure you want to remove table: ' + gridName + '? ');
 
     if (deleteConfirm) {
             for(var i=0; i < $scope.eventData.gridData.length ; i++){
