@@ -1642,7 +1642,7 @@ $scope.addChart = function() {
   if ($scope.highChartTempConfig){
      // $scope.highChartTempConfig.size = { width: 400, height: 320};
       $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
-      ngNotifier.notify("chart has been saved! You can view saved charts under Saved Charts section");
+      ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
       $scope.status.open = true;
   }
 
