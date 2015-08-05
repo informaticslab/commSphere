@@ -1701,7 +1701,7 @@ $scope.resetChart  = function() {
                                 //   height: 400
                                 // },
                                 title: {
-                                          text: "chart title",
+                                          text: "",
                                           style : {fontWeight: 'bold', fontSize:20}
                                 },
                                 //function (optional)
