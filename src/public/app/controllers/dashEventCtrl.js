@@ -1,6 +1,7 @@
-angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout, ngExcelExport) {
+angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $http, $filter, $route,$routeParams, ngNotifier,ngIdentity,$modal,$location,$log,$document,$interval,$timeout, ngExcelExport,$window) {
 
 $scope.isCollapsed = true;
+$scope.status = {'open': false};
 $scope.checkedRows =[];
 $scope.checkedColumns = {};
 $scope.contentloaded=false;
@@ -713,12 +714,15 @@ $scope.addTable = function(grid) {
 };
 
 $scope.removeTable = function(gridName) {
-    for(var i=0; i < $scope.eventData.gridData.length ; i++){
-        if ($scope.eventData.gridData[i].gridName === gridName) {
-              $scope.eventData.gridData.splice(i,1);
-        }
-    }
-    
+    var deleteConfirm = $window.confirm('Are you absolutely sure you want to remove table: ' + gridName + '? ');
+
+    if (deleteConfirm) {
+            for(var i=0; i < $scope.eventData.gridData.length ; i++){
+              if ($scope.eventData.gridData[i].gridName === gridName) {
+                $scope.eventData.gridData.splice(i,1);
+               }
+            }
+     } 
 }
 $scope.editTableName = function(grid) {
   grid.editing = true;
@@ -1638,6 +1642,8 @@ $scope.addChart = function() {
   if ($scope.highChartTempConfig){
      // $scope.highChartTempConfig.size = { width: 400, height: 320};
       $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
+      ngNotifier.notify("chart has been saved! You can view saved charts under Saved Charts section");
+      $scope.status.open = true;
   }
 
 }
