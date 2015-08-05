@@ -1,8 +1,9 @@
 var express = require('express'),
 	cookieParser = require('cookie-parser'),
 	session = require('express-session'),
-	passport = require('passport'),
-    multipart =  require('connect-multiparty');
+	passport = require('passport');
+    //multipart =  require('connect-multiparty'),
+    // multer = require('multer');
 var morgan = require('morgan');
 var fs = require('fs')
 var properties = require('../lib/envProperties');
@@ -19,9 +20,10 @@ module.exports = function(app, config) {
         app.use(session({secret:'use the force',resave:false,saveUninitialized:false}));
         app.use(passport.initialize());
         app.use(passport.session());
-        app.use(multipart());
+        //app.use(multipart());
         //app.use(morgan('combined', {stream: accessLogStream}));
-        //app.use(morgan('dev')); //LOCAL LOGGING
+        //app.use(morgan('dev')); //LOCAL LOGGIN      
+
         app.use(express.static(config.rootPath + '/public'));
         
     });
