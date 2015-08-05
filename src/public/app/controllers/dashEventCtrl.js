@@ -1610,7 +1610,12 @@ $scope.fromdateChanged = function (newDate, oldDate) {
 $scope.selectAllColumns = function() {
   for(var i = 1; i < $scope.columns.length; i++) {
       var col = Number($scope.columns[i].field);
+      if ($scope.checkedColumns[col]) {
         $scope.checkedColumns[col].checked = true;
+      }
+      else {
+        $scope.checkedColumns[col] = {'checked':true};
+      }
       }
   $scope.checkedColsChanged();
 }
