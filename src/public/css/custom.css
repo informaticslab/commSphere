@@ -540,6 +540,7 @@ input[type=checkbox].css-checkbox {
     background-color:#c6d8ae;
   }
 
+
   .drop-box {
     background: #F8F8F8;
     border-top-color: #DDD;
@@ -560,4 +561,7 @@ input[type=checkbox].css-checkbox {
     position: relative;
     top: 7px;
   }*/
-}
+
+
+.highcharts-container{width:100% !important; height:100% !important;}
+

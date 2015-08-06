@@ -79,17 +79,17 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 												input(type='checkbox' ng-model='chartConfig.checked')
 												| {{chartConfig.title.text}}
 											div.well
-												label
-													|Chart Title 
-													input.form-control(type='textarea' ng-model='chartConfig.title.text')
-												&nbsp;&nbsp;
-												label
-													|Y-axis Title 
-													input.form-control(type='textarea' ng-model='chartConfig.yAxis[0].title.text')
-												&nbsp;&nbsp;
-												label
-													|X-axis Title 
-													input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
+												//- label
+												//- 	|Chart Title 
+												//- 	input.form-control(type='textarea' ng-model='chartConfig.title.text')
+												//- &nbsp;&nbsp;
+												//- label
+												//- 	|Y-axis Title 
+												//- 	input.form-control(type='textarea' ng-model='chartConfig.yAxis[0].title.text')
+												//- &nbsp;&nbsp;
+												//- label
+												//- 	|X-axis Title 
+												//- 	input.form-control(type='textarea' ng-model='chartConfig.xAxis.title.text')
 												highchart(id="{{'chartHC_'+$index}}" config='chartConfig')
 							div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"') 
 								h4.report-category
