@@ -481,12 +481,13 @@ input[type=checkbox].css-checkbox {
 
  .drop-box {
     background: #F8F8F8;
-    border-top-color: #DDD;
-    border-top-style: dashed;
-    border-top-width: 5px;
-    width: 170px;
-    height: 170px;
+    border-color: #DDD;
+    border-style: dashed;
+    border-width: 5px;
+    width: 350px;
+    height: 350px;
     text-align: center;
+    
     padding-top: 100px;
     margin-left: 10px;
 
@@ -495,6 +496,10 @@ input[type=checkbox].css-checkbox {
   .resize-image{
     width: 90%;
     height:auto;  
+  }
+
+  .upload-btn{
+    float:right;
   }
 
   .thumbnail{

@@ -521,18 +521,14 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     .form(name='uploadForm')
                                                         fieldset
                                                             legend Upload New Image
-                                                            i(ng-show='uploadForm.filename.$error.required') *required
                                                             br
                                                             input(type='file', ngf-select= '', ng-model='imageFile', name='file', accept='image/*', required='')
-                                                            i(ng-show='uploadForm.file.$error.required') *required
+                                                            
                                                             br
-                                                            button(ng-click='uploadFile(imageFile)') Upload
                                                             .col-xs-6.col-md-3
                                                                 a.thumbnail
                                                                     img(ng-show='imageFile != null', ngf-src='imageFile')
-                                                            span.progress(ng-show='imageFile.progress >= 0')
-                                                                .ng-binding(style='width:{{imageFile.progress}}%', ng-bind="imageFile.progress + '%'")
-                                                            span(ng-show='imageFile.result') Upload Successful
+                                                        button.btn.btn-default(ng-click='uploadFile(imageFile)') Upload
                                         br
                                         .row
                                             .col-lg-12
