@@ -541,13 +541,12 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         accordion-heading(style="cursor:pointer")
                                                             i(ng-class="{'fa fa-plus-circle': !status.open, 'fa fa-minus-circle': status.open}")&nbsp;
                                                             | Uploaded Images
-                                                        .well(style='background-color:#ffffff;')
-                                                            div(ng-repeat='image in files', style="margin-bottom:30px; background-color:#f5f5f5;")
-                                                                .col-xs-6.col-md-3 
-                                                                    a.thumbnail
-                                                                        img(ng-src="{{image.filePath}}")
-                                                                        br
-                                                                        a(ng-click='', style='text-decoration:underline; cursor:pointer') Delete Image
+                                                        div(ng-repeat='image in files', style="margin-bottom:30px; background-color:#f5f5f5;")
+                                                            .col-xs-6.col-md-3 
+                                                                a.thumbnail
+                                                                    img(ng-src="{{image.filePath}}")
+                                                                    br
+                                                                    a(ng-click='', style='text-decoration:underline; cursor:pointer') Delete Image
             .clear-divs
 
 
