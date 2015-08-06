@@ -502,9 +502,13 @@ input[type=checkbox].css-checkbox {
     float:right;
   }
 
-  .thumbnail{
+/*  .thumbnail{
     display: inline-block;
-  }
+  }*/
+
+  .thumb {
+    margin-bottom: 30px;
+}
 
 
 @media screen {
