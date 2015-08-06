@@ -553,11 +553,11 @@ input[type=checkbox].css-checkbox {
 
   }
 
-  .thumbnail{
+/*  .thumbnail{
     max-width: 128px;
     max-height: 128px;
     float: none; 
     position: relative;
     top: 7px;
-  }
+  }*/
 }

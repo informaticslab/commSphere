@@ -20,23 +20,6 @@ module.exports = function(app, config) {
         app.use(session({secret:'use the force',resave:false,saveUninitialized:false}));
         app.use(passport.initialize());
         app.use(passport.session());
-
-        // app.use(multer({
-        //     dest:'./uploads/',
-        //     rename: function(fieldname, filename) {
-        //         return filename+Date.now();
-        //     },
-        //     onFileUploadStart: function(file) {
-        //         console.log(file.originalname + ' is starting...');
-        //     },
-        //     onFileUploadComplete: function(file) {
-        //         console.log(file.fieldname + ' uploaded to ' + file.path);
-        //         done = true;
-        //     }
-        // }));
-        // app.use(multipart({
-        //     uploadDir: config.tmp
-        // }));
         //app.use(morgan('combined', {stream: accessLogStream}));
         //app.use(morgan('dev')); //LOCAL LOGGIN      
 

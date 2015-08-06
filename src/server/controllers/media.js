@@ -1,5 +1,6 @@
 var mongo = require('../lib/mongoConnection');
 
+
 exports.uploadFile = function(req,res) {
 	var collection = mongo.mongodb.collection('uploads');
 	console.log(req.body);
@@ -17,5 +18,14 @@ exports.uploadFile = function(req,res) {
 		} else {
 				res.send('success');
 		}
+	});
+};
+
+exports.getFile = function(req,res) {
+	var collection = mongo.mongodb.collection('uploads');
+	var id = req.params.id;
+
+	collection.find({eventId:id}).toArray(function(err, fileDoc) {
+		res.send(fileDoc);
 	});
 };

@@ -5,8 +5,8 @@ var events = require('../controllers/events');
 var dashboardData = require('../controllers/dashboardData');
 var admin = require('../controllers/admin');
 var reports = require('../controllers/reports');
-var multer = require('multer');
-var upload = require('../controllers/upload');
+// var multer = require('multer');
+var media = require('../controllers/media');
 var fs = require('fs');
 var auth = require('./auth');
 var mongoose = require('mongoose'),
@@ -22,7 +22,9 @@ module.exports = function(app) {
   app.get('/api/users/analysts', users.getAnalysts);
   app.post('/api/users/remove', users.removeUser);
 
-  app.post('/api/fileUpload', upload.uploadFile);
+  app.post('/api/fileUpload', media.uploadFile);
+  app.get('/api/fileUpload/:id', media.getFile);
+  // app.post('/api/fileUpload/remove', media.removeFile);
 
   app.post('/api/events', events.saveEvent);
   app.post('/api/events/drafts',events.saveDraft);
