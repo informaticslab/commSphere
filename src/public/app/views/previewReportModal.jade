@@ -81,7 +81,9 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2; width:750
 								div.well.print-chart(ng-repeat='chartImgUrl in chartImgUrls' style="text-align:center")
 									//canvas(id="{{'canvas_'+$index}}")
 									img(src='{{chartImgUrl}}', alt='chart image' )
-									
+							div.pagebreak(ng-if='section.sectionType == "Images"')
+								div(ng-repeat='image in section.sectionData.doc')
+									img.resize-img(ng-src='{{image.filePath}}' ng-if='image.checked')
 							br
 							div.notes(ng-if='!section.sectionData.notes == ""') Notes: *{{section.sectionData.notes}}
 								br
