@@ -479,6 +479,28 @@ input[type=checkbox].css-checkbox {
   }*/
 
 
+ .drop-box {
+    background: #F8F8F8;
+    border-top-color: #DDD;
+    border-top-style: dashed;
+    border-top-width: 5px;
+    width: 170px;
+    height: 170px;
+    text-align: center;
+    padding-top: 100px;
+    margin-left: 10px;
+
+  }
+
+  .resize-image{
+    width: 90%;
+    height:auto;  
+  }
+
+  .thumbnail{
+    display: inline-block;
+  }
+
 
 @media screen {
   #printSection {
@@ -486,6 +508,7 @@ input[type=checkbox].css-checkbox {
   }
 }
 
+/* STYLES FOR PRINT ONLY*/
 @media print {
 
  /* body * {
@@ -541,27 +564,6 @@ input[type=checkbox].css-checkbox {
   }
 
 
-  .drop-box {
-    background: #F8F8F8;
-    border-top-color: #DDD;
-    border-top-style: dashed;
-    border-top-width: 5px;
-    width: 170px;
-    height: 170px;
-    text-align: center;
-    padding-top: 100px;
-    margin-left: 10px;
-
-  }
-
-/*  .thumbnail{
-    max-width: 128px;
-    max-height: 128px;
-    float: none; 
-    position: relative;
-    top: 7px;
-  }*/
-
-
 .highcharts-container{width:100% !important; height:100% !important;}
+}
 

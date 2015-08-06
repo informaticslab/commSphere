@@ -21,9 +21,6 @@ $scope.tabCategory=[
 $scope.currentLocation = $location.url();
 // grid setup
 
-$scope.fileName = '';
-$scope.file=[];
-
 $scope.gridOptions={
   onRegisterApi: function(gridApi){
       $scope.gridApi = gridApi;
@@ -91,7 +88,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      $scope.eventdoc=res.data[0];
      $scope.contentloaded = true;
 
-
+      
 
     //checking comepletion status for preview button display.
     var completedCount = 0;
@@ -106,7 +103,15 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
       $scope.readyForPreview = false;
     }
 
-     $http.get('api/events/data/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
+    $http.get('/api/fileUpload/' + $scope.eventdoc._id).then(function(res) {
+        if (res.data) {
+          console.log(res.data);
+          $scope.files = res.data;
+        } else {
+          $scope.files = [];
+        }
+
+        $http.get('api/events/data/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
         if (dataResult.data.length > 0 ){
        
             $scope.eventData = dataResult.data[0];
@@ -119,6 +124,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               $scope.customizedDoc.reportMeta = $scope.eventdoc.reportMeta;
               $scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics',  sectionData:{doc:$scope.eventData, notes:$scope.eventdoc.notes.metrics}});
               $scope.customizedDoc.docData.push({sectionName: 'Charts', sectionType: 'Charts', sectionData:{notes:$scope.eventdoc.notes.charts}});
+              $scope.customizedDoc.docData.push({sectionName: 'Images', sectionType: 'Images', sectionData:{doc:$scope.files}});
               $scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
               $scope.customizedDoc.eventDocId = $scope.eventdoc._id;
               $scope.customizedDoc.chartConfigs = $scope.eventdoc.chartConfigs || [];
@@ -126,9 +132,11 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 
 
 
+
               if($scope.customizedDoc.selectedColumns !=  undefined) {
                 $rootScope.checkedColumns = $scope.customizedDoc.selectedColumns;
               }
+              console.log($scope.customizedDoc);
               
                ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
@@ -163,6 +171,10 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 
        
       });
+
+      });
+
+     
      } else {
          alert('no data received, assign new id');
      }
@@ -1821,9 +1833,7 @@ $scope.CreateExcelSheet=function()
   return xls;
 }
 
-  // $scope.$watch('file', function () {
-  //       $scope.importFile([$scope.file]);
-  //   });
+
 
 $scope.uploadFile = function(files) {
   //console.log("importFile fired");
@@ -1831,7 +1841,7 @@ $scope.uploadFile = function(files) {
   if(files) {
     // for(var i = 0; i < files.length; i++) {
       var file = files;
-      console.log(file);
+      console.log('FILES********',file);
       Upload.upload({
         //url:'https://angular-file-upload-cors-srv.appspot.com/upload',
         url:'/api/fileUpload',
@@ -1843,7 +1853,9 @@ $scope.uploadFile = function(files) {
         var progressPercentage = parseInt(100.0*evt.loaded / evt.total);
         console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
       }).success(function(data, status, header, config) {
-        //file is uploaded successfully
+        //file is uploaded successfully, attach to $scope.files
+        $scope.files.push(data[0]);
+
         console.log('file uploaded successfully. Response: ', data);
       }).error(function(data, status, header, config){
         console.log('error in uploading file' + file.$error);
@@ -1851,5 +1863,9 @@ $scope.uploadFile = function(files) {
     }
   // }
 };
+
+$scope.deleteFile = function(file) {
+  //TODO
+};  
 
 });
