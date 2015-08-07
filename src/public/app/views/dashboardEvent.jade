@@ -542,7 +542,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             a.thumbnail
                                                                 img.img-responsive(ng-src="{{image.filePath}}")
                                                                 br
-                                                                a(ng-click='deleteFile(image,$index)', style='text-decoration:underline; cursor:pointer') Delete Image
+                                                            button.btn.btn-danger(ng-click='deleteFile(image,$index)') Delete Image
             .clear-divs
 
 
