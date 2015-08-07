@@ -1849,12 +1849,12 @@ $scope.uploadFile = function(files) {
         }
       }).progress(function(evt) {
         var progressPercentage = parseInt(100.0*evt.loaded / evt.total);
-        console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+        //console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
       }).success(function(data, status, header, config) {
         //file is uploaded successfully, attach to $scope.files
         $scope.files.push(data[0]);
-
-        console.log('file uploaded successfully. Response: ', data);
+        ngNotifier.notify('Image uploaded successfully.');
+        //console.log('file uploaded successfully. Response: ', data);
       }).error(function(data, status, header, config){
         console.log('error in uploading file' + file.$error);
       });
@@ -1862,8 +1862,22 @@ $scope.uploadFile = function(files) {
   // }
 };
 
-$scope.deleteFile = function(file) {
-  //TODO
-};  
+  $scope.deleteFile = function(image, index) {
+    var deleteConfirm = $window.confirm('Are you sure you want to delete this image?');
+    //console.log(image);\
+    if (deleteConfirm) {
+      $http.post('/api/fileUpload/delete/', image).then(function(res) {
+        if (res.data.success) {
+          $scope.files.splice(index, 1);
+          ngNotifier.notify('Image successfully deleted.')
+        } else {
+          console.log('Deletion Failed');
+          ngNotifier.notifyError('Error. Image unabled to be deleted.')
+        }
+      });
+    }
+
+
+  };
 
 });
