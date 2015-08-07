@@ -103,14 +103,13 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
       $scope.readyForPreview = false;
     }
 
-    $http.get('/api/fileUpload/' + $scope.eventdoc._id).then(function(res) {
+    $http.get('/api/fileUpload/' + $scope.eventdoc.eventInstanceId).then(function(res) {
         if (res.data) {
-          console.log(res.data);
+          //console.log(res.data);
           $scope.files = res.data;
         } else {
           $scope.files = [];
         }
-
         $http.get('api/events/data/'+$scope.eventdoc.eventInstanceId).then(function(dataResult){
         if (dataResult.data.length > 0 ){
        
@@ -136,7 +135,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               if($scope.customizedDoc.selectedColumns !=  undefined) {
                 $rootScope.checkedColumns = $scope.customizedDoc.selectedColumns;
               }
-              console.log($scope.customizedDoc);
+              //console.log($scope.customizedDoc);
               
                ////////////////////////
             $scope.columns = $scope.generateColumnDefs();
@@ -1841,13 +1840,12 @@ $scope.uploadFile = function(files) {
   if(files) {
     // for(var i = 0; i < files.length; i++) {
       var file = files;
-      console.log('FILES********',file);
+      //console.log('FILES********',file);
       Upload.upload({
-        //url:'https://angular-file-upload-cors-srv.appspot.com/upload',
         url:'/api/fileUpload',
         file: file,
         fields: {
-          'eventId': $scope.eventdoc._id
+          'eventId': $scope.eventdoc.eventInstanceId
         }
       }).progress(function(evt) {
         var progressPercentage = parseInt(100.0*evt.loaded / evt.total);
