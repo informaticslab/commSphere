@@ -479,18 +479,15 @@ input[type=checkbox].css-checkbox {
   }*/
 
 
- .drop-box {
-    background: #F8F8F8;
-    border-color: #DDD;
-    border-style: dashed;
-    border-width: 5px;
-    width: 350px;
-    height: 350px;
+  .preview-thumbnail {
+    width:200px;
+    /*min-height:130px;*/
+    /*line-height: 130px;*/
+    overflow: hidden;
+    display: inline-block;
+    /*margin-bottom: 5px;*/
+    vertical-align: middle;
     text-align: center;
-    
-    padding-top: 100px;
-    margin-left: 10px;
-
   }
 
   .resize-image{
@@ -507,10 +504,12 @@ input[type=checkbox].css-checkbox {
     float:right;
   }
 
-/*  .thumbnail{
+  .thumbnail{
     display: inline-block;
-  }*/
-
+    width:200px;
+    min-height:130px;
+  }
+ 
   .thumb {
     margin-bottom: 30px;
 }
