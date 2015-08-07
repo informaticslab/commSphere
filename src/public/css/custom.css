@@ -498,6 +498,11 @@ input[type=checkbox].css-checkbox {
     height:auto;  
   }
 
+  .preview-resize-image {
+    width: 320px;
+    height: auto;
+  }
+
   .upload-btn{
     float:right;
   }
@@ -562,6 +567,11 @@ input[type=checkbox].css-checkbox {
 
   .print-padding{
     padding:15px;
+  }
+
+  .print-resize-image{
+    width: 90%;
+    height:auto;  
   }
 
   .col-lg-12 {
