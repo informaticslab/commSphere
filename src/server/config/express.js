@@ -1,9 +1,7 @@
 var express = require('express'),
 	cookieParser = require('cookie-parser'),
 	session = require('express-session'),
-	passport = require('passport'),
-    //multipart = require('connect-multiparty'),
-    multer =  require('multer');
+	passport = require('passport');
 var morgan = require('morgan');
 var fs = require('fs')
 var properties = require('../lib/envProperties');
