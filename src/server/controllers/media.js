@@ -14,6 +14,7 @@ exports.uploadFile = function(req,res) {
 	uploadDoc.fileName = req.files.file.name;
 	uploadDoc.filePath =  modifiedPath;
 	uploadDoc.uploadedDate = new Date().getTime();
+	uploadDoc.checked = false;
 
 	//console.log('Uploaded Doc**', uploadDoc);
 	collection.insert(uploadDoc, function(err, result) {
@@ -39,8 +40,8 @@ exports.deleteFile = function(req,res) {
 	var Id = req.body._id;
 	var filePath = './public/'+req.body.filePath;
 	var collection = mongo.mongodb.collection('uploads');
-	console.log(req.body);
-	if (Id) { // if existing id then update
+	//console.log(req.body);
+	if (Id) { 
 
 		collection.remove({
 			"_id": ObjectID(Id)
@@ -58,17 +59,30 @@ exports.deleteFile = function(req,res) {
 			}
 		});
 	}
-
-	
-	// collection.remove({'_id':ObjectID(id)}, function(err, result) {
-	// 	if(err) {
-	// 		console.log(err);
-	// 		res.send(err);
-	// 	} else {
-	// 		//fs.unlinkSync('./public/'+filePath);
-	// 		res.send({success:true});
-	// 		console.log(result);
-	// 	}
-	// });
-	// TODO logic to delete form FS and Mongo
 };
+
+exports.updateFileChecked = function(req,res) {
+	var collection = mongo.mongodb.collection('uploads');
+	//console.log(req.body);
+	var files = req.body;
+
+	for(var i = 0; i < files.length; i++) {
+
+		var Id = req.body[i]._id;
+		console.log(Id);
+		collection.update({'_id':ObjectID(Id)}, { $set: {checked:req.body[i].checked}},function(err,result) {
+			if(err) {
+				res.send(err);
+				console.log(err);
+			} else {
+				console.log("image checked updated", result);
+				res.send({
+					success: true,
+					result: result
+				});
+			}
+
+			
+		});
+	}
+}

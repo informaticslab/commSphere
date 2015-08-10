@@ -1285,6 +1285,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
           $scope.eventdoc.notes.metrics = $scope.customizedDoc.docData[i].sectionData.notes;
         } else if ($scope.customizedDoc.docData[i].sectionType == 'Charts') {
           $scope.eventdoc.notes.charts = $scope.customizedDoc.docData[i].sectionData.notes;
+        } else if ($scope.customizedDoc.docData[i].sectionType =='Images') {
+          $scope.eventdoc.notes.images = $scope.customizedDoc.docData[i].sectionData.notes;
         }
       }
     }
@@ -1332,6 +1334,12 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         console.log(res.data.err);
       }
     });
+
+    if($scope.files != undefined){
+      $http.post('/api/fileUpload/update', $scope.files).then(function(res) {
+      console.log(res.data);
+    });
+    }
 
 
  $http.post('/api/events/saveCollectedData',$scope.eventData).then(function(res){

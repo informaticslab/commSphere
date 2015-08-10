@@ -25,6 +25,7 @@ module.exports = function(app) {
   app.post('/api/fileUpload', media.uploadFile);
   app.get('/api/fileUpload/:id', media.getFile);
   app.post('/api/fileUpload/delete', media.deleteFile);
+  app.post('/api/fileUpload/update', media.updateFileChecked);
 
   app.post('/api/events', events.saveEvent);
   app.post('/api/events/drafts',events.saveDraft);
