@@ -145,64 +145,73 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                 .tab-title-heading
                                                     img(src='img/web-icon.png', width='37', height='32')
                                                     |   Daily Metrics
+                                                    button#button_export.btn.btn-default.btn-sm.pull-right(style="color:#337ab7; margin-left:20px;", ng-click='fnExcelReport()')
+                                                        | Export All Data to Excel
                                         br
                                         hr
                                         br
-                                        .row
+                                        //-.row
                                             //-input(type='text', ng-model='grid.newGridName')
                                             //-|  
                                             //-button.btn.btn-default(type='button' ng-click='addTable(grid,$event)',style='color:#337ab7;') Add Table  
                                             //-br
                                             //-br 
-                                            button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") Add Column to the End
-                                            button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") Remove Last Column
-                                            button#button_export.btn.btn-default.btn-success.pull-right(ng-click='fnExcelReport()')
-                                                    | Export Data Table to Excel
+                                            //-button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") +
+                                            //-button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") -
                                             //-button#addData.btn.btn-default(type='button', ng-click='addRow()', style='color:#337ab7;') Add Row
                                             //-br
                                             br
                                             br
                                         .row#gridRow
-                                            ol(ui-tree-nodes='', ng-model='eventData.gridData' )
-                                                li(ng-repeat='grid in eventData.gridData', ui-tree-node='' on-finish-render="ngRepeatFinished")
-                                                    .topic-title-tables.angular-ui-tree-handle(ng-show='!grid.editing', ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false" )
-                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='removeTable(grid.gridName)')
-                                                            i.glyphicon.glyphicon-trash
-                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='editTableName(grid)')
-                                                            i.glyphicon.glyphicon-pencil
-                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="addRow(grid,'grid_'+$index)")
-                                                            i.glyphicon.glyphicon-tasks
-                                                        a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="removeLastRow(grid,'grid_'+$index)")
-                                                            i.glyphicon.glyphicon-minus
-                                                        //a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="isCollapsed[$index] = !isCollapsed[$index]; buildOneGridChartData($index);")
-                                                            i.glyphicon.glyphicon-stats
-                                                        div  {{grid.gridName}}
-                                                    .topic-title-tables.angular-ui-tree-handle(data-nodrag='', ng-show='grid.editing')
-                                                        label.sr-only(for='gridName') Table name
-                                                        input.form-control(type='text', placeholder='Table name', ng-model='grid.gridName' ng-keyup='$event.keyCode==13 ? saveTableName(grid,$event) : null' ng-blur='saveTableName(grid,$event)')
-                                                    ol(ui-tree-nodes='', ng-model='grid.dailyData', data-type='subTopic')
-                                                            .grid.padding-fix(id="{{'grid_'+$index}}", ui-grid="{rowHeight: 30,data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 0, enableCellSelection: true, enableRowSelection: false, enableCellEditOnFocus: true}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
-                                                            //- br
-                                                            //- button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add New Row to {{grid.gridName}}
-                                                            //- br
-                                                            //div(id="{{'panel_'+$index}}" collapse='!isCollapsed[$index]')
-                                                                .well.well-lg
-                                                                    highchart(id="{{'chartHC_'+$index}}" config='highChartConfig[$index]')
-                                                                    //br
-                                                                    //canvas(id="{{'chartJS_'+$index}}" tc-chartjs-line chart-options="chartJsLineConfig" chart-data="chartJsData[$index]" auto-legend) 
-                                                                    //canvas(id="{{'chartJS_'+$index}}" width="500" height="300" ) 
-                                                                    //div#js-legend.chart-legend
-                                                                    //br
-                                                                    //div(google-chart='', chart='googleChartObj[$index]', style='{{cssStyle}}')
-                                                            br
-                                            ol.angular-ui-tree-nodes(ng-show = "identity.isAuthorized('levelTwo')")
-                                                li.angular-ui-tree-node
-                                                    .topic-title-tables.angular-ui-tree-handle
-                                                        form.form-inline(role='form')
-                                                            .form-topic
-                                                                label.sr-only(for='gridName') Table name
-                                                                input#gridName.form-control(type='text' placeholder='Enter table name' ng-model="grid.newGridName" ng-keyup='$event.keyCode==13 ? addTable(grid,$event) : null' ng-blur='addTable(grid,$event)')
-                                                            //button.btn.btn-default(type='submit', ng-click='addTable(grid)') Add Table                   
+                                            .panel.panel-default
+                                              .panel-heading(style="text-align:right; font-size:18px;") 
+                                                i Edit Columns:
+                                                button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7; margin-left:11px;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") +
+                                                button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7; padding-left:14px; padding-right:14px;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") -
+                                              .panel-body
+                                                ol(style="margin-top:10px;", ui-tree-nodes='', ng-model='eventData.gridData' )
+                                                    li(ng-repeat='grid in eventData.gridData', ui-tree-node='' on-finish-render="ngRepeatFinished")
+                                                        .topic-title-tables.angular-ui-tree-handle(ng-show='!grid.editing', ng-mouseenter="hoverTopic = true", ng-mouseleave="hoverTopic = false" )
+                                                            a.del-edit-btn.btn.btn-default.btn-sm.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='removeTable(grid.gridName)')
+                                                                i.glyphicon.glyphicon-trash
+                                                            a.del-edit-btn.btn.btn-default.btn-sm.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='editTableName(grid)')
+                                                                i.glyphicon.glyphicon-edit
+                                                            //a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="isCollapsed[$index] = !isCollapsed[$index]; buildOneGridChartData($index);")
+                                                                i.glyphicon.glyphicon-stats
+                                                            div  {{grid.gridName}}
+                                                        .topic-title-tables.angular-ui-tree-handle(data-nodrag='', ng-show='grid.editing')
+                                                            label.sr-only(for='gridName') Table name
+                                                            input.form-control(type='text', placeholder='Table name', ng-model='grid.gridName' ng-keyup='$event.keyCode==13 ? saveTableName(grid,$event) : null' ng-blur='saveTableName(grid,$event)')
+                                                        ol(style="margin-bottom:11px;", ui-tree-nodes='', ng-model='grid.dailyData', data-type='subTopic')
+                                                                .grid.padding-fix(id="{{'grid_'+$index}}", ui-grid="{rowHeight: 30,data: grid.dailyData, columnDefs : columns, showFooter: false, enableVerticalScrollbar:0,enableHorizontalScrollbar: 0, enableCellSelection: true, enableRowSelection: false, enableCellEditOnFocus: true}", ng-style="getTableHeight(grid,'grid_'+$index)",ui-grid-edit,ui-grid-cellNav,ui-grid-pinning) 
+                                                                //- br
+                                                                //- button#addData.btn.btn-default(type='button', ng-click='addRow(grid)', style='color:#337ab7;') Add New Row to {{grid.gridName}}
+                                                                //- br
+                                                                //div(id="{{'panel_'+$index}}" collapse='!isCollapsed[$index]')
+                                                                    .well.well-lg
+                                                                        highchart(id="{{'chartHC_'+$index}}" config='highChartConfig[$index]')
+                                                                        //br
+                                                                        //canvas(id="{{'chartJS_'+$index}}" tc-chartjs-line chart-options="chartJsLineConfig" chart-data="chartJsData[$index]" auto-legend) 
+                                                                        //canvas(id="{{'chartJS_'+$index}}" width="500" height="300" ) 
+                                                                        //div#js-legend.chart-legend
+                                                                        //br
+                                                                        //div(google-chart='', chart='googleChartObj[$index]', style='{{cssStyle}}')
+                                                        i Edit Rows:
+                                                        a.del-edit-btn.btn.btn-default(style="margin-left:11px; color:#337ab7;", ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="addRow(grid,'grid_'+$index)")
+                                                                | +
+                                                            a.del-edit-btn.btn.btn-default(style="color:#337ab7; padding-left:14px; padding-right:14px;", ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="removeLastRow(grid,'grid_'+$index)")
+                                                                | -
+                                                        br
+                                                        br
+                                                ol.angular-ui-tree-nodes(ng-show = "identity.isAuthorized('levelTwo')")
+                                                    li.angular-ui-tree-node
+                                                        .topic-title-tables.angular-ui-tree-handle
+                                                            form.form-inline(role='form')
+                                                                .form-topic
+                                                                    label.sr-only(for='gridName') Table name
+                                                                    input#gridName.form-control(type='text' placeholder='Add new table name' ng-model="grid.newGridName" ng-keyup='$event.keyCode==13 ? addTable(grid,$event) : null' ng-blur='addTable(grid,$event)')
+                                                                //button.btn.btn-default(type='submit', ng-click='addTable(grid)') Add Table  
+                                                br
                             //CHART TAB
                             tab(heading="Charts" select="tabShown = !tabShown;" ng-click="populateGrid()" deselect="tabShown = !tabShown")
                                 .row
@@ -503,7 +512,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     pre.code.
                                                         {{ highChartTempConfig | json }}   
                             //IMAGE UPLOAD TAB
-                            tab(heading="Images" select="tabShown = !tabShown;" deselect="tabShown = !tabShown")
+                            tab(heading="Upload Images" select="tabShown = !tabShown;" deselect="tabShown = !tabShown")
                                 .row
                                     .col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;br')
                                         br
@@ -511,7 +520,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             .col-lg-9.col-md-9.col-sm-9
                                                 .tab-title-heading
                                                     img(src='img/web-icon.png', width='37', height='32')
-                                                    |  Images
+                                                    |  Upload Images
                                         br
                                         hr 
                                         br
