@@ -1,13 +1,16 @@
 var mongo = require('../lib/mongoConnection');
 var fs  = require('fs');
 var ObjectID = require('mongodb').ObjectID;
+var config = require('../config/config');
 
 
 exports.uploadFile = function(req,res) {
 	var collection = mongo.mongodb.collection('uploads');
 	var modifiedPath = req.files.file.path;
-	modifiedPath = modifiedPath.substring(7);
+	// var re = new RegExp('[\/][i][m][g]\s*([^\n\r]*)');
+	modifiedPath = modifiedPath.substring(modifiedPath.indexOf('/img'));
 	//console.log(req.body);
+	//console.log('modified path ' + modifiedPath);
 
 	var uploadDoc = {};
 	uploadDoc.eventId = req.body.eventId;
@@ -38,7 +41,7 @@ exports.getFile = function(req,res) {
 
 exports.deleteFile = function(req,res) {
 	var Id = req.body._id;
-	var filePath = './public/'+req.body.filePath;
+	var filePath = config.rootPath+'/public/'+req.body.filePath;
 	var collection = mongo.mongodb.collection('uploads');
 	//console.log(req.body);
 	if (Id) { 
