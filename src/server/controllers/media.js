@@ -2,6 +2,7 @@ var mongo = require('../lib/mongoConnection');
 var fs  = require('fs');
 var ObjectID = require('mongodb').ObjectID;
 var config = require('../config/config');
+var _ = require('lodash');
 
 
 exports.uploadFile = function(req,res) {
@@ -16,7 +17,7 @@ exports.uploadFile = function(req,res) {
 	uploadDoc.eventId = req.body.eventId;
 	uploadDoc.fileName = req.files.file.name;
 	uploadDoc.filePath =  modifiedPath;
-	uploadDoc.uploadedDate = new Date().getTime();
+	uploadDoc.date = new Date();
 	uploadDoc.checked = false;
 
 	//console.log('Uploaded Doc**', uploadDoc);
@@ -35,7 +36,11 @@ exports.getFile = function(req,res) {
 	var collection = mongo.mongodb.collection('uploads');
 	var partialId = new RegExp('^'+req.params.id.split('-')[0]);
 	collection.find({'eventId': {$regex: partialId}}).toArray(function(err,fileDoc){
-         res.send(fileDoc);
+		console.log('before sort:', fileDoc);
+		fileDoc = _.sortBy(fileDoc, 'date');
+		fileDoc = fileDoc.reverse();
+		console.log('after sort:', fileDoc);
+        res.send(fileDoc);
 	});
 };
 
