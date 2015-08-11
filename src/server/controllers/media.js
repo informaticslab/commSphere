@@ -36,10 +36,10 @@ exports.getFile = function(req,res) {
 	var collection = mongo.mongodb.collection('uploads');
 	var partialId = new RegExp('^'+req.params.id.split('-')[0]);
 	collection.find({'eventId': {$regex: partialId}}).toArray(function(err,fileDoc){
-		console.log('before sort:', fileDoc);
+		// console.log('before sort:', fileDoc);
 		fileDoc = _.sortBy(fileDoc, 'date');
 		fileDoc = fileDoc.reverse();
-		console.log('after sort:', fileDoc);
+		// console.log('after sort:', fileDoc);
         res.send(fileDoc);
 	});
 };
