@@ -531,13 +531,13 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         fieldset
                                                             legend Upload New Image
                                                             br
-                                                            input(type='file', ngf-select= '', ng-model='imageFile', name='file', accept='image/*', required='')
+                                                            input(type='file', ngf-select= '', ng-model='imageFile', name='file', accept='image/*', required='' ngf-clear-arq='')
                                                             
                                                             br
                                                             .col-xs-6.col-md-4.col-lg-3
                                                                 div.preview-thumbnail
                                                                     a.thumbnail
-                                                                        img(ng-show='imageFile != null', ngf-src='imageFile')
+                                                                        img(id='uploadThumb' ng-show='imageFile != null', ngf-src='imageFile' src='')
                                                         button.btn.btn-default(ng-click='uploadFile(imageFile)') Upload
                                         br
                                         .row

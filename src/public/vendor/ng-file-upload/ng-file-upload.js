@@ -855,6 +855,38 @@ ngFileUpload.service('Upload', ['$http', '$q', '$timeout', function ($http, $q, 
     };
   }]);
 
+  /* @namespace attr.ngfClearArq */
+ ngFileUpload.directive('ngfClearArq', ['Upload', '$http', function (Upload, $http) {
+   return {
+     restrict: 'A',
+     link: function (scope, elem, attr) {
+       //vars
+       var _clear =  null;
+
+       //Watch
+       var clearWatch = scope.$watchCollection(function() {
+             return $http.pendingRequests.length;
+        }, function(newValue, oldValue) {
+
+           //if old and new request value are equal enables cleaning
+           if (oldValue === 0 && newValue === 0) {
+             _clear = true;
+           }else{
+             if (_clear) {
+               //var 
+               var text =  "";
+               //input clear
+               elem.val(text);
+               //stop Watch
+               clearWatch();
+             }
+           }
+
+         });
+     }
+   };
+ }]);
+
   /** @namespace attr.ngfBackground */
   /** @namespace attr.ngfDefaultBackground */
   /** @namespace attr.ngfNoObjectUrl */

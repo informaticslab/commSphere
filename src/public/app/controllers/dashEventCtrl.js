@@ -1866,6 +1866,7 @@ $scope.uploadFile = function(files) {
       }).error(function(data, status, header, config){
         console.log('error in uploading file' + file.$error);
       });
+      $('#uploadThumb').attr('src','');
     }
   // }
 };
