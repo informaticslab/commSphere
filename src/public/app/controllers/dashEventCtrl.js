@@ -1860,7 +1860,7 @@ $scope.uploadFile = function(files) {
         //console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
       }).success(function(data, status, header, config) {
         //file is uploaded successfully, attach to $scope.files
-        $scope.files.push(data[0]);
+        $scope.files.unshift(data[0]);
         ngNotifier.notify('Image uploaded successfully.');
         //console.log('file uploaded successfully. Response: ', data);
       }).error(function(data, status, header, config){
