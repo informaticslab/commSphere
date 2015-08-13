@@ -17,6 +17,12 @@ exports.saveEvent = function(req, res) {
 	  	 		delete eventData.gridData
 	  	 		delete eventData.gridColDisplayNames;
 	 		}
+	 // detach customization data
+	 eventData.notes.doc = "";
+	 eventData.notes.metrics = "";
+	 eventData.reportMeta = "";
+	 eventData.chartConfigs = [];
+	 eventData.checkedColumns = {};
 	if (Id) {  // if existing id then update
 	  // check if this is draft save or creation  
 	   collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
@@ -222,10 +228,8 @@ exports.getAvailEventInstanceId = function(req,res) {
     
     var collection = mongo.mongodb.collection('events');
      var partialId = new RegExp('^'+req.params.partialId.split('-')[0]);
-
-     collection.find({'eventInstanceId': {$regex: partialId}}).sort({'dateCreated':-1}).limit(1).toArray(function(err,docs){
+     collection.find({'eventInstanceId': {$regex: partialId},'draftStatus':false}).sort({'dateCreated':-1}).limit(1).toArray(function(err,docs){
          res.send(docs);
-         
      });
 };
 
