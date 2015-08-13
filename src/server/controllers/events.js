@@ -2,23 +2,6 @@ var mongo = require('../lib/mongoConnection');
 var ObjectID = require('mongodb').ObjectID;
 
 
-
-//exports.saveEvent = function(req, res) {
-//	var eventData = req.body;
-//	console.log("req body****",req.body);
-//	var collection = mongo.mongodb.collection('events');
-//
-//	collection.insert(eventData, function(err, result) {
-//		
-//		if(err) {
-//			res.send(err);
-//			console.log(err);
-//		} else {
-//			res.send({success:true});
-//		}
-//	});
-//};
-
 exports.saveEvent = function(req, res) {
 	var eventData = req.body;
 	//console.log('b4 update ',eventData);
@@ -62,158 +45,13 @@ exports.saveEvent = function(req, res) {
 				if (!eventData.draftStatus) {
        	 			 createDailyMetrics(eventData.eventInstanceId,eventData.eventName,eventData.dateCreated,dailyMetricsTemplate,gridCols)
        			}
-		// 	var partialId = new RegExp('^'+eventData.eventInstanceId.split('-')[0]);		
-	 // 			eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
-		// 		  	if(err){
-		// 	 	 		console.log(err);
-		// 	 	 	} else if (result.length < 1) {
-		// 	 	 	// not exist, add
-		// 	 	 	  var newRecord = {
-		// 	 	 	  			 "eventName": eventData.eventName,
-		// 	 	 	  		  	"eventInstanceId": eventData.eventInstanceId,
-		// 	 	 	  		  	"gridData" : []
-		// 	 	 	  		  	};
-		// 	 	 	 // 	newRecord.dailyData[0][creationDate] = null;
-		// 	 	 	  	//newRecord.gridData[0].dailyData[0][creationDate] = '*';
-		// 	 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
-		// 					if(err) {
-		// 					res.send(err);
-		// 					console.log(err);
-		// 					} else {
-								
-		// 					}
-		// 	 			});
-	 // 	 	  		}
-	 // 	 	  		else {  // event data already exists,  add the next column the for new instance
-	 // 					  for (var j=0; j < result[0].gridData.length; j++){
-	 // 					     for(var i=0; i < result[0].gridData[j].dailyData.length; i++) {
-		// 				           if (result[0].gridData[j].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
-		// 				              // column alread there
-		// 				           } else {  // column not exists, add
-		// 				               result[0].gridData[j].dailyData[i][eventData.dateCreated] = '*';
-		// 				           }
-		// 				      }
-		// 				   }   
-		// 				  console.log(result[0]);
-		// 				  var Id = result[0]._id;
-		// 				  delete result[0]._id;   
-		// 				  eventDataCollection.update({"_id":ObjectID(Id)},result[0],function(err, affectedDocCount) {
-		// 				       if (err) {
-		// 							res.send(err);
-		// 							console.log(err);
-		// 						}
-		// 						else {
-		// 				       console.log("event data document changed ", affectedDocCount);
-		// 					   res.send({success:true});
-		// 						}
-		// 				   		});
-  // // end of eventdata exist
-	 // 	 	  		}
-	 // 	 	  	});		
-	
-	// end of new block
-
 			res.send({success:true});
 		}
  	});
   }
 };
 
-// exports.saveEvent = function(req, res) {
-// 	var eventData = req.body;
-// 	console.log("req body****",req.body);
-// 	var Id = eventData._id;
-//   	delete eventData._id;
-// 	var collection = mongo.mongodb.collection('events');
-// 	var eventDataCollection = mongo.mongodb.collection('eventsData');
-// 	if (Id) {  // if existing id then update
-//      collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
-//        if (err) {
-// 			res.send(err);
-// 			console.log(err);
-// 		}
-// 		else {
-//        console.log("document changed ", affectedDocCount);
-// 	   res.send({success:true});
-// 		}
-//    		});
-// 	}
-// 	else {
-//   		collection.insert(eventData, function(err, result) {
-// 		if(err) {
-// 			res.send(err);
-// 			console.log(err);
-// 		} else {
-// 			// create matching data collection for this new event if not exist	
-// 			var partialId = new RegExp('^'+eventData.eventInstanceId.split('-')[0]);		
-// 	 			eventDataCollection.find({'eventInstanceId': {$regex: partialId}}).toArray(function(err,result) {
-// 				  	if(err){
-// 			 	 		console.log(err);
-// 			 	 	} else if (result.length < 1) {
-// 			 	 	// not exist, add
 
-// 			 	 	  //var creationDate =  eventData.dateCreated;
-// 			 	// 	  var creationTime =  new Date().toISOString().split('T')[1].replace('Z','').split(':').join('').split('.')[0];
-// 			 	 	  var newRecord = {
-// 			 	 	  			 "eventName": eventData.eventName,
-// 			 	 	  		  	"eventInstanceId": eventData.eventInstanceId,
-// 			 	 	  		  	"gridData" : []
-// 			 	 	  		 // 	"gridData" : [ {
-// 			 	 	  		 // 					'gridName': 'table 1',
-// 							 	 	 //  		 	"dailyData":
-// 							 	 	 //  		 		[
-// 							 	 	 //  		 			{
-// 							 	 	 //  		 				"subTopic":""
-// 							 	 	 //  		 		 	}
-// 							 	 	 //  		 		]
-// 							 	 	 //  		 	}
-// 			 	 	  		 // 				]
-// 			 	 	  		  	};
-// 			 	 	 // 	newRecord.dailyData[0][creationDate] = null;
-// 			 	 	  	//newRecord.gridData[0].dailyData[0][creationDate] = '*';
-// 			 	 	 	eventDataCollection.insert(newRecord, function(err, result) {
-// 							if(err) {
-// 							res.send(err);
-// 							console.log(err);
-// 							} else {
-								
-// 							}
-// 			 			});
-// 	 	 	  		}
-// 	 	 	  		else {  // event data already exists,  add the next column the for new instance
-// 	 					  for (var j=0; j < result[0].gridData.length; j++){
-// 	 					     for(var i=0; i < result[0].gridData[j].dailyData.length; i++) {
-// 						           if (result[0].gridData[j].dailyData[i].hasOwnProperty(eventData.dateCreated)) {
-// 						              // column alread there
-// 						           } else {  // column not exists, add
-// 						               result[0].gridData[j].dailyData[i][eventData.dateCreated] = '*';
-// 						           }
-// 						      }
-// 						   }   
-// 						  console.log(result[0]);
-// 						  var Id = result[0]._id;
-// 						  delete result[0]._id;   
-// 						  eventDataCollection.update({"_id":ObjectID(Id)},result[0],function(err, affectedDocCount) {
-// 						       if (err) {
-// 									res.send(err);
-// 									console.log(err);
-// 								}
-// 								else {
-// 						       console.log("event data document changed ", affectedDocCount);
-// 							   res.send({success:true});
-// 								}
-// 						   		});
-//   // end of eventdata exist
-// 	 	 	  		}
-// 	 	 	  	});		
-	
-// 	// end of new block
-
-// 			res.send({success:true});
-// 		}
-//  	});
-//   }
-// };
 
 exports.saveDraft = function(req,res) {
   var eventData = req.body;
