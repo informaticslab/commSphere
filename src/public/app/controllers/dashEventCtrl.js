@@ -138,6 +138,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               //console.log($scope.customizedDoc);
               
                ////////////////////////
+          if ($scope.eventData.gridData.length > 0) {
             $scope.columns = $scope.generateColumnDefs();
             //$scope.chartDataFromDate = new Date($filter('date')($scope.columns[1].field , 'yyyy-MM-dd  h:mm a'));
             //$scope.chartDataToDate = new Date($filter('date')($scope.columns[$scope.columns.length-1].field , 'yyyy-MM-dd  h:mm a'));
@@ -150,7 +151,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
                       //   $scope.rowChecked(i,j);
               }
            }
-
+         }
             $scope.resetChart();
 
             $scope.gridOptions = {
@@ -713,6 +714,7 @@ $scope.addTable = function(grid) {
   else {
            var newColumn = ''+$scope.eventdoc.dateCreated
            initialRow[newColumn] = '*'; 
+           initialColName[newColumn] =  $filter('date')(newColumn,'mediumDate');
        }
   
   $scope.eventData.gridData.push({
@@ -868,9 +870,11 @@ $scope.generateColumnDefs= function() {
 
     }
     else {
-        $scope.addDataColumn('label');
-       // columnArry.push('label');
-        $scope.addDataColumn(''+$scope.eventdoc.dateCreated)
+       //columnArry.push('label');
+       $scope.addDataColumn('label','Label')
+       var newColumnName = ''+$scope.eventdoc.dateCreated
+       var formattedDate = $filter('date')(newColumnName,'mediumDate');  // default display name for date
+        $scope.addDataColumn(''+$scope.eventdoc.dateCreated,formattedDate)
         columnArry.push(''+$scope.eventdoc.dateCreated);
     }
        columnArry.sort();
@@ -1649,10 +1653,12 @@ $scope.selectAllColumns = function() {
 }
 
 $scope.deSelectAllColumns = function() {
+  if ($scope.columns) {
   for(var i = 1; i < $scope.columns.length; i++) {
       var col = Number($scope.columns[i].field);
         $scope.checkedColumns[col].checked = false;
       }
+  }
   $scope.checkedColsChanged();
 }
 
