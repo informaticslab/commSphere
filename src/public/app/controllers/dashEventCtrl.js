@@ -351,8 +351,9 @@ $scope.setActiveTab = function(tabId)
         var sourceNode = event.source.nodeScope;
         var destNodes = event.dest.nodesScope;
         //console.log(event);
-        if(destNodes.$element.attr('data-type')=="bullet")
+        if(destNodes.$element.attr('data-type')=="bullet" && sourceNode.subBullet != undefined)
         {
+          console.log(sourceNode);
           //console.log("OK!!",sourceNode.subBullet.type)
           sourceNode.subBullet.type="bullet";
           sourceNode.subBullet.subBullets=[];
