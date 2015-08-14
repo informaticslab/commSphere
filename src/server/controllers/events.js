@@ -125,6 +125,28 @@ exports.saveCollectedData = function(req,res) {
 
 }
 
+exports.saveChartData = function (req,res) {
+  var data = req.body;
+  var Id = data.docId;
+  var chartData = data.chartData;
+  
+  var collection = mongo.mongodb.collection('events');
+  if (Id) {  // if existing id then update
+     collection.update({"_id":ObjectID(Id)},{$set : {"chartConfigs" : chartData}},function(err, affectedDocCount) {
+	 if (err) {
+           res.send(err);
+           console.log(err);
+		   console.log('charts save encountered error');
+	 }
+	 else {
+       console.log("document changed ", affectedDocCount);
+                 res.send({success:true});
+                             }
+               });
+              }
+	
+};
+
 exports.getEventsByAnalyst = function (req,res) {
 	var analystId = req.params.analystId;
 	console.log("analyst id", analystId);

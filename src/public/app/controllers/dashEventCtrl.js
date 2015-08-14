@@ -467,6 +467,16 @@ $scope.saveCategory = function (status) {  // save data for the current tab
 
  });
 
+ var data = { docId : $scope.eventdoc._id , chartData : $scope.eventdoc.chartConfigs };
+ $http.post('/api/events/saveChartData',data).then(function(res){
+        if(res.data.success){
+                
+        
+        } else {
+             alert('there was an error saving saved chart');
+        }
+
+ });
  $rootScope.continueNav=true;
  $rootScope.preventNavigation = false;
 

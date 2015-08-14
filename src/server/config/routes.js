@@ -44,6 +44,7 @@ module.exports = function(app) {
   app.get('/api/events/data/:id',events.getDataById);
  
   app.post('/api/events/saveCollectedData',events.saveCollectedData);
+  app.post('/api/events/saveChartData',events.saveChartData);
 
   app.post('/api/reports/saveCustomizedReport', reports.saveCustomizedReport);
   app.get('/api/reports/getCustomizedReport/:eventDocId', reports.getCustomizedReport);
