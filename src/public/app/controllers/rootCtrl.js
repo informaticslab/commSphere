@@ -116,6 +116,8 @@ $scope.cleanDoc = function(selectedInstance,copyOption)
     var metricsTemplate = [];
     selectedInstance.notes = {"doc":"","metrics":""};
     selectedInstance.reportMeta = {"title":"","type":""};
+    selectedInstance.chartConfigs = [];
+    selectedInstance.checkedColumns = {};
    for (var i=0; i < selectedInstance.categories.length; i++)
    {
        selectedInstance.categories[i].statusCompleted = false;

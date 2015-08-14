@@ -17,12 +17,6 @@ exports.saveEvent = function(req, res) {
 	  	 		delete eventData.gridData
 	  	 		delete eventData.gridColDisplayNames;
 	 		}
-	 // detach customization data
-	 eventData.notes.doc = "";
-	 eventData.notes.metrics = "";
-	 eventData.reportMeta = "";
-	 eventData.chartConfigs = [];
-	 eventData.checkedColumns = {};
 	if (Id) {  // if existing id then update
 	  // check if this is draft save or creation  
 	   collection.update({"_id":ObjectID(Id)},eventData,function(err, affectedDocCount) {
