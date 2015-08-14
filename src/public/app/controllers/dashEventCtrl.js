@@ -468,7 +468,7 @@ $scope.saveCategory = function (status) {  // save data for the current tab
 
  });
 
- var data = { docId : $scope.eventdoc._id , chartData : $scope.eventdoc.chartConfigs };
+ var data = { docId : $scope.eventdoc._id , chartData : $scope.customizedDoc.chartConfigs };
  $http.post('/api/events/saveChartData',data).then(function(res){
         if(res.data.success){
                 
@@ -1677,6 +1677,7 @@ $scope.deSelectAllColumns = function() {
 $scope.deleteChart = function(index) {
     if ($scope.customizedDoc.chartConfigs) {
       $scope.customizedDoc.chartConfigs.splice(index, 1);
+      $scope.eventdoc.changed =  true;
     }
 }
 
@@ -1686,6 +1687,7 @@ $scope.addChart = function() {
       $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
       ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
       $scope.status.open = true;
+      $scope.eventdoc.changed =  true;
   }
 
 }
