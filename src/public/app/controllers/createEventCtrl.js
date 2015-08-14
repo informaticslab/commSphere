@@ -398,9 +398,13 @@ $scope.onTimeSet = function (newDate, oldDate) {
 function getnextNum(numText) {
 
     increment =   Number(numText)+1;
-    if (increment < 100) 
+    if (increment < 10) 
     {
         return ("00" + increment);
+    }
+    else if (increment < 100) 
+    {
+        return ("0" + increment);
     }
     else {
         return +increment;
