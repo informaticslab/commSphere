@@ -4,6 +4,7 @@ angular.module('app').controller('dashEventCtrl',function($scope, $rootScope, $h
 
 $scope.isCollapsed = true;
 $scope.status = {'open': false};
+$scope.galleryStatus = {'open':false};
 $scope.checkedRows =[];
 $scope.checkedColumns = {};
 $scope.contentloaded=false;
@@ -1867,6 +1868,7 @@ $scope.uploadFile = function(files) {
       }).success(function(data, status, header, config) {
         //file is uploaded successfully, attach to $scope.files
         $scope.files.unshift(data[0]);
+        $scope.galleryStatus.open = true;
         ngNotifier.notify('Image uploaded successfully.');
         //console.log('file uploaded successfully. Response: ', data);
       }).error(function(data, status, header, config){

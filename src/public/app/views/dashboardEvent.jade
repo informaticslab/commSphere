@@ -409,69 +409,6 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                 |Y-Axis Title 
                                                                 input.form-control(type='textarea' ng-model='highChartTempConfig.options.yAxis[0].title.text')
                                                                 br
-                                                        //-accordion()
-                                                            accordion-group(is-open="true"  heading="Customize Chart")
-                                                                |Chart Type&nbsp;&nbsp;
-                                                                select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
-                                                                br
-                                                                br
-                                                                |Polar Display &nbsp;
-                                                                input(type='checkbox' ng-model = 'highChartTempConfig.options.chart.polar')
-                                                                br
-                                                                br
-                                                                |Chart Title
-                                                                input.form-control(type='textarea' ng-model='highChartTempConfig.title.text')
-                                                                br
-                                                                |X-Axis Title 
-                                                                input.form-control(type='textarea' ng-model='highChartTempConfig.xAxis.title.text')
-                                                                br
-                                                                |Y-Axis Title 
-                                                                input.form-control(type='textarea' ng-model='yaxis.title.text')
-                                                                br
-                                                                //-accordion()
-                                                                    accordion-group(heading="Chart")
-                                                                        |Chart Type&nbsp;&nbsp;
-                                                                        select(data-ng-model='highChartTempConfig.options.chart.type', data-ng-options="chartType for chartType in chartTypes")
-                                                                        | &nbsp;Show polar &nbsp;
-                                                                        input(type='checkbox' ng-model = 'highChartTempConfig.options.chart.polar')
-                                                                        br
-                                                                        //- |Chart Width
-                                                                        //- input.form-control(type='number' min=100 step=10 ng-model='highChartTempConfig.size.width')
-                                                                        //- |Chart height
-                                                                        //- input.form-control(type='number' min=100 step=10 ng-model='highChartTempConfig.size.height')
-                                                                        |Chart Title
-                                                                        input.form-control(type='textarea' ng-model='highChartTempConfig.title.text')
-                                                                    //-accordion-group(heading="X Axis")
-                                                                            label X-axis Title 
-                                                                                input.form-control(type='textarea' ng-model='highChartTempConfig.xAxis.title.text')
-                                                                    //-accordion-group(heading="Y Axis")
-                                                                        accordion()
-                                                                            accordion-group(heading="{{'Axis '+ ($index+1)}}" ng-repeat="yaxis in highChartTempConfig.options.yAxis")
-                                                                                label Title 
-                                                                                    input.form-control(type='textarea' ng-model='yaxis.title.text')
-                                                                                label Font Weight 
-                                                                                    input.form-control(type='textarea' ng-model='yaxis.title.style.fontWeight')
-                                                                                label Font Size 
-                                                                                    input.form-control(type='number' min=10 ng-model='yaxis.title.style.fontSize')
-                                                                                label  Color 
-                                                                                    input.form-control(type='textarea' ng-model='yaxis.title.style.color')
-                                                                                br
-                                                                                | Position
-                                                                                br
-                                                                                div
-                                                                                    input(type='radio' ng-model='yaxis.opposite' ng-value='false')
-                                                                                    |  Left
-                                                                                    &nbsp;
-                                                                                    input(type='radio' ng-model='yaxis.opposite' ng-value='true')
-                                                                                    |  Right
-                                                                    //-accordion-group(heading="Series")
-                                                                        accordion()
-                                                                            accordion-group(heading="{{serie.name}}" ng-repeat="serie in highChartTempConfig.series")
-                                                                                |  Color 
-                                                                                input.form-control(type='textarea' ng-model='serie.color')
-                                                                                |  Axis Bind To (default to left Y-Axis)
-                                                                                //input.form-control(type='number' ng-model='serie.yAxis' min=1 max="{{highChartTempConfig.series.length}}" value =  ng-change="processYaxis()")
-                                                                                select(data-ng-model='serie.yAxis' data-ng-options='idx*1 as yAxis.id for (idx,yAxis) in highChartTempConfig.options.yAxis')
                                         hr
                                         br
                                         .row
@@ -543,9 +480,9 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                         .row
                                             .col-lg-12
                                                 accordion(style='background-color:337ab7; color:#ffffff;')
-                                                    accordion-group(style='background-color:#f5f5f5;' is-open="status.open")
+                                                    accordion-group(style='background-color:#f5f5f5;' is-open="galleryStatus.open")
                                                         accordion-heading(style="cursor:pointer")
-                                                            i(ng-class="{'fa fa-plus-circle': !status.open, 'fa fa-minus-circle': status.open}")&nbsp;
+                                                            i(ng-class="{'fa fa-plus-circle': !galleryStatus.open, 'fa fa-minus-circle': galleryStatus.open}")&nbsp;
                                                             | Uploaded Images
                                                         .row
                                                             .col-lg-12

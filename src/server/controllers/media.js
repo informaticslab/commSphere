@@ -58,7 +58,7 @@ exports.deleteFile = function(req,res) {
 				res.send(err);
 				console.log(err);
 			} else {
-				console.log("document deleted", result);
+				//console.log("document deleted", result);
 				fs.unlinkSync(filePath);
 				res.send({
 					success: true,
