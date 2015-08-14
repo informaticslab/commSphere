@@ -24,8 +24,8 @@ for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
 	    // Set canvas size
 	     //canvas.width = chart.chartWidth;
 	     //canvas.height = chart.chartHeight;
-	     canvas.width = 1000;
-	     canvas.height = 600;
+	     canvas.width = 1200;
+	     canvas.height = 800;
 	    
 	    //canvg(canvas, chart_svg);
 	    canvg(canvas, chart_svg, {
