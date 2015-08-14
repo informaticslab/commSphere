@@ -104,8 +104,8 @@ $scope.sortedCols = getSortedColumns();
 	//console.log($rootScope.combinedGrid);
   $rootScope.hiddenChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
   for (var i = 0; i < $scope.hiddenChartConfigs.length; i++) {
-      $rootScope.hiddenChartConfigs[i].options.chart.height = 800;
-      $rootScope.hiddenChartConfigs[i].options.chart.width = 1200;
+      $rootScope.hiddenChartConfigs[i].options.chart.height = 400;
+      $rootScope.hiddenChartConfigs[i].options.chart.width = 600;
   }
 
   
