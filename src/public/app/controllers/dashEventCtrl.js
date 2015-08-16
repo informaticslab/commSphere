@@ -127,7 +127,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               $scope.customizedDoc.docData.push({sectionName: 'Images', sectionType: 'Images', sectionData:{doc:$scope.files}});
               $scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
               $scope.customizedDoc.eventDocId = $scope.eventdoc._id;
-              $scope.customizedDoc.chartConfigs = $scope.eventdoc.chartConfigs || [];
+              $scope.customizedDoc.chartConfigs = JSON.parse(JSON.stringify($scope.eventdoc.chartConfigs)) || [];
               $scope.customizedDoc.checkedColumns = $scope.eventdoc.checkedColumns;
 
 
@@ -468,16 +468,6 @@ $scope.saveCategory = function (status) {  // save data for the current tab
 
  });
 
- var data = { docId : $scope.eventdoc._id , chartData : $scope.customizedDoc.chartConfigs };
- $http.post('/api/events/saveChartData',data).then(function(res){
-        if(res.data.success){
-                
-        
-        } else {
-             alert('there was an error saving saved chart');
-        }
-
- });
  $rootScope.continueNav=true;
  $rootScope.preventNavigation = false;
 
@@ -1677,7 +1667,16 @@ $scope.deSelectAllColumns = function() {
 $scope.deleteChart = function(index) {
     if ($scope.customizedDoc.chartConfigs) {
       $scope.customizedDoc.chartConfigs.splice(index, 1);
-      $scope.eventdoc.changed =  true;
+      var data = { docId : $scope.eventdoc._id , chartData : $scope.customizedDoc.chartConfigs };
+      $http.post('/api/events/saveChartData',data).then(function(res){
+              if(res.data.success){
+                      
+              
+              } else {
+                   alert('there was an error saving saved chart');
+              }
+
+       });
     }
 }
 
@@ -1685,9 +1684,16 @@ $scope.addChart = function() {
   if ($scope.highChartTempConfig){
      // $scope.highChartTempConfig.size = { width: 400, height: 320};
       $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
-      ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
       $scope.status.open = true;
-      $scope.eventdoc.changed =  true;
+      var data = { docId : $scope.eventdoc._id , chartData : $scope.customizedDoc.chartConfigs };
+      $http.post('/api/events/saveChartData',data).then(function(res){
+              if(res.data.success){
+                ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
+              } else {
+                   alert('there was an error saving saved chart');
+              }
+
+       });
   }
 
 }
