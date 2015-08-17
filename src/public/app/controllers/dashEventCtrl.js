@@ -1296,21 +1296,24 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         }
       }
     }
-    $scope.eventdoc.reportMeta = $scope.customizedDoc.reportMeta;
-    // chart custom configuration save
+        // chart custom configuration save
     for(config in $scope.customizedDoc.chartConfigs){
               config.series = undefined;
               config.categories = undefined
           }
+    
+    var eventdoc = {};
+    eventdoc = $scope.eventdoc;
     //console.log("Checked Columns ", $rootScope.checkedColumns);
-    $scope.eventdoc.checkedColumns = $scope.customizedDoc.checkedColumns;
-    $scope.eventdoc.chartConfigs = $scope.customizedDoc.chartConfigs;
+    eventdoc.checkedColumns = $scope.customizedDoc.checkedColumns;
+    eventdoc.chartConfigs = $scope.customizedDoc.chartConfigs;
+    eventdoc.reportMeta = $scope.customizedDoc.reportMeta;
+
     //$scope.eventdoc.selectedColumns = $rootScope.checkedColumns;
     //$scope.eventdoc.columnsList = $scope.columnsList;
 
 
-    var eventdoc = {};
-    eventdoc = $scope.eventdoc;
+    
     //console.log(customDoc);
     console.log($scope.eventdoc);
     $http.post('/api/events', eventdoc).then(function(res) {
