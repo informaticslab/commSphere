@@ -127,7 +127,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               $scope.customizedDoc.docData.push({sectionName: 'Images', sectionType: 'Images', sectionData:{doc:$scope.files}});
               $scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
               $scope.customizedDoc.eventDocId = $scope.eventdoc._id;
-              if ($scope.eventdoc.chartConfig) {
+              if ($scope.eventdoc.chartConfigs) {
                 $scope.customizedDoc.chartConfigs = JSON.parse(JSON.stringify($scope.eventdoc.chartConfigs)) || [];
               } else {
                 $scope.customizedDoc.chartConfigs = [];
