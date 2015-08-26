@@ -561,7 +561,7 @@ function generateColumnDefs() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventdoc.gridColDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth, cellEditableCondition: $scope.isNew};
+            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventdoc.gridColDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth, enableColumnMenu: false ,cellEditableCondition: $scope.isNew};
           }
          else {
           //  var formattedDate = $filter('date')(columnArry[i],'mediumDate');

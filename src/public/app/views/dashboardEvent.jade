@@ -164,7 +164,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             br
                                         .row#gridRow
                                             .panel.panel-default
-                                              .panel-heading(style="text-align:right; font-size:18px;") 
+                                              .panel-heading(style="text-align:right; font-size:18px;" ng-show="identity.isAuthorized('levelTwo')") 
                                                 i Edit Columns:
                                                 button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7; margin-left:11px; padding-left:13px; padding-right:13px;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") -
                                                 button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") +
@@ -196,13 +196,14 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                         //div#js-legend.chart-legend
                                                                         //br
                                                                         //div(google-chart='', chart='googleChartObj[$index]', style='{{cssStyle}}')
-                                                        i Edit Rows:
-                                                        a.del-edit-btn.btn.btn-default(style="color:#337ab7; margin-left:11px; padding-left:13px; padding-right:13px;", ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="removeLastRow(grid,'grid_'+$index)")
-                                                            | -
-                                                        a.del-edit-btn.btn.btn-default(style="color:#337ab7;", ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="addRow(grid,'grid_'+$index)")
-                                                            | +
-                                                        br
-                                                        br
+                                                        div(ng-show="identity.isAuthorized('levelTwo')")
+                                                            i Edit Rows:
+                                                            a.del-edit-btn.btn.btn-default(style="color:#337ab7; margin-left:11px; padding-left:13px; padding-right:13px;", ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="removeLastRow(grid,'grid_'+$index)")
+                                                                | -
+                                                            a.del-edit-btn.btn.btn-default(style="color:#337ab7;", ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click="addRow(grid,'grid_'+$index)")
+                                                                | +
+                                                            br
+                                                            br
                                                 ol.angular-ui-tree-nodes(ng-show = "identity.isAuthorized('levelTwo')")
                                                     li.angular-ui-tree-node
                                                         .topic-title-tables.angular-ui-tree-handle
