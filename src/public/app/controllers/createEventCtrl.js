@@ -640,7 +640,9 @@ $scope.removeColumn = function() {
          //  $scope.tabCategory[0].active = true;
        }
           return {
-              height: ((grid.dailyData.length+1) * rowHeight + headerHeight-12) + "px" };
+             // height: ((grid.dailyData.length+1) * rowHeight + headerHeight-12) + "px" };
+              height: ((grid.dailyData.length+1) * rowHeight)+"px"
+            };
        //}
        // else {
        // return {
