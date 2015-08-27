@@ -164,9 +164,9 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             br
                                         .row#gridRow
                                             .panel.panel-default
-                                              .panel-heading(style="text-align:right; font-size:18px;" ng-show="identity.isAuthorized('levelTwo')") 
+                                              .panel-heading(style="text-align:right; font-size:18px;" ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") 
                                                 i Edit Columns:
-                                                button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7; margin-left:11px; padding-left:13px; padding-right:13px;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") -
+                                                button#button_remove.btn.btn-default(ng-click='removeColumn()', style='color:#337ab7; margin-left:11px; padding-left:13px; padding-right:13px;') -
                                                 button#button_add.btn.btn-default(ng-click='addColumn()', style='color:#337ab7;', ng-show="eventData.gridData.length > 0 && identity.isAuthorized('levelTwo')") +
                                               .panel-body
                                                 ol(style="margin-top:10px;", ui-tree-nodes='', ng-model='eventData.gridData' )
