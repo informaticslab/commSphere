@@ -281,11 +281,12 @@ $scope.onTimeSet = function (newDate, oldDate) {
  //   checkNamedeferred.promise
 
     $log.debug($scope.eventdoc.eventInstanceId);
-    var minimumAssign = false;
+    //var minimumAssign = false;
+    var analystsAssigned = 0;
     var workingId="";
     for(var i=0; i < $scope.eventdoc.categories.length; i++){
       if($scope.eventdoc.categories[i].userAssigned != '') {
-        minimumAssign = true;
+        analystsAssigned++;
       }
     }
       //validation before event creation
@@ -298,8 +299,8 @@ $scope.onTimeSet = function (newDate, oldDate) {
       } 
        else if ($scope.eventdoc.eventType === '') {
         ngNotifier.notifyError('Please select an event type');
-      } else if (minimumAssign === false){
-        ngNotifier.notifyError('You must assign atleast one category to an analyst');
+      } else if (analystsAssigned != $scope.eventdoc.categories.length){
+        ngNotifier.notifyError('Each category must be assigned to an analyst to continue.');
       }
       else { // validation passed continue to check event Id logic
           if ($scope.isNew)
