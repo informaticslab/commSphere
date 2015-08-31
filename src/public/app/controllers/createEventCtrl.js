@@ -276,6 +276,44 @@ $scope.onTimeSet = function (newDate, oldDate) {
     }
   };
 
+
+$scope.editLabel = function(subTopic) {
+    subTopic.editing = true;
+  //  console.log('i am in edit label');
+  };
+
+ $scope.saveLabel = function(subTopic,e) {
+    // topic.save();
+    subTopic.editing = false;
+    e.preventDefault();
+  };
+
+
+
+$scope.addLabel = function(grid,e) {
+   if (!grid.newSubTopicName || grid.newSubTopicName.length === 0) {
+      return;
+    }
+    // var n = grid.dailyData.length + 1;
+    grid.dailyData.push({
+      'label': grid.newSubTopicName
+    });
+    grid.newSubTopicName = '';
+    e.preventDefault();
+    // topic.save();
+  };
+
+
+$scope.removeLabel = function(grid, subTopic) {
+    //if (window.confirm('Are you sure to remove this subTopic?')) {
+    var index = grid.dailyData.indexOf(subTopic);
+    if (index > -1) {
+      grid.dailyData.splice(index, 1)[0];
+    }
+    // topic.save();
+    //}
+  };
+
   $scope.createEvent = function() {
  //   var checkNamedeferred = $q.defer();
  //   checkNamedeferred.promise
@@ -495,7 +533,7 @@ $scope.addTable = function(grid) {
   $scope.eventdoc.gridData.push({
             gridId : $scope.eventdoc.gridData.length,
             gridName: grid.newGridName,
-            dailyData: [initialRow]
+            dailyData: []
             });
   $scope.eventdoc.gridColDisplayNames = initialColName;
   if (!$scope.columns) {
