@@ -277,6 +277,30 @@ $scope.onTimeSet = function (newDate, oldDate) {
   };
 
 
+$scope.optionsGrid = {
+    accept: function(sourceNode, destNodes, destIndex) {
+      var data = sourceNode.$modelValue;
+      if (data.hasOwnProperty('gridId')) {
+         sourceType = 'grid';
+      } else if (data.hasOwnProperty('label')) {
+         sourceType = 'label';
+      }
+     var destType = destNodes.$element.attr('data-type');
+      return (sourceType == destType); // only accept the same type
+    },
+    dropped: function(event) {
+      $log.debug(event);
+      var sourceNode = event.source.nodeScope;
+      var destNodes = event.dest.nodesScope;
+      // update changes to server
+   },
+    beforeDrop: function(event) {
+      // if (!window.confirm('Are you sure you want to drop it here?')) {
+      //   event.source.nodeScope.$$apply = false;
+      // }
+    }
+  };
+
 $scope.editLabel = function(subTopic) {
     subTopic.editing = true;
   //  console.log('i am in edit label');

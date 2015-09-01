@@ -123,7 +123,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 							//DATA TAB
 							tab(heading="Daily Metrics" select="tabShown = !tabShown" deselect="tabShown = !tabShown")
 								.row
-									.col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;' ui-tree='options')
+									.col-lg-12.col-md-12.col-sm-12(style='padding-left:35px; padding-right:35px; padding-bottom:15px;' ui-tree='optionsGrid')
 										.row
 											.col-lg-9.col-md-9.col-sm-9
 												.tab-title-heading
@@ -136,7 +136,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 										.row
 											.panel.panel-default
 												.panel-body
-													ol(ui-tree-nodes='', ng-model='eventdoc.gridData', data-type='grid')
+													ol(ui-tree-nodes='', ng-model='eventdoc.gridData' ,data-type='grid')
 														li(ng-repeat='grid in eventdoc.gridData', ui-tree-node='' , on-finish-render="ngRepeatFinished")
 															.topic-title-tables.angular-ui-tree-handle(ng-show='!grid.editing' ng-mouseenter="hoverTopic = true" ng-mouseleave="hoverTopic = false")
 																a.del-edit-btn.btn.btn-default.btn-sm.pull-right(ng-show="identity.isAuthorized('levelTwo')" href='', data-nodrag='', ng-click='removeTable(grid.gridName)')
@@ -147,7 +147,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 															.topic-title-tables.angular-ui-tree-handle(data-nodrag='', ng-show='grid.editing')
 																label.sr-only(for='gridName') Table name
 																input.form-control(type='text', placeholder='enter table name to add', ng-model='grid.gridName' ng-keyup='$event.keyCode==13 ? saveTableName(grid,$event) : null' ng-blur='saveTableName(grid,$event)')
-															ol(ui-tree-nodes='', ng-model='grid.dailyData'  data-nodrop-enabled="true")
+															ol(ui-tree-nodes='', ng-model='grid.dailyData' , data-type='label')
 																li(ng-repeat='subTopic in grid.dailyData', ui-tree-node='')
 																	.subTopic-title.angular-ui-tree-handle(ng-show='!subTopic.editing' ng-mouseenter="hoverSubTopic = true" ng-mouseleave="hoverSubTopic = false")
 																		a.del-edit-btn.btn.btn-default.btn-xs.pull-right(ng-show="hoverSubTopic" href='', data-nodrag='', ng-click='removeLabel(grid, subTopic)')
