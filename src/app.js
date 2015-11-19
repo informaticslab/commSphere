@@ -1,3 +1,4 @@
+'use strict';
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,7 +7,7 @@
 var express = require('express'),
     app = express();
 
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0" // Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // Avoids DEPTH_ZERO_SELF_SIGNED_CERT error for self-signed certs
 
 //configure express further
 var config = require('./server/config/config'); //may pass env later
@@ -27,15 +28,15 @@ console.log('Express server listening on port 9000');
 
 
 //HTTPS for PIV 
-// var https = require('https'),      // module for https
-//     fs =    require('fs');         // required to read certs and keys
+var https = require('https'),      // module for https
+    fs =    require('fs');         // required to read certs and keys
 
-// var options = {
-//     key:    fs.readFileSync('/sec/certs/server-key.pem'),
-//     cert:   fs.readFileSync('/sec/certs/server-cert.pem'),
-//     ca:     [fs.readFileSync('/sec/certs/gd_bundle-g2.crt'),fs.readFileSync('/sec/certs/HHSPIVcachn.pem')],
-//     requestCert:        true,
-//     rejectUnauthorized: false,
-// };
+var options = {
+    key:    fs.readFileSync('/sec/certs/server-key.pem'),
+    cert:   fs.readFileSync('/sec/certs/server-cert.pem'),
+    ca:     [fs.readFileSync('/sec/certs/gd_bundle-g2.crt'),fs.readFileSync('/sec/certs/HHSPIVcachn.pem')],
+    requestCert:        true,
+    rejectUnauthorized: false,
+};
 
-// https.createServer(options, app).listen(4400);
+https.createServer(options, app).listen(4400);
