@@ -9,7 +9,8 @@ var userSchema = mongoose.Schema({
   salt: String,
   hashed_pwd: String,
   roles: [],
-  displayName: String
+  displayName: String,
+  lastLogin: Date
 });
 
 userSchema.methods = {

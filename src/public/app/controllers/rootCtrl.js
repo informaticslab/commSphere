@@ -38,6 +38,23 @@ $scope.createEvent = function (size,draftInstance,isNew,showOverrideCheckbox) {
     
     };
 
+$scope.getPIVinfo = function() {
+
+  if($location.protocol() === 'https' && !$scope.identity.isAuthenticated()) {
+    ngAuth.authenticateUserPiv().then(function(success) {
+      if(success) {
+        if($scope.identity.currentUser.isLevelTwo()) {
+          $location.path('/dashboard');
+        } else if($scope.identity.currentUser.isLevelThree()) {
+          $location.path('/dashboard');
+        }
+      } else {
+        $window.location.href = $location.absUrl().replace('https','http').replace('4400','9000');
+      }
+    });
+  }
+};
+
 $scope.logout = function(){
     if (!$rootScope.continueNav) {
         var answer = confirm("You have unsaved changes, do you want to continue?")

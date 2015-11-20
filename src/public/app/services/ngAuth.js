@@ -65,6 +65,21 @@ angular.module('app').factory('ngAuth', function($http, ngIdentity, $q, ngUser) 
       } else {
         return $q.reject('not authorized');
       }
+    },
+    authenticateUserPiv : function() {
+      var dfd = $q.defer();
+      $http.get('/login/piv').then(function(res) {
+        if(res.data.susccess) {
+          var user = new ngUser();
+          angular.extend(user, res.data.user);
+
+          ngIdentity.currentUser = user;
+          dfd.resolve(true);
+        } else {
+          dfd.resolve(false);
+        }
+      });
+      return dfd.promise;
     }
   }
 });

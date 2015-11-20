@@ -25,7 +25,18 @@ angular.module('app').controller('loginCtrl',function($scope,$http,ngIdentity,ng
 		
 	};
 
-	
+	 $scope.pivLogin = function(){   //only function is to kick off the switch to HTTPS for Certificate Authentication
+		//todo
+	   	var forceSsl = function () {
+			$window.location.href = $location.absUrl().replace('http','https').replace('9000','4400');
+		 };
+		var protocol = $location.protocol();
+
+		if($location.protocol() != 'https'){
+			forceSsl();
+		}
+		
+	};
 
 
 });

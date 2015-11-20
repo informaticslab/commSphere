@@ -478,6 +478,12 @@ input[type=checkbox].css-checkbox {
     text-align: left; 
   }*/
 
+.login-button {
+  width:100%; 
+  background-color:#9ccd25; 
+  border:1px solid #8cb823; 
+  text-shadow: -1px 1px 0px rgba(122, 163, 22, 1);
+}
 
   .preview-thumbnail {
     width:200px;
