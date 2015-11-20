@@ -49,10 +49,10 @@ exports.requiresRole = function() {
 };
 
 exports.authenticatePIV = function(req, res) {
-    
+
     var authorized = req.connection.authorized;
     var User = mongoose.model('User');
-    var protocol = req.conneciton.npnProtocol;
+    // var protocol = req.conneciton.npnProtocol;
 
     var pivUserID, pivUserName,pivFirstName,pivLastName,pivDisplayName;
     var pivinfo=req.connection.getPeerCertificate().subject;

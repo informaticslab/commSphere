@@ -1,4 +1,4 @@
-commSphereApp.controller('rootCtrl', ['$scope', '$rootScope','$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route','$log','$http', function($scope, $rootScope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route,$log,$http) {
+commSphereApp.controller('rootCtrl', ['$scope', '$rootScope','$modal','$routeParams','ngEvents','ngAuth','$location','ngIdentity','$route','$log','$http', '$window', function($scope, $rootScope, $modal,$routeParams,ngEvents,ngAuth, $location, ngIdentity,$route,$log,$http,$window) {
 $rootScope.continueNav = true;
 $("#wrapper").show();
 $scope.activeMenu='';
