@@ -59,6 +59,7 @@ module.exports = function(app) {
   });
 
   app.post('/login', auth.authenticate);
+  app.get('/login/piv', auth.authenticatePIV); 
 
   app.post('/logout', function(req, res) {
     req.logout();
