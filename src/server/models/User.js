@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
   encrypt = require('../utilities/encryption');
 
 var userSchema = mongoose.Schema({
+  id: String,
   firstName: String,
   lastName: String,
   email: {type: String, unique:true},

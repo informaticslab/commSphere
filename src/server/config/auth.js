@@ -53,6 +53,8 @@ exports.authenticatePIV = function(req, res) {
     var authorized = req.connection.authorized;
     var User = mongoose.model('User');
     // var protocol = req.conneciton.npnProtocol;
+    var userId ="";
+    var displayName = "";
 
     var pivUserID, pivUserName,pivFirstName,pivLastName,pivDisplayName;
     var pivinfo=req.connection.getPeerCertificate().subject;
@@ -74,7 +76,7 @@ exports.authenticatePIV = function(req, res) {
             pivDisplayName = pivFirstName +pivLastName;
         }
 
-        User.findOne({'id': pivUserId}, function(err, user) {
+        User.findOne({'id': pivUserID}, function(err, user) {
             if(err) {
                 return err
             } else if(user) {
@@ -102,6 +104,10 @@ exports.authenticatePIV = function(req, res) {
                 newUser.lastName = pivLastName;
                 newUser.displayName = pivDisplayName;
                 newUser.lastLogin = new Date();
+                newUser.roles = [{id:'levelOne', name:'Admin', enabled: false},
+                                {id:'levelTwo', name:'Coordinator', enabled: false},
+                                {id:'levelThree', name: 'Analyst', enabled: true},
+                                {id:'disabled', name: 'Disabled', enabled: false}];
 
                 newUser.save(function(err) {
                     if(err) {
