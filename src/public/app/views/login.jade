@@ -12,7 +12,11 @@ div(style="background-color:#2a2d33;margin-left:-234px" ng-if="!identity.isAuthe
             h4 Sign in to your account
             br
             | &#x9;&#x9;&#x9;
-            form
+            button.btn.btn-success.btn-lg.login-button(type='submit' ng-click="pivLogin()") CDC Smartcard Login
+            br
+            br
+            button.btn.btn-success.btn-lg.login-button(ng-click="usernameLogin()" ng-if='!usernameLoginShow') Login with Username/Password
+            form(ng-show='usernameLoginShow')
               .form-group
                 input#exampleInputEmail1.form-control.input-lg(type='text' placeholder='Email' ng-model='email')
               |   &#x9;&#x9;&#x9;
@@ -21,13 +25,13 @@ div(style="background-color:#2a2d33;margin-left:-234px" ng-if="!identity.isAuthe
               |   
               |   &#x9;&#x9;&#x9;
               button.btn.btn-success.btn-lg.login-button(type='submit' ng-click="login(email, password)") Login
-              button.btn.btn-success.btn-lg.login-button(type='submit' ng-click="pivLogin()") PIV Login
         .login-footer(align='center')
           img(src='img/cdc-logo.png')
           br
           br
           |    &#x9;
           img(src='img/iiu-logo.png')
+
 
 //- .container-fluid
 //-     // Page Heading
