@@ -1283,6 +1283,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   /////////////CUSTOM REPORT////////////////
 
 
+
   $scope.minColWidth = 110;
   $scope.minTopicWidth = 200;
 

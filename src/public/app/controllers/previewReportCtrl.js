@@ -2,13 +2,11 @@ angular.module('app').controller('previewReportCtrl', function($scope,$rootScope
 
 $scope.chartImgUrls = [];
 $scope.numberOfColumns = getCheckedColCounts();
-
-
-
 $scope.sortedCols = getSortedColumns();
 
 $scope.customizedData = JSON.parse(JSON.stringify($scope.eventData));
-
+console.log($scope.customizedData);
+console.log($scope.customizedDoc);
 $scope.previewChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
 
 for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
@@ -35,6 +33,7 @@ for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
 	    });
 
 	    $scope.chartImgUrls.push(canvas.toDataURL("image/png"));
+	    console.log($scope.chartImgUrls);
 	}
 }
 
@@ -152,5 +151,37 @@ function getSortedColumns() {
     return columnArry;
 }
 	////END GRID///
+
+
+  $scope.makePDF = function() {
+    var docDefinition = {
+      content: [
+        {
+          text: $scope.eventdoc.reportMeta.title,
+          style: 'header'
+        },
+        {
+          text: $scope.eventdoc.reportMeta.type,
+          style: 'subheader'
+        },
+       	{
+       		image: $scope.chartImgUrls[0]
+       	}
+      ],
+      styles: {
+        header: {
+          fontSize: 15,
+          bold: true
+        },
+        subheader: {
+          fontSize: 12,
+          bold: true
+        }
+      }
+    };
+
+    pdfMake.createPdf(docDefinition).open();
+  };
+
 });
 
