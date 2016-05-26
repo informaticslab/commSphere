@@ -653,9 +653,9 @@ $scope.setActiveCategory = function(category)
       if(oldVal == undefined){
           //do nothing
       } else {
-        console.log('old obj ', oldVal);
-        console.log('new obj ', newVal);
-        console.log('inside main eventData unregister 2')
+        //console.log('old obj ', oldVal);
+        //console.log('new obj ', newVal);
+        //console.log('inside main eventData unregister 2')
         $rootScope.continueNav=false;
         $scope.canSubmit = false;
         $rootScope.preventNavigation=true;
@@ -959,18 +959,22 @@ $scope.$on('uiGridEventData', function (gridId) {
 
 $scope.removeColumn = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
-     if (lastColumnName !=='label') {
-     $scope.columns.splice($scope.columns.length-1, 1);
-     for(var i=0; i < $scope.eventData.gridData.length; i++) {
-          for(var j=0; j<$scope.eventData.gridData[i].dailyData.length; j++){
-             if ($scope.eventData.gridData[i].dailyData[j].hasOwnProperty(lastColumnName)) {
-                delete $scope.eventData.gridData[i].dailyData[j][lastColumnName];
-                delete $scope.eventData.colDisplayNames[lastColumnName];
-             } else {  // column not exists, add
+     var colDisplayName = $scope.columns[$scope.columns.length-1].displayName;
+     var deleteConfirm = $window.confirm('Are you sure you want to remove column '+ colDisplayName +'? ');
+     if (deleteConfirm) {
+         if (lastColumnName !== 'label') {
+             $scope.columns.splice($scope.columns.length - 1, 1);
+             for (var i = 0; i < $scope.eventData.gridData.length; i++) {
+                 for (var j = 0; j < $scope.eventData.gridData[i].dailyData.length; j++) {
+                     if ($scope.eventData.gridData[i].dailyData[j].hasOwnProperty(lastColumnName)) {
+                         delete $scope.eventData.gridData[i].dailyData[j][lastColumnName];
+                         delete $scope.eventData.colDisplayNames[lastColumnName];
+                     } else {  // column not exists, add
+                     }
+                 }
              }
-          }
-      }
-    }
+         }
+     }
   }
   
   $scope.addColumn = function() {
@@ -1003,10 +1007,11 @@ $scope.removeColumn = function() {
   };
 
   $scope.removeLastRow = function(grid,id) {
-
-    var n = grid.dailyData.length;
-    grid.dailyData.pop();
-
+    var deleteConfirm = $window.confirm('Are you sure you want to remove the last row from table '+ grid.gridName + '?');
+    if (deleteConfirm) {
+        var n = grid.dailyData.length;
+        grid.dailyData.pop();
+    }
   }
   $scope.getTableHeight = function(grid,id) {
        var rowHeight = 30; // your row height
@@ -1320,10 +1325,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 
     
     //console.log(customDoc);
-    console.log($scope.eventdoc);
+    //console.log($scope.eventdoc);
     $http.post('/api/events', eventdoc).then(function(res) {
       if (res.data.success) {
-        console.log('Customized report saved');
+        //console.log('Customized report saved');
         ngNotifier.notify('Your customized report has been saved');
            var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
      $log.debug("watching");
@@ -1333,7 +1338,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         if(oldVal == undefined){
             //do nothing
         } else {
-          console.log(' inside save customized repport')
+          //console.log(' inside save customized repport')
           $rootScope.continueNav=false;
           $rootScope.preventNavigation =true;
           unregister();
@@ -1361,11 +1366,11 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
              var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
       if(newVal!=oldVal)
       {
-        console.log('changed');
+        //console.log('changed');
         if(oldVal == undefined){
             //do nothing
         } else {
-          console.log('inside customized report save, save collected data')
+          //console.log('inside customized report save, save collected data')
           $rootScope.continueNav=false;
           $rootScope.preventNavigation =true;
           unregister2();
