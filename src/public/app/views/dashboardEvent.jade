@@ -383,9 +383,9 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                 .col-lg-7
                                                     .well(style='background-color:#ffffff;')
                                                         highchart(id="chartTemp" config='highChartTempConfig')
-                                                    br
-                                                    button.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
-                                                    button.btn.btn-default(ng-click='resetChart();', style='color:#337ab7;') Reset Chart
+                                                    //br
+                                                    //button.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
+                                                    //button.btn.btn-default(ng-click='resetChart();', style='color:#337ab7;') Reset Chart
                                                 .col-lg-5(style="padding-left:20px;")
                                                     //.well.well-lg
                                                     div.pull-left(style="width:100%;")
@@ -410,6 +410,8 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                 |Y-Axis Title 
                                                                 input.form-control(type='textarea' ng-model='highChartTempConfig.options.yAxis[0].title.text')
                                                                 br
+                                                                button.btn.btn-default(ng-click='addChart()', style='color:#337ab7;') Save Chart
+                                                                button.btn.btn-default(ng-click='resetChart();', style='color:#337ab7;') Reset Chart
                                         hr
                                         br
                                         .row

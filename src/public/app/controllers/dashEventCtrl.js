@@ -1695,18 +1695,23 @@ $scope.deleteChart = function(index) {
 
 $scope.addChart = function() {
   if ($scope.highChartTempConfig){
-     // $scope.highChartTempConfig.size = { width: 400, height: 320};
-      $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
-      $scope.status.open = true;
-      var data = { docId : $scope.eventdoc._id , chartData : $scope.customizedDoc.chartConfigs };
-      $http.post('/api/events/saveChartData',data).then(function(res){
-              if(res.data.success){
-                ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
+      if ($scope.highChartTempConfig.title.text.trim()) {
+          // $scope.highChartTempConfig.size = { width: 400, height: 320};
+          $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
+          $scope.status.open = true;
+          var data = {docId: $scope.eventdoc._id, chartData: $scope.customizedDoc.chartConfigs};
+          $http.post('/api/events/saveChartData', data).then(function (res) {
+              if (res.data.success) {
+                  ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
               } else {
-                   alert('there was an error saving saved chart');
+                  alert('there was an error saving saved chart');
               }
 
-       });
+          });
+      }
+      else {
+          ngNotifier.notifyError("Please enter a chart title");
+      }
   }
 
 }
