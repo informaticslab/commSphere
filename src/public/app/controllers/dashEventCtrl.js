@@ -889,13 +889,14 @@ $scope.generateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true,headerCellTemplate: customHeaderCellTemplate0};
+            //oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true,headerCellTemplate: customHeaderCellTemplate0};
+            oneColumnDef = {'field': columnArry[i], 'displayName':'' , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true,headerCellTemplate: customHeaderCellTemplate0};
           }
          else {
             //var formattedDate = $filter('date')(columnArry[i],'mediumDate');
             oneColumnDef = {'field': columnArry[i], 'displayName' : $scope.eventData.colDisplayNames[columnArry[i]], enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
             //,headerCellTemplate: '/partials/customHeaderCellTemplate'
-            ,headerCellTemplate: customHeaderCellTemplate
+            ,headerCellTemplate: customHeaderCellTemplate, cellFilter: 'number'
           }
          }
             columnLayout.push(oneColumnDef);
