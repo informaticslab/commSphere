@@ -33,7 +33,7 @@ for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
 	    });
 
 	    $scope.chartImgUrls.push(canvas.toDataURL("image/png"));
-	    console.log($scope.chartImgUrls);
+
 	}
 }
 
@@ -158,23 +158,23 @@ function getSortedColumns() {
       content: [
         {
           text: $scope.eventdoc.reportMeta.title,
-          style: 'header'
+          style: 'header',
+          alignment: 'center'
         },
         {
           text: $scope.eventdoc.reportMeta.type,
-          style: 'subheader'
+          style: 'header',
+          alignment: 'center'
         },
        	{
-       		image: $scope.chartImgUrls[0]
+       		text: $scope.eventdoc.eventPublishDate,
+       		style: 'header',
+       		alignment: 'center'
        	}
       ],
       styles: {
         header: {
           fontSize: 15,
-          bold: true
-        },
-        subheader: {
-          fontSize: 12,
           bold: true
         }
       }
@@ -182,6 +182,9 @@ function getSortedColumns() {
 
     pdfMake.createPdf(docDefinition).open();
   };
+
+
+  // Helpers
 
 });
 
