@@ -20,7 +20,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                     .save-draft-cont-evt 
                         button.btn.btn-success(type="button" ng-click="saveCategory('draft')" ng-disabled='continueNav')    
                             | Save Edits
-                    .submit-btn-cont
+                    //.submit-btn-cont
                         button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
                             | Submit
                     .submit-btn-cont
@@ -44,6 +44,9 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                 .return-event-cont
                                                     button.btn.btn-default(style='color:#337ab7;', type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
                                                         | Return to analyst
+                                                .return-event-cont
+                                                    button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
+                                                        | Submit
                                         br
                                         hr
                                         br
@@ -502,4 +505,3 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
             
 
                             
-                        
