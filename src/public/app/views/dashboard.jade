@@ -16,7 +16,12 @@
                                     a(href="" ng-click="sortType = 'eventName'; sortReverse = !sortReverse; sortInstances('eventName')")
                                         | Event
                                         span(ng-show="sortType == 'eventName' && !sortReverse" class="fa fa-caret-down")
-                                        span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up") 
+                                        span(ng-show="sortType == 'eventName' &&  sortReverse" class="fa fa-caret-up")
+                                th
+                                    a(href="" ng-click="sortType = 'eventDueDate'; sortReverse = !sortReverse; sortInstances('eventDueDate')")
+                                        | Due Date
+                                        span(ng-show="sortType == 'eventDueDate' && !sortReverse" class="fa fa-caret-down")
+                                        span(ng-show="sortType == 'eventDueDate' &&  sortReverse" class="fa fa-caret-up")
                                 th
                                     a(href="" ng-click="sortType = 'eventInstanceId'; sortReverse = !sortReverse; sortInstances('eventInstanceId')")
                                         | ID
@@ -32,11 +37,7 @@
                                         | Coordinator 
                                         span(ng-show="sortType == 'coordinatorAssign' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'coordinatorAssign' &&  sortReverse" class="fa fa-caret-up") 
-                                th
-                                    a(href="" ng-click="sortType = 'eventDueDate'; sortReverse = !sortReverse; sortInstances('eventDueDate')")
-                                        | Due Date 
-                                        span(ng-show="sortType == 'eventDueDate' && !sortReverse" class="fa fa-caret-down")
-                                        span(ng-show="sortType == 'eventDueDate' &&  sortReverse" class="fa fa-caret-up") 
+
                                 th(ng-show="identity.isAuthorized('levelTwo')")
                                     a(href="" ng-click="sortType = 'eventInstanceStatus'; sortReverse = !sortReverse; sortInstances('randomNumber')")
                                         | Status 
@@ -47,13 +48,14 @@
                                 td(ng-class-odd="'tableStripe'")
                                     a(href="#/dashboard/event/{{instance._id}}" ){{instance.eventName}}
                                 td(ng-class-odd="'tableStripe'")
+                                    | {{instance.eventDueDate | date:'MM/dd/yyyy' }}
+                                td(ng-class-odd="'tableStripe'")
                                     | {{instance.eventInstanceId}}
                                 td(ng-class-odd="'tableStripe'")
                                     | {{instance.eventType}}
                                 td(ng-class-odd="'tableStripe'")
                                     | {{instance.userCreated.displayName}}
-                                td(ng-class-odd="'tableStripe'")
-                                    | {{instance.eventDueDate | date:'MM/dd/yyyy' }}
+
                                 td(ng-show="identity.isAuthorized('levelTwo')" ng-class-odd="'tableStripe'")
                                     progressbar(animate='false', value='instance.eventInstanceStatus' type ="success" ng-if="instance.eventInstanceStatus==100")
                                         span(ng-class="{progressbartextblack: instance.eventInstanceStatus == 0}")
