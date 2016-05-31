@@ -5,8 +5,8 @@ $scope.numberOfColumns = getCheckedColCounts();
 $scope.sortedCols = getSortedColumns();
 
 $scope.customizedData = JSON.parse(JSON.stringify($scope.eventData));
-console.log($scope.customizedData);
-console.log($scope.customizedDoc);
+console.log($scope.customizedData, 'customizedData');
+console.log($scope.customizedDoc, 'customizedDoc');
 $scope.previewChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
 
 for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
@@ -152,34 +152,79 @@ function getSortedColumns() {
 }
 	////END GRID///
 
-
-  $scope.makePDF = function() {
-    var docDefinition = {
-      content: [
-        {
-          text: $scope.eventdoc.reportMeta.title,
-          style: 'header',
-          alignment: 'center'
-        },
-        {
-          text: $scope.eventdoc.reportMeta.type,
-          style: 'header',
-          alignment: 'center'
-        },
-       	{
-       		text: $scope.eventdoc.eventPublishDate,
-       		style: 'header',
-       		alignment: 'center'
-       	}
-      ],
-      styles: {
+	function createPDFdefinition() {
+		var customDoc = $scope.customizedDoc;
+		var pdfDefinition = {
+			content: [],
+			styles: {
         header: {
           fontSize: 15,
           bold: true
+        },
+        subheader: {
+        	fontSize: 12,
+        	decoration: 'underline',
+        	alignment: 'center'
+        },
+        category: {
+        	fontSize: 14,
+        	bold: true
+        },
+        topic: {
+        	fontSize: 10,
+        	decoration: 'underline',
+        	bold: true
+        },
+        bullet: {
+        	fontSize: 8
         }
       }
-    };
+		};
 
+		//Put together titles
+		pdfDefinition.content.push({text:customDoc.reportMeta.title, style:'header', alignment: 'center'});
+		pdfDefinition.content.push({text:customDoc.reportMeta.type, style:'header', alignment: 'center'});
+		pdfDefinition.content.push({text:$scope.eventdoc.eventPublishDate+'\n\n', style: 'header', alignment: 'center'});
+
+		//Put together table --TODO
+
+		//Pull in charts --TODO
+
+		//Put together 'Media Summaries' Section
+		pdfDefinition.content.push({text:customDoc.docData[3].sectionName+'\n\n', style: 'subheader'});
+		var mediaSummaries = customDoc.docData[3].sectionData.doc.categories;
+		for(var i = 0; i < mediaSummaries.length; i++) {
+			var topics = mediaSummaries[i].topics;
+			if(mediaSummaries[i].checked === true){
+				pdfDefinition.content.push({text:mediaSummaries[i].name+'\n', style: 'category'});
+
+				for(var j = 0; j < topics.length; j++) {
+					if(topics[j].checked === true) {
+						pdfDefinition.content.push({text:'\n\n'+topics[j].name+'\n\n', style: 'topic'});
+						var bullets = topics[j].bullets;
+						var bulletsArray = [];
+						for(var k = 0; k < bullets.length; k++) {
+							if(bullets[k].checked === true) {
+								bulletsArray.push(bullets[k].name);
+							}
+						}
+						console.log('bulletsArray', bulletsArray);
+						pdfDefinition.content.push({ul:bulletsArray});
+					}
+				}
+			}
+		}
+
+		console.log('pdfDefinition', pdfDefinition);
+		return pdfDefinition;
+	}
+
+  $scope.makePDF = function() {
+  	var customDoc = $scope.customizedDoc;
+    var docDefinition = {};
+    docDefinition =  createPDFdefinition();
+
+    // pdfMake.createPdf(docDefinition).download('report.pdf');
     pdfMake.createPdf(docDefinition).open();
   };
 
