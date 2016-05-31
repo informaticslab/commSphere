@@ -49,11 +49,11 @@ html(lang="en" ng-app="app")
                         li.side-nav-main-tab
                             i.fa.fa-fw.fa-home
                             |   EVENTS
-                        li(ng-class="{active:activeMenu=='dashboard'}")
+                        li
                             a(href='/#/') Active
-                        li(ng-class="{active:activeMenu=='drafts'}" ng-show="identity.isAuthorized('levelTwo')")
+                        li(ng-show="identity.isAuthorized('levelTwo')")
                             a(href='/#/dashboard/drafts') Drafts
-                        li(ng-class="{active:activeMenu=='archives'}" ng-show="identity.isAuthorized('levelTwo')")
+                        li(ng-show="identity.isAuthorized('levelTwo')")
                             a(href='/#/dashboard/archives') Archived
                             br
                         li.side-nav-settings
