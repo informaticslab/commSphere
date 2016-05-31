@@ -171,13 +171,22 @@ function getSortedColumns() {
         	bold: true
         },
         topic: {
-        	fontSize: 10,
+        	fontSize: 11,
         	decoration: 'underline',
         	bold: true
         },
-        bullet: {
-        	fontSize: 8
+        subtopic: {
+        	fontSize: 11,
+        	decoration: 'underline'
+        },
+        notes: {
+        	fontSize: 10,
+        	italics: true
+
         }
+      },
+      defaultStyle: {
+      	fontSize: 10
       }
 		};
 
@@ -196,24 +205,56 @@ function getSortedColumns() {
 		for(var i = 0; i < mediaSummaries.length; i++) {
 			var topics = mediaSummaries[i].topics;
 			if(mediaSummaries[i].checked === true){
-				pdfDefinition.content.push({text:mediaSummaries[i].name+'\n', style: 'category'});
+				pdfDefinition.content.push({text:mediaSummaries[i].name, style: 'category'});
 
 				for(var j = 0; j < topics.length; j++) {
 					if(topics[j].checked === true) {
-						pdfDefinition.content.push({text:'\n\n'+topics[j].name+'\n\n', style: 'topic'});
+						pdfDefinition.content.push({text:'\n'+topics[j].name+'\n\n', style: 'topic'});
 						var bullets = topics[j].bullets;
 						var bulletsArray = [];
 						for(var k = 0; k < bullets.length; k++) {
 							if(bullets[k].checked === true) {
+								var sbullets = bullets[k].subBullets;
+								var sbulletsArray = [];
+								for(var h = 0; h < sbullets.length; h++) {
+									if(sbullets[h].checked === true) {
+										sbulletsArray.push(sbullets[h].name);
+									}
+								}
 								bulletsArray.push(bullets[k].name);
+								bulletsArray.push({ul:sbulletsArray});
 							}
 						}
-						console.log('bulletsArray', bulletsArray);
 						pdfDefinition.content.push({ul:bulletsArray});
+						var subtopics = topics[j].subTopics;
+						for(var l = 0; l < subtopics.length; l++){
+							if(subtopics[l].checked === true) {
+								pdfDefinition.content.push({text:'\n'+subtopics[l].name+'\n', style: 'subtopic'});
+								var stBullets = subtopics[l].bullets;
+								var stBulletsArray = [];
+								for(var m =0; m < stBullets.length; m++) {
+									var stSubBullets = stBullets[m].subBullets;
+									var stSubBulletsArray = [];
+									if(stBullets[m].checked === true) {
+										for(var n = 0; n < stSubBullets.length; n++) {
+											if(stSubBullets[n].checked === true) {
+												stSubBulletsArray.push(stSubBullets[n].name);
+											}
+										}
+										stBulletsArray.push(stBullets[m].name);
+										stBulletsArray.push({ul:stSubBulletsArray});
+									}
+								}
+
+							}
+							pdfDefinition.content.push({ul: stBulletsArray});
+						}
+						
 					}
 				}
 			}
 		}
+		pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[3].sectionData.notes, style: 'notes'});
 
 		console.log('pdfDefinition', pdfDefinition);
 		return pdfDefinition;
