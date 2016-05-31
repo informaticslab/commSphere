@@ -48,13 +48,13 @@ html(lang="en" ng-app="app")
                                     input.form-control(ng-model="searchText" type='search', placeholder='Search Events', style='background-color:#44474c; border: 1px thin; border-color:#212328; color:#aeaeae; font-weight:normal;')
                         li.side-nav-main-tab
                             i.fa.fa-fw.fa-home
-                            |   MAIN
+                            |   EVENTS
                         li(ng-class="{active:activeMenu=='dashboard'}")
-                            a(href='/#/') Active Events
+                            a(href='/#/') Active
                         li(ng-class="{active:activeMenu=='drafts'}" ng-show="identity.isAuthorized('levelTwo')")
-                            a(href='/#/dashboard/drafts') Saved Drafts
+                            a(href='/#/dashboard/drafts') Drafts
                         li(ng-class="{active:activeMenu=='archives'}" ng-show="identity.isAuthorized('levelTwo')")
-                            a(href='/#/dashboard/archives') Archived Events
+                            a(href='/#/dashboard/archives') Archived
                             br
                         li.side-nav-settings
                             i.fa.fa-fw.fa-cog
