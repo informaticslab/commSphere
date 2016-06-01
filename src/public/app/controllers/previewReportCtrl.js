@@ -184,7 +184,8 @@ function getSortedColumns() {
         	italics: true
         },
         table: {
-        	margin: [0,5,0,15]
+        	margin: [0,5,0,15],
+        	alignment: 'center'
         },
         image: {
         	margin: [0,5,0,15]
@@ -216,11 +217,35 @@ function getSortedColumns() {
 			style: 'table',
 			color: '#444',
 			table: {
-					widths: [ 200, 'auto', 'auto','auto','auto','auto' ],
-					headerRows: 2,
+					widths: [ 175, '*', '*','*','*','*' ],
+					headerRows: 4,
 					body: [
-							[{ text: '', rowSpan: 2, alignment: 'center', style: 'tableHeader'}, {text: 'Daily Metrics', alignment: 'center', style: 'tableHeader', colSpan: 5}, {}, {}, {}, {}],
-							[{ text: 'Header 1', style: 'tableHeader', alignment: 'center' }, { text: 'Header 2', style: 'tableHeader', alignment: 'center' }, { text: 'Header 3', style: 'tableHeader', alignment: 'center' }, 'test','test','test'],
+							[
+								{ text: '', rowSpan: 4, style: 'tableHeader' }, 
+								{ text: 'Daily Metrics', style: 'tableHeader', colSpan: 5, alignment: 'center' }, 
+								{}, {}, {}, {}
+							],
+							[
+								{}, 
+								{ text: 'Percent change from previous day is given in parentheses', style: 'tableHeader', colSpan:5, alignment: 'center', italics: true }, 
+								{},{},{},{}
+							],
+							[
+								{},
+								{ text: 'Thursday', style: 'tableHeader'},
+								{ text: 'Thursday', style: 'tableHeader'},
+								{ text: 'Thursday', style: 'tableHeader'},
+								{ text: 'Thursday', style: 'tableHeader'},
+								{ text: 'Thursday', style: 'tableHeader'}
+							],
+							[
+								{},
+								{ text: 'May 26, 2016', style: 'tableHeader' },
+								{ text: 'May 27, 2016', style: 'tableHeader' },
+								{ text: 'May 28, 2016', style: 'tableHeader' },
+								{ text: 'May 29, 2016', style: 'tableHeader' },
+								{ text: 'May 30, 2016', style: 'tableHeader' },
+							]
 							// [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
 							// [ { rowSpan: 3, text: 'rowSpan set to 3\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor' }, 'Sample value 2', 'Sample value 3' ],
 							// [ '', 'Sample value 2', 'Sample value 3' ],
@@ -229,19 +254,7 @@ function getSortedColumns() {
 							// [ 'Sample value 1', '', '' ],
 					]
 			}
-		}
-		// var tableObj = {
-		// 	color: '#444',
-		// 	table: {
-		// 		widths: [200, 'auto', 'auto'],
-		// 		headerRows: 4,
-		// 		body: [
-		// 			[{},{text: 'Daily Metrics', alignment: 'center'}],
-		// 			[{},{ text: 'Percent change from previous day is given in parentheses', alignment: 'center', italics: true}],
-		// 			tableDayArray
-		// 		]
-		// 	}
-		// };
+		};
 
 		pdfDefinition.content.push(tableObj); // Disabled for now
 		//Pull in charts --TODO
@@ -262,6 +275,7 @@ function getSortedColumns() {
 		}
 
 		makeImagesArray();
+		pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[2].sectionData.notes, style: 'notes'});
 
 
 		//Put together 'Media Summaries' Section

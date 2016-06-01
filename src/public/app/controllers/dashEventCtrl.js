@@ -123,7 +123,7 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
               $scope.customizedDoc.reportMeta = $scope.eventdoc.reportMeta;
               $scope.customizedDoc.docData.push({sectionName: 'Daily Metrics', sectionType: 'Metrics',  sectionData:{doc:$scope.eventData, notes:$scope.eventdoc.notes.metrics}});
               $scope.customizedDoc.docData.push({sectionName: 'Charts', sectionType: 'Charts', sectionData:{notes:$scope.eventdoc.notes.charts}});
-              $scope.customizedDoc.docData.push({sectionName: 'Images', sectionType: 'Images', sectionData:{doc:$scope.files}});
+              $scope.customizedDoc.docData.push({sectionName: 'Images', sectionType: 'Images', sectionData:{doc:$scope.files, notes:$scope.eventdoc.notes.images}});
               $scope.customizedDoc.docData.push({sectionName: 'Media Summaries', sectionType: 'Document', sectionData:{doc:$scope.eventdoc, notes:$scope.eventdoc.notes.doc}});
               $scope.customizedDoc.eventDocId = $scope.eventdoc._id;
               if ($scope.eventdoc.chartConfigs) {
