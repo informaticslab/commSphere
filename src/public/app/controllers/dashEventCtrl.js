@@ -1435,6 +1435,92 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
     }
   };
 
+    $scope.childChecked = function(item,category,event) {
+        //todo build a before checkboxes status here
+        //console.log(event.currentTarget.id);
+        var path = event.currentTarget.id.split('_');
+        //console.log(path);
+        var treePath = [];
+        for(var i = 1; i < path.length-1; i++ ){
+            var parsedPath = path[i].split(':');
+            if (parsedPath.length == 1) {  // root node
+                var pathNode = 'category['+parsedPath[0]+']';
+                treePath.push(pathNode);
+            }
+            else if (parsedPath.length > 1) {
+                var pathNode = parsedPath[0]+'['+parsedPath[1]+']';
+                if (item.checked) {
+                    treePath.push(pathNode);
+                    console.log(treePath.join('.'));
+                    var mynode = category[treePath.join('.')] = true;
+                }
+            }
+        }
+        console.log(treePath.join('.'));
+        //if (item.checked) {
+        //    category.checked = true;
+        //    category[treePath].checked = true;
+        //
+        //}
+        //else {
+        //
+        //}
+        //for (var i = 0; i < item.topics.length; i++) {
+        //    if(item.checked) {
+        //        item.topics[i].checked = true;
+        //    } else {
+        //        item.topics[i].checked = false;
+        //    }
+        //
+        //    for (var j = 0; j < item.topics[i].subTopics.length; j++){
+        //        if(item.topics[i].checked) {
+        //            item.topics[i].subTopics[j].checked = true;
+        //        } else {
+        //            item.topics[i].subTopics[j].checked = false;
+        //        }
+        //        for (var u = 0; u < item.topics[i].subTopics[j].bullets.length; u++) {
+        //            if(item.topics[i].subTopics[j].checked) {
+        //                item.topics[i].subTopics[j].bullets[u].checked = true;
+        //            } else {
+        //                item.topics[i].subTopics[j].bullets[u].checked = false;
+        //            }
+        //            for(var o = 0; o <item.topics[i].subTopics[j].bullets[u].subBullets.length; o++) {
+        //                if(item.topics[i].subTopics[j].bullets[u].checked) {
+        //                    item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = true;
+        //                } else {
+        //                    item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = false;
+        //                }
+        //            }
+        //        }
+        //    }
+        //
+        //    for (var y = 0; y < item.topics[i].bullets.length; y++) {
+        //        if(item.topics[i].checked) {
+        //            item.topics[i].bullets[y].checked = true;
+        //        } else {
+        //            item.topics[i].bullets[y].checked = false;
+        //        }
+        //        for (var l = 0; l < item.topics[i].bullets[y].subBullets.length; l++) {
+        //            if (item.topics[i].bullets[y].checked) {
+        //                item.topics[i].bullets[y].subBullets[l].checked = true;
+        //            } else {
+        //                item.topics[i].bullets[y].subBullets[l].checked = false;
+        //            }
+        //        }
+        //    }
+        //}
+
+            //if (child.checked) {
+            //    parent.checked = true;
+            //}
+            //else {
+            //    parent.checked = false;
+            //}
+
+
+
+    }
+
   $scope.preview = function(size, customizedDoc, hiddenChartConfigs) {
     var modalInstance = $modal.open({
       scope: $scope,
@@ -1934,5 +2020,57 @@ $scope.uploadFile = function(files) {
 
 
   };
+
+    function makePath(tree, target) {
+
+        var result,
+            done = false,
+            path = {};
+
+        function traverse(tree, target, root) {
+            var keys = Object.keys(tree);
+            forEach(keys, function(key) {
+                if (!done) {
+                    if (key === target) {
+                        //if we found our target push it to the path
+                        path[root].push(target);
+                        //set result to the completed path
+                        result = path[root];
+                        //set done to true to exit the search
+                        done = true;
+                        return;
+                    } else {
+                        //if the node does not match we need to check for children
+                        var newRoot = tree[key];
+                        if(Object.keys(newRoot).length > 0) {
+                            //if node has children, push the key into our path and check the children for our target
+                            path[root].push(key);
+                            return traverse(tree[key], target, root);
+                        }
+                        //no children means our search of this branch is over
+                        return;
+                    }
+                }
+            });
+            //if we leave our for loop but we are not done that means we failed to find our target
+            //in this branch, as a result we need to pop each node out of our path before we return
+            if (!done){
+                path[root].pop();
+            }
+            return;
+        };
+
+        //set an array of the root nodes of our product tree. These are super-categories that are
+        //not saved in the item schema, possibly representing types of items, i.e. different schemas.
+        var roots = Object.keys(tree);
+        forEach(roots, function (root) {
+            path[root] = [];
+            //traverse our tree, going through each root node until the target leaf is found in the
+            //tree defined by that root node.
+            traverse(tree[root], target, root);
+        });
+
+        return result;
+    };
 
 });
