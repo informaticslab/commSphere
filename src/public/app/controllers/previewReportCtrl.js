@@ -192,11 +192,16 @@ function getSortedColumns() {
         },
         tableHeader: {
         	fillColor: '#c6d8ae'
+        },
+        tableHeaderTitle: {
+        	fillColor: '#c6d8ae',
+        	fontSize: 11,
+        	bold: true,
+        	alignment: 'center'
         }
       },
       defaultStyle: {
       	fontSize: 10,
-      	bold: true,
       	color: 'black'
       }
 		};
@@ -213,46 +218,47 @@ function getSortedColumns() {
 			tableDayArray.push(titles[t]);
 		}
 
+		var tableBodyArray = [];
+		var headerTitleArray = [
+												{ text: '', rowSpan: 4, style: 'tableHeader' }, 
+												{ text: 'Daily Metrics', style: 'tableHeaderTitle', colSpan: $scope.numberOfColumns}, 
+												{}, {}, {}, {}
+											];
+		var caveatArray = [
+												{}, 
+												{ text: 'Percent change from previous day is given in parentheses', style: 'tableHeader', colSpan:$scope.numberOfColumns, alignment: 'center', italics: true }, 
+												{},{},{},{}
+											];
+		var dayOfWeekArray = [
+														{},
+														{ text: 'Thursday', style: 'tableHeader'},
+														{ text: 'Thursday', style: 'tableHeader'},
+														{ text: 'Thursday', style: 'tableHeader'},
+														{ text: 'Thursday', style: 'tableHeader'},
+														{ text: 'Thursday', style: 'tableHeader'}
+												 ];
+		var dateArray = [
+												{},
+												{ text: 'May 26, 2016', style: 'tableHeader' },
+												{ text: 'May 27, 2016', style: 'tableHeader' },
+												{ text: 'May 28, 2016', style: 'tableHeader' },
+												{ text: 'May 29, 2016', style: 'tableHeader' },
+												{ text: 'May 30, 2016', style: 'tableHeader' },
+										];
+
+
+		tableBodyArray.push(headerTitleArray);
+		tableBodyArray.push(caveatArray);
+		tableBodyArray.push(dayOfWeekArray);
+		tableBodyArray.push(dateArray);
+
 		var tableObj = {
 			style: 'table',
 			color: '#444',
 			table: {
 					widths: [ 175, '*', '*','*','*','*' ],
 					headerRows: 4,
-					body: [
-							[
-								{ text: '', rowSpan: 4, style: 'tableHeader' }, 
-								{ text: 'Daily Metrics', style: 'tableHeader', colSpan: 5, alignment: 'center' }, 
-								{}, {}, {}, {}
-							],
-							[
-								{}, 
-								{ text: 'Percent change from previous day is given in parentheses', style: 'tableHeader', colSpan:5, alignment: 'center', italics: true }, 
-								{},{},{},{}
-							],
-							[
-								{},
-								{ text: 'Thursday', style: 'tableHeader'},
-								{ text: 'Thursday', style: 'tableHeader'},
-								{ text: 'Thursday', style: 'tableHeader'},
-								{ text: 'Thursday', style: 'tableHeader'},
-								{ text: 'Thursday', style: 'tableHeader'}
-							],
-							[
-								{},
-								{ text: 'May 26, 2016', style: 'tableHeader' },
-								{ text: 'May 27, 2016', style: 'tableHeader' },
-								{ text: 'May 28, 2016', style: 'tableHeader' },
-								{ text: 'May 29, 2016', style: 'tableHeader' },
-								{ text: 'May 30, 2016', style: 'tableHeader' },
-							]
-							// [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
-							// [ { rowSpan: 3, text: 'rowSpan set to 3\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor' }, 'Sample value 2', 'Sample value 3' ],
-							// [ '', 'Sample value 2', 'Sample value 3' ],
-							// [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
-							// [ 'Sample value 1', { colSpan: 2, rowSpan: 2, text: 'Both:\nrowSpan and colSpan\ncan be defined at the same time' }, '' ],
-							// [ 'Sample value 1', '', '' ],
-					]
+					body: tableBodyArray
 			}
 		};
 
@@ -345,7 +351,7 @@ function getSortedColumns() {
     var docDefinition = {};
     docDefinition =  createPDFdefinition();
 
-    // pdfMake.createPdf(docDefinition).download('report.pdf');
+    // pdfMake.createPdf(docDefinition).download($scope.customizedData.eventName+'.pdf');
     pdfMake.createPdf(docDefinition).open();
   };
 
