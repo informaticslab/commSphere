@@ -182,11 +182,18 @@ function getSortedColumns() {
         notes: {
         	fontSize: 10,
         	italics: true
-
+        },
+        table: {
+        	margin: [0,5,0,15]
+        },
+        tableHeader: {
+        	fillColor: '#c6d8ae'
         }
       },
       defaultStyle: {
-      	fontSize: 10
+      	fontSize: 10,
+      	bold: true,
+      	color: 'black'
       }
 		};
 
@@ -196,7 +203,44 @@ function getSortedColumns() {
 		pdfDefinition.content.push({text:$scope.eventdoc.eventPublishDate+'\n\n', style: 'header', alignment: 'center'});
 
 		//Put together table --TODO
+		var tableDayArray = [{}];
+		var titles = $scope.filterSelected($scope.sortedCols);
+		for(var t = 0 ; t < titles.length; t ++) {
+			tableDayArray.push(titles[t]);
+		}
 
+		var tableObj = {
+			style: 'table',
+			color: '#444',
+			table: {
+					widths: [ 400, 'auto', 'auto' ],
+					headerRows: 2,
+					body: [
+							[{ text: '', rowSpan: 2, alignment: 'center', style: 'tableHeader'}, {text: 'Daily Metrics', alignment: 'center', style: 'tableHeader', colSpan: 5}, {}, {}, {}, {}],
+							[{ text: 'Header 1', style: 'tableHeader', alignment: 'center' }, { text: 'Header 2', style: 'tableHeader', alignment: 'center' }, { text: 'Header 3', style: 'tableHeader', alignment: 'center' }, {test:'test'}, {text:'test'}, {text:'test'}],
+							// [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
+							// [ { rowSpan: 3, text: 'rowSpan set to 3\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor' }, 'Sample value 2', 'Sample value 3' ],
+							// [ '', 'Sample value 2', 'Sample value 3' ],
+							// [ 'Sample value 1', 'Sample value 2', 'Sample value 3' ],
+							// [ 'Sample value 1', { colSpan: 2, rowSpan: 2, text: 'Both:\nrowSpan and colSpan\ncan be defined at the same time' }, '' ],
+							// [ 'Sample value 1', '', '' ],
+					]
+			}
+		}
+		// var tableObj = {
+		// 	color: '#444',
+		// 	table: {
+		// 		widths: [200, 'auto', 'auto'],
+		// 		headerRows: 4,
+		// 		body: [
+		// 			[{},{text: 'Daily Metrics', alignment: 'center'}],
+		// 			[{},{ text: 'Percent change from previous day is given in parentheses', alignment: 'center', italics: true}],
+		// 			tableDayArray
+		// 		]
+		// 	}
+		// };
+
+		pdfDefinition.content.push(tableObj);
 		//Pull in charts --TODO
 
 		//Put together 'Media Summaries' Section
@@ -255,6 +299,7 @@ function getSortedColumns() {
 			}
 		}
 		pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[3].sectionData.notes, style: 'notes'});
+		//End Media Summaries Section
 
 		console.log('pdfDefinition', pdfDefinition);
 		return pdfDefinition;
