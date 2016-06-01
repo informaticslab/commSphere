@@ -90,18 +90,10 @@ div(ng-controller='previewReportCtrl' style='background-color:#f2f2f2; width:750
 									.col-lg-12
 										div(ng-repeat='image in section.sectionData.doc')
 											a.preview-resize-img
-												img.img-responsive.well.print-preview-resize(ng-src='{{image.filePath}}' ng-if='image.checked')
+												img.img-responsive.well.print-preview-resize(data-ng-src='data:image/png;base64,{{image.base64}}' ng-if='image.checked')
 							br
 							div.notes(ng-if='!section.sectionData.notes == ""') Notes: *{{section.sectionData.notes}}
 								br
 								br
 								br
 							
-						
-
-
-				//- .row(style='background-color:#ffffff; margin-top:-15px;')
-				//- 	.col-lg-12
-				//- 		.form-comp-cont
-				//- 			label Report Title
-				//- 			input#exampleInputName2.form-control(placeholder='Enter report title' ng-model='reportTitle')

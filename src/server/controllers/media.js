@@ -7,27 +7,31 @@ var _ = require('lodash');
 
 exports.uploadFile = function(req,res) {
 	var collection = mongo.mongodb.collection('uploads');
-	var modifiedPath = req.files.file.path;
-	// var re = new RegExp('[\/][i][m][g]\s*([^\n\r]*)');
-	modifiedPath = modifiedPath.substring(modifiedPath.indexOf('/img'));
-	//console.log(req.body);
-	//console.log('modified path ' + modifiedPath);
+	
 
-	var uploadDoc = {};
-	uploadDoc.eventId = req.body.eventId;
-	uploadDoc.fileName = req.files.file.name;
-	uploadDoc.filePath =  modifiedPath;
+	// var modifiedPath = req.files.file.path;
+	// // var re = new RegExp('[\/][i][m][g]\s*([^\n\r]*)');
+	// modifiedPath = modifiedPath.substring(modifiedPath.indexOf('/img'));
+	// console.log(req.body);
+	// //console.log('modified path ' + modifiedPath);
+
+	var uploadDoc = req.body;
+	// uploadDoc.eventId = req.body.eventId;
+	// uploadDoc.fileName = req.files.file.name;
+	// uploadDoc.filePath =  modifiedPath;
 	uploadDoc.date = new Date();
 	uploadDoc.checked = false;
 
-	//console.log('Uploaded Doc**', uploadDoc);
+	// console.log('Uploaded Doc**', uploadDoc);
 	collection.insert(uploadDoc, function(err, result) {
 		if(err) {
 			console.log(err);
 			res.send(err);
 		} else {
-				//console.log(result);
-				res.send(result);
+			res.send({
+				success: true,
+				result: result
+			});
 		}
 	});
 };
@@ -46,7 +50,7 @@ exports.getFile = function(req,res) {
 
 exports.deleteFile = function(req,res) {
 	var Id = req.body._id;
-	var filePath = config.rootPath+'/public/'+req.body.filePath;
+	// var filePath = config.rootPath+'/public/'+req.body.filePath;
 	var collection = mongo.mongodb.collection('uploads');
 	//console.log(req.body);
 	if (Id) { 
@@ -59,7 +63,7 @@ exports.deleteFile = function(req,res) {
 				console.log(err);
 			} else {
 				//console.log("document deleted", result);
-				fs.unlinkSync(filePath);
+				// fs.unlinkSync(filePath);
 				res.send({
 					success: true,
 					result:result

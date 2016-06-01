@@ -97,7 +97,7 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 										div(ng-repeat='image in section.sectionData.doc')
 											h4.checkbox
 												input(type='checkbox' ng-model = 'image.checked')
-											img.img-responsive.well(ng-src='{{image.filePath}}')
+											img.img-responsive.well(data-ng-src='data:image/png;base64,{{image.base64}}')
 							div.report-section(ng-repeat="category in section.sectionData.doc.categories" ng-if='section.sectionType =="Document"') 
 								h4.report-category
 									.checkbox

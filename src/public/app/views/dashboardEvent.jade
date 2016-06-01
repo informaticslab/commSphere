@@ -469,14 +469,18 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                         fieldset
                                                             legend New Image
                                                             br
-                                                            input(type='file', ngf-select= '', ng-model='imageFile', name='file', accept='image/*', required='' ngf-clear-arq='')
+                                                            //- input(type='file', ngf-select= '', ng-model='imageFile', name='file', accept='image/*', required='')
+                                                            input(type='file' ng-model='imgFile' base-sixty-four-input accept='.png,.jpg' onLoad='onLoad')
                                                             
                                                             br
                                                             .col-xs-6.col-md-4.col-lg-3
                                                                 div.preview-thumbnail
                                                                     a.thumbnail
                                                                         img(id='uploadThumb' ng-show='imageFile != null', ngf-src='imageFile' src='')
-                                                        button.btn.btn-primary(ng-click='uploadFile(imageFile)') Upload
+                                                                        img(id='uploadThumb' ng-show='imgFile != null' data-ng-src='data:image/png;base64,{{imgFile.base64}}')
+                                                        //- button.btn.btn-primary(ng-click='uploadFile(imageFile)') Upload
+                                                        button.btn.btn-primary(ng-click='UploadFile(imgFile)') Upload (new test)
+                                        
                                         br
                                         .row
                                             .col-lg-12
@@ -489,7 +493,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                             .col-lg-12
                                                                 div.col-xs-12.col-md-12.col-lg-12.thumb(ng-repeat='image in files', style="margin-bottom:10px; background-color:#f5f5f5;")
                                                                     a.thumbnail
-                                                                        img.img-responsive(ng-src="{{image.filePath}}")
+                                                                        img.img-responsive(data-ng-src="data:image/png;base64,{{image.base64}}")
                                                                         br
                                                                     button.btn.btn-default.pull-right(style="color:#337ab7;", ng-click='deleteFile(image,$index)') Delete Image
                                                                     hr(style="color:#dddddd; background-color:#dddddd; height:1px;")

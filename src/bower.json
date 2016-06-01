@@ -15,7 +15,9 @@
     "tests"
   ],
   "dependencies": {
-    "toastr": "~2.1.0"
+    "toastr": "~2.1.0",
+    "angular-base64": "^2.0.5",
+    "angular-base64-upload": "^0.1.19"
   },
   "devDependencies": {
     "angular-ui-grid": "~3.0.0-rc.21"

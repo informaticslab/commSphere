@@ -106,7 +106,6 @@ $http.get('/api/events/id/'+$routeParams.id).then(function(res){
 
     $http.get('/api/fileUpload/' + $scope.eventdoc.eventInstanceId).then(function(res) {
         if (res.data) {
-          //console.log(res.data);
           $scope.files = res.data;
         } else {
           $scope.files = [];
@@ -1875,6 +1874,18 @@ $scope.CreateExcelSheet=function()
   return xls;
 }
 
+  $scope.onLoad = function (e, reader, file, fileList, fileOjects, fileObj) {
+    console.log(fileObj);
+    console.log(file);
+  };
+
+  function image(fileType, fileName, fileSize, base64, eventId) {
+    this.fileType = fileType;
+    this.fileName = fileName;
+    this.fileSize = fileSize;
+    this.base64 = base64;
+    this.eventId  = eventId;
+  }
 
 
 $scope.uploadFile = function(files) {
@@ -1906,6 +1917,23 @@ $scope.uploadFile = function(files) {
     }
   // }
 };
+
+$scope.UploadFile = function(file) {
+  if(file) {
+    // console.log(file);
+    var uploadObject = new image(file.filetype, file.filename, file.filesize, file.base64, $scope.eventdoc.eventInstanceId)
+    $http.post('/api/fileUpload', uploadObject).then(function(res) {
+      if(res.data.success) {
+        console.log(res.data);
+        $scope.files.unshift(res.data.result[0]);
+        $scope.galleryStatus.open = true;
+        ngNotifier.notify('Image uploaded successfully');
+      } else {
+        console.log('Error uploading file', res.data.err);
+      }
+    }); 
+  }
+}
 
   $scope.deleteFile = function(image, index) {
     var deleteConfirm = $window.confirm('Are you sure you want to delete this image?');

@@ -18,6 +18,7 @@ var commSphereApp = angular.module('app', [
   ,'duScroll'
   ,'highcharts-ng'
   ,'ngFileUpload'
+  ,'naif.base64'
   //,'chart.js'
   //,'tc.chartjs'
   //,'googlechart'
