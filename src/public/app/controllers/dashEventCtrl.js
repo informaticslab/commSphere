@@ -199,7 +199,7 @@ $scope.hideFromCoordinator = function(category) {
 $scope.filterTabForAnalyst = function(category) {
   if($scope.identity.currentUser)
   {
-    return ((category.userAssigned.id == $scope.identity.currentUser._id) || $scope.identity.isAuthorized('levelTwo')); 
+    return (((category.userAssigned.id == $scope.identity.currentUser._id) && (category.statusCompleted != true)) || $scope.identity.isAuthorized('levelTwo'));
   }
 };
 
@@ -652,9 +652,9 @@ $scope.setActiveCategory = function(category)
       if(oldVal == undefined){
           //do nothing
       } else {
-        console.log('old obj ', oldVal);
-        console.log('new obj ', newVal);
-        console.log('inside main eventData unregister 2')
+        //console.log('old obj ', oldVal);
+        //console.log('new obj ', newVal);
+        //console.log('inside main eventData unregister 2')
         $rootScope.continueNav=false;
         $scope.canSubmit = false;
         $rootScope.preventNavigation=true;
@@ -888,13 +888,14 @@ $scope.generateColumnDefs= function() {
        for(i=0; i< columnArry.length; i++) {
       // build columns defition object
          if (columnArry[i] === 'label') {
-            oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true,headerCellTemplate: customHeaderCellTemplate0};
+            //oneColumnDef = {'field': columnArry[i], 'displayName':$scope.eventData.colDisplayNames[columnArry[i]] , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true,headerCellTemplate: customHeaderCellTemplate0};
+            oneColumnDef = {'field': columnArry[i], 'displayName':'' , enableSorting:false, minWidth: $scope.minTopicWidth,pinnedLeft:true,headerCellTemplate: customHeaderCellTemplate0};
           }
          else {
             //var formattedDate = $filter('date')(columnArry[i],'mediumDate');
             oneColumnDef = {'field': columnArry[i], 'displayName' : $scope.eventData.colDisplayNames[columnArry[i]], enableSorting:false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
             //,headerCellTemplate: '/partials/customHeaderCellTemplate'
-            ,headerCellTemplate: customHeaderCellTemplate
+            ,headerCellTemplate: customHeaderCellTemplate, cellFilter: 'number'
           }
          }
             columnLayout.push(oneColumnDef);
@@ -958,18 +959,22 @@ $scope.$on('uiGridEventData', function (gridId) {
 
 $scope.removeColumn = function() {
      var lastColumnName = $scope.columns[$scope.columns.length-1].field.toString();
-     if (lastColumnName !=='label') {
-     $scope.columns.splice($scope.columns.length-1, 1);
-     for(var i=0; i < $scope.eventData.gridData.length; i++) {
-          for(var j=0; j<$scope.eventData.gridData[i].dailyData.length; j++){
-             if ($scope.eventData.gridData[i].dailyData[j].hasOwnProperty(lastColumnName)) {
-                delete $scope.eventData.gridData[i].dailyData[j][lastColumnName];
-                delete $scope.eventData.colDisplayNames[lastColumnName];
-             } else {  // column not exists, add
+     var colDisplayName = $scope.columns[$scope.columns.length-1].displayName;
+     var deleteConfirm = $window.confirm('Are you sure you want to remove column '+ colDisplayName +'? ');
+     if (deleteConfirm) {
+         if (lastColumnName !== 'label') {
+             $scope.columns.splice($scope.columns.length - 1, 1);
+             for (var i = 0; i < $scope.eventData.gridData.length; i++) {
+                 for (var j = 0; j < $scope.eventData.gridData[i].dailyData.length; j++) {
+                     if ($scope.eventData.gridData[i].dailyData[j].hasOwnProperty(lastColumnName)) {
+                         delete $scope.eventData.gridData[i].dailyData[j][lastColumnName];
+                         delete $scope.eventData.colDisplayNames[lastColumnName];
+                     } else {  // column not exists, add
+                     }
+                 }
              }
-          }
-      }
-    }
+         }
+     }
   }
   
   $scope.addColumn = function() {
@@ -1002,10 +1007,11 @@ $scope.removeColumn = function() {
   };
 
   $scope.removeLastRow = function(grid,id) {
-
-    var n = grid.dailyData.length;
-    grid.dailyData.pop();
-
+    var deleteConfirm = $window.confirm('Are you sure you want to remove the last row from table '+ grid.gridName + '?');
+    if (deleteConfirm) {
+        var n = grid.dailyData.length;
+        grid.dailyData.pop();
+    }
   }
   $scope.getTableHeight = function(grid,id) {
        var rowHeight = 30; // your row height
@@ -1320,10 +1326,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 
     
     //console.log(customDoc);
-    console.log($scope.eventdoc);
+    //console.log($scope.eventdoc);
     $http.post('/api/events', eventdoc).then(function(res) {
       if (res.data.success) {
-        console.log('Customized report saved');
+        //console.log('Customized report saved');
         ngNotifier.notify('Your customized report has been saved');
            var unregister=$scope.$watch('eventdoc', function(newVal, oldVal){
      $log.debug("watching");
@@ -1333,7 +1339,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         if(oldVal == undefined){
             //do nothing
         } else {
-          console.log(' inside save customized repport')
+          //console.log(' inside save customized repport')
           $rootScope.continueNav=false;
           $rootScope.preventNavigation =true;
           unregister();
@@ -1361,11 +1367,11 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
              var unregister2=$scope.$watch('eventData', function(newVal, oldVal){
       if(newVal!=oldVal)
       {
-        console.log('changed');
+        //console.log('changed');
         if(oldVal == undefined){
             //do nothing
         } else {
-          console.log('inside customized report save, save collected data')
+          //console.log('inside customized report save, save collected data')
           $rootScope.continueNav=false;
           $rootScope.preventNavigation =true;
           unregister2();
@@ -1690,18 +1696,23 @@ $scope.deleteChart = function(index) {
 
 $scope.addChart = function() {
   if ($scope.highChartTempConfig){
-     // $scope.highChartTempConfig.size = { width: 400, height: 320};
-      $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
-      $scope.status.open = true;
-      var data = { docId : $scope.eventdoc._id , chartData : $scope.customizedDoc.chartConfigs };
-      $http.post('/api/events/saveChartData',data).then(function(res){
-              if(res.data.success){
-                ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
+      if ($scope.highChartTempConfig.title.text.trim()) {
+          // $scope.highChartTempConfig.size = { width: 400, height: 320};
+          $scope.customizedDoc.chartConfigs.unshift(JSON.parse(JSON.stringify($scope.highChartTempConfig)));
+          $scope.status.open = true;
+          var data = {docId: $scope.eventdoc._id, chartData: $scope.customizedDoc.chartConfigs};
+          $http.post('/api/events/saveChartData', data).then(function (res) {
+              if (res.data.success) {
+                  ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
               } else {
-                   alert('there was an error saving saved chart');
+                  alert('there was an error saving saved chart');
               }
 
-       });
+          });
+      }
+      else {
+          ngNotifier.notifyError("Please enter a chart title");
+      }
   }
 
 }

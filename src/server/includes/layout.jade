@@ -48,13 +48,13 @@ html(lang="en" ng-app="app")
                                     input.form-control(ng-model="searchText" type='search', placeholder='Search Events', style='background-color:#44474c; border: 1px thin; border-color:#212328; color:#aeaeae; font-weight:normal;')
                         li.side-nav-main-tab
                             i.fa.fa-fw.fa-home
-                            |   MAIN
-                        li(ng-class="{active:activeMenu=='dashboard'}")
-                            a(href='/#/') Active Events
-                        li(ng-class="{active:activeMenu=='drafts'}" ng-show="identity.isAuthorized('levelTwo')")
-                            a(href='/#/dashboard/drafts') Saved Drafts
-                        li(ng-class="{active:activeMenu=='archives'}" ng-show="identity.isAuthorized('levelTwo')")
-                            a(href='/#/dashboard/archives') Archived Events
+                            |   EVENTS
+                        li
+                            a(href='/#/') Active
+                        li(ng-show="identity.isAuthorized('levelTwo')")
+                            a(href='/#/dashboard/drafts') Drafts
+                        li(ng-show="identity.isAuthorized('levelTwo')")
+                            a(href='/#/dashboard/archives') Archived
                             br
                         li.side-nav-settings
                             i.fa.fa-fw.fa-cog
@@ -68,7 +68,7 @@ html(lang="en" ng-app="app")
                         li.side-nav-cdc-logo
                             img(src='img/cdc-logo.png', height='60', width='144')
                         li.side-nav-iiu-logo
-                            img(src='img/iiu-logo.png', height='33', width='207')
+                            img(src='img/iiu-logo.png', height='57', width='207')
                 // /.navbar-collapse
             block main-content
     include currentUser                     
