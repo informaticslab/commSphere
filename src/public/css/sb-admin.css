@@ -183,7 +183,7 @@ ul.alert-dropdown {
 	display:block;
 	padding:15px 15px 10px 15px;
 	text-decoration:none;
-	border-top: 1px solid #4d4f56;
+	border-bottom: 1px solid #4d4f56;
 	font-size:12px;
 }
 .side-nav-settings {
@@ -193,7 +193,7 @@ ul.alert-dropdown {
 	display:block;
 	padding:15px 15px 10px 15px;
 	text-decoration:none;
-	border-top: 1px solid #4d4f56;
+	border-bottom: 1px solid #4d4f56;
 	font-size:12px;
 }
 .side-nav-cdc-logo {
