@@ -6,7 +6,7 @@ $scope.sortedCols = getSortedColumns();
 
 $scope.customizedData = JSON.parse(JSON.stringify($scope.eventData));
 console.log($scope.customizedData, 'customizedData');
-console.log($scope.customizedDoc, 'customizedDoc');
+// console.log($scope.customizedDoc, 'customizedDoc');
 $scope.previewChartConfigs = JSON.parse(JSON.stringify($scope.customizedDoc.chartConfigs));
 
 for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
@@ -33,7 +33,6 @@ for (var i = 0 ; i < $scope.previewChartConfigs.length; i++){
 	    });
 
 	    $scope.chartImgUrls.push(canvas.toDataURL("image/png"));
-
 	}
 }
 
@@ -181,13 +180,17 @@ function getSortedColumns() {
         },
         notes: {
         	fontSize: 10,
-        	italics: true
+        	italics: true,
+        	margin: [0,0,0,15]
         },
         table: {
-        	margin: [0,5,0,15],
+        	margin: [0,5,0,0],
         	alignment: 'center'
         },
         image: {
+        	margin: [0,5,0,15]
+        },
+        charts: {
         	margin: [0,5,0,15]
         },
         tableHeader: {
@@ -198,7 +201,12 @@ function getSortedColumns() {
         	fontSize: 11,
         	bold: true,
         	alignment: 'center'
-        }
+        },
+        sectionTitle: {
+        	bold: true,
+        	fillColor: '#c6d8ae',
+        	alignment: 'left'
+        },
       },
       defaultStyle: {
       	fontSize: 10,
@@ -209,14 +217,10 @@ function getSortedColumns() {
 		//Put together titles
 		pdfDefinition.content.push({text:customDoc.reportMeta.title, style:'header', alignment: 'center'});
 		pdfDefinition.content.push({text:customDoc.reportMeta.type, style:'header', alignment: 'center'});
-		pdfDefinition.content.push({text:$scope.eventdoc.eventPublishDate+'\n\n', style: 'header', alignment: 'center'});
+		pdfDefinition.content.push({text:moment($scope.eventdoc.eventPublishDate).format('LL')+'\n\n', style: 'header', alignment: 'center'});
 
 		//Put together table --TODO
-		var tableDayArray = [{}];
-		var titles = $scope.filterSelected($scope.sortedCols);
-		for(var t = 0 ; t < titles.length; t ++) {
-			tableDayArray.push(titles[t]);
-		}
+		var selectedColumns = $scope.filterSelected($scope.sortedCols);
 
 		var tableBodyArray = [];
 		var headerTitleArray = [
@@ -224,33 +228,84 @@ function getSortedColumns() {
 												{ text: 'Daily Metrics', style: 'tableHeaderTitle', colSpan: $scope.numberOfColumns}, 
 												{}, {}, {}, {}
 											];
+		tableBodyArray.push(headerTitleArray);
 		var caveatArray = [
 												{}, 
 												{ text: 'Percent change from previous day is given in parentheses', style: 'tableHeader', colSpan:$scope.numberOfColumns, alignment: 'center', italics: true }, 
 												{},{},{},{}
 											];
-		var dayOfWeekArray = [
-														{},
-														{ text: 'Thursday', style: 'tableHeader'},
-														{ text: 'Thursday', style: 'tableHeader'},
-														{ text: 'Thursday', style: 'tableHeader'},
-														{ text: 'Thursday', style: 'tableHeader'},
-														{ text: 'Thursday', style: 'tableHeader'}
-												 ];
-		var dateArray = [
-												{},
-												{ text: 'May 26, 2016', style: 'tableHeader' },
-												{ text: 'May 27, 2016', style: 'tableHeader' },
-												{ text: 'May 28, 2016', style: 'tableHeader' },
-												{ text: 'May 29, 2016', style: 'tableHeader' },
-												{ text: 'May 30, 2016', style: 'tableHeader' },
-										];
+		tableBodyArray.push(caveatArray);	
 
+		function addDayOfWeek() {
+			var daysArray = [{}];
+			for(var i = 0 ; i < selectedColumns.length; i++) {
+		
+				// console.log(day);
+				// console.log(selectedColumns[i]);
+				var date = parseInt(selectedColumns[i]);
+				var formattedDay = moment(date).format('dddd');
+			
+				console.log(formattedDay);
 
-		tableBodyArray.push(headerTitleArray);
-		tableBodyArray.push(caveatArray);
-		tableBodyArray.push(dayOfWeekArray);
-		tableBodyArray.push(dateArray);
+				daysArray.push({text: formattedDay, style: 'tableHeader'});
+			}
+			tableBodyArray.push(daysArray);
+		};
+
+		addDayOfWeek();
+
+		function addDate() {
+			var dateArray = [{}];
+			for (var i = 0; i < selectedColumns.length; i++) {
+				var col = selectedColumns[i];
+				dateArray.push({text: $scope.eventData.colDisplayNames[col], style: 'tableHeader'});
+			}
+			tableBodyArray.push(dateArray);
+		};
+
+		addDate();
+		
+		function addDataRows(){
+			var gridData = $scope.customizedData.gridData;
+			var allSectionDataArray = [];
+			var sectionDataRows = [];
+
+			for (var i = 0; i < gridData.length; i++) {
+				var sectionTitle = [];
+				if(gridData[i].checked == true) {
+					sectionTitle.push({text: gridData[i].gridName, style: 'sectionTitle', colSpan: $scope.numberOfColumns+1});
+
+					for(var j = 0; j < $scope.numberOfColumns; j++) {
+						sectionTitle.push({});
+					}
+					allSectionDataArray.push(sectionTitle);
+					var dailyData = gridData[i].dailyData;
+					for(var n = 0; n < dailyData.length; n++) {
+						sectionDataRows = [];
+						var dataRow = [];
+						dataRow.push({text: dailyData[n].label, alignment: 'left', margin: [0,5,0,0]});
+				
+						for(var m = 0; m < selectedColumns.length; m++) {
+							var index = selectedColumns[m];
+							var percentChanged = $scope.percentChanged(dailyData[n], index);
+							dataRow.push({text:dailyData[n][index] + '\n'+ percentChanged});
+						}
+						sectionDataRows.push(dataRow);
+						// console.log(sectionDataRows);
+						for(var a = 0; a < sectionDataRows.length; a++){
+							allSectionDataArray.push(sectionDataRows[a]);
+						}
+					}
+
+					// allSectionDataArray.push(sectionDataRows);
+				}
+			}
+			for (var k = 0; k < allSectionDataArray.length; k++) {
+				tableBodyArray.push(allSectionDataArray[k]);
+			}
+		};
+
+		addDataRows();
 
 		var tableObj = {
 			style: 'table',
@@ -262,11 +317,22 @@ function getSortedColumns() {
 			}
 		};
 
-		pdfDefinition.content.push(tableObj); // Disabled for now
+		pdfDefinition.content.push(tableObj); 
+		pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[0].sectionData.notes, style: 'notes'});
 		//Pull in charts --TODO
+		function addCharts() {
+			var chartsRaw = $scope.chartImgUrls;
+			var width = 450;
+			for(var i = 0; i < chartsRaw.length; i++) {
+				pdfDefinition.content.push({image: chartsRaw[i], width: width, alignment: 'center', style: 'charts'})
+			}
+			pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[1].sectionData.notes, style: 'notes'});
+		}
+
+		addCharts();
 
 		//Pull in images 
-		function makeImagesArray() {
+		function addImages() {
 			var images = customDoc.docData[2].sectionData.doc;
 			var width = 450;
 			var height = 250;
@@ -276,14 +342,11 @@ function getSortedColumns() {
 					pdfDefinition.content.push({image: 'data:image/png;base64,'+images[i].base64, width: width, alignment: 'center', style:'image'});
 				}
 			}
-
-			return imagesArray;
+			pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[2].sectionData.notes, style: 'notes'});
 		}
 
-		makeImagesArray();
-		pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[2].sectionData.notes, style: 'notes'});
-
-
+		addImages();
+		
 		//Put together 'Media Summaries' Section
 		pdfDefinition.content.push({text:customDoc.docData[3].sectionName+'\n\n', style: 'subheader'});
 		var mediaSummaries = customDoc.docData[3].sectionData.doc.categories;
@@ -342,7 +405,7 @@ function getSortedColumns() {
 		pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[3].sectionData.notes, style: 'notes'});
 		//End Media Summaries Section
 
-		console.log('pdfDefinition', pdfDefinition);
+		// console.log('pdfDefinition', pdfDefinition);
 		return pdfDefinition;
 	}
 
@@ -351,8 +414,8 @@ function getSortedColumns() {
     var docDefinition = {};
     docDefinition =  createPDFdefinition();
 
-    // pdfMake.createPdf(docDefinition).download($scope.customizedData.eventName+'.pdf');
-    pdfMake.createPdf(docDefinition).open();
+    pdfMake.createPdf(docDefinition).download($scope.customizedData.eventName+'.pdf');
+    // pdfMake.createPdf(docDefinition).open();
   };
 
 
