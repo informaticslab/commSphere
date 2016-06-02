@@ -107,34 +107,34 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 									h4.report-topic
 										.checkbox
 											//input(type='checkbox' ng-model='topic.checked' ng-checked='topic.checked')
-											input(id='category.name}}_topic:{{$index}}' type='checkbox' ng-model='topic.checked' ng-click='childChecked(topic,category,$event)')
+											input(id='category:{{$parent.$index}}_topics:{{$index}}' type='checkbox' ng-model='topic.checked' ng-click='childChecked(topic,category,$event)')
 											| {{topic.name}}
 									ul
 										li(ng-repeat="topicBullets in topic.bullets") 
 											.checkbox
 												//input(type='checkbox' ng-model='topicBullets.checked' ng-checked='topicBullets.checked')
-												input(id='{{category.name}}_topic:{{$parent.$index}}_bullet:{{$index}}' type='checkbox' ng-model='topicBullets.checked' ng-click='childChecked(topicBullets,category,$event)')
+												input(id='category:{{$parent.$parent.$index}}_topics:{{$parent.$index}}_bullets:{{$index}}' type='checkbox' ng-model='topicBullets.checked' ng-click='childChecked(topicBullets,category,$event)')
 												| {{topicBullets.name}}
 											ul
 												li(ng-repeat="topicSubBullets in topicBullets.subBullets") 
 													.checkbox
 														//input(type='checkbox' ng-model='topicSubBullets.checked' ng-checked='topicSubBullets.checked')
-														input(id='{{category.name}}_topic:{{$parent.$parent.$index}}_bullet:{{$parent.$index}}_subBullet:{{$index}}' type='checkbox' ng-model='topicSubBullets.checked' ng-click='childChecked(topicSubBullets,category,$event)')
+														input(id='category:{{$parent.$parent.$parent.$index}}_topics:{{$parent.$parent.$index}}_bullets:{{$parent.$index}}_subBullets:{{$index}}' type='checkbox' ng-model='topicSubBullets.checked' ng-click='childChecked(topicSubBullets,category,$event)')
 														| {{topicSubBullets.name}}
 									div(ng-repeat="subtopic in topic.subTopics")
 										h4.report-sub-topic
 											.checkbox
-												input(id='{{category.name}}_subtopic:{{$index}}' type='checkbox' ng-model='subtopic.checked' ng-click='childChecked(subtopic,category,$event)')
+												input(id='category:{{$parent.$index}}_subtopics:{{$index}}	' type='checkbox' ng-model='subtopic.checked' ng-click='childChecked(subtopic,category,$event)')
 												| {{subtopic.name}}
 										ul
 											li(ng-repeat="bullet in subtopic.bullets") 
 												.checkbox
-													input(id='{{category.name}}_subtopic:{{$parent.$index}}_bullet:{{$index}}' type='checkbox' ng-model = 'bullet.checked' ng-click = 'childChecked(bullet,category,$event)')
+													input(id='category:{{$parent.$parent.$index}}_subtopic:{{$parent.$index}}_bullet:{{$index}}' type='checkbox' ng-model = 'bullet.checked' ng-click = 'childChecked(bullet,category,$event)')
 													| {{bullet.name}}	
 												ul
 													li(ng-repeat="subBullet in bullet.subBullets") 
 														.checkbox
-															input(id='{{category.name}}_subtopic:{{$parent.$parent.$index}}_bullet:{{$parent.$index}}_subBullet:{{$index}}' type='checkbox' ng-model='subBullet.checked' ng-click = 'childChecked(subBullet,category,$event)')
+															input(id='category:{{$parent.$parent.$parent.$index}}_subtopic:{{$parent.$parent.$index}}_bullet:{{$parent.$index}}_subBullet:{{$index}}' type='checkbox' ng-model='subBullet.checked' ng-click = 'childChecked(subBullet,category,$event)')
 															| {{subBullet.name}}
 							div(style="margin-top:20px;")
 								label Additional Notes

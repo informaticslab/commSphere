@@ -1436,19 +1436,18 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   };
 
     $scope.childChecked = function(item,category,event) {
+        console.log('root ',category);
         //todo build a before checkboxes status here
         //console.log(event.currentTarget.id);
-        var path = event.currentTarget.id.split('_');
+        var parentNodes = event.currentTarget.id.split('_');
         //console.log(path);
         var treePath = [];
-        for(var i = 1; i < path.length-1; i++ ){
-            var parsedPath = path[i].split(':');
-            if (parsedPath.length == 1) {  // root node
-                var pathNode = 'category['+parsedPath[0]+']';
-                treePath.push(pathNode);
-            }
-            else if (parsedPath.length > 1) {
-                var pathNode = parsedPath[0]+'['+parsedPath[1]+']';
+        for(var i = 1; i < parentNodes.length-1; i++ ){
+            var parsedPath = parentNodes[i].split(':');
+            if (parsedPath.length > 1) {
+                console.log('part1 ', parsedPath[0], 'part 2 ', parsedPath[1]);
+                var pathNode = category[parsedPath[0]][parsedPath[1]];
+                console.log(pathNode);
                 if (item.checked) {
                     treePath.push(pathNode);
                     console.log(treePath.join('.'));
