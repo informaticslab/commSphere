@@ -124,17 +124,17 @@ div(ng-controller='customizeReportCtrl' style='background-color:#f2f2f2;')
 									div(ng-repeat="subtopic in topic.subTopics")
 										h4.report-sub-topic
 											.checkbox
-												input(id='category:{{$parent.$parent.$index}}_topics{{$parent.$idnex}}_subTopics:{{$index}}	' type='checkbox' ng-model='subtopic.checked' ng-click='childChecked(subtopic,category,$event)')
+												input(id='category:{{$parent.$parent.$index}}_topics:{{$parent.$index}}_subTopics:{{$index}}	' type='checkbox' ng-model='subtopic.checked' 	 ng-click='childChecked(subtopic,category,$event)')
 												| {{subtopic.name}}
 										ul
 											li(ng-repeat="bullet in subtopic.bullets") 
 												.checkbox
-													input(id='category:{{$parent.$parent.$parent.$index}}_topics{{$parent.$parent.$index}}_subTopics:{{$parent.$index}}_bullets:{{$index}}' type='checkbox' ng-model = 'bullet.checked' ng-click = 'childChecked(bullet,category,$event)')
+													input(id='category:{{$parent.$parent.$parent.$index}}_topics:{{$parent.$parent.$index}}_subTopics:{{$parent.$index}}_bullets:{{$index}}' type='checkbox' ng-model = 'bullet.checked'  ng-click = 'childChecked(bullet,category,$event)')
 													| {{bullet.name}}	
 												ul
 													li(ng-repeat="subBullet in bullet.subBullets") 
 														.checkbox
-															input(id='category:{{$parent.$parent.$parent.$parent.$index}}_topics{{$parent.$parent.$parent.$index}}_subTopics:{{$parent.$parent.$index}}_bullets:{{$parent.$index}}_subBullets:{{$index}}' type='checkbox' ng-model='subBullet.checked' ng-click = 'childChecked(subBullet,category,$event)')
+															input(id='category:{{$parent.$parent.$parent.$parent.$index}}_topics:{{$parent.$parent.$parent.$index}}_subTopics:{{$parent.$parent.$index}}_bullets:{{$parent.$index}}_subBullets:{{$index}}' type='checkbox' ng-model='subBullet.checked'  ng-click = 'childChecked(subBullet,category,$event)')
 															| {{subBullet.name}}
 							div(style="margin-top:20px;")
 								label Additional Notes

@@ -1388,50 +1388,105 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
   };
 
   $scope.selectAll = function(item) {
-    //console.log(item.topics);
-    for (var i = 0; i < item.topics.length; i++) {
-      if(item.checked) {
-        item.topics[i].checked = true;
-      } else {
-        item.topics[i].checked = false; 
-      }
-      
-      for (var j = 0; j < item.topics[i].subTopics.length; j++){
-        if(item.topics[i].checked) {
-          item.topics[i].subTopics[j].checked = true;
-        } else {
-          item.topics[i].subTopics[j].checked = false;
-        }
-        for (var u = 0; u < item.topics[i].subTopics[j].bullets.length; u++) {
-          if(item.topics[i].subTopics[j].checked) {
-            item.topics[i].subTopics[j].bullets[u].checked = true;
-          } else {
-            item.topics[i].subTopics[j].bullets[u].checked = false;
-          }
-          for(var o = 0; o <item.topics[i].subTopics[j].bullets[u].subBullets.length; o++) {
-            if(item.topics[i].subTopics[j].bullets[u].checked) {
-              item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = true;
-            } else {
-              item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = false;
-            }
-          }
-        }
-      }
+      //console.log(item);
+    if (!item.type) {
+        if (item.topics.length > 0) {
+            for (var i = 0; i < item.topics.length; i++) {
+                if (item.checked) {
+                    item.topics[i].checked = true;
+                } else {
+                    item.topics[i].checked = false;
+                }
 
-      for (var y = 0; y < item.topics[i].bullets.length; y++) {
-        if(item.topics[i].checked) {
-          item.topics[i].bullets[y].checked = true;
-        } else {
-          item.topics[i].bullets[y].checked = false;
+                for (var j = 0; j < item.topics[i].subTopics.length; j++) {
+                    if (item.topics[i].checked) {
+                        item.topics[i].subTopics[j].checked = true;
+                    } else {
+                        item.topics[i].subTopics[j].checked = false;
+                    }
+                    for (var u = 0; u < item.topics[i].subTopics[j].bullets.length; u++) {
+                        if (item.topics[i].subTopics[j].checked) {
+                            item.topics[i].subTopics[j].bullets[u].checked = true;
+                        } else {
+                            item.topics[i].subTopics[j].bullets[u].checked = false;
+                        }
+                        for (var o = 0; o < item.topics[i].subTopics[j].bullets[u].subBullets.length; o++) {
+                            if (item.topics[i].subTopics[j].bullets[u].checked) {
+                                item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = true;
+                            } else {
+                                item.topics[i].subTopics[j].bullets[u].subBullets[o].checked = false;
+                            }
+                        }
+                    }
+                }
+
+                for (var y = 0; y < item.topics[i].bullets.length; y++) {
+                    if (item.topics[i].checked) {
+                        item.topics[i].bullets[y].checked = true;
+                    } else {
+                        item.topics[i].bullets[y].checked = false;
+                    }
+                    for (var l = 0; l < item.topics[i].bullets[y].subBullets.length; l++) {
+                        if (item.topics[i].bullets[y].checked) {
+                            item.topics[i].bullets[y].subBullets[l].checked = true;
+                        } else {
+                            item.topics[i].bullets[y].subBullets[l].checked = false;
+                        }
+                    }
+                }
+            }
         }
-        for (var l = 0; l < item.topics[i].bullets[y].subBullets.length; l++) {
-          if (item.topics[i].bullets[y].checked) {
-            item.topics[i].bullets[y].subBullets[l].checked = true;
-          } else {
-            item.topics[i].bullets[y].subBullets[l].checked = false;
-          }
-        }
-      }
+    }
+    else if (item.type == 'topic') {
+            for (var j = 0; j < item.subTopics.length; j++) {
+                if (item.checked) {
+                    item.subTopics[j].checked = true;
+                } else {
+                    item.subTopics[j].checked = false;
+                }
+                for (var u = 0; u < item.subTopics[j].bullets.length; u++) {
+                    if (item.subTopics[j].checked) {
+                        item.subTopics[j].bullets[u].checked = true;
+                    } else {
+                        item.subTopics[j].bullets[u].checked = false;
+                    }
+                    for (var o = 0; o < item.subTopics[j].bullets[u].subBullets.length; o++) {
+                        if (item.subTopics[j].bullets[u].checked) {
+                            item.subTopics[j].bullets[u].subBullets[o].checked = true;
+                        } else {
+                            item.subTopics[j].bullets[u].subBullets[o].checked = false;
+                        }
+                    }
+                }
+            }
+
+            for (var y = 0; y < item.bullets.length; y++) {
+                if (item.checked) {
+                    item.bullets[y].checked = true;
+                } else {
+                    item.bullets[y].checked = false;
+                }
+                for (var l = 0; l < item.bullets[y].subBullets.length; l++) {
+                    if (item.bullets[y].checked) {
+                        item.bullets[y].subBullets[l].checked = true;
+                    } else {
+                        item.bullets[y].subBullets[l].checked = false;
+                    }
+                }
+            }
+
+    }
+      else if (item.type == 'bullet') {
+            for (var l = 0; l < item.subBullets.length; l++) {
+                if (item.checked) {
+                    item.subBullets[l].checked = true;
+                } else {
+                    item.subBullets[l].checked = false;
+                }
+            }
+    }
+      else if (item.type == 'subBullet') {
+
     }
   };
 
@@ -1443,23 +1498,44 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         var treePath = [];
         if (item.checked) {
             category.checked = true;
-            parentNode = category;
+            var parentNode = category;
             //treePath.push(parentNode);
             for (var i = 1; i < parentNodes.length - 1; i++) {
                // console.log('parentnode ', parentNodes[i])
                 var parsedPath = parentNodes[i].split(':');
                 if (parsedPath.length > 1) {
                  //   console.log('part1 ', parsedPath[0], 'part 2 ', parsedPath[1]);
-                    childNode = parentNode[parsedPath[0]][parsedPath[1]];
+                    var childNode = parentNode[parsedPath[0]][parsedPath[1]];
                     childNode.checked = true;
                    // console.log('node ', childNode);
                    // treePath.push(childNode);
                     parentNode = childNode;
                 }
             }
+            // if item has children, check them also.
+            //checkAllChild(item,event);
+            $scope.selectAll(item);
         }
     }
 
+    $scope.itemChecked = function(item) {
+        item = true;
+    }
+
+    function checkAllChild(item,event) {
+        partialId = '[id^="'+event.currentTarget.id+'"]';
+        var checkboxes =  $(partialId);
+        rootNode = item;
+        for(var i = 1 ; i < checkboxes.length; i++) {
+            var parentNodes = checkboxes[i].id.split('_');
+            console.log(' parent nodes ', parentNodes);
+            var parsePath = parentNodes[parentNodes.length-1].split(':');
+            //console.log('parses path ',parsePath);
+            var childNode = rootNode[parsePath[0]][parsePath[1]];
+            childNode.checked = true;
+        }
+
+    }
   $scope.preview = function(size, customizedDoc, hiddenChartConfigs) {
     var modalInstance = $modal.open({
       scope: $scope,
