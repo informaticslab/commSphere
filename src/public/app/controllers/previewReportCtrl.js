@@ -428,8 +428,8 @@ function getSortedColumns() {
     var docDefinition = {};
     docDefinition =  createPDFdefinition();
 
-    // pdfMake.createPdf(docDefinition).download($scope.customizedData.eventName+'.pdf');
-    pdfMake.createPdf(docDefinition).open();
+    pdfMake.createPdf(docDefinition).download($scope.customizedData.eventName+'.pdf');
+    // pdfMake.createPdf(docDefinition).open();
   };
 
 });
