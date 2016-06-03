@@ -40,7 +40,7 @@
 
                                 th(ng-show="identity.isAuthorized('levelTwo')")
                                     a(href="" ng-click="sortType = 'eventInstanceStatus'; sortReverse = !sortReverse; sortInstances('randomNumber')")
-                                        | Status 
+                                        | Data Received
                                         span(ng-show="sortType == 'eventInstanceStatus' && !sortReverse" class="fa fa-caret-down")
                                         span(ng-show="sortType == 'eventInstanceStatus' &&  sortReverse" class="fa fa-caret-up")  
                         tbody
