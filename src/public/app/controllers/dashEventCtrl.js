@@ -1831,7 +1831,7 @@ $scope.addChart = function() {
           });
       }
       else {
-          ngNotifier.notifyError("Required: Chart Title");
+          ngNotifier.notifyError("Chart Title Required");
       }
   }
 
