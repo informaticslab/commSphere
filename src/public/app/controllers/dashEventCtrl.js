@@ -419,10 +419,13 @@ $scope.saveCategory = function (status) {  // save data for the current tab
  {  // analyst save 
      for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
      {
-       if ($scope.eventdoc.categories[i].name == $scope.activeCategory) {
-            oneCategoryData = $scope.eventdoc.categories[i];
-            break;
-       }
+       // if ($scope.eventdoc.categories[i].name == $scope.activeCategory) {
+       //      oneCategoryData = $scope.eventdoc.categories[i];
+       //      break;
+       // }
+         oneCategoryData = $scope.eventdoc.categories[i];
+         var data = { docId : $scope.eventdoc._id , categoryData : oneCategoryData };
+         saveOneCategory(data);
      }
       if (status === 'completed') {
         oneCategoryData.statusCompleted = true;
