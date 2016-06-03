@@ -1464,7 +1464,8 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                     }
                 }
             }
-
+        }
+        if (item.bullets.length >0) {
             for (var y = 0; y < item.bullets.length; y++) {
                 if (item.checked) {
                     item.bullets[y].checked = true;
@@ -1500,6 +1501,13 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                     item.bullets[l].checked = true;
                 } else {
                     item.bullets[l].checked = false;
+                }
+                for (var o = 0; o < item.bullets[l].subBullets.length; o++) {
+                    if (item.bullets[l].checked) {
+                        item.bullets[l].subBullets[o].checked = true;
+                    } else {
+                        item.bullets[l].subBullets[o].checked = false;
+                    }
                 }
             }
         }
