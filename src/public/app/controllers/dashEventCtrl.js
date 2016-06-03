@@ -1991,49 +1991,22 @@ $scope.CreateExcelSheet=function()
     console.log(file);
   };
 
-  function image(fileType, fileName, fileSize, base64, eventId) {
+  function image(fileType, fileName, fileSize, base64, eventId, imageWidth) {
     this.fileType = fileType;
     this.fileName = fileName;
     this.fileSize = fileSize;
     this.base64 = base64;
     this.eventId  = eventId;
+    this.imageWidth = imageWidth;
   }
-
-
-$scope.uploadFile = function(files) {
-  //console.log("importFile fired");
-  //console.log(files);
-  if(files) {
-    // for(var i = 0; i < files.length; i++) {
-      var file = files;
-      //console.log('FILES********',file);
-      Upload.upload({
-        url:'/api/fileUpload',
-        file: file,
-        fields: {
-          'eventId': $scope.eventdoc.eventInstanceId
-        }
-      }).progress(function(evt) {
-        var progressPercentage = parseInt(100.0*evt.loaded / evt.total);
-        //console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-      }).success(function(data, status, header, config) {
-        //file is uploaded successfully, attach to $scope.files
-        $scope.files.unshift(data[0]);
-        $scope.galleryStatus.open = true;
-        ngNotifier.notify('Image uploaded successfully.');
-        //console.log('file uploaded successfully. Response: ', data);
-      }).error(function(data, status, header, config){
-        console.log('error in uploading file' + file.$error);
-      });
-      $('#uploadThumb').attr('src','');
-    }
-  // }
-};
 
 $scope.UploadFile = function(file) {
   if(file) {
     // console.log(file);
-    var uploadObject = new image(file.filetype, file.filename, file.filesize, file.base64, $scope.eventdoc.eventInstanceId)
+    var imageThumb = document.getElementById('uploadThumb');
+    var width = imageThumb.naturalWidth;
+    // console.log(width);
+    var uploadObject = new image(file.filetype, file.filename, file.filesize, file.base64, $scope.eventdoc.eventInstanceId, width);
     $http.post('/api/fileUpload', uploadObject).then(function(res) {
       if(res.data.success) {
         console.log(res.data);

@@ -343,11 +343,18 @@ function getSortedColumns() {
 		//Pull in images 
 		function addImages() {
 			var images = customDoc.docData[2].sectionData.doc;
+			console.log(images);
 			var width = 450;
 			var imagesArray = [];
 			for(var i = 0; i < images.length; i++) {
 				if(images[i].checked === true) {
-					pdfDefinition.content.push({image: 'data:image/png;base64,'+images[i].base64, width: width, alignment: 'center', style:'image'});
+					if(images[i].imageWidth > 500) {
+						pdfDefinition.content.push({image: 'data:image/png;base64,'+images[i].base64, width: width, alignment: 'center', style:'image'});
+						console.log('should happen one time');
+					} else {
+						pdfDefinition.content.push({image: 'data:image/png;base64,'+images[i].base64, style:'image'});
+					}
+					
 				}
 			}
 			pdfDefinition.content.push({text: '\nNotes: '+customDoc.docData[2].sectionData.notes, style: 'notes'});
@@ -421,8 +428,8 @@ function getSortedColumns() {
     var docDefinition = {};
     docDefinition =  createPDFdefinition();
 
-    pdfMake.createPdf(docDefinition).download($scope.customizedData.eventName+'.pdf');
-    // pdfMake.createPdf(docDefinition).open();
+    // pdfMake.createPdf(docDefinition).download($scope.customizedData.eventName+'.pdf');
+    pdfMake.createPdf(docDefinition).open();
   };
 
 });
