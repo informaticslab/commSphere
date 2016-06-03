@@ -181,14 +181,14 @@ $scope.sortedCols = getSortedColumns();
 	//console.log(currentChecked);
 $scope.checkChanged = function(col){
 
-	console.log(col);
+	// console.log(col);
 	
     if(col.checked){
     	$scope.haveChecked++;
     } else {
     	$scope.haveChecked--;
     }
-    console.log($scope.haveChecked);
+    // console.log($scope.haveChecked);
 }
 
 $scope.getCustomizedTableHeight = function(grid, id) {

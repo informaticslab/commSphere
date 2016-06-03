@@ -633,7 +633,7 @@ $scope.setActiveCategory = function(category)
       if(oldVal == undefined){
           //do nothing
       } else {
-        console.log('inside main eventdoc unregister')
+        // console.log('inside main eventdoc unregister')
         $rootScope.continueNav=false;
         $scope.canSubmit = false;
         $rootScope.preventNavigation=true;
@@ -1357,7 +1357,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
 
     if($scope.files != undefined){
       $http.post('/api/fileUpload/update', $scope.files).then(function(res) {
-      console.log(res.data);
+      // console.log(res.data);
     });
     }
 
