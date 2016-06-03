@@ -400,6 +400,7 @@ $scope.setActiveTab = function(tabId)
 $scope.saveCategory = function (status) {  // save data for the current tab
 
  var oneCategoryData;
+ var activeCategoryData;
  unregister();
  if (ngIdentity.isAuthorized('levelTwo'))
  { // coordinator save - save data from each category only if category statusCompleted flag = true
@@ -417,15 +418,15 @@ $scope.saveCategory = function (status) {  // save data for the current tab
  }
  else
  {  // analyst save 
-     for(var i=0 ; i <$scope.eventdoc.categories.length; i++)
-     {
-       // if ($scope.eventdoc.categories[i].name == $scope.activeCategory) {
-       //      oneCategoryData = $scope.eventdoc.categories[i];
-       //      break;
-       // }
-         oneCategoryData = $scope.eventdoc.categories[i];
-         var data = { docId : $scope.eventdoc._id , categoryData : oneCategoryData };
-         saveOneCategory(data);
+     for(var i=0 ; i <$scope.eventdoc.categories.length; i++) {
+         if ($scope.eventdoc.categories[i].userAssigned.id == $scope.identity.currentUser._id) {  // save only if tab assigned to user
+             if ($scope.eventdoc.categories[i].name == $scope.activeCategory) {
+                 oneCategoryData = $scope.eventdoc.categories[i];  // capture the active tab data for later use
+             }
+             var data = {docId: $scope.eventdoc._id, categoryData: $scope.eventdoc.categories[i]};
+             saveOneCategory(data);
+
+         }
      }
       if (status === 'completed') {
         oneCategoryData.statusCompleted = true;
