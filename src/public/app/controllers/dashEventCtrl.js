@@ -1532,6 +1532,9 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
             //checkAllChild(item,event);
             $scope.selectAll(item);
         }
+        else { // item unchecked, uncheck all nodes below
+            $scope.selectAll(item);
+        }
     }
 
     $scope.itemChecked = function(item) {
