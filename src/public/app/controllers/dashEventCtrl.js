@@ -1492,10 +1492,11 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
     else if (item.type == 'subTopic') {
         if (item.bullets.length > 0) {
             for (var l = 0; l < item.bullets.length; l++) {
-            if (item.checked) {
-                item.bullets[l].checked = true;
-            } else {
-                item.bullets[l].checked = false;
+                if (item.checked) {
+                    item.bullets[l].checked = true;
+                } else {
+                    item.bullets[l].checked = false;
+                }
             }
         }
     }
