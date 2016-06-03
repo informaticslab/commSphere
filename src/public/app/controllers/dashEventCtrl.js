@@ -1823,7 +1823,7 @@ $scope.addChart = function() {
           var data = {docId: $scope.eventdoc._id, chartData: $scope.customizedDoc.chartConfigs};
           $http.post('/api/events/saveChartData', data).then(function (res) {
               if (res.data.success) {
-                  ngNotifier.notify("Your new chart has been saved to the event.");
+                  ngNotifier.notify("Chart has been saved to the event.");
               } else {
                   alert('There was an error saving saved chart');
               }
