@@ -1438,6 +1438,7 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
         }
     }
     else if (item.type == 'topic') {
+        if (item.subTopics.length > 0) {
             for (var j = 0; j < item.subTopics.length; j++) {
                 if (item.checked) {
                     item.subTopics[j].checked = true;
@@ -1475,8 +1476,10 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                 }
             }
 
+        }
     }
-      else if (item.type == 'bullet') {
+    else if (item.type == 'bullet') {
+        if (item.subBullets.length > 0) {
             for (var l = 0; l < item.subBullets.length; l++) {
                 if (item.checked) {
                     item.subBullets[l].checked = true;
@@ -1484,9 +1487,17 @@ $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
                     item.subBullets[l].checked = false;
                 }
             }
+        }
     }
-      else if (item.type == 'subBullet') {
-
+    else if (item.type == 'subTopic') {
+        if (item.bullets.length > 0) {
+            for (var l = 0; l < item.bullets.length; l++) {
+            if (item.checked) {
+                item.bullets[l].checked = true;
+            } else {
+                item.bullets[l].checked = false;
+            }
+        }
     }
   };
 
