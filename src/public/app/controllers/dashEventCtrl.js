@@ -1823,15 +1823,15 @@ $scope.addChart = function() {
           var data = {docId: $scope.eventdoc._id, chartData: $scope.customizedDoc.chartConfigs};
           $http.post('/api/events/saveChartData', data).then(function (res) {
               if (res.data.success) {
-                  ngNotifier.notify("Chart has been saved under 'Saved Charts' section");
+                  ngNotifier.notify("Your new chart has been saved to the event.");
               } else {
-                  alert('there was an error saving saved chart');
+                  alert('There was an error saving saved chart');
               }
 
           });
       }
       else {
-          ngNotifier.notifyError("Please enter a chart title");
+          ngNotifier.notifyError("Required: Chart Title");
       }
   }
 
@@ -2031,7 +2031,7 @@ $scope.UploadFile = function(file) {
         console.log(res.data);
         $scope.files.unshift(res.data.result[0]);
         $scope.galleryStatus.open = true;
-        ngNotifier.notify('Image uploaded successfully');
+        ngNotifier.notify('Image successfully saved to the event.');
       } else {
         console.log('Error uploading file', res.data.err);
       }
