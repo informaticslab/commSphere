@@ -45,6 +45,9 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     button.btn.btn-default(style='color:#337ab7;', type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
                                                         | Return to analyst
                                                 .return-event-cont
+                                                    button.btn.btn-default(style='color:#337ab7;', type="button" ng-click="recallFromAnalyst(category)" ng-show="category.statusCompleted != true && identity.isAuthorized('levelTwo')")
+                                                        | Recall from analyst
+                                                .return-event-cont
                                                     button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
                                                         | Submit
                                         br
@@ -482,7 +485,7 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                                 div.preview-thumbnail
                                                                     a.thumbnail
                                                                         img(id='uploadThumb' ng-show='imgFile != null' data-ng-src='data:image/png;base64,{{imgFile.base64}}')
-                                                        button.btn.btn-primary(ng-click='UploadFile(imgFile)') Upload
+                                                        button.btn.btn-primary(ng-click='UploadFile(imgFile)' ng-show='imgFile != null') Upload
                                         
                                         br
                                         .row
