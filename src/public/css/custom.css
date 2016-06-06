@@ -125,6 +125,10 @@ input[type="text"].eventTemplateTopic {
     margin-right: 8px;
 }
 
+.infoButtonSm {
+    width: 30px !important;
+}
+
 .angular-ui-tree-handle-clear {
     background: transparent;
     /*border: 1px solid transparent;*/
