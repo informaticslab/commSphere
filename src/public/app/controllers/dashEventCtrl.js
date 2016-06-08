@@ -234,8 +234,19 @@ $scope.returnToAnalyst = function(category) {
 
 $scope.recallCategory = function(category) {
   //TODO
+  // unregister();
   category.statusCompleted = true;
-  console.log('Recall');
+  var data = { docId: $scope.eventdoc._id, categoryData: category};
+
+  $http.post('/api/events/saveEventCategory',data).then(function(res) {
+    if(res.data.success) {
+         $rootScope.continueNav = true;
+      ngNotifier.notify('Recalled');
+    } else {
+      alert('There was an error, failed to return to analyst.');
+    }
+  });
+  console.log('TODO');
 };
 
 // $scope.readyForPreview =  function() {
