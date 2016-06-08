@@ -42,8 +42,14 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                                     |   {{category.name}}: by {{category.userAssigned.displayName}}
                                             .col-lg-3.col-md-3.col-sm-3
                                                 .return-event-cont
-                                                    button.btn.btn-default(style='color:#337ab7;', type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
-                                                        | Return to analyst
+                                                    button.btn.btn-default.coord-btn(type='button' ng-show="!category.statusCompleted && identity.isAuthorized('levelTwo')" ng-click="recallCategory(category)")
+                                                        | Recall
+                                                .return-event-cont
+                                                    button.btn.btn-default.coord-btn(type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
+                                                        | Reassign
+                                                .return-event-cont
+                                                    select.form-control(placeholder='Select Analyst' ng-model='category.userAssigned' ng-options='user as user.displayName for user in users track by user.id' ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
+                                                        option(value="category.userAssigned") - Select an analyst -
                                                 .return-event-cont
                                                     button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
                                                         | Submit

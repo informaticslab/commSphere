@@ -336,6 +336,11 @@ margin-top: 0px;
   margin-bottom:40px;
 }
 
+.coord-btn {
+  color:#337ab7;
+  margin-left: 5px;
+}
+
  .report-grid-header { color: green }
 
  .report-table-daily-metrics {
@@ -588,6 +593,8 @@ input[type=checkbox].css-checkbox {
   .col-lg-12 {
     margin: 0px;
   }
+
+
 
  #metric-table-row{
     background-color:#c6d8ae;

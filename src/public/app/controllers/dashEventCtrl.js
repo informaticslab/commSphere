@@ -10,6 +10,7 @@ $scope.checkedColumns = {};
 $scope.contentloaded=false;
 $scope.identity = ngIdentity;
 $rootScope.continueNav = true;
+$scope.users = [];
 //$rootScope.checkedColumns = {};
 // $scope.numberOfColumns = Object.keys($scope.eventData.colDisplayNames).length;
 $scope.canSubmit = true;
@@ -81,6 +82,16 @@ $scope.$on('$locationChangeStart', function(event) {
       }
     }
 });
+
+$http.get('/api/users/analysts').then(function(res) {
+    var analysts = res.data;
+    for (var i = 0; i < analysts.length; i++) {
+      $scope.users.push({
+        'id': analysts[i]._id,
+        'displayName': analysts[i].displayName
+      });
+    }
+  });
 
 $log.debug($routeParams.id);
 $http.get('/api/events/id/'+$routeParams.id).then(function(res){
@@ -219,6 +230,12 @@ $scope.returnToAnalyst = function(category) {
     }
   });
   
+};
+
+$scope.recallCategory = function(category) {
+  //TODO
+  category.statusCompleted = true;
+  console.log('Recall');
 };
 
 // $scope.readyForPreview =  function() {
@@ -2116,5 +2133,7 @@ $scope.UploadFile = function(file) {
 
         return result;
     };
+
+
 
 });
