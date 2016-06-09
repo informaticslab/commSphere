@@ -36,11 +36,11 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                     .col-lg-12.col-md-12.col-sm-12
                                         br
                                         .row
-                                            .col-lg-9.col-md-9.col-sm-9
+                                            .col-lg-6.col-md-6.col-sm-6
                                                 .tab-title-heading
                                                     img(src='img/notepad-icon.png', width='37', height='32')
                                                     |   {{category.name}}: by {{category.userAssigned.displayName}}
-                                            .col-lg-3.col-md-3.col-sm-3
+                                            .col-lg-6.col-md-6.col-sm-6
                                                 .return-event-cont
                                                     button.btn.btn-default.coord-btn(type='button' ng-show="!category.statusCompleted && identity.isAuthorized('levelTwo')" ng-click="recallCategory(category)")
                                                         | Recall

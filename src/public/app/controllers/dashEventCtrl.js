@@ -93,7 +93,6 @@ $http.get('/api/users/analysts').then(function(res) {
     }
   });
 
-$log.debug($routeParams.id);
 $http.get('/api/events/id/'+$routeParams.id).then(function(res){
      if(res.data) {
      $log.debug(res.data[0]);
@@ -235,6 +234,7 @@ $scope.returnToAnalyst = function(category) {
 $scope.recallCategory = function(category) {
   //TODO
   // unregister();
+  category.statusRecall = true;
   category.statusCompleted = true;
   var data = { docId: $scope.eventdoc._id, categoryData: category};
 
@@ -246,8 +246,19 @@ $scope.recallCategory = function(category) {
       alert('There was an error, failed to return to analyst.');
     }
   });
-  console.log('TODO');
 };
+
+
+if($scope.identity.isAuthorized('isLevelThree')){
+  setTimeout(function(){
+    $http.get('/api/events/id/'+$routeParams.id).then(function(res){
+      if(res.data) {
+        var data = res.data[0];
+      }
+    });
+  }, 50000);
+}
+
 
 // $scope.readyForPreview =  function() {
 //   var completedCount = 0;
