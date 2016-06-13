@@ -232,7 +232,6 @@ $scope.returnToAnalyst = function(category) {
 };
 
 $scope.recallCategory = function(category) {
-  //TODO
   // unregister();
   category.statusRecall = true;
   category.statusCompleted = true;
@@ -243,20 +242,24 @@ $scope.recallCategory = function(category) {
          $rootScope.continueNav = true;
       ngNotifier.notify('Recalled');
     } else {
-      alert('There was an error, failed to return to analyst.');
+      alert('There was an error, failed to recall category');
     }
   });
 };
 
 
-if($scope.identity.isAuthorized('isLevelThree')){
-  setTimeout(function(){
+if($scope.identity.isAuthorized('levelThree')){
+  $scope.stop = $interval(function(){
+    console.log('test ping');
     $http.get('/api/events/id/'+$routeParams.id).then(function(res){
       if(res.data) {
         var data = res.data[0];
+        console.log('data', data);
+      } else {
+        console.log('no data');
       }
     });
-  }, 50000);
+  }, 10000);
 }
 
 
