@@ -21,6 +21,7 @@ $scope.tabCategory=[
                     {active:true}
                    ];
 $scope.currentLocation = $location.url();
+console.log($scope.currentLocation);
 // grid setup
 
 $scope.gridOptions={
@@ -72,9 +73,12 @@ $scope.chartTypes = ['line'
 //Prevent accidental leaving of dashboard event screen
 $scope.$on('$locationChangeStart', function(event) {
   var nextLocation = $location.url();
+  $interval.cancel(stop); //stop recall checker
   nextLocation = nextLocation.substring(0, nextLocation.indexOf("#"));
+
   if(nextLocation === $scope.currentLocation) {
     event.preventDefault();
+    
   } else if (!$rootScope.continueNav){
       var answer = confirm("You have unsaved changes, do you want to continue?")
       if (!answer) {
@@ -217,6 +221,7 @@ $scope.returnToAnalyst = function(category) {
 // set category statusCompleted flag back to false so analyst could access their assigned category
   unregister();
   category.statusCompleted = false;
+  category.statusRecall = false;
 
   var data = { docId : $scope.eventdoc._id , categoryData : category};
 
@@ -232,7 +237,7 @@ $scope.returnToAnalyst = function(category) {
 };
 
 $scope.recallCategory = function(category) {
-  // unregister();
+  unregister2();
   category.statusRecall = true;
   category.statusCompleted = true;
   var data = { docId: $scope.eventdoc._id, categoryData: category};
@@ -248,18 +253,30 @@ $scope.recallCategory = function(category) {
 };
 
 
+var stop;
 if($scope.identity.isAuthorized('levelThree')){
-  $scope.stop = $interval(function(){
-    console.log('test ping');
+  stop = $interval(function(){
     $http.get('/api/events/id/'+$routeParams.id).then(function(res){
       if(res.data) {
         var data = res.data[0];
+        var category = data.categories;
+        // console.log(category);
+        for(var i = 0; i < category.length; i++) {
+          if(category[i].userAssigned.id == $scope.identity.currentUser._id){
+            if(category[i].statusRecall === true) {
+              $interval.cancel(stop);
+              alert('The category you are working on has been recalled by the coordinator');
+             
+              $location.path('/');
+            }
+          }
+        }
         console.log('data', data);
       } else {
         console.log('no data');
       }
     });
-  }, 10000);
+  }, 15000);
 }
 
 
