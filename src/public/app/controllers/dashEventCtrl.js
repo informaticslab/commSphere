@@ -245,7 +245,7 @@ $scope.recallCategory = function(category) {
   $http.post('/api/events/saveEventCategory',data).then(function(res) {
     if(res.data.success) {
          $rootScope.continueNav = true;
-      ngNotifier.notify('Recalled');
+      ngNotifier.notify('Successfully recalled from analyst');
     } else {
       alert('There was an error, failed to recall category');
     }

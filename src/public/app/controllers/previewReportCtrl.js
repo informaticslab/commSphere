@@ -154,6 +154,7 @@ function getSortedColumns() {
 	function createPDFdefinition() {
 		var customDoc = $scope.customizedDoc;
 		var pdfDefinition = {
+			footer: {text:'FIUO – For Internal Use Only', alignment: 'center'},
 			content: [],
 			styles: {
         header: {
