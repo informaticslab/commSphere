@@ -43,16 +43,13 @@ div(style="background-color:#f2f2f2;" ng-show="contentloaded")
                                             .col-lg-6.col-md-6.col-sm-6
                                                 .return-event-cont
                                                     button.btn.btn-default.coord-btn(type='button' ng-show="!category.statusCompleted && identity.isAuthorized('levelTwo')" ng-click="recallCategory(category)")
-                                                        | Recall
+                                                        | Recall from analyst
                                                 .return-event-cont
                                                     button.btn.btn-default.coord-btn(type="button" ng-click="returnToAnalyst(category)" ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
                                                         | Reassign
                                                 .return-event-cont
                                                     select.form-control(placeholder='Select Analyst' ng-model='category.userAssigned' ng-options='user as user.displayName for user in users track by user.id' ng-show="category.statusCompleted && identity.isAuthorized('levelTwo')")
                                                         option(value="category.userAssigned") - Select an analyst -
-                                                .return-event-cont
-                                                    button.btn.btn-default(style='color:#337ab7;', type="button" ng-click="recallFromAnalyst(category)" ng-show="category.statusCompleted != true && identity.isAuthorized('levelTwo')")
-                                                        | Recall from analyst
                                                 .return-event-cont
                                                     button.btn.btn-success(type="button" ng-click="saveCategory('completed')" ng-if="identity.isAuthorized('levelThree')")
                                                         | Submit
