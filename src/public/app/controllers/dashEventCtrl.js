@@ -751,7 +751,7 @@ $scope.addDataColumn= function(columnName,displayName){
         for (var j=0; j < oneGrid.dailyData.length; j++) {
            if (oneGrid.dailyData[j].hasOwnProperty(columnName)) {
            } else {  // column not exists, add
-               oneGrid.dailyData[j][columnName] = 0;
+               oneGrid.dailyData[j][columnName] = '*';
                // also add a display name for it
                $scope.eventData.colDisplayNames[columnName] = displayName;
            }
@@ -774,7 +774,7 @@ $scope.addTable = function(grid) {
       if ($scope.columns.length >0) {
       for(i = 0; i < $scope.columns.length; i++) {
          if ($scope.columns[i].field !== 'label') {
-           initialRow[$scope.columns[i].field] = 0;
+           initialRow[$scope.columns[i].field] = '*';  
            initialColName[$scope.columns[i].field] =  $filter('date')($scope.columns[i].field,'mediumDate');
         }
       }
@@ -782,7 +782,7 @@ $scope.addTable = function(grid) {
   }
   else {
            var newColumn = ''+$scope.eventdoc.dateCreated
-           initialRow[newColumn] = 0;
+           initialRow[newColumn] = '*'; 
            initialColName[newColumn] =  $filter('date')(newColumn,'mediumDate');
        }
   
@@ -1007,19 +1007,8 @@ $scope.getChartData = function(grid) {
 
 
 $scope.$on('uiGridEventEndCellEdit', function (evt) {
+  // console.log(evt.targetScope.row.grid.appScope);
    var gridIndex = evt.targetScope.row.grid.appScope.$parent.$index;
-   //var rowId =  evt.targetScope.row.uid;
-   //var rowIndex;
-   //var cell =  evt.targetScope.col.field;
-   //var cellValue =  evt.targetScope.row.entity[cell];
-   // for (var i=0;i<evt.targetScope.row.grid.rows.length; i++) {
-   //    if(evt.targetScope.row.grid.rows[i].uid  == rowId){
-   //        rowIndex = i;
-   //        break;
-   //    }
-   // }
-   // //console.log($scope.eventData.gridData[gridIndex].dailyData[rowIndex]);
-   // $scope.eventData.gridData[gridIndex].dailyData[rowIndex][cell] = parseInt(cellValue.replace(/,/g, ''), 10);
    //var chartId = 'chartJS_'+ gridIndex;
    //$scope.chartJsData[gridIndex] = $scope.getOneChartJsData($scope.eventData.gridData[gridIndex]);
    //$scope.highChartConfig[gridIndex] = $scope.buildHighChartData($scope.eventData.gridData[gridIndex],gridIndex);
@@ -1057,7 +1046,7 @@ $scope.removeColumn = function() {
     var formattedDate = $filter('date')(newColumnName,'mediumDate');  // default display name for date
     $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
       //, headerCellTemplate: '/partials/customHeaderCellTemplate'
-      , headerCellTemplate: customHeaderCellTemplate, cellFilter:'number'
+      , headerCellTemplate: customHeaderCellTemplate
     });
     $scope.addDataColumn(newColumnName,formattedDate);
   }
