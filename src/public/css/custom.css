@@ -311,9 +311,11 @@ margin-top: 0px;
 }
 
 .fix-to-top {
-    position: fixed;
+    position: -webkit-sticky;  // required for Safari
+    position: sticky;
+    /*position: fixed;*/
     top:0;
-    padding-top: 101px;
+    padding-top: 130px;
 }
 
 .fixedWidthMenu{
