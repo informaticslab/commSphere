@@ -1,7 +1,7 @@
 blue/* this is a custom CSS stylesheet */
 body {
   
-
+    margin : 0;
   padding-top: 0px;
   
   color:#777777;
@@ -311,15 +311,16 @@ margin-top: 0px;
 }
 
 .fix-to-top {
-    position: -webkit-sticky;  // required for Safari
-    position: sticky;
-    /*position: fixed;*/
+
+    position: fixed;
     top:0;
     padding-top: 130px;
+    width: 19%;
 }
 
 .fixedWidthMenu{
-  min-width:220px;
+
+    min-width:220px;
 }
 
 .preview-report-headers {
