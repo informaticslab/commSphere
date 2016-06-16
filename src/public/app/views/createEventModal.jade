@@ -40,12 +40,12 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 						.dropdown
 							a#dropdown1.dropdown-toggle(role='button', data-toggle='dropdown', data-target='#', href='')
 								.input-group
-									div.form-control(type='text')
+									div.form-control(type='text' placeholder='Please select due date')
 										| {{eventdoc.eventDueDate | date:'MMM d, yyyy h:mm a'}}
 									span.input-group-addon
 										i.glyphicon.glyphicon-calendar
 							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
-								datetimepicker(data-on-set-time="onTimeSet(newDate, oldDate)" data-ng-model='eventdoc.eventDueDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1' }")
+								datetimepicker(data-on-set-time="onTimeSet(newDate, oldDate)" data-ng-model='eventdoc.eventDueDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown1', minView:'hour'}")
 				.col-lg-3.col-md-4.col-sm-6
 					.form-comp-cont-bottomrow2
 						label Publish Date
@@ -58,7 +58,7 @@ div(ng-controller="createEventCtrl" style="background-color:#f2f2f2;")
 									span.input-group-addon
 										i.glyphicon.glyphicon-calendar
 							ul.dropdown-menu(role='menu', aria-labelledby='dLabel')
-								datetimepicker(data-ng-model='eventdoc.eventPublishDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }")
+								datetimepicker(data-ng-model='eventdoc.eventPublishDate', data-datetimepicker-config="{ dropdownSelector: '#dropdown2', minView: 'hour' }")
 				.col-lg-6.col-md-4.col-sm-0
 			.row(style='background-color:#f2f2f2; height:100vh;')
 				.col-lg-12.col-md-12.col-sm-12

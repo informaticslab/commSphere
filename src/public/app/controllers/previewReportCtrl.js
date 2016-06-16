@@ -110,7 +110,7 @@ function printElement(elem) {
 $scope.PrintContent=function()
 {
 var DocumentContainer = document.getElementById('printThis');
-console.log(DocumentContainer);
+// console.log(DocumentContainer);
 var WindowObject = window.open("", "PrintWindow",
 "width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
 WindowObject.document.writeln(DocumentContainer.innerHTML);
@@ -344,14 +344,14 @@ function getSortedColumns() {
 		//Pull in images 
 		function addImages() {
 			var images = customDoc.docData[2].sectionData.doc;
-			console.log(images);
+			// console.log(images);
 			var width = 450;
 			var imagesArray = [];
 			for(var i = 0; i < images.length; i++) {
 				if(images[i].checked === true) {
 					if(images[i].imageWidth > 500) {
 						pdfDefinition.content.push({image: 'data:image/png;base64,'+images[i].base64, width: width, alignment: 'center', style:'image'});
-						console.log('should happen one time');
+						// console.log('should happen one time');
 					} else {
 						pdfDefinition.content.push({image: 'data:image/png;base64,'+images[i].base64, style:'image'});
 					}
