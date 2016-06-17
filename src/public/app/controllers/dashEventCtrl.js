@@ -1049,7 +1049,7 @@ $scope.removeColumn = function() {
     var formattedDate = $filter('date')(newColumnName,'mediumDate');  // default display name for date
     $scope.columns.push({ 'field': newColumnName, 'displayName' : formattedDate, enableSorting: false, minWidth:$scope.minColWidth, enablePinning:false, enableColumnMenu:false
       //, headerCellTemplate: '/partials/customHeaderCellTemplate'
-      , headerCellTemplate: customHeaderCellTemplate, cellFilter:'number'
+      , headerCellTemplate: customHeaderCellTemplate
     });
     $scope.addDataColumn(newColumnName,formattedDate);
   }
