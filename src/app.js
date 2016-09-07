@@ -21,21 +21,24 @@ require('./server/config/routes.js')(app);
 
 var moment = require('moment');
 
-app.listen(9000);
-console.log('Express server listening on port 9000'); 
+//app.listen(9000);
+//console.log('Express server listening on port 9000'); 
 
 
 
-//HTTPS for PIV 
-// var https = require('https'),      // module for https
-//     fs =    require('fs');         // required to read certs and keys
 
-// var options = {
-//     key:    fs.readFileSync('/sec/certs/server-key.pem'),
-//     cert:   fs.readFileSync('/sec/certs/server-cert.pem'),
-//     ca:     [fs.readFileSync('/sec/certs/gd_bundle-g2.crt'),fs.readFileSync('/sec/certs/HHSPIVcachn.pem')],
-//     requestCert:        true,
-//     rejectUnauthorized: false,
-// };
+//HTTPS 
+var https = require('https'),      // module for https
+    fs =    require('fs');         // required to read certs and keys
 
-// https.createServer(options, app).listen(4400);
+var options = {
+    key:    fs.readFileSync('/sec/certs/server-key.pem'),
+    cert:   fs.readFileSync('/sec/certs/server-cert.pem'),
+    ca:     fs.readFileSync('/sec/certs/gd_bundle-g2.crt'),
+    requestCert:        true,
+    rejectUnauthorized: false,
+};
+
+https.createServer(options, app).listen(4400);
+console.log('HTTPS Express server listening on port 4400'); 
+
