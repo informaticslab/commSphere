@@ -13,6 +13,8 @@ Event Tracking Software
 * JQuery 1.10.2 compatible browser (Internet Explorer 8+, Firefox, Opera, Chrome)
 * Node.js
 * MongoDB
+* A folder called /sec/certs with server-key.pem, server-cert.pem, and gd_bundle-g2.pem for https.  Self-signed is fine but certs must be present
+*  localhost/non-signed testing will be a bit wonky, and http has been set up only to forward to https.
 
 
 ## Handy things to npm install -g
@@ -28,7 +30,7 @@ Event Tracking Software
 * CommSphere [Jira](https://code.phiresearchlab.org/jira/browse/CS/)
 
 ## Roadmap
-* Active development, 2 week iterations
+* Development Paused.  Occasional Bugfixes and enhancements.
 
 ## Contributing
 Anyone is encouraged to contribute to the project by [forking](https://help.github.com/articles/fork-a-repo) and submitting a pull request. (If you are new to GitHub, you might start with a [basic tutorial](https://help.github.com/articles/set-up-git).) 
