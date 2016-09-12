@@ -21,9 +21,9 @@ require('./server/config/routes.js')(app);
 
 var moment = require('moment');
 
-app.listen(9000);
-console.log('Express server listening on port 9000'); 
 
+//app.listen(9000);
+//console.log('Express server listening on port 9000'); 
 
 
 
@@ -42,3 +42,11 @@ var options = {
 https.createServer(options, app).listen(4400);
 console.log('HTTPS Express server listening on port 4400'); 
 
+var http = require('http');
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    //res.writeHead(301, { "Location": "https://localhost:4400" });
+    res.end();
+}).listen(9000);
+
+console.log('Redirector listening on port 9000'); 
