@@ -26,6 +26,9 @@ Event Tracking Software
 * Server code is located in src.  To run, clone this project, move into the src directory, npm install, then node app.js
 * Data for MongoDB database is loaded in Data.  To run, clone this project, move into the data directory, then run mongorestore on the commsphere directory.
 
+##HTTPS
+* To Enable HTTPS, turn the flag in [commsphere_root]/src/server/lib/envProperties.js to 'true' and update the location of the proper certificates
+
 ##Issue Tracker
 * CommSphere [Jira](https://code.phiresearchlab.org/jira/browse/CS/)
 
